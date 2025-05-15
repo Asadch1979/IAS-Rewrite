@@ -1,0 +1,92 @@
+﻿@{
+    ViewData["Title"] = "CTR Reports Related to Accounts";
+    Layout = "_Layout";
+}
+
+<script type="text/javascript">
+    var g_engId = 0;
+    var g_rptID = 0;
+    $(document).ready(function() {
+        var url_string = window.location;
+        var url = new URL(url_string);
+        g_engId = url.searchParams.get("engId");
+        g_rptID  = url.searchParams.get("report_id");
+        loadexceptionReport();
+    });
+
+    function loadexceptionReport(){
+        destroyDatatable('account_exception_report');
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/get_exception_account_report            
+            type: "POST",
+            Cache: false,
+            data:{ENG_ID:g_engId, RPT_ID:g_rptID }, 
+            sucess: function (data) {
+                if(data.lenght > 0) {
+                    populateTable(data);
+                }
+            },
+            dataType: "json",
+        });
+    function populateTable(data) {
+        $('wait').show();
+        var TableBody = $("account_exception_report tbody");
+        tablebody.empty();
+
+        $.each(data, function(index, item){
+            var row = `<tr>
+        <td>${index + 1}</td> 
+        <td>${item.accounT_NO}</td>
+        <td>${item.accounT_TITLE}</td>
+        <td>${item.customeR_NAME}</td>
+        <td>${item.masteR_CODE}</td>
+        <td>${item.tR_DESCRIPTION}</td>
+        <td>${item.tR_DATE}</td>
+        <td>${formatDate(item.tR_AUTHDATE)}</td>
+        <td>${item.dR_AMOUNT}</td>
+        <td>${item.cR_AMOUNT}</td>
+         <td>
+            <a href="./account_document?engId=${g_engId}&acNo=${item.accounT_NO}" class="btn btn-primary btn-sm">Documents</a>
+        </td>
+        <td>
+            <a href="./account_transaction?engId=${g_engId}&acNo=${item.accounT_NO}" class="btn btn-success btn-sm">Transactions</a>
+        </td>
+    </tr>`;
+            tableBody.append(row);
+          });
+        initializeDataTable('account_exception_report');
+        $('#wait').hide();
+    }
+     function formatDate(dateString) {
+        if (!dateString || dateString.trim() === "") return "";
+        let date = new Date(dateString);
+        return date.toLocaleDateString();
+    }    
+
+</script>
+
+<div class="row col-md-12 mt-3">
+    <h3 style="color: #45c545;">Accounts Report</h3>
+
+</div>
+<div class="row col-md-12 mt-3">
+    <table id="biomet_sample_list" class="table table-hover table-bordered table-striped">
+        <thead style="background-color: rgb(181 229 117 / 93%) !important;">
+            <tr>
+                <th>Sr No</th>
+                <th>Account No</th>
+                <th>Account Title</th>
+                <th>Customer Name</th>
+                <th>master code</th>
+                <th>Details</th>
+                <th>transaction Date</th>
+                <th>Authorization Date</th>
+                <th>DR Amount</th>
+                <th>CR Amount</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>

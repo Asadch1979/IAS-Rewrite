@@ -1,0 +1,1371 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = AIS
+build_property.RootNamespace = AIS
+build_property.ProjectDir = C:\Users\Asad\Documents\GitHub\IAMS\ais\AIS\AIS\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = true
+build_property.MSBuildProjectDirectory = C:\Users\Asad\Documents\GitHub\IAMS\ais\AIS\AIS
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/audit_comp_management.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxhdWRpdF9jb21wX21hbmFnZW1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/audit_criteria.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxhdWRpdF9jcml0ZXJpYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/audit_observation_text.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxhdWRpdF9vYnNlcnZhdGlvbl90ZXh0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/audit_period.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxhdWRpdF9wZXJpb2QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/audit_template.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxhdWRpdF90ZW1wbGF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/authorize_audit_checklist.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxhdXRob3JpemVfYXVkaXRfY2hlY2tsaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/compliance_flow.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxjb21wbGlhbmNlX2Zsb3cuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/entity_addition.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxlbnRpdHlfYWRkaXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/entity_gm_reporting_div_management.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxlbnRpdHlfZ21fcmVwb3J0aW5nX2Rpdl9tYW5hZ2VtZW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/entity_heirarchy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxlbnRpdHlfaGVpcmFyY2h5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/entity_relationship.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxlbnRpdHlfcmVsYXRpb25zaGlwLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/entity_shifting.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxlbnRpdHlfc2hpZnRpbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/gm_repo_line_management.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxnbV9yZXBvX2xpbmVfbWFuYWdlbWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/groups.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxncm91cHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/group_role_assignment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxncm91cF9yb2xlX2Fzc2lnbm1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/hr_design_wise_role.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxocl9kZXNpZ25fd2lzZV9yb2xlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/manage_entity_mapping.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxtYW5hZ2VfZW50aXR5X21hcHBpbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/manage_entity_relations.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxtYW5hZ2VfZW50aXR5X3JlbGF0aW9ucy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/manage_entity_type.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxtYW5hZ2VfZW50aXR5X3R5cGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/manage_ent_audit_dept.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxtYW5hZ2VfZW50X2F1ZGl0X2RlcHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/manage_obs_status.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxtYW5hZ2Vfb2JzX3N0YXR1cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/manage_public_holidays.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxtYW5hZ2VfcHVibGljX2hvbGlkYXlzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/manage_user.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxtYW5hZ2VfdXNlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/manage_user_rights.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxtYW5hZ2VfdXNlcl9yaWdodHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/memo_status.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxtZW1vX3N0YXR1cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/menu_assignment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxtZW51X2Fzc2lnbm1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/menu_management.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxtZW51X21hbmFnZW1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/pages_management.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxwYWdlc19tYW5hZ2VtZW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/review_audit_checklist.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxyZXZpZXdfYXVkaXRfY2hlY2tsaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/risk_model.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxyaXNrX21vZGVsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/setup_auditee_entities.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxzZXR1cF9hdWRpdGVlX2VudGl0aWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/setup_engagement_reversal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxzZXR1cF9lbmdhZ2VtZW50X3JldmVyc2FsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/setup_observation_reversal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxzZXR1cF9vYnNlcnZhdGlvbl9yZXZlcnNhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/status_reversal_audit_entities.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxzdGF0dXNfcmV2ZXJzYWxfYXVkaXRfZW50aXRpZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/sub_menu_management.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFxzdWJfbWVudV9tYW5hZ2VtZW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AdministrationPanel/user_roles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25QYW5lbFx1c2VyX3JvbGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AuditeePortal/ccqs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaXRlZVBvcnRhbFxjY3FzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AuditeePortal/observation_assigned.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaXRlZVBvcnRhbFxvYnNlcnZhdGlvbl9hc3NpZ25lZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AuditeePortal/old_outstanding_paras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaXRlZVBvcnRhbFxvbGRfb3V0c3RhbmRpbmdfcGFyYXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AuditeePortal/old_para_reply_cad.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaXRlZVBvcnRhbFxvbGRfcGFyYV9yZXBseV9jYWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AuditeePortal/Para_Text_Update_FAD.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaXRlZVBvcnRhbFxQYXJhX1RleHRfVXBkYXRlX0ZBRC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AuditeePortal/Reply.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaXRlZVBvcnRhbFxSZXBseS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/AuditeePortal/Reply_new.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaXRlZVBvcnRhbFxSZXBseV9uZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/BAC/agenda.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQkFDXGFnZW5kYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/BAC/assignment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQkFDXGFzc2lnbm1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/BAC/bac_assignment_response.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQkFDXGJhY19hc3NpZ25tZW50X3Jlc3BvbnNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/BAC/cia_analysis.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQkFDXGNpYV9hbmFseXNpcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/BAC/cia_analysis_detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQkFDXGNpYV9hbmFseXNpc19kZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/BAC/dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQkFDXGRhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/BAC/mom.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQkFDXG1vbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/BAC/notice.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQkFDXG5vdGljZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/CAU/monitoring_oms.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ0FVXG1vbml0b3Jpbmdfb21zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/CAU/OM/om_assignment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ0FVXE9NXG9tX2Fzc2lnbm1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/CAU/OM/om_response.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ0FVXE9NXG9tX3Jlc3BvbnNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/CAU/om_creation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ0FVXG9tX2NyZWF0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/CAU/om_reply.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ0FVXG9tX3JlcGx5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/CAU/reports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ0FVXHJlcG9ydHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Dashboard/annex_wise_obs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXGFubmV4X3dpc2Vfb2JzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Dashboard/audit_performance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXGF1ZGl0X3BlcmZvcm1hbmNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Dashboard/compliance_summary.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXGNvbXBsaWFuY2Vfc3VtbWFyeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Dashboard/dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXGRhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Dashboard/entity_wise_obs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXGVudGl0eV93aXNlX29icy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Dashboard/entity_wise_obs_detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXGVudGl0eV93aXNlX29ic19kZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Dashboard/functional_resp_wise_paras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXGZ1bmN0aW9uYWxfcmVzcF93aXNlX3BhcmFzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Dashboard/functional_resp_wise_paras_ho.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXGZ1bmN0aW9uYWxfcmVzcF93aXNlX3BhcmFzX2hvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Dashboard/no_entities_risk_based_planning.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXG5vX2VudGl0aWVzX3Jpc2tfYmFzZWRfcGxhbm5pbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Dashboard/no_entities_risk_based_planning_b.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXG5vX2VudGl0aWVzX3Jpc2tfYmFzZWRfcGxhbm5pbmdfYi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Dashboard/para_view.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXHBhcmFfdmlldy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Dashboard/repetative_para.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXHJlcGV0YXRpdmVfcGFyYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Dashboard/reporting_wise_obs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXHJlcG9ydGluZ193aXNlX29icy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Dashboard/serious_fraudulent_obs_gm.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXHNlcmlvdXNfZnJhdWR1bGVudF9vYnNfZ20uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Dashboard/violation_wise_paras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXHZpb2xhdGlvbl93aXNlX3BhcmFzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Dashboard/zone_wise_paras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXHpvbmVfd2lzZV9wYXJhcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/acceptance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFxhY2NlcHRhbmNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/audit_criteria_old.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFxhdWRpdF9jcml0ZXJpYV9vbGQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/ccqs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFxjY3FzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/change_request.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFxjaGFuZ2VfcmVxdWVzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/create_audit_plan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFxjcmVhdGVfYXVkaXRfcGxhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/engagement_plan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFxlbmdhZ2VtZW50X3BsYW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/eng_plan_approvals.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFxlbmdfcGxhbl9hcHByb3ZhbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/eng_plan_list.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFxlbmdfcGxhbl9saXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/eng_plan_ref_list.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFxlbmdfcGxhbl9yZWZfbGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/Join.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFxKb2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/notifications.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFxub3RpZmljYXRpb25zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/ongoing_engagements_list.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFxvbmdvaW5nX2VuZ2FnZW1lbnRzX2xpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/post_changes_approved_plan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFxwb3N0X2NoYW5nZXNfYXBwcm92ZWRfcGxhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/post_changes_team_members.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFxwb3N0X2NoYW5nZXNfdGVhbV9tZW1iZXJzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/preparation_ccqs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFxwcmVwYXJhdGlvbl9jY3FzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/submission_for_approval.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFxzdWJtaXNzaW9uX2Zvcl9hcHByb3ZhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/submission_for_review.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFxzdWJtaXNzaW9uX2Zvcl9yZXZpZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Engagement/task_list.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5nYWdlbWVudFx0YXNrX2xpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/Add_Legacy_Para.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXEFkZF9MZWdhY3lfUGFyYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/AnnexureB.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXEFubmV4dXJlQi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/AnnexureB_2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXEFubmV4dXJlQl8yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/AnnexureB_3.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXEFubmV4dXJlQl8zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/AnnexureB_4.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXEFubmV4dXJlQl80LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/AnnexureB_5.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXEFubmV4dXJlQl81LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/AnnexureB_6.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXEFubmV4dXJlQl82LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/AnnexureB_7.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXEFubmV4dXJlQl83LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/AnnexureB_8.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXEFubmV4dXJlQl84LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/auditee_observations_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGF1ZGl0ZWVfb2JzZXJ2YXRpb25zX3JlcG9ydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/auditee_observations_report_cau.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGF1ZGl0ZWVfb2JzZXJ2YXRpb25zX3JlcG9ydF9jYXUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/auditee_position_outlook.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGF1ZGl0ZWVfcG9zaXRpb25fb3V0bG9vay5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/Audit_Execution.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXEF1ZGl0X0V4ZWN1dGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/Authorize_Adding_Legacy_Para.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXEF1dGhvcml6ZV9BZGRpbmdfTGVnYWN5X1BhcmEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/Authorize_Change_Settle_Para_Status.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXEF1dGhvcml6ZV9DaGFuZ2VfU2V0dGxlX1BhcmFfU3RhdHVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/Authorize_Update_Legacy_Para_Gist_Para.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXEF1dGhvcml6ZV9VcGRhdGVfTGVnYWN5X1BhcmFfR2lzdF9QYXJhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/auth_del_dup_para.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGF1dGhfZGVsX2R1cF9wYXJhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/branch_deposit_info.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGJyYW5jaF9kZXBvc2l0X2luZm8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/cau_observation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGNhdV9vYnNlcnZhdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/checklist.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGNoZWNrbGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/checklist_details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGNoZWNrbGlzdF9kZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/checklist_summary.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGNoZWNrbGlzdF9zdW1tYXJ5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/closing.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGNsb3NpbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/Concluding_Closing_Audit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXENvbmNsdWRpbmdfQ2xvc2luZ19BdWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/create_dsa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGNyZWF0ZV9kc2EuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/deposit_account.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGRlcG9zaXRfYWNjb3VudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/deposit_account_details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGRlcG9zaXRfYWNjb3VudF9kZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/disb_info.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGRpc2JfaW5mby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/draft_audit_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGRyYWZ0X2F1ZGl0X3JlcG9ydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/draft_audit_report_branch.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGRyYWZ0X2F1ZGl0X3JlcG9ydF9icmFuY2guY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/engagement_plan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGVuZ2FnZW1lbnRfcGxhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/list_dsa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGxpc3RfZHNhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/list_of_observation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGxpc3Rfb2Zfb2JzZXJ2YXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/loan_case_details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGxvYW5fY2FzZV9kZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/loan_case_document.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGxvYW5fY2FzZV9kb2N1bWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/loan_scheme.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGxvYW5fc2NoZW1lLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/loan_scheme_yearly.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXGxvYW5fc2NoZW1lX3llYXJseS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/manage_audit_paras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXG1hbmFnZV9hdWRpdF9wYXJhcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/manage_audit_paras_authorized.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXG1hbmFnZV9hdWRpdF9wYXJhc19hdXRob3JpemVkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/manage_draft_report_paras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXG1hbmFnZV9kcmFmdF9yZXBvcnRfcGFyYXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/manage_draft_report_paras_branch.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXG1hbmFnZV9kcmFmdF9yZXBvcnRfcGFyYXNfYnJhbmNoLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/manage_dsa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXG1hbmFnZV9kc2EuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/manage_legacy_paras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXG1hbmFnZV9sZWdhY3lfcGFyYXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/manage_observations.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXG1hbmFnZV9vYnNlcnZhdGlvbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/manage_observations_branches.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXG1hbmFnZV9vYnNlcnZhdGlvbnNfYnJhbmNoZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/obs_management.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXG9ic19tYW5hZ2VtZW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/pre_audit_info.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXHByZV9hdWRpdF9pbmZvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/pre_audit_info_detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXHByZV9hdWRpdF9pbmZvX2RldGFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/pre_concluding_audit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXHByZV9jb25jbHVkaW5nX2F1ZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/pre_concluding_audit_ho.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXHByZV9jb25jbHVkaW5nX2F1ZGl0X2hvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/search_checklistdetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXHNlYXJjaF9jaGVja2xpc3RkZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/Settled_Para.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXFNldHRsZWRfUGFyYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/staff_pos_info.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXHN0YWZmX3Bvc19pbmZvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/subchecklist.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXHN1YmNoZWNrbGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/Update_Gist_Para_No.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXFVwZGF0ZV9HaXN0X1BhcmFfTm8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/Update_Legacy_Paras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXFVwZGF0ZV9MZWdhY3lfUGFyYXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/Update_Legacy_Paras_FAD.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXFVwZGF0ZV9MZWdhY3lfUGFyYXNfRkFELmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Execution/Update_Legacy_Paras_HO.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhlY3V0aW9uXFVwZGF0ZV9MZWdhY3lfUGFyYXNfSE8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/FAD/review_gist_recommendation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRkFEXHJldmlld19naXN0X3JlY29tbWVuZGF0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/HM/dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSE1cZGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/HM/old_paras_monitoring.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSE1cb2xkX3BhcmFzX21vbml0b3JpbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/HM/old_paras_monitoring_ppno.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSE1cb2xkX3BhcmFzX21vbml0b3JpbmdfcHBuby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Home/change_password.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxjaGFuZ2VfcGFzc3dvcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/IAMS/old_para.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSUFNU1xvbGRfcGFyYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/IAMS/paras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSUFNU1xwYXJhcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Login/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5caW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/PageNotFound/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnZU5vdEZvdW5kXGluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/audit_criteria.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdcYXVkaXRfY3JpdGVyaWEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/audit_criteria_approval.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdcYXVkaXRfY3JpdGVyaWFfYXBwcm92YWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/audit_period.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdcYXVkaXRfcGVyaW9kLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/audit_plan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdcYXVkaXRfcGxhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/holiday_calendar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdcaG9saWRheV9jYWxlbmRhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/post_changes_approved_plan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdccG9zdF9jaGFuZ2VzX2FwcHJvdmVkX3BsYW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/post_changes_criteria.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdccG9zdF9jaGFuZ2VzX2NyaXRlcmlhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/post_changes_team_members.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdccG9zdF9jaGFuZ2VzX3RlYW1fbWVtYmVycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/refferedback_audit_criteria.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdccmVmZmVyZWRiYWNrX2F1ZGl0X2NyaXRlcmlhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/special_assignment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdcc3BlY2lhbF9hc3NpZ25tZW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/special_assignment_archieve.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdcc3BlY2lhbF9hc3NpZ25tZW50X2FyY2hpZXZlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/special_audit_criteria.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdcc3BlY2lhbF9hdWRpdF9jcml0ZXJpYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/special_audit_criteria_approval.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdcc3BlY2lhbF9hdWRpdF9jcml0ZXJpYV9hcHByb3ZhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/staff_position.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdcc3RhZmZfcG9zaXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/submission_for_approval.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdcc3VibWlzc2lvbl9mb3JfYXBwcm92YWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/submission_for_review.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdcc3VibWlzc2lvbl9mb3JfcmV2aWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/team_members.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdcdGVhbV9tZW1iZXJzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/tentative_audit_plan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdcdGVudGF0aXZlX2F1ZGl0X3BsYW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/tentative_audit_plan_archieve.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdcdGVudGF0aXZlX2F1ZGl0X3BsYW5fYXJjaGlldmUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/tentative_audit_plan_ho_units.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdcdGVudGF0aXZlX2F1ZGl0X3BsYW5faG9fdW5pdHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Planning/tentative_engagement_plan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbm5pbmdcdGVudGF0aXZlX2VuZ2FnZW1lbnRfcGxhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/PostCompliance/cau_post_compliance_to_branches.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdENvbXBsaWFuY2VcY2F1X3Bvc3RfY29tcGxpYW5jZV90b19icmFuY2hlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/PostCompliance/cau_post_compliance_to_branches_reply.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdENvbXBsaWFuY2VcY2F1X3Bvc3RfY29tcGxpYW5jZV90b19icmFuY2hlc19yZXBseS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/PostCompliance/cau_post_compliance_to_branches_review.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdENvbXBsaWFuY2VcY2F1X3Bvc3RfY29tcGxpYW5jZV90b19icmFuY2hlc19yZXZpZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/PostCompliance/change_status_new_Para.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdENvbXBsaWFuY2VcY2hhbmdlX3N0YXR1c19uZXdfUGFyYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/PostCompliance/change_status_new_Para_authorize.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdENvbXBsaWFuY2VcY2hhbmdlX3N0YXR1c19uZXdfUGFyYV9hdXRob3JpemUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/PostCompliance/change_status_new_Para_reviewer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdENvbXBsaWFuY2VcY2hhbmdlX3N0YXR1c19uZXdfUGFyYV9yZXZpZXdlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/PostCompliance/monitoring_of_para_settlement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdENvbXBsaWFuY2VcbW9uaXRvcmluZ19vZl9wYXJhX3NldHRsZW1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/PostCompliance/post_compliance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdENvbXBsaWFuY2VccG9zdF9jb21wbGlhbmNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/PostCompliance/post_compliance_ho_monitoring.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdENvbXBsaWFuY2VccG9zdF9jb21wbGlhbmNlX2hvX21vbml0b3JpbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/PostCompliance/post_compliance_review.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdENvbXBsaWFuY2VccG9zdF9jb21wbGlhbmNlX3Jldmlldy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/aging_observations.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xhZ2luZ19vYnNlcnZhdGlvbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/analysis_of_settlement_paras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xhbmFseXNpc19vZl9zZXR0bGVtZW50X3BhcmFzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/annexure_exercise_status.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xhbm5leHVyZV9leGVyY2lzZV9zdGF0dXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/annex_violation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xhbm5leF92aW9sYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/approved_plan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xhcHByb3ZlZF9wbGFuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/auditee_observations_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xhdWRpdGVlX29ic2VydmF0aW9uc19yZXBvcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/audit_para_recon.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xhdWRpdF9wYXJhX3JlY29uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/Audit_Period_Or_Entity_Wise_Report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xBdWRpdF9QZXJpb2RfT3JfRW50aXR5X1dpc2VfUmVwb3J0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/Audit_Plan_Engagement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xBdWRpdF9QbGFuX0VuZ2FnZW1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/audit_plan_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xhdWRpdF9wbGFuX3JlcG9ydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/audit_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xhdWRpdF9yZXBvcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/audit_report_dept.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xhdWRpdF9yZXBvcnRfZGVwdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/audit_report_old.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xhdWRpdF9yZXBvcnRfb2xkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/audit_typewise_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xhdWRpdF90eXBld2lzZV9yZXBvcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/br_au_pos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xicl9hdV9wb3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/cad_isad_achievement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xjYWRfaXNhZF9hY2hpZXZlbWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/cnic_default_loan_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xjbmljX2RlZmF1bHRfbG9hbl9yZXBvcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/cnic_loan_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xjbmljX2xvYW5fcmVwb3J0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/compliance_progress_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xjb21wbGlhbmNlX3Byb2dyZXNzX3JlcG9ydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/Concluding_Closing_Audit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xDb25jbHVkaW5nX0Nsb3NpbmdfQXVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/current_audit_progress.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xjdXJyZW50X2F1ZGl0X3Byb2dyZXNzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/current_sessions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xjdXJyZW50X3Nlc3Npb25zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/department_performance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xkZXBhcnRtZW50X3BlcmZvcm1hbmNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/dept_wise_outstanding_paras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xkZXB0X3dpc2Vfb3V0c3RhbmRpbmdfcGFyYXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/div_out_paras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xkaXZfb3V0X3BhcmFzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/div_seg_paras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xkaXZfc2VnX3BhcmFzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/emp_info.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xlbXBfaW5mby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/eng_plan_delay_analysis_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xlbmdfcGxhbl9kZWxheV9hbmFseXNpc19yZXBvcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/exec_stats.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xleGVjX3N0YXRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/FAD_Aging_of_Audit_Paras_Monthly.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xGQURfQWdpbmdfb2ZfQXVkaXRfUGFyYXNfTW9udGhseS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/FAD_Audit_Plan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xGQURfQXVkaXRfUGxhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/FAD_Branch_Audit_Status.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xGQURfQnJhbmNoX0F1ZGl0X1N0YXR1cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/FAD_Branch_Risk_Rating.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xGQURfQnJhbmNoX1Jpc2tfUmF0aW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/FAD_Compliance_Position_Fortnightly.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xGQURfQ29tcGxpYW5jZV9Qb3NpdGlvbl9Gb3J0bmlnaHRseS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/FAD_Compliance_Pos_Fortnightly_FAD_Level.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xGQURfQ29tcGxpYW5jZV9Qb3NfRm9ydG5pZ2h0bHlfRkFEX0xldmVsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/FAD_Compliance_Pos_Fortnightly_Zone_Level.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xGQURfQ29tcGxpYW5jZV9Qb3NfRm9ydG5pZ2h0bHlfWm9uZV9MZXZlbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/FAD_DSA_Position_Fortnightly.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xGQURfRFNBX1Bvc2l0aW9uX0ZvcnRuaWdodGx5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/FAD_Gistwise_Details_Monthly.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xGQURfR2lzdHdpc2VfRGV0YWlsc19Nb250aGx5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/FAD_HO_User_Legacy_Para_Performance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xGQURfSE9fVXNlcl9MZWdhY3lfUGFyYV9QZXJmb3JtYW5jZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/FAD_Legacy_Para_Performance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xGQURfTGVnYWN5X1BhcmFfUGVyZm9ybWFuY2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/FAD_Legacy_User_Wise_Performance - Copy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xGQURfTGVnYWN5X1VzZXJfV2lzZV9QZXJmb3JtYW5jZSAtIENvcHkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/FAD_Legacy_Zone_Wise_Performance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xGQURfTGVnYWN5X1pvbmVfV2lzZV9QZXJmb3JtYW5jZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/FAD_Monthly_Review.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xGQURfTW9udGhseV9SZXZpZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/FAD_New_Old_Para_Performance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xGQURfTmV3X09sZF9QYXJhX1BlcmZvcm1hbmNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/FAD_New_Para_Performance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xGQURfTmV3X1BhcmFfUGVyZm9ybWFuY2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/fad_para_res.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xmYWRfcGFyYV9yZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/FAD_Process_Function_Wise_Analysis.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xGQURfUHJvY2Vzc19GdW5jdGlvbl9XaXNlX0FuYWx5c2lzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/final_audit_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xmaW5hbF9hdWRpdF9yZXBvcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/gist_wise_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xnaXN0X3dpc2VfcmVwb3J0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/glhead_details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xnbGhlYWRfZGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/glhead_summary.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xnbGhlYWRfc3VtbWFyeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/glhead_transaction_details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xnbGhlYWRfdHJhbnNhY3Rpb25fZGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/glhead_yearwise_summary.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xnbGhlYWRfeWVhcndpc2Vfc3VtbWFyeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/group_wise_pages.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xncm91cF93aXNlX3BhZ2VzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/group_wise_users_count.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xncm91cF93aXNlX3VzZXJzX2NvdW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/ho_total_paras_details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xob190b3RhbF9wYXJhc19kZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/income_expenditure.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xpbmNvbWVfZXhwZW5kaXR1cmUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/income_expenditure_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xpbmNvbWVfZXhwZW5kaXR1cmVfcmVwb3J0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/join_comp_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xqb2luX2NvbXBfcmVwb3J0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/loan_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xsb2FuX3JlcG9ydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/loan_transfer_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xsb2FuX3RyYW5zZmVyX3JlcG9ydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/management_au_report_zonewise.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xtYW5hZ2VtZW50X2F1X3JlcG9ydF96b25ld2lzZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/master_cdms_trns.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xtYXN0ZXJfY2Rtc190cm5zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/monthwise_settlement_paras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xtb250aHdpc2Vfc2V0dGxlbWVudF9wYXJhcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/paras_compliance_summary_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xwYXJhc19jb21wbGlhbmNlX3N1bW1hcnlfcmVwb3J0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/para_position.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xwYXJhX3Bvc2l0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/post_compliance_settlement_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xwb3N0X2NvbXBsaWFuY2Vfc2V0dGxlbWVudF9yZXBvcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/riskwise_observations.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xyaXNrd2lzZV9vYnNlcnZhdGlvbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/role_activity_logs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xyb2xlX2FjdGl2aXR5X2xvZ3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/role_wise_user.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xyb2xlX3dpc2VfdXNlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/search_para_text_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xzZWFyY2hfcGFyYV90ZXh0X3JlcG9ydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/settled_paras_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xzZXR0bGVkX3BhcmFzX3JlcG9ydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/settlement_old_paras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xzZXR0bGVtZW50X29sZF9wYXJhcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/significant_observations_management_audit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xzaWduaWZpY2FudF9vYnNlcnZhdGlvbnNfbWFuYWdlbWVudF9hdWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/status_wise_compliance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xzdGF0dXNfd2lzZV9jb21wbGlhbmNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/user_activity_graph.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1x1c2VyX2FjdGl2aXR5X2dyYXBoLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/user_activity_logs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1x1c2VyX2FjdGl2aXR5X2xvZ3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/user_wise_performance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1x1c2VyX3dpc2VfcGVyZm9ybWFuY2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/year_wise_all_paras_details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1x5ZWFyX3dpc2VfYWxsX3BhcmFzX2RldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/year_wise_outstanding_paras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1x5ZWFyX3dpc2Vfb3V0c3RhbmRpbmdfcGFyYXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/zonewise_settlement_paras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1x6b25ld2lzZV9zZXR0bGVtZW50X3BhcmFzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/zone_branch_wise_para_position_report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1x6b25lX2JyYW5jaF93aXNlX3BhcmFfcG9zaXRpb25fcmVwb3J0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Reports/zone_wise_performance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1x6b25lX3dpc2VfcGVyZm9ybWFuY2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/RiskAssessment/inherited_risk_branches.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmlza0Fzc2Vzc21lbnRcaW5oZXJpdGVkX3Jpc2tfYnJhbmNoZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/RiskAssessment/inherited_risk_dept.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmlza0Fzc2Vzc21lbnRcaW5oZXJpdGVkX3Jpc2tfZGVwdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/RiskAssessment/risk_assessment_divisions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmlza0Fzc2Vzc21lbnRccmlza19hc3Nlc3NtZW50X2RpdmlzaW9ucy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/RiskAssessment/risk_assessment_entities.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmlza0Fzc2Vzc21lbnRccmlza19hc3Nlc3NtZW50X2VudGl0aWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/RiskAssessment/risk_assessment_ent_types.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmlza0Fzc2Vzc21lbnRccmlza19hc3Nlc3NtZW50X2VudF90eXBlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/RiskAssessment/risk_assessment_functions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmlza0Fzc2Vzc21lbnRccmlza19hc3Nlc3NtZW50X2Z1bmN0aW9ucy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/RiskAssessment/risk_assessment_ho_units.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmlza0Fzc2Vzc21lbnRccmlza19hc3Nlc3NtZW50X2hvX3VuaXRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/RiskAssessment/risk_model.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmlza0Fzc2Vzc21lbnRccmlza19tb2RlbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/RiskAssessment/risk_model_old.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmlza0Fzc2Vzc21lbnRccmlza19tb2RlbF9vbGQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/RiskAssessment/risk_rating_annex_wise.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmlza0Fzc2Vzc21lbnRccmlza19yYXRpbmdfYW5uZXhfd2lzZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/RiskAssessment/risk_rating_for_branches_working.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmlza0Fzc2Vzc21lbnRccmlza19yYXRpbmdfZm9yX2JyYW5jaGVzX3dvcmtpbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/RiskAssessment/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmlza0Fzc2Vzc21lbnRcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Sampling/account_document.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FtcGxpbmdcYWNjb3VudF9kb2N1bWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Sampling/Account_exception.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FtcGxpbmdcQWNjb3VudF9leGNlcHRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Sampling/Account_exception_details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FtcGxpbmdcQWNjb3VudF9leGNlcHRpb25fZGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Sampling/account_transaction.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FtcGxpbmdcYWNjb3VudF90cmFuc2FjdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Sampling/account_transaction_master.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FtcGxpbmdcYWNjb3VudF90cmFuc2FjdGlvbl9tYXN0ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Sampling/biomet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FtcGxpbmdcYmlvbWV0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Sampling/excep_account_str.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FtcGxpbmdcZXhjZXBfYWNjb3VudF9zdHIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Sampling/list_reports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FtcGxpbmdcbGlzdF9yZXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Sampling/list_samples.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FtcGxpbmdcbGlzdF9zYW1wbGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Sampling/loans.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FtcGxpbmdcbG9hbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Sampling/loan_documents.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FtcGxpbmdcbG9hbl9kb2N1bWVudHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Sampling/loan_transactions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FtcGxpbmdcbG9hbl90cmFuc2FjdGlvbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Sampling/sample_monitoring.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FtcGxpbmdcc2FtcGxlX21vbml0b3JpbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/annexure_assignment_para.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcYW5uZXh1cmVfYXNzaWdubWVudF9wYXJhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/audit_zones.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcYXVkaXRfem9uZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/authorize_remove_duplicate_checklists.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcYXV0aG9yaXplX3JlbW92ZV9kdXBsaWNhdGVfY2hlY2tsaXN0cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/authorize_remove_duplicate_process.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcYXV0aG9yaXplX3JlbW92ZV9kdXBsaWNhdGVfcHJvY2Vzcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/authorize_remove_duplicate_sub_process.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcYXV0aG9yaXplX3JlbW92ZV9kdXBsaWNhdGVfc3ViX3Byb2Nlc3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/branches.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcYnJhbmNoZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/compliance_hierarchy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcY29tcGxpYW5jZV9oaWVyYXJjaHkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/control_violation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcY29udHJvbF92aW9sYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/departments.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcZGVwYXJ0bWVudHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/divisions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcZGl2aXNpb25zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/inspection_unit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcaW5zcGVjdGlvbl91bml0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/manage_annexure.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcbWFuYWdlX2FubmV4dXJlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/Manage_audit_zone_branches.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcTWFuYWdlX2F1ZGl0X3pvbmVfYnJhbmNoZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/manage_checklist.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcbWFuYWdlX2NoZWNrbGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/manage_checklist_detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcbWFuYWdlX2NoZWNrbGlzdF9kZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/manage_sub_checklist.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcbWFuYWdlX3N1Yl9jaGVja2xpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/para_migration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBccGFyYV9taWdyYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/processes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBccHJvY2Vzc2VzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/process_detail_authorize.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBccHJvY2Vzc19kZXRhaWxfYXV0aG9yaXplLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/process_detail_review.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBccHJvY2Vzc19kZXRhaWxfcmV2aWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/ref_checklist_detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBccmVmX2NoZWNrbGlzdF9kZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/remove_duplicate_checklists.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBccmVtb3ZlX2R1cGxpY2F0ZV9jaGVja2xpc3RzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/remove_duplicate_process.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBccmVtb3ZlX2R1cGxpY2F0ZV9wcm9jZXNzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/remove_duplicate_sub_process.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBccmVtb3ZlX2R1cGxpY2F0ZV9zdWJfcHJvY2Vzcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/sub_entities.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcc3ViX2VudGl0aWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Setup/sub_process_authorize.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dXBcc3ViX3Byb2Nlc3NfYXV0aG9yaXplLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Shared/_BlankLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9CbGFua0xheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/WorkingPaper/account_opening.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV29ya2luZ1BhcGVyXGFjY291bnRfb3BlbmluZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/WorkingPaper/cash_count.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV29ya2luZ1BhcGVyXGNhc2hfY291bnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/WorkingPaper/fixed_assets.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV29ya2luZ1BhcGVyXGZpeGVkX2Fzc2V0cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/WorkingPaper/loan_case_file.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV29ya2luZ1BhcGVyXGxvYW5fY2FzZV9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/WorkingPaper/voucher_checking.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV29ya2luZ1BhcGVyXHZvdWNoZXJfY2hlY2tpbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asad/Documents/GitHub/IAMS/ais/AIS/AIS/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

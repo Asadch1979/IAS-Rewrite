@@ -1,0 +1,180 @@
+﻿@{
+    ViewData["Title"] = "Report ~ Entity Wise Outstanding Para Position";
+    Layout = "_Layout";
+}
+
+<style type="text/css">
+
+    #entity_oustanding_paras_grid thead tr th {
+        vertical-align: middle !important;
+    }
+
+</style>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#entityTypeSelectionField').select2();
+        $("#searchTableRecord").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#entity_oustanding_paras_grid tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
+
+
+    })
+
+    function entityTypeSelectionChangeEvent() {
+        if ($('#entityTypeSelectionField').val() != 0) {
+            // Clear the existing table
+            // Clear and destroy the existing DataTable instance
+            if ($.fn.DataTable.isDataTable('#entity_oustanding_paras_grid')) {
+                $('#entity_oustanding_paras_grid').DataTable().clear().destroy();
+            }
+
+            // Clear existing rows from tbody
+            $('#entity_oustanding_paras_grid tbody').empty();
+
+            $.ajax({
+                url: g_asiBaseURL + "/ApiCalls/get_outstanding_paras_for_entity_type_id",
+                type: "POST",
+                data: {
+                    "ENTITY_TYPE_ID": $('#entityTypeSelectionField').val()
+                },
+                cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        var entityId = data[0].entitY_ID;
+                        var totalParasCount = parseInt(0);
+                        var sr = 1;
+
+                        $.each(data, function (i, v) {
+                            if (i > 0) {
+                                if (v.entitY_ID == entityId) {
+                                    $('#' + v.age + '_' + v.entitY_ID).html(v.totaL_PARAS);
+                                    totalParasCount += parseInt(v.totaL_PARAS);
+                                } else {
+                                    $('#TOTAL_' + entityId).html(totalParasCount);
+                                    totalParasCount = parseInt(0);
+                                    totalParasCount += parseInt(v.totaL_PARAS);
+                                    entityId = v.entitY_ID;
+                                    $('#entity_oustanding_paras_grid tbody').append(
+                                        generateTableRow(sr, v.entitY_ID, v.entitY_NAME, v.totaL_PARAS)
+                                    );
+                                    sr++;
+                                }
+                            } else {
+                                totalParasCount += parseInt(v.totaL_PARAS);
+                                $('#entity_oustanding_paras_grid tbody').append(
+                                    generateTableRow(sr, v.entitY_ID, v.entitY_NAME, v.totaL_PARAS)
+                                );
+                                sr++;
+                            }
+                        });
+                        $('#TOTAL_' + entityId).html(totalParasCount);
+
+                        // Re-initialize DataTable after the table content is updated
+                        $('#entity_oustanding_paras_grid').DataTable({
+                            dom: '<"top"lfB>rt<"bottom"ip><"clear">',
+                            buttons: [
+                                {
+                                    extend: 'excelHtml5',
+                                    text: 'Export to Excel',
+                                    className: 'btn btn-success',
+                                    exportOptions: {
+                                        columns: function (idx, data, node) {
+                                            return !$(node).hasClass('hide-export');
+                                        }
+                                    }
+                                },
+                                {
+                                    extend: 'pdfHtml5',
+                                    text: 'Export To PDF',
+                                    className: 'btn btn-danger',
+                                    exportOptions: {
+                                        columns: function (idx, data, node) {
+                                            return !$(node).hasClass('hide-export');
+                                        }
+                                    }
+                                }
+                            ],
+                            lengthMenu: [
+                                [10, 50, 100, -1],
+                                [10, 50, 100, "All"]
+                            ]
+                        });
+                    }
+                },
+                dataType: "json",
+            });
+        }
+    }
+
+    // Helper function to generate table rows
+    function generateTableRow(sr, entityId, entityName, totalParas) {
+        return '<tr id="row_' + entityId + '">' +
+            '<td>' + sr + '</td>' + // Sr No.
+            '<td>' + entityName + '</td>' + // Entity Name
+            '<td id="SLAB_1_CURRENT_YEAR_' + entityId + '">' + totalParas + '</td>' + // Current Year Paras
+            '<td id="SLAB_2_Age_1_to_3_' + entityId + '">0</td>' + // Age 1 to 3 years Paras
+            '<td id="SLAB_3_Age_4_to_6_' + entityId + '">0</td>' + // Age 4 to 6 years Paras
+            '<td id="SLAB_4_Age_7_to_9_' + entityId + '">0</td>' + // Age 7 to 9 years Paras
+            '<td id="SLAB_5_Age_10_to_12_' + entityId + '">0</td>' + // Age 10 to 12 years Paras
+            '<td id="SLAB_6_Age_12_plus_' + entityId + '">0</td>' + // Age 12+ years Paras
+            '<td id="TOTAL_' + entityId + '">0</td>' + // Grand Total
+            '</tr>';
+    }
+
+
+</script>
+<div class="row col-md-12">
+
+    <h3 style="color: #45c545;">Entity Wise Outstanding Paras</h3>
+
+    <div class="row col-md-12">
+        <label>Entity Type</label>
+    </div>
+    <div class="row col-md-12">
+        <select id="entityTypeSelectionField" onchange="entityTypeSelectionChangeEvent();" class="form-select form-control" aria-label="Default select example">
+            <option value="0" selected>--Select Entity Type--</option>
+            @{
+                if (ViewData["EntitiesList"] != null)
+                {
+                    foreach (var item in (dynamic)(ViewData["EntitiesList"]))
+                    {
+                            <option value="@item.CODE" id="@item.CODE">@item.NAME</option>
+                    }
+                }
+            }
+        </select>
+
+    </div>
+    <div class="row mt-3 col-md-12">
+        <table id="entity_oustanding_paras_grid" class="table table-hover table-bordered table-hover mt-3 table-striped">
+            <thead style="background-color: rgb(181 229 117 / 93%) !important;">
+                <tr>
+                    <th rowspan="2" class="col-md-auto">Sr. No.</th>
+                    <th rowspan="2" class="col-md-auto">Entitiy Name</th>
+                    <th colspan="6" class="text-center">Outstanding Paras Count</th>
+                    <th rowspan="2" class="text-center">Grand Total</th>
+                </tr>
+                <tr>
+
+                    <th class="col-md-auto text-center">Current Year</th>
+                    <th class="col-md-auto text-center">Age 1 to 3 year</th>
+                    <th class="col-md-auto text-center">Age 4 to 6 year</th>
+                    <th class="col-md-auto text-center">Age 7 to 9 year</th>
+                    <th class="col-md-auto text-center">Age 10 to 12 year</th>
+                    <th class="col-md-auto text-center">Age 12+ year</th>
+
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+

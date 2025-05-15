@@ -1,0 +1,165 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+.container-clob {
+    width: 100% !important;
+    margin: 10px auto !important;
+    padding: 20px !important; /* Adjust padding */
+    border: 1px solid #ccc !important;
+    border-radius: 8px !important;
+    background-color: #f9f9f9 !important;
+    overflow: auto !important;
+    height: auto !important;
+    max-height: 500px !important;
+    box-sizing: border-box !important; /* Include padding and border in width and height */
+}
+
+.table td:not(:has(a)) {
+    word-break: break-word !important;
+}
+
+.container-clob table {
+    margin-left: 0px !important;
+}
+.dt-container {
+    width: 100% !important;
+}
+.buttons-excel {
+    background-color: #28a745 !important; /* Bootstrap success color */
+    color: white !important;
+    border: none !important;
+}
+.buttons-pdf {
+    background-color: #dc3545 !important; /* Bootstrap danger color */
+    color: white !important;
+    border: none !important;
+}
+.dt-container .dt-search {
+    text-align: end !important;
+}
+
+    .dt-container .dt-length {
+        text-align: end !important;
+    }
+
+    .dt-container .bottom {
+        text-align: end !important;
+    }
+
+
+.modal-header, .modal-footer {
+    cursor: move !important;
+}
+
+.header-section {
+    min-height: 40px !important;
+    padding: 10px !important;
+}
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
+.modal-xxl {
+    max-width: 1400px !important;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #0366d6;
+}
+
+.text-hover:hover {
+    cursor: pointer !important;
+    text-decoration: underline !important;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.modal-body label {
+    font-weight: bold !important;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+@keyframes loading-1 {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(180deg);
+    }
+}
+
+@keyframes loading-2 {
+    0% {
+        transform: rotate(180deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

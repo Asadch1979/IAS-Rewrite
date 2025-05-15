@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="~/Images/ztbllogo.png">
+    <title>@ViewData["Title"] - IAS</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    
+</head>
+<body>
+    <header>
+        
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="row col-md-12">
+            <div class="container-fluid text-center">
+                &copy; ZTBL INTERNAL AUDIT DIVISION (Developed By A.A.A)
+            </div>
+        </div>
+
+    </footer>
+      <div id="wait" style="display:none;width:69px;height:89px;position:fixed;top:50%;left:50%;padding:2px;z-index:1060;">
+        <img src='~/Images/ajax_loader.gif' width="64" height="64" /><br>Loading..
+    </div>
+    <script src="~/lib/draggable/jquery-ui.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>   
+    
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
