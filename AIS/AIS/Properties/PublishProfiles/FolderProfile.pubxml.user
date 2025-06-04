@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>\\10.1.100.37\ztblais2</_PublishTargetUrl>
+    <History>True|2024-10-02T07:54:15.0777591Z||;True|2024-10-02T00:22:50.8456870-07:00||;True|2024-10-01T01:36:31.9133582-07:00||;True|2024-10-01T00:56:05.3203448-07:00||;True|2024-10-01T00:50:22.3096597-07:00||;True|2024-10-01T00:42:21.2832823-07:00||;True|2024-10-01T00:37:48.0835261-07:00||;False|2024-10-01T00:36:42.3054411-07:00||;False|2024-10-01T00:33:37.2720039-07:00||;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>
