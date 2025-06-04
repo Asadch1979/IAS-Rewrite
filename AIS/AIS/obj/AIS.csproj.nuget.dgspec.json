@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Asad\\Documents\\GitHub\\IAMS\\ais\\AIS\\AIS\\AIS.csproj": {}
+    "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\AIS.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Asad\\Documents\\GitHub\\IAMS\\ais\\AIS\\AIS\\AIS.csproj": {
+    "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\AIS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Asad\\Documents\\GitHub\\IAMS\\ais\\AIS\\AIS\\AIS.csproj",
+        "projectUniqueName": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\AIS.csproj",
         "projectName": "AIS",
-        "projectPath": "C:\\Users\\Asad\\Documents\\GitHub\\IAMS\\ais\\AIS\\AIS\\AIS.csproj",
+        "projectPath": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\AIS.csproj",
         "packagesPath": "C:\\Users\\Asad\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Asad\\Documents\\GitHub\\IAMS\\ais\\AIS\\AIS\\obj\\",
+        "outputPath": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
