@@ -14,13 +14,16 @@ wwwroot\Audit_Reports\DraftReport_1188.Pdf
 wwwroot\Audit_Report\2228\Draft Report of CDMS-DPC Module-2025.pdf
 wwwroot\css\custom-style.css
 wwwroot\css\login.css
+wwwroot\css\sampling.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\Images\ajax_loader.gif
-wwwroot\Images\Home.png
+wwwroot\Images\Home sample.jpeg
+wwwroot\Images\login.jpeg
 wwwroot\Images\no-image-available.png
 wwwroot\Images\photo-camera-gray.svg
 wwwroot\Images\profile.png
+wwwroot\Images\ztbllogo sample.jpeg
 wwwroot\Images\ztbllogo.png
 wwwroot\js\idleSessionHandler.js
 wwwroot\js\site.js
@@ -1917,3 +1920,4 @@ wwwroot\lib\select2\select2.min.js
 wwwroot\lib\select2\select2.min.min.js
 wwwroot\lib\word-export\FileSaver.js
 wwwroot\lib\word-export\jquery.wordexport.js
+wwwroot\Images\Home.png
