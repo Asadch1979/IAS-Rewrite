@@ -77,32 +77,30 @@
 
         window.location.href = g_asiBaseURL + "/Sampling/loans?engId="+g_engID+"&sample_id="+sampleId+"&loan_status="+loanStatus
     }
-
 </script>
+<link rel="stylesheet" href="~/css/sampling.css" />
 
-<div class="row col-md-12 mt-3">
-
-    <h3 style="color: #45c545;">List of Samples</h3>
-
-    <div class="row col-md-12 mt-3">
-
-        <table id="listOfSamples" class="table table-hover table-bordered table-hover mt-3 table-striped">
-            <thead style="background-color: rgb(181 229 117 / 93%) !important; ">
-                <tr>
-                    <th class="col-md-auto">Sr. No.</th>
-                    <th class="col-md-auto">Sample List</th>
-                    <th class="col-md-auto">Percentage</th>
-                    <th class="col-md-auto">Total Count</th>
-                    <th class="col-md-auto">Sample Count</th>
-                    <th class="col-md-auto text-center">View</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
- 
-        
+<div class="container-fluid mt-4">
+    <div class="card card-sample shadow-sm">
+        <div class="card-header">
+            <h4 class="mb-0">List of Samples</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="listOfSamples" class="table table-hover table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-md-auto">Sr. No.</th>
+                            <th class="col-md-auto">Sample List</th>
+                            <th class="col-md-auto">Percentage</th>
+                            <th class="col-md-auto">Total Count</th>
+                            <th class="col-md-auto">Sample Count</th>
+                            <th class="col-md-auto text-center">View</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
     </div>
-
-  
 </div>

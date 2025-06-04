@@ -71,28 +71,31 @@
         return amount ? parseFloat(amount).toFixed(2) : "0.00";
     }
 </script>
-
-<div class="row col-md-12 mt-3">
-
-    <h3 style="color: #45c545;">List of Account Transactions</h3>
-</div>
-
-<div class="row col-md-12 mt-3">
-    <table id="account_transaction_list" class="table table-hover table-bordered table-striped">
-        <thead style="background-color: rgb(181 229 117 / 93%) !important;">
-            <tr>
-                <th>Sr No</th>
-                <th>Transaction Code</th>
-                <th>Instrument No</th>
-                <th>Description</th>
-                <th>Transaction Date</th>
-                <th>Authorization Date</th>
-                <th>Debit Amount</th>
-                <th>Credit Amount</th>
-               
-                <th>Remarks</th>                
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+<link rel="stylesheet" href="~/css/sampling.css" />
+<div class="container-fluid mt-4">
+    <div class="card card-sample shadow-sm">
+        <div class="card-header">
+            <h4 class="mb-0">List of Account Transactions</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="account_transaction_list" class="table table-hover table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Sr No</th>
+                            <th>Transaction Code</th>
+                            <th>Instrument No</th>
+                            <th>Description</th>
+                            <th>Transaction Date</th>
+                            <th>Authorization Date</th>
+                            <th>Debit Amount</th>
+                            <th>Credit Amount</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
