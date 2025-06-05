@@ -5,8 +5,13 @@
 <style type="text/css">
     .strike-out {
         text-decoration: line-through !important;
-    }</style>
-<div class="container mt-4">
+    }
+    #taskListTable th,
+    #taskListTable td {
+        text-align: left !important;
+    }
+</style>
+<div class="container-fluid mt-4">
     <div class="row">
         <div class="col-md-12">
             <h3 class="text-success">Task List/Job Assignment</h3>
@@ -21,7 +26,6 @@
                         <thead style="background-color: rgb(181 229 117 / 93%) !important; ">
                             <tr>
                                 <th class="font-weight-bold text-center" width="5%">Sr. No</th>
-                                <th class="col-md-2 font-weight-bold text-Left">Reporting</th>
                                 <th class="col-md-auto font-weight-bold text-left">Audit Entity</th>
                                 <th class="col-md-auto font-weight-bold text-center">Start Date</th>
                                 <th class="col-md-auto font-weight-bold text-center">End Date</th>
@@ -39,12 +43,9 @@
                                     {
                                         var sDate = item.AUDIT_START_DATE.ToString();
                                         var eDate = item.AUDIT_END_DATE.ToString();
-                                        var osdate = item.OPERATION_STARTDATE.ToString();
-                                        var oedate = item.OPERATION_ENDDATE.ToString();
 
                                         <tr>
                                             <td class="text-center" style="width:50px">@index</td>
-                                             <td class="col-md-auto text-center">@item.REPORTING</td>
                                             <td class="col-md-auto text-center">@item.ENTITY_NAME</td>
                                             <td class="col-md-1 text-center">@sDate.Split(" ")[0]</td>
                                             <td class="col-md-1 text-center">@eDate.Split(" ")[0]</td>
