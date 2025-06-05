@@ -175,3 +175,18 @@ table.dataTable thead th {
 .navbar-nav .nav-link { color: red !important; }
 .navbar-brand { margin-left: 1rem; }
 
+/* Welcome text color */
+#navImg small {
+    color: #333;
+}
+
+/* Stylish dropdown menu */
+.navbar .dropdown-menu {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+}
+
+.navbar .dropdown-menu .dropdown-item:hover {
+    background-color: #e9ecef;
+}
+
