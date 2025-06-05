@@ -4446,6 +4446,7 @@ Dear {userFullName},
                     tlist.TEAMMEMBER_PPNO = Convert.ToInt32(rdr["TEAMMEMBER_PPNO"]);
                     tlist.ENTITY_ID = Convert.ToInt32(rdr["ENTITY_ID"]);
                     tlist.ENTITY_TYPE = Convert.ToInt32(rdr["ENTITY_TYPE"]);
+                    tlist.REPORTING = rdr["P_NAME"].ToString();
                     tlist.ENTITY_TYPE_DESC = rdr["ENTITY_TYPE_DESC"].ToString();
                     tlist.ENTITY_CODE = Convert.ToInt32(rdr["ENTITY_CODE"]);
                     tlist.ENTITY_NAME = rdr["ENTITY_NAME"].ToString();

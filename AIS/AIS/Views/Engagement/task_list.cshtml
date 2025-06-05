@@ -21,10 +21,8 @@
                         <thead style="background-color: rgb(181 229 117 / 93%) !important; ">
                             <tr>
                                 <th class="font-weight-bold text-center" width="5%">Sr. No</th>
-                                <th class="col-md-2 font-weight-bold text-center">Audit Period</th>
-                                <th class="col-md-auto font-weight-bold text-center">Entity Type</th>
-                                <th class="col-md-auto font-weight-bold text-center">Audit Entity</th>
-                                <th class="col-md-auto font-weight-bold text-center">Team Name</th>
+                                <th class="col-md-2 font-weight-bold text-Left">Reporting</th>
+                                <th class="col-md-auto font-weight-bold text-left">Audit Entity</th>
                                 <th class="col-md-auto font-weight-bold text-center">Start Date</th>
                                 <th class="col-md-auto font-weight-bold text-center">End Date</th>
                                 <th class="col-md-auto font-weight-bold text-center">Stage</th>
@@ -46,10 +44,8 @@
 
                                         <tr>
                                             <td class="text-center" style="width:50px">@index</td>
-                                            <td class="col-md-auto text-center">@item.AUDIT_YEAR</td>
-                                            <td class="col-md-auto text-center">@item.ENTITY_TYPE_DESC</td>
+                                             <td class="col-md-auto text-center">@item.REPORTING</td>
                                             <td class="col-md-auto text-center">@item.ENTITY_NAME</td>
-                                            <td class="col-md-auto text-center">@item.TEAM_NAME</td>
                                             <td class="col-md-1 text-center">@sDate.Split(" ")[0]</td>
                                             <td class="col-md-1 text-center">@eDate.Split(" ")[0]</td>
                                             <td class="col-md-1 text-center">

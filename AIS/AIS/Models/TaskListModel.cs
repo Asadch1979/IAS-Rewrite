@@ -28,6 +28,7 @@ namespace AIS.Models
         public string ISCLOSE { get; set; }
         public DateTime OPERATION_STARTDATE { get; set; }
         public DateTime OPERATION_ENDDATE { get; set; }
+        public string REPORTING{ get; set; }
 
         }
     }
