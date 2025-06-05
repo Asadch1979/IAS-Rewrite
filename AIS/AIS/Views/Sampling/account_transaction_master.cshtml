@@ -13,6 +13,7 @@
     });
 
     function loadBIOMETSamples() {
+        $('#wait').show();
         destroyDatatable('biomet_sample_list');
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/get_biomet_sampling_details",
@@ -25,6 +26,9 @@
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching data:", error);
+            },
+            complete: function(){
+                $('#wait').hide();
             }
         });
     }
