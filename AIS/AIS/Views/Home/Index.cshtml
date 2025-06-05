@@ -6,20 +6,20 @@
     .container{
         max-width:100%;
     }
-    .card-header {
-        background-color: transparent !important;
-        font-size: 20px;
-        height: 100px;
+    .home-wrapper{
+        min-height: calc(100vh - 150px);
+        display:flex;
+        align-items:center;
+        justify-content:center;
     }
-    .icon-card{
-        margin:10px;
+    .home-wrapper img{
+        max-width:100%;
+        height:auto;
     }
 </style>
 
 
 
-<div class="row justify-content-center">
-    <div class="col-md-8 text-center mt-3">
-        <img class="img-fluid mx-auto d-block" src="~/Images/home.png" alt="Home Image" />
-    </div>
+<div class="home-wrapper">
+    <img src="~/Images/home.png" alt="Home Image" />
 </div>

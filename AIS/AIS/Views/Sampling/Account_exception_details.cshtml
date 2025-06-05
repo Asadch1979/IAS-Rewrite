@@ -17,6 +17,7 @@
     });
 
     function loadexceptionReport(){
+        $("#wait").show();
         destroyDatatable('account_exception_report');
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/get_exception_account_report            
@@ -29,9 +30,12 @@
                 }
             },
             dataType: "json",
+            complete: function(){
+                $("#wait").hide();
+            },
         });
     function populateTable(data) {
-        $('wait').show();
+        $('#wait').show();
         var TableBody = $("account_exception_report tbody");
         tablebody.empty();
 
