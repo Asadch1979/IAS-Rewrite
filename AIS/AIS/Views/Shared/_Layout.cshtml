@@ -149,7 +149,7 @@
                     <!-- ms-auto aligns items to the right -->
                     <li class="nav-item active dropdown">
                         <a class="nav-link" href="#" id="navImg" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <small><b>Welcome:</b></small>
+                            <small>Welcome:</small>
                             @if (ViewData["TopMenuPages"] != null)
                                 {
                                 foreach (var itemPage in (dynamic)(ViewData["TopMenuPages"]))
@@ -158,9 +158,7 @@
                                         {
                                         <span id="avatarEmpName">
                                             <small>
-                                                <b>
-                                                    @itemPage.Name (@itemPage.PPNO)
-                                                </b>
+                                                @itemPage.Name (@itemPage.PPNO)
                                             </small>
                                             <img class="rounded-circle" height="18" src="~/Images/profile.png" />
                                             <br /><small style="display:block; line-height:11px;">@itemPage.User_Entity_Name</small>

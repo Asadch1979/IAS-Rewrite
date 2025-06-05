@@ -170,3 +170,8 @@ table.dataTable thead th {
     background-color: #19875478;
     color: #000;
 }
+
+/* Custom top menu styles */
+.navbar-nav .nav-link { color: red !important; }
+.navbar-brand { margin-left: 1rem; }
+

@@ -16,14 +16,14 @@
 
     function loadexceptionReport(){
         $("#wait").show();
-        destroyDatatable('account_exception_report');
+        destroyDatatable('biomet_sample_list');
         $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/get_exception_account_report            
+            url: g_asiBaseURL + "/ApiCalls/get_exception_account_report",
+            cache: false,
             type: "POST",
-            Cache: false,
             data:{ENG_ID:g_engId, RPT_ID:g_rptID }, 
-            sucess: function (data) {
-                if(data.lenght > 0) {
+            success: function (data) {
+                if(data.length > 0) {
                     populateTable(data);
                 }
             },
@@ -34,8 +34,8 @@
         });
     function populateTable(data) {
         $('#wait').show();
-        var TableBody = $("account_exception_report tbody");
-        tablebody.empty();
+        var tableBody = $("#biomet_sample_list tbody");
+        tableBody.empty();
 
         $.each(data, function(index, item){
             var row = `<tr>
@@ -58,7 +58,7 @@
     </tr>`;
             tableBody.append(row);
           });
-        initializeDataTable('account_exception_report');
+        initializeDataTable('biomet_sample_list');
         $('#wait').hide();
     }
      function formatDate(dateString) {
