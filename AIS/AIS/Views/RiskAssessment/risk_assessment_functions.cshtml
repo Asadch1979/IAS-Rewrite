@@ -3,11 +3,7 @@
     Layout = "_Layout";
 }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
-</script>
-
-<!--
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>-->
+<script src="~/lib/canvasjs/canvasjs.min.js"></script>
 
 <script type="text/javascript">
 
@@ -15,27 +11,18 @@
 
     function myChart() {
 
-        var xValues = ["CREDIT", "DEBIT", "Balance"];
-        var yValues = [522885, 752982, 769903];
-        var barColors = ["pink", "green", "Blue"];
+        var piePoints = [
+            { y: 522885, label: "CREDIT" },
+            { y: 752982, label: "DEBIT" },
+            { y: 769903, label: "Balance" }
+        ];
 
-        new Chart("myChart", {
-            type: "pie",
-            data: {
-                labels: xValues,
-                datasets: [{
-                    backgroundColor: barColors,
-                    data: yValues
-                }]
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: "BRANCH ID : 55179       GL-HEAD : 411"
-                }
-            }
+        var chart = new CanvasJS.Chart("myChart", {
+            animationEnabled: true,
+            title: { text: "BRANCH ID : 55179       GL-HEAD : 411" },
+            data: [{ type: "pie", dataPoints: piePoints }]
         });
-
+        chart.render();
     }
     $(document).ready(function () {
         myChart();
@@ -44,35 +31,24 @@
 
     function myChartbar() {
 
-        var xValues = ["BALANCE", "CREDIT", "DEBIT"];
-        var yValues = [10881, 8896, 10015];
-        var barColors = ["red", "yellow", "black"];
+        var barPoints = [
+            { label: "BALANCE", y: 10881 },
+            { label: "CREDIT", y: 8896 },
+            { label: "DEBIT", y: 10015 }
+        ];
 
-        new Chart("myChartbar", {
-            type: "bar",
-            data: {
-                labels: xValues,
-                datasets: [{
-                    backgroundColor: barColors,
-                    data: yValues
-                }]
-            },
-            options: {
-                legend: {
-                    display: false,
-
-                },
-                title: {
-                    display: true,
-                    text: "BRANCH ID : 55179       GL-HEAD : 1513"
-                }
-            }
+        var chartBar = new CanvasJS.Chart("myChartbar", {
+            animationEnabled: true,
+            title: { text: "BRANCH ID : 55179       GL-HEAD : 1513" },
+            axisY: { title: "Value" },
+            data: [{ type: "column", dataPoints: barPoints }]
         });
-
+        chartBar.render();
     }
     $(document).ready(function () {
         myChartbar();
     });
+
 
 
     /*    function myChartmline() {
@@ -127,11 +103,11 @@
 <div class="col-md-12 mt-5">
 
 
-    <canvas id="myChart" class="col-md-6" width="500" height="400" style="display:inline-block"></canvas>
+    <div id="myChart" class="col-md-6" style="height:400px; display:inline-block;"></div>
 
 
 
-    <canvas id="myChartbar" class="col-md-5" width="500" height="400" style="display:inline-block"></canvas>
+    <div id="myChartbar" class="col-md-5" style="height:400px; display:inline-block;"></div>
 
 
 </div>

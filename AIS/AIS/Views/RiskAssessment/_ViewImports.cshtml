@@ -3,36 +3,27 @@
     Layout = "_Layout";
 }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
-</script>
+<script src="~/lib/canvasjs/canvasjs.min.js"></script>
 <script type="text/javascript">
     
     
 
-    function myChart()
-{
+    function myChart() {
 
-    var xValues = ["ISAD", "CAD", "FAD", "Inspection", "Risk"];
-    var yValues = [55, 49, 44, 24, 15];
-    var barColors = ["red", "green", "blue", "orange", "brown"];
+        var piePoints = [
+            { y: 55, label: "ISAD" },
+            { y: 49, label: "CAD" },
+            { y: 44, label: "FAD" },
+            { y: 24, label: "Inspection" },
+            { y: 15, label: "Risk" }
+        ];
 
-    new Chart("myChart", {
-        type: "pie",
-        data: {
-            labels: xValues,
-            datasets: [{
-                backgroundColor: barColors,
-                data: yValues
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                text: "ZTBL Audit Universe"
-            }
-        }
-    });
-
+        var chart = new CanvasJS.Chart("myChart", {
+            animationEnabled: true,
+            title: { text: "ZTBL Audit Universe" },
+            data: [{ type: "pie", dataPoints: piePoints }]
+        });
+        chart.render();
     }
     $(document).ready(function () {
         myChart();
@@ -41,50 +32,36 @@
 
     function myChartbar() {
 
-       var xValues = ["ISAD", "CAD", "FAD", "Inspection", "Risk"];
-        var yValues = [55, 49, 44, 24, 35];
-        var barColors = ["red", "pink", "blue", "yellow", "black"];
+        var barPoints = [
+            { label: "ISAD", y: 55 },
+            { label: "CAD", y: 49 },
+            { label: "FAD", y: 44 },
+            { label: "Inspection", y: 24 },
+            { label: "Risk", y: 35 }
+        ];
 
-        new Chart("myChartbar", {
-            type: "bar",
-            data: {
-                labels: xValues,
-                datasets: [{
-                    backgroundColor: barColors,
-                    data: yValues
-                }]
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: "ZTBL Audit Universe"
-                }
-            }
+        var chartBar = new CanvasJS.Chart("myChartbar", {
+            animationEnabled: true,
+            title: { text: "ZTBL Audit Universe" },
+            axisY: { title: "Value" },
+            data: [{ type: "column", dataPoints: barPoints }]
         });
-
+        chartBar.render();
     }
     $(document).ready(function () {
         myChartbar();
     });
-
-
-    
-</script>
-<style>
-    .canvas {
-        display: inline-block;
-    }
 
 </style>
 
 <div class="col-md-12 mt-5" >
     
      
-    <canvas id="myChart" class="col-md-6" width="500" height="400" style="display:inline-block"></canvas>
+    <div id="myChart" class="col-md-6" style="height:400px; display:inline-block;"></div>
 
 
 
-    <canvas id="myChartbar" class="col-md-5" width="500"  height="400" style="display:inline-block" ></canvas>
+    <div id="myChartbar" class="col-md-5" style="height:400px; display:inline-block;"></div>
 
 
 
