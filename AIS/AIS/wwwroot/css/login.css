@@ -1,7 +1,6 @@
 .login-bg {
     min-height: 100vh;
-    background: url('../Images/login.jpeg') no-repeat center center fixed;
-    background-size: cover;
+    background-color: #cce4fc;
     display: flex;
     align-items: center;
     justify-content: center;
