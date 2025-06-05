@@ -3,7 +3,7 @@
     Layout = "_Layout";
 }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script src="~/lib/canvasjs/canvasjs.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $("#searchTableRecord").on("keyup", function () {
@@ -47,19 +47,21 @@
                     t_rparas = parseFloat(t_rparas).toFixed(2);
                     $('#observation_panel tbody').append('  <tr id="' + v.id + '"><td align="center"> ' + sr + '</td> <td align="left">' + v.title + '</td> <td align="right">' + v.total_Paras + '</td> <td align="right">' + v.setteled_Para + '</td> <td align="right">' + v.unsetteled_Para + '</td> <td align="right">' + parseFloat(v.ratio).toFixed(2) + '%</td><td align="right" style="background-color: #ff968f;">' + v.r1 + '</td> <td align="right" style="background-color:#f9e10a6b;">' + v.r2 + '</td> <td align="right" style="background-color:#82f386;">' + v.r3 + '</td> </tr>');
 
-                    var canvasId = 'chart' + i;
-                    $('#chart-container').append('<div class="col-md-4 mb-4"><div class="card shadow-sm"><div class="card-body"><h6 class="text-center">' + v.title + '</h6><canvas id="' + canvasId + '"></canvas><p class="mt-2 text-center font-weight-bold">Ratio: ' + parseFloat(v.ratio).toFixed(2) + '%</p></div></div></div>');
-                    new Chart(document.getElementById(canvasId), {
-                        type: 'bar',
-                        data: {
-                            labels: ['Total Paras', 'Settled', 'Unsettled'],
-                            datasets: [{
-                                backgroundColor: ['#007bff', '#28a745', '#dc3545'],
-                                data: [v.total_Paras, v.setteled_Para, v.unsetteled_Para]
-                            }]
-                        },
-                        options: { legend: { display: false } }
+                    var chartId = 'chart' + i;
+                    $('#chart-container').append('<div class="col-md-4 mb-4"><div class="card shadow-sm"><div class="card-body"><h6 class="text-center">' + v.title + '</h6><div id="' + chartId + '" style="height:250px;"></div><p class="mt-2 text-center font-weight-bold">Ratio: ' + parseFloat(v.ratio).toFixed(2) + '%</p></div></div></div>');
+                    var chart = new CanvasJS.Chart(chartId, {
+                        animationEnabled: true,
+                        axisY: { title: 'Paras' },
+                        data: [{
+                            type: 'column',
+                            dataPoints: [
+                                { label: 'Total Paras', y: parseInt(v.total_Paras) },
+                                { label: 'Settled', y: parseInt(v.setteled_Para) },
+                                { label: 'Unsettled', y: parseInt(v.unsetteled_Para) }
+                            ]
+                        }]
                     });
+                    chart.render();
                     sr++;
                 });
 
