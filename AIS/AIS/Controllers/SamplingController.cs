@@ -59,6 +59,25 @@ namespace AIS.Controllers
                     return View();
                 }
             }
+
+        public IActionResult add_report()
+            {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                {
+                return RedirectToAction("Index", "Login");
+                }
+            else
+                {
+                if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
+                    {
+                    return RedirectToAction("Index", "PageNotFound");
+                    }
+                else
+                    return View();
+                }
+            }
         public IActionResult biomet()
             {
             ViewData["TopMenu"] = tm.GetTopMenus();

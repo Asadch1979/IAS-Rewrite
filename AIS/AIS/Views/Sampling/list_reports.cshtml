@@ -81,8 +81,9 @@
 <link rel="stylesheet" href="~/css/sampling.css" />
 <div class="container-fluid mt-4">
     <div class="card card-sample shadow-sm">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between align-items-center">
             <h4 class="mb-0">List of Exception Reports</h4>
+            <a class="btn btn-sm btn-primary" href="@Url.Action("add_report","Sampling")">Add Report</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">

@@ -1,0 +1,25 @@
+@{
+    ViewData["Title"] = "Add Exception Report";
+    Layout = "_Layout";
+}
+<link rel="stylesheet" href="~/css/sampling.css" />
+<div class="container-fluid mt-4">
+    <div class="card card-sample shadow-sm">
+        <div class="card-header">
+            <h4 class="mb-0">Add Exception Report</h4>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="mb-3">
+                    <label class="form-label">Report Name List</label>
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Things to be checked</label>
+                    <textarea class="form-control" rows="4"></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
