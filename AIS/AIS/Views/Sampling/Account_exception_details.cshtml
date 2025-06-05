@@ -20,12 +20,12 @@
         $("#wait").show();
         destroyDatatable('account_exception_report');
         $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/get_exception_account_report            
+            url: g_asiBaseURL + "/ApiCalls/get_exception_account_report",
             type: "POST",
-            Cache: false,
+            cache: false,
             data:{ENG_ID: g_engId , R_IND : g_indID, RPT_ID : g_reportID},
-            sucess: function (data) {
-                if(data.lenght > 0) {
+            success: function (data) {
+                if(data.length > 0) {
                     populateTable(data);
                 }
             },
@@ -34,10 +34,11 @@
                 $("#wait").hide();
             },
         });
+    }
     function populateTable(data) {
         $('#wait').show();
-        var TableBody = $("account_exception_report tbody");
-        tablebody.empty();
+        var TableBody = $("#account_exception_report tbody");
+        TableBody.empty();
 
         $.each(data, function(index, item){
             var row = `<tr>
@@ -58,7 +59,7 @@
             <a href="./account_transaction?engId=${g_engId}&acNo=${item.accounT_NO}" class="btn btn-success btn-sm">Transactions</a>
         </td>
     </tr>`;
-            tableBody.append(row);
+            TableBody.append(row);
           });
         initializeDataTable('account_exception_report');
         $('#wait').hide();
@@ -78,7 +79,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table id="biomet_sample_list" class="table table-hover table-bordered table-striped">
+                <table id="account_exception_report" class="table table-hover table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>Sr No</th>

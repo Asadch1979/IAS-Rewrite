@@ -50,16 +50,7 @@
                                             <td class="col-md-1 text-center">@sDate.Split(" ")[0]</td>
                                             <td class="col-md-1 text-center">@eDate.Split(" ")[0]</td>
                                             <td class="col-md-1 text-center">
-                                                @{
-                                                    if (item.STATUS_ID == 6)
-                                                    {
-                                                        <span class="badge badge-success rounded-pill d-inline">@item.ENG_STATUS</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="badge badge-danger rounded-pill d-inline">@item.ENG_STATUS</span>
-                                                    }
-                                                }
+                                                <span class="text-danger">@item.ENG_STATUS</span>
                                             </td>
                                             <td class="text-hover text-danger text-center">
                                                 @{

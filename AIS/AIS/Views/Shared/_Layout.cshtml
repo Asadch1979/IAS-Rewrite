@@ -54,7 +54,7 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light fw-bold" style="background: linear-gradient(45deg, #d8f3dc, #e9ecef);">
-            <a class="navbar-brand" href="#"><img height="50" src="~/Images/ztbllogo.png" alt="Logo"></a>
+            <a class="navbar-brand ms-1" href="#"><img height="50" src="~/Images/ztbllogo.png" alt="Logo"></a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navBarTopMenu" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -149,18 +149,16 @@
                     <!-- ms-auto aligns items to the right -->
                     <li class="nav-item active dropdown">
                         <a class="nav-link" href="#" id="navImg" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <small><b>Welcome:</b></small>
+                            <small class="fw-normal">Welcome:</small>
                             @if (ViewData["TopMenuPages"] != null)
                                 {
                                 foreach (var itemPage in (dynamic)(ViewData["TopMenuPages"]))
                                     {
                                     if (itemPage.Menu_Id == 1020304050)
                                         {
-                                        <span id="avatarEmpName">
-                                            <small>
-                                                <b>
-                                                    @itemPage.Name (@itemPage.PPNO)
-                                                </b>
+                                        <span id="avatarEmpName" class="fw-normal">
+                                            <small class="fw-normal">
+                                                @itemPage.Name (@itemPage.PPNO)
                                             </small>
                                             <img class="rounded-circle" height="18" src="~/Images/profile.png" />
                                             <br /><small style="display:block; line-height:11px;">@itemPage.User_Entity_Name</small>

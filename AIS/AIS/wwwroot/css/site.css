@@ -170,3 +170,9 @@ table.dataTable thead th {
     background-color: #4df13dbd;
     color: #000;
 }
+
+/* Top navigation text color */
+.navbar-light .navbar-nav .nav-link {
+    color: red !important;
+}
+
