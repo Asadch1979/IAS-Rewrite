@@ -608,7 +608,7 @@
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
                 <h5 class="modal-title">Auditor Comments</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -625,7 +625,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button onclick="finalCommentsButtonSave();" id="finalCommentsButtonSave" type="button" class="btn btn-danger">Submit</button>
             </div>
         </div>
@@ -637,7 +637,7 @@
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
                 <h5 class="modal-title">Observation</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -763,9 +763,9 @@
             <div class="modal-footer">
                 <button id="dsa_audit_obs_button" onclick="dsaObservationDetails(g_obsId);" type="button" class="btn btn-warning">Create DSA</button>
                 <button id="update_audit_obs_button" onclick="updateObservationDetails(g_obsId);" type="button" class="btn btn-primary">Update Para Details</button>
-                <button id="un_settle_audit_obs_button" onclick="updateObservationStatus(g_obsId,8);" type="button" data-dismiss="modal" class="btn btn-danger">Add to Final Report</button>
-                <button id="settle_audit_obs_button" onclick="updateObservationStatus(g_obsId, 9);" type="button" data-dismiss="modal" class="btn btn-success">Settle</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="un_settle_audit_obs_button" onclick="updateObservationStatus(g_obsId,8);" type="button" data-bs-dismiss="modal" class="btn btn-danger">Add to Final Report</button>
+                <button id="settle_audit_obs_button" onclick="updateObservationStatus(g_obsId, 9);" type="button" data-bs-dismiss="modal" class="btn btn-success">Settle</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -777,7 +777,7 @@
         <div class="modal-content">
             <div class="modal-header bg-success text-white">
                 <h5 class="modal-title">Creation of DSA</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -824,7 +824,7 @@
             </div>
             <div class="modal-footer">
                 <button onclick="submitObservationToAuditeeAfterDSAIssuance();" type="button" class="btn btn-danger">Issue DSA to selected Responsibles</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

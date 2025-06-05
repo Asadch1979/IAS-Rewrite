@@ -164,3 +164,9 @@ body {
         transform: rotate(360deg);
     }
 }
+
+/* Ensure table headers are visible */
+table.dataTable thead th {
+    background-color: #f8f9fa;
+    color: #000;
+}

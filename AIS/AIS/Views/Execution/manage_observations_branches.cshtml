@@ -546,7 +546,7 @@
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
                 <h5 class="modal-title">Auditor Comments</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -559,7 +559,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button onclick="finalCommentsButtonSave();" id="finalCommentsButtonSave" type="button" class="btn btn-danger">Submit</button>
             </div>
         </div>
@@ -571,7 +571,7 @@
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
                 <h5 class="modal-title">Observation</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -664,9 +664,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="dropButton_memoReply" onclick="dropObservation(g_obsId,7,g_riskId);" type="button" data-dismiss="modal" class="btn btn-danger d-none">Drop Observation</button>
-                <button id="submitAuditeeButton_memoReply" onclick="submitObservationToAuditee(g_obsId, 2, g_riskId);" type="button" data-dismiss="modal" class="btn btn-danger d-none">Submit to Auditee</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="dropButton_memoReply" onclick="dropObservation(g_obsId,7,g_riskId);" type="button" data-bs-dismiss="modal" class="btn btn-danger d-none">Drop Observation</button>
+                <button id="submitAuditeeButton_memoReply" onclick="submitObservationToAuditee(g_obsId, 2, g_riskId);" type="button" data-bs-dismiss="modal" class="btn btn-danger d-none">Submit to Auditee</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -677,7 +677,7 @@
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
                 <h5 class="modal-title">Update Observation</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -763,9 +763,9 @@
             </div>
             <div class="modal-footer">
 
-                <button id="updateMemoContent_submit" onclick="finalUpdateMemoContent(g_obsId);" type="button" data-dismiss="modal" class="btn btn-danger">Update Memo Text</button>
+                <button id="updateMemoContent_submit" onclick="finalUpdateMemoContent(g_obsId);" type="button" data-bs-dismiss="modal" class="btn btn-danger">Update Memo Text</button>
 
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -776,7 +776,7 @@
         <div class="modal-content">
             <div class="modal-header bg-success text-white">
                 <h5 class="modal-title">Creation of DSA</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -823,7 +823,7 @@
             </div>
             <div class="modal-footer">
                 <button onclick="submitObservationToAuditeeAfterDSAIssuance();" type="button" class="btn btn-danger">Issue DSA to selected Responsibles</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
