@@ -19,6 +19,7 @@
     });
 
     function loadAccountDocuments() {
+        $('#wait').show();
         destroyDatatable('account_document_list');
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/get_biomet_account_documents_sampling_details",
@@ -31,11 +32,13 @@
                     populateTable(data);
                 }
             },
-            dataType:"json"
+            dataType:"json",
+            complete: function(){
+                $('#wait').hide();
+            }
         });
     }
     function populateTable(data) {
-        $('#wait').show();
         var tableBody = $("#account_document_list tbody");
         tableBody.empty();
         $.each(data, function (index, item) {
@@ -52,7 +55,6 @@
             tableBody.append(row);
         });
         initializeDataTable('account_document_list');
-        $('#wait').hide();
     }
     function viewDocument(docImage) {
         let win = window.open("", "_blank");
