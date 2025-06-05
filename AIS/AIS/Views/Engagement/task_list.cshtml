@@ -5,21 +5,25 @@
 <style type="text/css">
     .strike-out {
         text-decoration: line-through !important;
+    }
 
-    }</style>
-<div>
-    <div class="row" style="margin-top:20px;">
+    .task-table th,
+    .task-table td {
+        font-size: 0.875rem;
+        white-space: nowrap;
+    }
+</style>
+<div class="container mt-4">
+    <div class="row">
         <div class="col-md-12">
-            <h3 style="color: #45c545;">Task List/Job Assignment</h3>
+            <h3 class="text-success">Task List/Job Assignment</h3>
+            <p class="mb-1"><strong>Job Assigned To:</strong> @ViewData["EMP_NAME"]</p>
+            <p class="mb-3"><strong>PP. No.</strong> @ViewData["PPNumber"]</p>
         </div>
-
-        <div class="col-md-12 mt-3">
-            <h6>Job Assigned To: @ViewData["EMP_NAME"] </h6>
-            <h6>PP. No. @ViewData["PPNumber"] </h6>
-        </div>
-
-
-        <table class="table table-hover table-bordered table-hover mt-3 table-striped">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-body p-0 table-responsive">
+        <table class="table table-sm table-hover table-bordered table-striped mb-0 task-table">
             <thead style="background-color: rgb(181 229 117 / 93%) !important; ">
                 <tr>
                     <th class="font-weight-bold text-center" width="5%">Sr. No</th>
@@ -183,5 +187,8 @@
                 }
             </tbody>
         </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
