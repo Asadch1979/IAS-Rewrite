@@ -51,13 +51,16 @@
                     $('#chart-container').append('<div class="col-md-4 mb-4"><div class="card shadow-sm"><div class="card-body"><h6 class="text-center">' + v.title + '</h6><div id="' + chartId + '" style="height:250px;"></div><p class="mt-2 text-center font-weight-bold">Ratio: ' + parseFloat(v.ratio).toFixed(2) + '%</p></div></div></div>');
                     var chart = new CanvasJS.Chart(chartId, {
                         animationEnabled: true,
-                        axisY: { title: 'Paras' },
+                        legend: {
+                            verticalAlign: "center",
+                            horizontalAlign: "left"
+                        },
                         data: [{
-                            type: 'column',
+                            type: 'doughnut',
+                            indexLabel: '{label} - {y}',
                             dataPoints: [
-                                { label: 'Total Paras', y: parseInt(v.total_Paras) },
-                                { label: 'Settled', y: parseInt(v.setteled_Para) },
-                                { label: 'Unsettled', y: parseInt(v.unsetteled_Para) }
+                                { label: 'Settled', y: parseInt(v.setteled_Para), color: '#82f386' },
+                                { label: 'Unsettled', y: parseInt(v.unsetteled_Para), color: '#ff968f' }
                             ]
                         }]
                     });
