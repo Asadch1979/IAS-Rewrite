@@ -65,12 +65,10 @@
     }
 
     function saveReport() {
-        var ind = g_reportId === 0 ? 'A' : 'U';
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/add_exception_account_report",
             type: "POST",
             data: {
-                'IND': ind,
                 'REPORT_ID': g_reportId,
                 'REPORT_TITLE': $('#reportName').val(),
                 'DESCRIPTION': $('#thingsCheck').val(),
