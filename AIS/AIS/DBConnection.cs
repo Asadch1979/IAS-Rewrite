@@ -1,5 +1,6 @@
 
-        public string AddExceptionAccountReport(int REPORT_ID = 0, string REPORT_TITLE = "", string DESCRIPTION = "", string TYPE = "")
+        public string AddExceptionAccountReport(string IND = "A", int REPORT_ID = 0, string REPORT_TITLE = "", string DESCRIPTION = "", string TYPE = "")
+
             {
             string resp = "";
             sessionHandler = new SessionHandler();
@@ -14,6 +15,7 @@
                 cmd.CommandText = "pkg_sm.P_Add_new_exp_report";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
+                cmd.Parameters.Add("IND", OracleDbType.Varchar2).Value = IND;
                 cmd.Parameters.Add("REPORT_ID", OracleDbType.Int32).Value = REPORT_ID;
                 cmd.Parameters.Add("REPORT_TITLE", OracleDbType.Varchar2).Value = REPORT_TITLE;
                 cmd.Parameters.Add("DESCRIPTION", OracleDbType.Varchar2).Value = DESCRIPTION;
