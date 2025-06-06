@@ -6,6 +6,7 @@
 <script type="text/javascript">
     var g_engID = 0;
     var g_reportId = 0;
+    var g_action = "A";
     $(document).ready(function () {
         var url_string = window.location;
         var url = new URL(url_string);
@@ -48,6 +49,7 @@
 
     function openAddModal() {
         g_reportId = 0;
+        g_action = 'A';
         $('#modalTitle').text('Add Exception Report');
         $('#reportName').val('');
         $('#thingsCheck').val('');
@@ -57,6 +59,7 @@
 
     function openUpdateModal(id, title, desc, type) {
         g_reportId = id;
+        g_action = 'U';
         $('#modalTitle').text('Update Exception Report');
         $('#reportName').val(title);
         $('#thingsCheck').val(desc);
@@ -69,6 +72,7 @@
             url: g_asiBaseURL + "/ApiCalls/add_exception_account_report",
             type: "POST",
             data: {
+                'IND': g_action,
                 'REPORT_ID': g_reportId,
                 'REPORT_TITLE': $('#reportName').val(),
                 'DESCRIPTION': $('#thingsCheck').val(),
