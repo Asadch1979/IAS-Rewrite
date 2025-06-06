@@ -31,3 +31,5 @@
             con.Dispose();
             return resp;
             }
+        public string AddExceptionAccountReport(string IND = "A", int REPORT_ID = 0, string REPORT_TITLE = "", string DESCRIPTION = "", string TYPE = "")
+                cmd.Parameters.Add("IND", OracleDbType.Varchar2).Value = IND;
