@@ -8,7 +8,8 @@ namespace AIS.Models
         public string OPENING_BALANCE { get; set; }
         public string PARA_ADDED { get; set; }
         public string TOTAL { get; set; }
-        public string SETTLED { get; set; }
+        public string SETTLED_COM { get; set; }
+        public string SETTLED_AUDIT { get; set; }
         public string OUTSTANDING { get; set; }
         public string R1 { get; set; }
         public string R2 { get; set; }
