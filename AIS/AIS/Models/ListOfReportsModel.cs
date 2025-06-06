@@ -7,6 +7,7 @@ namespace AIS.Models
         public string DISCRIPTION { get; set; }
         public string REPORT_INDICATOR { get; set; }
         public string LOAN_STATUS { get; set; }
+        public string REPORT_TYPE { get; set; }
 
 
 
