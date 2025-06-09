@@ -8,6 +8,7 @@
 
     var g_memoStatusReversalIds = [];
     var g_engId = 0;
+    var g_obsIndex = 0;
 
     function getrelation(parentEntityId = 0, userEntityId = 0) {
 
@@ -78,39 +79,41 @@
 
     function getEngagementDetails() {
         $('#engsListPanel tbody').empty();
+        g_obsIndex = 0;
         $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_report",
+            url: g_asiBaseURL + "/ApiCalls/get_engagements_details_for_status_reversal",
             type: "POST",
             data: {
                 'ENTITY_ID': $('#childposting option:selected').val()
             },
-
             cache: false,
-            success: function (data) {
-
-                $.each(data, function (i, v) {
-
-                    if (v.audiT_START_DATE != null)
-                        v.audiT_START_DATE = v.audiT_START_DATE.split(' ')[0];
-
-                    if (v.audiT_END_DATE != null)
-                        v.audiT_END_DATE = v.audiT_END_DATE.split(' ')[0];
-
-                    if (v.oP_START_DATE != null)
-                        v.oP_START_DATE = v.oP_START_DATE.split(' ')[0];
-
-                    if (v.oP_END_DATE != null)
-                        v.oP_END_DATE = v.oP_END_DATE.split(' ')[0];
-
-                    i = i + 1;
-
-                    $('#engsListPanel').append('<tr><td>' + i + '</td><td>' + v.enG_ID + '</td><td>' + v.teaM_NAME + '</td><td>' + v.audiT_START_DATE + '</td><td>' + v.audiT_END_DATE + '</td><td>' + v.oP_START_DATE + '</td><td>' + v.oP_END_DATE + '</td><td>' + v.status + '</td><td class="text-center"><a class="text-primary text-center" onclick="event.preventDefault();getObservationsForStatusReversal(' + v.enG_ID + ');" href="#">Status Reversal</a></td><td><a href="#" onclick="getObservationsForAssignmentReversal(' + v.enG_ID + ');" class="text-danger text-center">Assignment Reversal</a></td><td class="text-center"><a class="text-primary text-center" onclick="getObservationsForReNumbering(' + v.enG_ID + ');" href="#">Change Observation Number</a></td></tr>');
-                })
-
+            success: function (engs) {
+                $.each(engs, function (i, e) {
+                    loadObservationDetails(e.enG_ID);
+                });
             },
             dataType: "json",
         });
 
+    }
+
+    function loadObservationDetails(engId) {
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_status_reversal",
+            type: "POST",
+            data: {
+                'ENG_ID': engId
+            },
+            cache: false,
+            success: function (data) {
+                $.each(data, function (i, v) {
+                    if (v.MEMO_DATE != null)
+                        v.MEMO_DATE = v.MEMO_DATE.split(' ')[0];
+                    $('#engsListPanel tbody').append('<tr><td class="text-center">' + (++g_obsIndex) + '</td><td>' + v.MEMO_NO + '</td><td>' + v.GIST + '</td><td>' + v.MEMO_DATE + '</td><td>' + v.ASSIGNED_TO + '</td><td>' + v.STATUS + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.ID + ');">View Para</a></td></tr>');
+                });
+            },
+            dataType: "json",
+        });
     }
 
     function getObservationsForStatusReversal(engId) {
@@ -206,6 +209,25 @@
         $('#memoNumberChangeModal').modal('show');
     }
 
+    function viewPara(id) {
+        $('#paraViewTable tbody').empty();
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_report",
+            type: "POST",
+            data: {
+                'ENG_ID': id
+            },
+            cache: false,
+            success: function (data) {
+                $.each(data, function (i, v) {
+                    $('#paraViewTable tbody').append('<tr><td>' + v.MEMO_NO + '</td><td>' + v.PARA_NO + '</td><td>' + v.ANNEX + '</td><td>' + v.PROCESS + '</td><td>' + v.SUB_PROCESS + '</td><td>' + v.CHECK_LIST + '</td><td>' + v.OBS_GIST + '</td><td>' + v.PARA_TEXT + '</td><td>' + v.AMOUNT_INV + '</td><td>' + v.NO_INSTANCES + '</td><td>' + v.PPNO + '</td><td>' + v.RESP_ROLE + '</td><td>' + v.RESP_AMOUNT + '</td></tr>');
+                });
+                $('#paraViewModal').modal('show');
+            },
+            dataType: "json",
+        });
+    }
+
 </script>
 <div class="row col-md-12 mt-3">
     <h3 style=" display:block;color: #45c545;">Observation Reversal / Re-Numbering</h3>
@@ -264,14 +286,12 @@
         <thead>
             <tr style="background-color: #19875478 !important; ">
                 <th class="col-md-auto">Sr No.</th>
-                <th class="col-md-auto">Engagement ID</th>
-                <th class="col-md-auto">Team Name</th>
-                <th class="col-md-auto">Audit Start Date</th>
-                <th class="col-md-auto">Audit End Date</th>
-                <th class="col-md-auto">Operational Start Date</th>
-                <th class="col-md-auto">Operational End Date</th>
+                <th class="col-md-auto">Memo No</th>
+                <th class="col-md-auto">Gist</th>
+                <th class="col-md-auto">Memo Date</th>
+                <th class="col-md-auto">Assigned To</th>
                 <th class="col-md-auto">Status</th>
-                <th colspan="3" class="col-md-auto text-center">Action</th>
+                <th class="col-md-auto text-center">Action</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -317,6 +337,43 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button onclick="updateMemoStatuses();" type="button" data-bs-dismiss="modal" class="btn btn-success">Update Status</button>
 
+</div>
+</div>
+</div>
+</div>
+
+<div id="paraViewModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Para Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row col-md-12 mt-3">
+                    <table id="paraViewTable" class="table table-bordered table mb-0 mt-3 bg-white table-hover table-striped">
+                        <thead>
+                            <tr style="background-color: #19875478 !important;">
+                                <th class="col-md-auto">Memo No</th>
+                                <th class="col-md-auto">Para No</th>
+                                <th class="col-md-auto">Annex</th>
+                                <th class="col-md-auto">Process</th>
+                                <th class="col-md-auto">Sub Process</th>
+                                <th class="col-md-auto">Check List</th>
+                                <th class="col-md-auto">Observation Gist</th>
+                                <th class="col-md-auto">Para Text</th>
+                                <th class="col-md-auto">Amount Inv</th>
+                                <th class="col-md-auto">No Instances</th>
+                                <th class="col-md-auto">PPNO</th>
+                                <th class="col-md-auto">Resp Role</th>
+                                <th class="col-md-auto">Resp Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
