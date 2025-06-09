@@ -14399,6 +14399,7 @@ Dear {userFullName},
                     EngagementObservationsForStatusReversalModel os = new EngagementObservationsForStatusReversalModel();
                     os.ID = rdr["ID"].ToString();
                     os.MEMO_NO = rdr["MEMO_NO"].ToString();
+                    os.GIST = rdr["GIST"].ToString();
                     os.MEMO_DATE = rdr["MEMO_DATE"].ToString();
                     os.HEADING = rdr["HEADINGS"].ToString();
                     os.ASSIGNED_TO = rdr["ASSIGNED_TO"].ToString();
@@ -14410,6 +14411,40 @@ Dear {userFullName},
             return resp;
             }
 
+        public List<FADAuditParasReviewModel> GetObservationDetailsForReport(int ENG_ID = 0)
+            {
+            List<FADAuditParasReviewModel> resp = new List<FADAuditParasReviewModel>();
+            var con = this.DatabaseConnection(); con.Open();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_ad.p_get_audit_observtion";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ENGID", OracleDbType.Int32).Value = ENG_ID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    FADAuditParasReviewModel os = new FADAuditParasReviewModel();
+                    os.MEMO_NO = rdr["MEMO"].ToString();
+                    os.PARA_NO = rdr["PARA_NO"].ToString();
+                    os.ANNEX = rdr["ANNEX"].ToString();
+                    os.PROCESS = rdr["HEADINGS"].ToString();
+                    os.SUB_PROCESS = rdr["ASSIGNED_TO"].ToString();
+                    os.CHECK_LIST = rdr["CHECK_LIST"].ToString();
+                    os.OBS_GIST = rdr["GIST"].ToString();
+                    os.PARA_TEXT = rdr["PARA_TEXT"].ToString();
+                    os.AMOUNT_INV = rdr["AMOUNT_INV"].ToString();
+                    os.NO_INSTANCES = rdr["NO_INSTANCES"].ToString();
+                    os.PPNO = rdr["PPNO"].ToString();
+                    os.RESP_ROLE = rdr["RESP_ROLE"].ToString();
+                    os.RESP_AMOUNT = rdr["RESP_AMOUNT"].ToString();
+                    resp.Add(os);
+                    }
+                }
+            con.Dispose();
+            return resp;
+            }
         public List<ObservationStatusReversalModel> GetObservationReversalStatus()
             {
 
