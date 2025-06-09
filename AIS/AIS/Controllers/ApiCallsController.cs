@@ -2719,6 +2719,12 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
+        public AuditReportReviewModel get_audit_report_for_review(int ENG_ID)
+            {
+            return dBConnection.GetAuditReportForReview(ENG_ID);
+            }
+
+        [HttpPost]
         public string create_engagement_sample_data(int ENG_ID)
             {
             return "{\"Status\":true,\"Message\":\"" + dBConnection.CreateSampleDataAfterEngagementApproval(ENG_ID) + "\"}";
