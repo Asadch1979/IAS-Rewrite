@@ -190,3 +190,8 @@ table.dataTable thead th {
     background-color: #e9ecef;
 }
 
+/* Color for top menu buttons */
+.navbar .btn-link {
+    --bs-btn-color: #3a5681;
+}
+
