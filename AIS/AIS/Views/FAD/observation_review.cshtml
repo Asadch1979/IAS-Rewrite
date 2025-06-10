@@ -110,12 +110,13 @@
     }
 
     function loadObservationDetails(engId) {
+        g_engId = parseInt(engId);
         $('#obsListPanel tbody').empty();
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_status_reversal",
             type: "POST",
             data: {
-                'ENG_ID': engId
+                'ENG_ID': g_engId
             },
             cache: false,
             success: function (data) {
@@ -227,7 +228,7 @@
             url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_report",
             type: "POST",
             data: {
-                'OBS_ID': id
+                'ENG_ID': id
             },
             cache: false,
             success: function (data) {
@@ -240,7 +241,7 @@
                     rows += '<tr><th>Sub Process</th><td>' + escapeHtml(v.sUB_PROCESS) + '</td></tr>';
                     rows += '<tr><th>Check List</th><td>' + escapeHtml(v.cHECK_LIST) + '</td></tr>';
                     rows += '<tr><th>Observation Gist</th><td>' + escapeHtml(v.oBS_GIST) + '</td></tr>';
-                    rows += '<tr><th>Para Text</th><td>' + escapeHtml(v.pARA_TEXT) + '</td></tr>';
+                    rows += '<tr><th>Para Text</th><td>' + v.pARA_TEXT + '</td></tr>';
                     rows += '<tr><th>Amount Inv</th><td>' + escapeHtml(v.aMOUNT_INV) + '</td></tr>';
                     rows += '<tr><th>No Instances</th><td>' + escapeHtml(v.nO_INSTANCES) + '</td></tr>';
                     rows += '<tr><th>PPNO</th><td>' + escapeHtml(v.pPNO) + '</td></tr>';
