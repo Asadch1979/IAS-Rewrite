@@ -10,6 +10,10 @@
     var g_engId = 0;
     var g_obsIndex = 0;
 
+    function escapeHtml(text) {
+        return $('<div>').text(text).html();
+    }
+
     function getrelation(parentEntityId = 0, userEntityId = 0) {
 
 
@@ -133,10 +137,10 @@
             success: function (data) {
                 $.each(data, function (i, v) {
 
-                    if (v.memO_DATE != null)
-                        v.memO_DATE = v.memO_DATE.split(' ')[0];
+                    if (v.MEMO_DATE != null)
+                        v.MEMO_DATE = v.MEMO_DATE.split(' ')[0];
 
-                    $('#engObsListPanel').append('<tr><td class="text-center">' + ++i + '</td><td>' + v.memO_NO + '</td><td>' + v.gist + '</td><td>' + v.memO_DATE + '</td><td>' + v.assigneD_TO + '</td><td>' + v.status + '</td><td class="text-center"><input class="rev_chk_obs" id="' + v.id + '"  type="checkbox" /></td></tr>');
+                    $('#engObsListPanel').append('<tr><td class="text-center">' + ++i + '</td><td>' + escapeHtml(v.MEMO_NO) + '</td><td>' + escapeHtml(v.GIST) + '</td><td>' + escapeHtml(v.MEMO_DATE) + '</td><td>' + escapeHtml(v.ASSIGNED_TO) + '</td><td>' + escapeHtml(v.STATUS) + '</td><td class="text-center"><input class="rev_chk_obs" id="' + v.ID + '"  type="checkbox" /></td></tr>');
                 })
             },
             dataType: "json",
@@ -158,12 +162,12 @@
             success: function (data) {
                 $.each(data, function (i, v) {
 
-                    if (v.memO_DATE != null)
-                        v.memO_DATE = v.memO_DATE.split(' ')[0];
+                    if (v.MEMO_DATE != null)
+                        v.MEMO_DATE = v.MEMO_DATE.split(' ')[0];
 
                     i = i + 1;
 
-                    $('#engObsListPanel_changeNo').append('<tr><td class="text-center">' + i + '</td><td>' + v.memO_NO + '</td><td>' + v.gist + '</td><td>' + v.memO_DATE + '</td><td>' + v.assigneD_TO + '</td><td>' + v.status + '</td><td class="text-center"><input name="memonoradio" id="rev_checkbox_"+' + v.id + ' onclick="event.preventDefault();memoIdsToNumberChange(this,' + v.id + ');" type="radio" /></td></tr>');
+                    $('#engObsListPanel_changeNo').append('<tr><td class="text-center">' + i + '</td><td>' + escapeHtml(v.MEMO_NO) + '</td><td>' + escapeHtml(v.GIST) + '</td><td>' + escapeHtml(v.MEMO_DATE) + '</td><td>' + escapeHtml(v.ASSIGNED_TO) + '</td><td>' + escapeHtml(v.STATUS) + '</td><td class="text-center"><input name="memonoradio" id="rev_checkbox_"+' + v.ID + ' onclick="event.preventDefault();memoIdsToNumberChange(this,' + v.ID + ');" type="radio" /></td></tr>');
                 })
             },
             dataType: "json",
@@ -220,7 +224,7 @@
             cache: false,
             success: function (data) {
                 $.each(data, function (i, v) {
-                    $('#paraViewTable tbody').append('<tr><td>' + v.MEMO_NO + '</td><td>' + v.PARA_NO + '</td><td>' + v.ANNEX + '</td><td>' + v.PROCESS + '</td><td>' + v.SUB_PROCESS + '</td><td>' + v.CHECK_LIST + '</td><td>' + v.OBS_GIST + '</td><td>' + v.PARA_TEXT + '</td><td>' + v.AMOUNT_INV + '</td><td>' + v.NO_INSTANCES + '</td><td>' + v.PPNO + '</td><td>' + v.RESP_ROLE + '</td><td>' + v.RESP_AMOUNT + '</td></tr>');
+                    $('#paraViewTable tbody').append('<tr><td>' + escapeHtml(v.MEMO_NO) + '</td><td>' + escapeHtml(v.PARA_NO) + '</td><td>' + escapeHtml(v.ANNEX) + '</td><td>' + escapeHtml(v.PROCESS) + '</td><td>' + escapeHtml(v.SUB_PROCESS) + '</td><td>' + escapeHtml(v.CHECK_LIST) + '</td><td>' + escapeHtml(v.OBS_GIST) + '</td><td>' + escapeHtml(v.PARA_TEXT) + '</td><td>' + escapeHtml(v.AMOUNT_INV) + '</td><td>' + escapeHtml(v.NO_INSTANCES) + '</td><td>' + escapeHtml(v.PPNO) + '</td><td>' + escapeHtml(v.RESP_ROLE) + '</td><td>' + escapeHtml(v.RESP_AMOUNT) + '</td></tr>');
                 });
                 $('#paraViewModal').modal('show');
             },
