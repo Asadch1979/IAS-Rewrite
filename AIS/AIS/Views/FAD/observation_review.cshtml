@@ -8,6 +8,7 @@
 
     var g_memoStatusReversalIds = [];
     var g_engId = 0;
+    var g_obsid = 0;
     var g_obsIndex = 0;
 
     function escapeHtml(text) {
@@ -48,7 +49,6 @@
             },
             dataType: "json",
         });
-
 
 
     }
@@ -121,133 +121,45 @@
             cache: false,
             success: function (data) {
                 $.each(data, function (i, v) {
-                    if (v.mEMO_DATE != null)
-                        v.mEMO_DATE = v.mEMO_DATE.split(' ')[0];
-                    $('#obsListPanel tbody').append('<tr><td class="text-center">' + (i + 1) + '</td><td>' + v.mEMO_NO + '</td><td>' + v.gIST + '</td><td>' + v.mEMO_DATE + '</td><td>' + v.aSSIGNED_TO + '</td><td>' + v.sTATUS + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.iD + ');">View Para</a></td></tr>');
-                });
+                   if (v.memO_DATE != null)
+                        v.memO_DATE = v.memO_DATE.split(' ')[0];
+                     $('#obsListPanel tbody').append('<tr><td class="text-center">' + (i + 1) + '</td><td>' + v.memO_NO + '</td><td>' + v.gist + '</td><td>' + v.memO_DATE + '</td><td>' + v.assigneD_TO + '</td><td>' + v.status + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.obsid + ');">View Para</a></td></tr>');
+                 });
             },
             dataType: "json",
         });
     }
 
-    function getObservationsForStatusReversal(engId) {
-        g_engId = engId;
-
-        $('#statusReversalModal').modal('show');
-        $('#engObsListPanel tbody').empty();
-
-        $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_status_reversal",
-            type: "POST",
-            data: {
-                'ENG_ID': engId
-            },
-
-            cache: false,
-            success: function (data) {
-                $.each(data, function (i, v) {
-
-                    if (v.mEMO_DATE != null)
-                        v.mEMO_DATE = v.mEMO_DATE.split(' ')[0];
-                    $('#engObsListPanel tbody').append('<tr><td class="text-center">' + (++g_obsIndex) + '</td><td>' + v.mEMO_NO + '</td><td>' + v.gIST + '</td><td>' + v.mEMO_DATE + '</td><td>' + v.aSSIGNED_TO + '</td><td>' + v.sTATUS + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.iD + ');">View Para</a></td></tr>');
-                })
-            },
-            dataType: "json",
-        });
-    }
-    function getObservationsForReNumbering(engId) {
-
-        $('#numberChangeModal').modal('show');
-        $('#engObsListPanel_changeNo tbody').empty();
-
-        $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_status_reversal",
-            type: "POST",
-            data: {
-                'ENG_ID': engId
-            },
-
-            cache: false,
-            success: function (data) {
-                $.each(data, function (i, v) {
-
-                    if (v.mEMO_DATE != null)
-                        v.mEMO_DATE = v.mEMO_DATE.split(' ')[0];
-
-                    i = i + 1;
-
-                    $('#engObsListPanel_changeNo tbody').append('<tr><td class="text-center">' + (++g_obsIndex) + '</td><td>' + v.mEMO_NO + '</td><td>' + v.gIST + '</td><td>' + v.mEMO_DATE + '</td><td>' + v.aSSIGNED_TO + '</td><td>' + v.sTATUS + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.iD + ');">View Para</a></td></tr>');
-                })
-            },
-            dataType: "json",
-        });
-    }
-
-    function getObservationsForAssignmentReversal(engId) {
-
-        $('#assignmentReversalModal').modal('show');
-    }    
-
-    function updateMemoStatuses() {
-        $('#newStatusReversalModel').modal('show');
-    }
-
-    function updateNewStatusRequest() {
-        var obsIds = [];
-
-        $('.rev_chk_obs').each(function (i, v) {
-            if ($(v).is(':checked'))
-                obsIds.push($(v).attr('id'));
-        });
-
-        $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/update_observation_status_for_reversal",
-            type: "POST",
-            data: {
-                'OBS_IDS': obsIds,
-                'NEW_STATUS_ID': $('#newStatusReservalSelectionBox').val(),
-                'ENG_ID': g_engId
-            },
-
-            cache: false,
-            success: function (data) {
-                alert(data.Message);
-            },
-            dataType: "json",
-        });
-
-    }
-
-    function updateMemoNumber() {
-        $('#memoNumberChangeModal').modal('show');
-    }
+    
 
     function viewPara(id) {
+         g_obsId = parseInt(id);
         $('#paraViewTable tbody').empty();
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_report",
             type: "POST",
             data: {
-                'ENG_ID': id
+                'OBS_ID': id
             },
             cache: false,
             success: function (data) {
                 $.each(data, function (i, v) {
                     var rows = '';
-                    rows += '<tr><th>Memo No</th><td>' + escapeHtml(v.mEMO_NO) + '</td></tr>';
-                    rows += '<tr><th>Para No</th><td>' + escapeHtml(v.pARA_NO) + '</td></tr>';
-                    rows += '<tr><th>Annex</th><td>' + escapeHtml(v.aNNEX) + '</td></tr>';
-                    rows += '<tr><th>Process</th><td>' + escapeHtml(v.pROCESS) + '</td></tr>';
-                    rows += '<tr><th>Sub Process</th><td>' + escapeHtml(v.sUB_PROCESS) + '</td></tr>';
-                    rows += '<tr><th>Check List</th><td>' + escapeHtml(v.cHECK_LIST) + '</td></tr>';
-                    rows += '<tr><th>Observation Gist</th><td>' + escapeHtml(v.oBS_GIST) + '</td></tr>';
-                    rows += '<tr><th>Para Text</th><td>' + v.pARA_TEXT + '</td></tr>';
-                    rows += '<tr><th>Amount Inv</th><td>' + escapeHtml(v.aMOUNT_INV) + '</td></tr>';
+                   rows += '<tr><th>Memo No</th><td>' + escapeHtml(v.memO_NO) + '</td></tr>';
+                    rows += '<tr><th>Para No</th><td>' + escapeHtml(v.parA_NO) + '</td></tr>';
+                    rows += '<tr><th>Annex</th><td>' + escapeHtml(v.annex) + '</td></tr>';
+                    rows += '<tr><th>Process</th><td>' + escapeHtml(v.process) + '</td></tr>';
+                    rows += '<tr><th>Sub Process</th><td>' + escapeHtml(v.suB_PROCESS) + '</td></tr>';
+                    rows += '<tr><th>Check List</th><td>' + escapeHtml(v.checK_LIST) + '</td></tr>';
+                    rows += '<tr><th>Observation Gist</th><td>' + escapeHtml(v.obS_GIST) + '</td></tr>';
+                    rows += '<tr><th>Para Text</th><td>' + v.parA_TEXT + '</td></tr>';
+                    rows += '<tr><th>Amount Inv</th><td>' + escapeHtml(v.amounT_INV) + '</td></tr>';
                     rows += '<tr><th>No Instances</th><td>' + escapeHtml(v.nO_INSTANCES) + '</td></tr>';
-                    rows += '<tr><th>PPNO</th><td>' + escapeHtml(v.pPNO) + '</td></tr>';
-                    rows += '<tr><th>Resp Role</th><td>' + escapeHtml(v.rESP_ROLE) + '</td></tr>';
-                    rows += '<tr><th>Resp Amount</th><td>' + escapeHtml(v.rESP_AMOUNT) + '</td></tr>';
+                    rows += '<tr><th>PPNO</th><td>' + escapeHtml(v.ppno) + '</td></tr>';
+                    rows += '<tr><th>Resp Role</th><td>' + escapeHtml(v.resP_ROLE) + '</td></tr>';
+                    rows += '<tr><th>Resp Amount</th><td>' + escapeHtml(v.resP_AMOUNT) + '</td></tr>';
                     $('#paraViewTable tbody').append(rows);
+                       $('#paraViewTable tbody').append(rows);
                 });
                 $('#paraViewModal').modal('show');
             },
@@ -327,65 +239,6 @@
     </table>
 </div>
 
-<div class="row col-md-12 mt-3">
-    <table id="obsListPanel" class="table table-bordered table mb-0 mt-3 bg-white table-hover table-striped">
-        <thead>
-            <tr style="background-color: #19875478 !important; ">
-                <th class="col-md-auto">Sr No.</th>
-                <th class="col-md-auto">Memo No</th>
-                <th class="col-md-auto">Gist</th>
-                <th class="col-md-auto">Memo Date</th>
-                <th class="col-md-auto">Assigned To</th>
-                <th class="col-md-auto">Status</th>
-                <th class="col-md-auto text-center">Action</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
-
-<div id="statusReversalModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title">Observation Status Reversal</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row col-md-12">
-
-                    <div class="row col-md-12 mt-3">
-                        <table id="engObsListPanel" class="table table-bordered table mb-0 mt-3 bg-white table-hover table-striped">
-                            <thead>
-                                <tr style="background-color: #19875478 !important;">
-
-                                    <th class="col-md-auto">Sr No.</th>
-                                    <th class="col-md-auto">Memo No</th>
-                                    <th class="col-md-auto">Gist</th>
-                                    <th class="col-md-auto">Memo Date</th>
-                                    <th class="col-md-auto">Assigned To</th>
-                                    <th class="col-md-auto">Status</th>
-                                    <th class="col-md-auto"></th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-
-
-
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button onclick="updateMemoStatuses();" type="button" data-bs-dismiss="modal" class="btn btn-success">Update Status</button>
-
-</div>
-</div>
-</div>
-</div>
-
 <div id="paraViewModal" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -410,131 +263,3 @@
     </div>
 </div>
 
-<div id="numberChangeModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title">Observation Status Reversal</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row col-md-12">
-
-                    <div class="row col-md-12 mt-3">
-                        <table id="engObsListPanel_changeNo" class="table table-bordered table mb-0 mt-3 bg-white table-hover table-striped">
-                            <thead>
-                                <tr style="background-color: #19875478 !important;">
-
-                                    <th class="col-md-auto">Sr No.</th>
-                                    <th class="col-md-auto">Memo No</th>
-                                    <th class="col-md-auto">Gist</th>
-                                    <th class="col-md-auto">Memo Date</th>
-                                    <th class="col-md-auto">Assigned To</th>
-                                    <th class="col-md-auto">Status</th>
-                                    <th class="col-md-auto"></th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-
-
-
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button onclick="updateMemoNumber();" type="button" data-bs-dismiss="modal" class="btn btn-success">Update Memo Number</button>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="memoNumberChangeModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title">New Memo Number</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label>New Memo Number</label>
-                        <input class="form-control" id="memonumber_input" />
-                    </div>
-                </form>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button onclick="updateNewMemoNumber();" type="button" data-bs-dismiss="modal" class="btn btn-success">Update Memo Number</button>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="assignmentReversalModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title">Observation Assignment Reversal</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row col-md-12">
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button onclick="updateNewStatus();" type="button" data-bs-dismiss="modal" class="btn btn-success">Update Status</button>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div id="newStatusReversalModel" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title">Observation Assignment Reversal</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row col-md-12">
-                    <div class="col-md-4">
-                        <label>New Status</label>
-                    </div>
-                    <div class="col-md-8">
-                        <select class="form-control" id="newStatusReservalSelectionBox">
-                            <option value="0" id="0" selected>--Select New Status--</option>
-                            @{
-                                if (ViewData["statusList"] != null)
-                                {
-                                    foreach (var item in (dynamic)(ViewData["statusList"]))
-                                    {
-                                                                <option value="@item.STATUS_ID" id="@item.STATUS_ID">@item.STATUS_NAME</option>
-
-                                    }
-                                }
-                            }
-
-                        </select>
-                    </div>
-
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button onclick="updateNewStatusRequest();" type="button" data-bs-dismiss="modal" class="btn btn-success">Save Changes</button>
-
-            </div>
-        </div>
-    </div>
-</div>

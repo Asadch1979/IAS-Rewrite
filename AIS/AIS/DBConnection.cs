@@ -14411,7 +14411,7 @@ Dear {userFullName},
             return resp;
             }
 
-        public List<FADAuditParasReviewModel> GetObservationDetailsForReport(int ENG_ID = 0)
+        public List<FADAuditParasReviewModel> GetObservationDetailsForReport(int OBS_ID = 0)
             {
             List<FADAuditParasReviewModel> resp = new List<FADAuditParasReviewModel>();
             var con = this.DatabaseConnection(); con.Open();
@@ -14420,7 +14420,7 @@ Dear {userFullName},
                 cmd.CommandText = "pkg_fad.p_get_audit_observtion";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
-                cmd.Parameters.Add("ENGID", OracleDbType.Int32).Value = ENG_ID;
+                cmd.Parameters.Add("OBS_ID", OracleDbType.Int32).Value = OBS_ID;
                 cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())

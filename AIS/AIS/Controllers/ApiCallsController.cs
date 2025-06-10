@@ -1542,9 +1542,9 @@ namespace AIS.Controllers
             }
         [HttpPost]
 
-        public List<FADAuditParasReviewModel> get_observation_details_for_report(int ENG_ID = 0)
+        public List<FADAuditParasReviewModel> get_observation_details_for_report(int OBS_ID = 0)
             {
-            return dBConnection.GetObservationDetailsForReport(ENG_ID);
+            return dBConnection.GetObservationDetailsForReport(OBS_ID);
 
             }
         [HttpPost]
