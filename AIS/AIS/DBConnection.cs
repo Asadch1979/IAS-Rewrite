@@ -14417,7 +14417,7 @@ Dear {userFullName},
             var con = this.DatabaseConnection(); con.Open();
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "pkg_ad.p_get_audit_observtion";
+                cmd.CommandText = "pkg_fad.p_get_audit_observtion";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("ENGID", OracleDbType.Int32).Value = ENG_ID;
