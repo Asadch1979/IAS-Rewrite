@@ -123,7 +123,7 @@
                 $.each(data, function (i, v) {
                    if (v.memO_DATE != null)
                         v.memO_DATE = v.memO_DATE.split(' ')[0];
-                     $('#obsListPanel tbody').append('<tr><td class="text-center">' + (i + 1) + '</td><td>' + v.memO_NO + '</td><td>' + v.gist + '</td><td>' + v.memO_DATE + '</td><td>' + v.assigneD_TO + '</td><td>' + v.status + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.obsid + ');">View Para</a></td></tr>');
+                     $('#obsListPanel tbody').append('<tr><td class="text-center">' + (i + 1) + '</td><td>' + v.memO_NO + '</td><td>' + v.gist + '</td><td>' + v.memO_DATE + '</td><td>' + v.assigneD_TO + '</td><td>' + v.status + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.id + ');">View Para</a></td></tr>');
                  });
             },
             dataType: "json",
@@ -139,13 +139,13 @@
             url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_report",
             type: "POST",
             data: {
-                'OBS_ID': id
+                'OBS_ID': g_obsId
             },
             cache: false,
             success: function (data) {
                 $.each(data, function (i, v) {
                     var rows = '';
-                   rows += '<tr><th>Memo No</th><td>' + escapeHtml(v.memO_NO) + '</td></tr>';
+                    rows += '<tr><th>Memo No</th><td>' + escapeHtml(v.memO_NO) + '</td></tr>';
                     rows += '<tr><th>Para No</th><td>' + escapeHtml(v.parA_NO) + '</td></tr>';
                     rows += '<tr><th>Annex</th><td>' + escapeHtml(v.annex) + '</td></tr>';
                     rows += '<tr><th>Process</th><td>' + escapeHtml(v.process) + '</td></tr>';
@@ -158,8 +158,7 @@
                     rows += '<tr><th>PPNO</th><td>' + escapeHtml(v.ppno) + '</td></tr>';
                     rows += '<tr><th>Resp Role</th><td>' + escapeHtml(v.resP_ROLE) + '</td></tr>';
                     rows += '<tr><th>Resp Amount</th><td>' + escapeHtml(v.resP_AMOUNT) + '</td></tr>';
-                    $('#paraViewTable tbody').append(rows);
-                       $('#paraViewTable tbody').append(rows);
+                    $('#paraViewTable tbody').append(rows);                      
                 });
                 $('#paraViewModal').modal('show');
             },
@@ -169,7 +168,7 @@
 
 </script>
 <div class="row col-md-12 mt-3">
-    <h3 style=" display:block;color: #45c545;">Observation Reversal / Re-Numbering</h3>
+    <h3 style=" display:block;color: #45c545;">Observation Review</h3>
 </div>
 
 
@@ -239,6 +238,23 @@
     </table>
 </div>
 
+<div class="row col-md-12 mt-3">
+    <table id="obsListPanel" class="table table-bordered table mb-0 mt-3 bg-white table-hover table-striped">
+        <thead>
+            <tr style="background-color: #19875478 !important; ">
+                <th class="col-md-auto">Sr No.</th>
+                <th class="col-md-auto">Memo No</th>
+                <th class="col-md-auto">Gist</th>
+                <th class="col-md-auto">Memo Date</th>
+                <th class="col-md-auto">Assigned To</th>
+                <th class="col-md-auto">Status</th>
+                <th class="col-md-auto text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
 <div id="paraViewModal" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -251,7 +267,7 @@
                     <table id="paraViewTable" class="table table-bordered table mb-0 mt-3 bg-white table-hover table-striped">
                         <thead>
                             <tr style="background-color: #19875478 !important;">
-                                <th class="col-md-4">Field</th>
+                                <th class="col-md-2">Field</th>
                                 <th class="col-md-8">Value</th>
                             </tr>
                         </thead>
