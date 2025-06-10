@@ -83,7 +83,6 @@
 
     function getEngagementDetails() {
         $('#engsListPanel tbody').empty();
-        g_obsIndex = 0;
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/get_engagements_details_for_status_reversal",
             type: "POST",
@@ -92,8 +91,17 @@
             },
             cache: false,
             success: function (engs) {
-                $.each(engs, function (i, e) {
-                    loadObservationDetails(e.enG_ID);
+                $.each(engs, function (i, v) {
+                    if (v.audiT_START_DATE != null)
+                        v.audiT_START_DATE = v.audiT_START_DATE.split(' ')[0];
+                    if (v.audiT_END_DATE != null)
+                        v.audiT_END_DATE = v.audiT_END_DATE.split(' ')[0];
+                    if (v.oP_START_DATE != null)
+                        v.oP_START_DATE = v.oP_START_DATE.split(' ')[0];
+                    if (v.oP_END_DATE != null)
+                        v.oP_END_DATE = v.oP_END_DATE.split(' ')[0];
+
+                    $('#engsListPanel tbody').append('<tr><td class="text-center">' + (i + 1) + '</td><td>' + v.enG_ID + '</td><td>' + v.teaM_NAME + '</td><td>' + v.audiT_START_DATE + '</td><td>' + v.audiT_END_DATE + '</td><td>' + v.oP_START_DATE + '</td><td>' + v.oP_END_DATE + '</td><td>' + v.status + '</td><td class="text-center"><a href="#" class="text-primary" onclick="loadObservationDetails(' + v.enG_ID + ');">View Details</a></td></tr>');
                 });
             },
             dataType: "json",
@@ -102,6 +110,7 @@
     }
 
     function loadObservationDetails(engId) {
+        $('#obsListPanel tbody').empty();
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_status_reversal",
             type: "POST",
@@ -111,9 +120,9 @@
             cache: false,
             success: function (data) {
                 $.each(data, function (i, v) {
-                    if (v.memO_DATE != null)
-                        v.memO_DATE = v.memO_DATE.split(' ')[0];
-                    $('#engsListPanel tbody').append('<tr><td class="text-center">' + (++g_obsIndex) + '</td><td>' + v.memO_NO + '</td><td>' + v.gist + '</td><td>' + v.memO_DATE + '</td><td>' + v.assigneD_TO + '</td><td>' + v.status + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.ID + ');">View Para</a></td></tr>');
+                    if (v.mEMO_DATE != null)
+                        v.mEMO_DATE = v.mEMO_DATE.split(' ')[0];
+                    $('#obsListPanel tbody').append('<tr><td class="text-center">' + (i + 1) + '</td><td>' + v.mEMO_NO + '</td><td>' + v.gIST + '</td><td>' + v.mEMO_DATE + '</td><td>' + v.aSSIGNED_TO + '</td><td>' + v.sTATUS + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.iD + ');">View Para</a></td></tr>');
                 });
             },
             dataType: "json",
@@ -137,9 +146,9 @@
             success: function (data) {
                 $.each(data, function (i, v) {
 
-                    if (v.memO_DATE != null)
-                        v.memO_DATE = v.memO_DATE.split(' ')[0];
-                    $('#engsListPanel tbody').append('<tr><td class="text-center">' + (++g_obsIndex) + '</td><td>' + v.memO_NO + '</td><td>' + v.gist + '</td><td>' + v.memO_DATE + '</td><td>' + v.assigneD_TO + '</td><td>' + v.status + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.ID + ');">View Para</a></td></tr>');
+                    if (v.mEMO_DATE != null)
+                        v.mEMO_DATE = v.mEMO_DATE.split(' ')[0];
+                    $('#engObsListPanel tbody').append('<tr><td class="text-center">' + (++g_obsIndex) + '</td><td>' + v.mEMO_NO + '</td><td>' + v.gIST + '</td><td>' + v.mEMO_DATE + '</td><td>' + v.aSSIGNED_TO + '</td><td>' + v.sTATUS + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.iD + ');">View Para</a></td></tr>');
                 })
             },
             dataType: "json",
@@ -161,12 +170,12 @@
             success: function (data) {
                 $.each(data, function (i, v) {
 
-                    if (v.memO_DATE != null)
-                        v.memO_DATE = v.memO_DATE.split(' ')[0];
+                    if (v.mEMO_DATE != null)
+                        v.mEMO_DATE = v.mEMO_DATE.split(' ')[0];
 
                     i = i + 1;
 
-                    $('#engsListPanel tbody').append('<tr><td class="text-center">' + (++g_obsIndex) + '</td><td>' + v.memO_NO + '</td><td>' + v.gist + '</td><td>' + v.memO_DATE + '</td><td>' + v.assigneD_TO + '</td><td>' + v.status + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.ID + ');">View Para</a></td></tr>');
+                    $('#engObsListPanel_changeNo tbody').append('<tr><td class="text-center">' + (++g_obsIndex) + '</td><td>' + v.mEMO_NO + '</td><td>' + v.gIST + '</td><td>' + v.mEMO_DATE + '</td><td>' + v.aSSIGNED_TO + '</td><td>' + v.sTATUS + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.iD + ');">View Para</a></td></tr>');
                 })
             },
             dataType: "json",
@@ -218,25 +227,25 @@
             url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_report",
             type: "POST",
             data: {
-                'ENG_ID': id
+                'OBS_ID': id
             },
             cache: false,
             success: function (data) {
                 $.each(data, function (i, v) {
                     var rows = '';
-                    rows += '<tr><th>Memo No</th><td>' + escapeHtml(v.MEMO_NO) + '</td></tr>';
-                    rows += '<tr><th>Para No</th><td>' + escapeHtml(v.PARA_NO) + '</td></tr>';
-                    rows += '<tr><th>Annex</th><td>' + escapeHtml(v.ANNEX) + '</td></tr>';
-                    rows += '<tr><th>Process</th><td>' + escapeHtml(v.PROCESS) + '</td></tr>';
-                    rows += '<tr><th>Sub Process</th><td>' + escapeHtml(v.SUB_PROCESS) + '</td></tr>';
-                    rows += '<tr><th>Check List</th><td>' + escapeHtml(v.CHECK_LIST) + '</td></tr>';
-                    rows += '<tr><th>Observation Gist</th><td>' + escapeHtml(v.OBS_GIST) + '</td></tr>';
-                    rows += '<tr><th>Para Text</th><td>' + escapeHtml(v.PARA_TEXT) + '</td></tr>';
-                    rows += '<tr><th>Amount Inv</th><td>' + escapeHtml(v.AMOUNT_INV) + '</td></tr>';
-                    rows += '<tr><th>No Instances</th><td>' + escapeHtml(v.NO_INSTANCES) + '</td></tr>';
-                    rows += '<tr><th>PPNO</th><td>' + escapeHtml(v.PPNO) + '</td></tr>';
-                    rows += '<tr><th>Resp Role</th><td>' + escapeHtml(v.RESP_ROLE) + '</td></tr>';
-                    rows += '<tr><th>Resp Amount</th><td>' + escapeHtml(v.RESP_AMOUNT) + '</td></tr>';
+                    rows += '<tr><th>Memo No</th><td>' + escapeHtml(v.mEMO_NO) + '</td></tr>';
+                    rows += '<tr><th>Para No</th><td>' + escapeHtml(v.pARA_NO) + '</td></tr>';
+                    rows += '<tr><th>Annex</th><td>' + escapeHtml(v.aNNEX) + '</td></tr>';
+                    rows += '<tr><th>Process</th><td>' + escapeHtml(v.pROCESS) + '</td></tr>';
+                    rows += '<tr><th>Sub Process</th><td>' + escapeHtml(v.sUB_PROCESS) + '</td></tr>';
+                    rows += '<tr><th>Check List</th><td>' + escapeHtml(v.cHECK_LIST) + '</td></tr>';
+                    rows += '<tr><th>Observation Gist</th><td>' + escapeHtml(v.oBS_GIST) + '</td></tr>';
+                    rows += '<tr><th>Para Text</th><td>' + escapeHtml(v.pARA_TEXT) + '</td></tr>';
+                    rows += '<tr><th>Amount Inv</th><td>' + escapeHtml(v.aMOUNT_INV) + '</td></tr>';
+                    rows += '<tr><th>No Instances</th><td>' + escapeHtml(v.nO_INSTANCES) + '</td></tr>';
+                    rows += '<tr><th>PPNO</th><td>' + escapeHtml(v.pPNO) + '</td></tr>';
+                    rows += '<tr><th>Resp Role</th><td>' + escapeHtml(v.rESP_ROLE) + '</td></tr>';
+                    rows += '<tr><th>Resp Amount</th><td>' + escapeHtml(v.rESP_AMOUNT) + '</td></tr>';
                     $('#paraViewTable tbody').append(rows);
                 });
                 $('#paraViewModal').modal('show');
@@ -300,6 +309,25 @@
 
 <div class="row col-md-12 mt-3">
     <table id="engsListPanel" class="table table-bordered table mb-0 mt-3 bg-white table-hover table-striped">
+        <thead>
+            <tr style="background-color: #19875478 !important; ">
+                <th class="col-md-auto">Sr No.</th>
+                <th class="col-md-auto">Engagement ID</th>
+                <th class="col-md-auto">Team Name</th>
+                <th class="col-md-auto">Audit Start Date</th>
+                <th class="col-md-auto">Audit End Date</th>
+                <th class="col-md-auto">Operational Start Date</th>
+                <th class="col-md-auto">Operational End Date</th>
+                <th class="col-md-auto">Status</th>
+                <th colspan="3" class="col-md-auto text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<div class="row col-md-12 mt-3">
+    <table id="obsListPanel" class="table table-bordered table mb-0 mt-3 bg-white table-hover table-striped">
         <thead>
             <tr style="background-color: #19875478 !important; ">
                 <th class="col-md-auto">Sr No.</th>
