@@ -177,7 +177,8 @@ table.dataTable thead th {
 
 /* Welcome text color */
 #navImg small {
-    color: #333;
+    color: #9c5a5a;
+    font-size:11px;
 }
 
 /* Stylish dropdown menu */
