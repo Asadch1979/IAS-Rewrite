@@ -111,9 +111,9 @@
             cache: false,
             success: function (data) {
                 $.each(data, function (i, v) {
-                    if (v.MEMO_DATE != null)
-                        v.MEMO_DATE = v.MEMO_DATE.split(' ')[0];
-                    $('#engsListPanel tbody').append('<tr><td class="text-center">' + (++g_obsIndex) + '</td><td>' + v.MEMO_NO + '</td><td>' + v.GIST + '</td><td>' + v.MEMO_DATE + '</td><td>' + v.ASSIGNED_TO + '</td><td>' + v.STATUS + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.ID + ');">View Para</a></td></tr>');
+                    if (v.memO_DATE != null)
+                        v.memO_DATE = v.memO_DATE.split(' ')[0];
+                    $('#engsListPanel tbody').append('<tr><td class="text-center">' + (++g_obsIndex) + '</td><td>' + v.memO_NO + '</td><td>' + v.gist + '</td><td>' + v.memO_DATE + '</td><td>' + v.assigneD_TO + '</td><td>' + v.status + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.ID + ');">View Para</a></td></tr>');
                 });
             },
             dataType: "json",
@@ -137,10 +137,9 @@
             success: function (data) {
                 $.each(data, function (i, v) {
 
-                    if (v.MEMO_DATE != null)
-                        v.MEMO_DATE = v.MEMO_DATE.split(' ')[0];
-
-                    $('#engObsListPanel').append('<tr><td class="text-center">' + ++i + '</td><td>' + escapeHtml(v.MEMO_NO) + '</td><td>' + escapeHtml(v.GIST) + '</td><td>' + escapeHtml(v.MEMO_DATE) + '</td><td>' + escapeHtml(v.ASSIGNED_TO) + '</td><td>' + escapeHtml(v.STATUS) + '</td><td class="text-center"><input class="rev_chk_obs" id="' + v.ID + '"  type="checkbox" /></td></tr>');
+                    if (v.memO_DATE != null)
+                        v.memO_DATE = v.memO_DATE.split(' ')[0];
+                    $('#engsListPanel tbody').append('<tr><td class="text-center">' + (++g_obsIndex) + '</td><td>' + v.memO_NO + '</td><td>' + v.gist + '</td><td>' + v.memO_DATE + '</td><td>' + v.assigneD_TO + '</td><td>' + v.status + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.ID + ');">View Para</a></td></tr>');
                 })
             },
             dataType: "json",
@@ -162,12 +161,12 @@
             success: function (data) {
                 $.each(data, function (i, v) {
 
-                    if (v.MEMO_DATE != null)
-                        v.MEMO_DATE = v.MEMO_DATE.split(' ')[0];
+                    if (v.memO_DATE != null)
+                        v.memO_DATE = v.memO_DATE.split(' ')[0];
 
                     i = i + 1;
 
-                    $('#engObsListPanel_changeNo').append('<tr><td class="text-center">' + i + '</td><td>' + escapeHtml(v.MEMO_NO) + '</td><td>' + escapeHtml(v.GIST) + '</td><td>' + escapeHtml(v.MEMO_DATE) + '</td><td>' + escapeHtml(v.ASSIGNED_TO) + '</td><td>' + escapeHtml(v.STATUS) + '</td><td class="text-center"><input name="memonoradio" id="rev_checkbox_"+' + v.ID + ' onclick="event.preventDefault();memoIdsToNumberChange(this,' + v.ID + ');" type="radio" /></td></tr>');
+                    $('#engsListPanel tbody').append('<tr><td class="text-center">' + (++g_obsIndex) + '</td><td>' + v.memO_NO + '</td><td>' + v.gist + '</td><td>' + v.memO_DATE + '</td><td>' + v.assigneD_TO + '</td><td>' + v.status + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.ID + ');">View Para</a></td></tr>');
                 })
             },
             dataType: "json",
