@@ -31,14 +31,7 @@ namespace AIS
             services.AddScoped<SessionHandler>();
             services.AddScoped<DBConnection>();
             services.AddScoped<TopMenus>();
-            services.AddControllersWithViews()
-                    .AddJsonOptions(options =>
-                    {
-                        options.JsonSerializerOptions.PropertyNamingPolicy = null;
-                        options.JsonSerializerOptions.DictionaryKeyPolicy = null;
-                        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-                    })
-                    .AddRazorRuntimeCompilation();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddHttpContextAccessor();
 
 
