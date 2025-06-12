@@ -1535,6 +1535,19 @@ namespace AIS.Controllers
 
             }
         [HttpPost]
+
+        public List<AuditReportModel> get_audit_report_for_fad_review(int RPT_ID = 0, int ENG_ID = 0)
+            {
+            return dBConnection.GetAuditReportForFadReview(RPT_ID,ENG_ID);
+
+            }
+        [HttpPost]
+        public List<ObservationReversalModel> get_engagements_details_for_fad_review(int ENTITY_ID = 0)
+            {
+            return dBConnection.GetEngagementDetailsForFadReview(ENTITY_ID);
+
+            }
+        [HttpPost]
         public List<EngagementObservationsForStatusReversalModel> get_observation_details_for_status_reversal(int ENG_ID = 0)
             {
             return dBConnection.GetObservationDetailsForStatusReversal(ENG_ID);
@@ -1542,6 +1555,12 @@ namespace AIS.Controllers
             }
         [HttpPost]
 
+        public List<EngagementObservationsForStatusReversalModel> get_observation_details_for_fad(int ENG_ID = 0)
+            {
+            return dBConnection.GetAuditDetailsFAD(ENG_ID);
+
+            }
+        [HttpPost]
         public List<FADAuditParasReviewModel> get_observation_details_for_report(int OBS_ID = 0)
             {
             return dBConnection.GetObservationDetailsForReport(OBS_ID);
@@ -2731,9 +2750,15 @@ namespace AIS.Controllers
             }
         [HttpPost]
 
-        public List<ExecptionAccountReportModel> Get_exception_account_report(int ENG_ID,  int RPT_ID)
+        //public List<AccountExceptionsModel> get_exception_account_report(int ENG_ID, int RPT_ID)
+        //    {
+        //    return dBConnection.GetAccountExceptions(ENG_ID, RPT_ID);
+        //    }
+        //[HttpPost]
+
+        public List<AccountExceptionsModel> get_exception_account_report(int ENG_ID,  int RPT_ID)
             {
-            return dBConnection.Getexceptionaccountreport(ENG_ID, RPT_ID);
+            return dBConnection.GetAccountExceptions(ENG_ID, RPT_ID);
             }
         [HttpPost]
         public List<AccountTransactionSampleModel> get_biomet_account_transaction_sampling_details(int ENG_ID, string AC_NO)

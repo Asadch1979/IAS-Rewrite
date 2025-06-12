@@ -1,6 +1,6 @@
 namespace AIS.Models
     {
-    public class ExecptionAccountReportModel 
+    public class AccountExceptionsModel
         {
         public string BRANCH_CODE { get; set; }
         public string ACCOUNT_NO { get; set; }

@@ -2,6 +2,21 @@
 var g_asiBaseURL ="/ZTBLAIS";
 var g_secretKey="";
 var activeRequests = 0;
+
+function sendPageId() {
+    var path = window.location.pathname;
+    if (path.startsWith(g_asiBaseURL)) {
+        path = path.substring(g_asiBaseURL.length);
+    }
+    path = path.replace(/^\//, "");
+    $.ajax({
+        url: g_asiBaseURL + "/Home/SetPageId",
+        type: "POST",
+        data: { 'page_path': path },
+        cache: false
+    });
+}
+
 $(document).ready(function () {
     // Override default options for all modals
     $.fn.modal.Constructor.Default.backdrop = 'static';

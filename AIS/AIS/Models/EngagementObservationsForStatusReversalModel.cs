@@ -10,7 +10,6 @@ namespace AIS.Models
         public string MEMO_DATE { get; set; }
         public string HEADING { get; set; }
         public string STATUS { get; set; }
-
-
+        public string FINAL_PARA { get; set; }
         }
     }

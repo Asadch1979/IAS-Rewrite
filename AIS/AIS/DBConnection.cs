@@ -21831,7 +21831,58 @@ Dear {userFullName},
             }
 
 
-        public List<ExecptionAccountReportModel> Getexceptionaccountreport(int ENG_ID, int RPT_ID)
+        //public List<ExecptionAccountReportModel> Getexceptionaccountreport(int ENG_ID, int RPT_ID)
+        //    {
+        //    sessionHandler = new SessionHandler();
+        //    sessionHandler._httpCon = this._httpCon;
+        //    sessionHandler._session = this._session;
+        //    sessionHandler._configuration = this._configuration;
+
+        //    var con = this.DatabaseConnection();
+        //    con.Open();
+
+        //    List<ExecptionAccountReportModel> responseList = new List<ExecptionAccountReportModel>();
+        //    var loggedInUser = sessionHandler.GetSessionUser();
+
+        //    using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //        cmd.CommandText = "pkg_sm.p_exception_get_Account";
+        //        cmd.CommandType = CommandType.StoredProcedure;
+        //        cmd.Parameters.Clear();
+        //        cmd.Parameters.Add("E_ID", OracleDbType.Int32).Value = ENG_ID;
+        //        cmd.Parameters.Add("RPT_ID", OracleDbType.Int32).Value = RPT_ID;
+        //        // cmd.Parameters.Add("R_IND", OracleDbType.Varchar2).Value = R_IND;
+        //        cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+        //        cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+        //        cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+        //        cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+
+        //        using (OracleDataReader rdr = cmd.ExecuteReader())
+        //            {
+        //            while (rdr.Read())
+        //                {
+        //                ExecptionAccountReportModel record = new ExecptionAccountReportModel()
+        //                    {
+        //                    BRANCH_CODE = rdr["branchcode"].ToString(),
+        //                    ACCOUNT_NO = rdr["oldaccountno"].ToString(),
+        //                    ACCOUNT_TITLE = rdr["Title"].ToString(),
+        //                    CUSTOMER_NAME = rdr["customername"].ToString(),
+        //                    MASTER_CODE = rdr["transactionmastercode"].ToString(),
+        //                    TR_DESCRIPTION = rdr["description"].ToString(),
+        //                    TR_DATE = rdr["transactiondate"].ToString(),
+        //                    TR_AUTHDATE = rdr["authorizationdate"].ToString(),
+        //                    DR_AMOUNT = rdr["dramount"].ToString(),
+        //                    CR_AMOUNT = rdr["cramount"].ToString()
+        //                    };
+
+        //                responseList.Add(record);
+        //                }
+        //            }
+        //        }
+        //    con.Dispose();
+        //    return responseList;
+        //    }
+          public List<AccountExceptionsModel> GetAccountExceptions(int ENG_ID, int RPT_ID)
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
@@ -21841,7 +21892,7 @@ Dear {userFullName},
             var con = this.DatabaseConnection();
             con.Open();
 
-            List<ExecptionAccountReportModel> responseList = new List<ExecptionAccountReportModel>();
+            List<AccountExceptionsModel> responseList = new List<AccountExceptionsModel>();
             var loggedInUser = sessionHandler.GetSessionUser();
 
             using (OracleCommand cmd = con.CreateCommand())
@@ -21850,8 +21901,7 @@ Dear {userFullName},
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("E_ID", OracleDbType.Int32).Value = ENG_ID;
-                cmd.Parameters.Add("RPT_ID", OracleDbType.Int32).Value = RPT_ID;
-                // cmd.Parameters.Add("R_IND", OracleDbType.Varchar2).Value = R_IND;
+                cmd.Parameters.Add("RPTID", OracleDbType.Int32).Value = RPT_ID;
                 cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
                 cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
@@ -21861,18 +21911,14 @@ Dear {userFullName},
                     {
                     while (rdr.Read())
                         {
-                        ExecptionAccountReportModel record = new ExecptionAccountReportModel()
+                        AccountExceptionsModel record = new AccountExceptionsModel()
                             {
                             BRANCH_CODE = rdr["branchcode"].ToString(),
                             ACCOUNT_NO = rdr["oldaccountno"].ToString(),
-                            ACCOUNT_TITLE = rdr["Title"].ToString(),
-                            CUSTOMER_NAME = rdr["customername"].ToString(),
-                            MASTER_CODE = rdr["transactionmastercode"].ToString(),
-                            TR_DESCRIPTION = rdr["description"].ToString(),
-                            TR_DATE = rdr["transactiondate"].ToString(),
-                            TR_AUTHDATE = rdr["authorizationdate"].ToString(),
-                            DR_AMOUNT = rdr["dramount"].ToString(),
-                            CR_AMOUNT = rdr["cramount"].ToString()
+                            ACCOUNT_TITLE = rdr["title"].ToString(),
+                            CUSTOMER_NAME = rdr["customername"].ToString(),            
+                            TR_DESCRIPTION = rdr["description"].ToString()
+
                             };
 
                         responseList.Add(record);
@@ -21883,7 +21929,116 @@ Dear {userFullName},
             return responseList;
             }
 
+        public List<ObservationReversalModel> GetEngagementDetailsForFadReview(int ENTITY_ID = 0)
+            {
+            List<ObservationReversalModel> resp = new List<ObservationReversalModel>();
+            var con = this.DatabaseConnection(); con.Open();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_ad.p_get_audit_engagement";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ent_id", OracleDbType.Int32).Value = ENTITY_ID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    ObservationReversalModel os = new ObservationReversalModel();
+                    os.PLAN_ID = rdr["plan_id"].ToString();
+                    os.ENG_ID = rdr["ENG_ID"].ToString();
+                    os.TEAM_NAME = rdr["TEAM_NAME"].ToString();
+                    os.AUDIT_START_DATE = rdr["AUDIT_STARTDATE"].ToString();
+                    os.AUDIT_END_DATE = rdr["AUDIT_ENDDATE"].ToString();
+                    os.OP_START_DATE = rdr["OP_STARTDATE"].ToString();
+                    os.OP_END_DATE = rdr["OP_ENDDATE"].ToString();
+                    os.ENTITY_ID = rdr["ENTITY_ID"].ToString();
+                    os.AUDITED_BY_ID = rdr["Auditby_Id"].ToString();
+                    os.STATUS_ID = rdr["STATUS_ID"].ToString();
+                    os.STATUS = rdr["STATUS"].ToString();
+                    os.REPORT_ID = rdr["RPT_ID"].ToString();
+                    resp.Add(os);
+                    }
+                }
+            con.Dispose();
+            return resp;
+            }
+        public List<EngagementObservationsForStatusReversalModel> GetAuditDetailsFAD(int ENG_ID = 0)
+            {
+            List<EngagementObservationsForStatusReversalModel> resp = new List<EngagementObservationsForStatusReversalModel>();
+            var con = this.DatabaseConnection(); con.Open();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_fad.p_get_audit_glance";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ENGID", OracleDbType.Int32).Value = ENG_ID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    EngagementObservationsForStatusReversalModel os = new EngagementObservationsForStatusReversalModel();
+                    os.ID = rdr["ID"].ToString();
+                    os.MEMO_NO = rdr["MEMO_NO"].ToString();
+                    os.FINAL_PARA = rdr["FINAL_PARA_NO"].ToString();
+                    os.GIST = rdr["GIST"].ToString();
+                    os.MEMO_DATE = rdr["MEMO_DATE"].ToString();
+                    os.HEADING = rdr["HEADINGS"].ToString();
+                    os.ASSIGNED_TO = rdr["ASSIGNED_TO"].ToString();
+                    os.STATUS = rdr["STATUS"].ToString();
+                    resp.Add(os);
+                    }
+                }
+            con.Dispose();
+            return resp;
+            }
+
+        public List<AuditReportModel> GetAuditReportForFadReview(int RPT_ID = 0, int ENG_ID = 0)
+            {
+            List<AuditReportModel> resp = new List<AuditReportModel>();
+            var con = this.DatabaseConnection(); con.Open();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_fad.p_p_get_audit_Report";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ENGID", OracleDbType.Int32).Value = ENG_ID;
+                cmd.Parameters.Add("RPT_ID", OracleDbType.Int32).Value = RPT_ID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    AuditReportModel or = new AuditReportModel();
+                    or.ID = rdr["id"].ToString();
+                    or.ENG_ID = rdr["eng_id"].ToString();
+                    or.AUDIT_REPORT = rdr["audit_report"].ToString();
+
+                    resp.Add(or);
+                    }
+                }
+            con.Dispose();
+            return resp;
+            }
+        public int GetPageIdByPath(string pagePath)
+            {
+            int pageId = 0;
+            var con = this.DatabaseConnection();
+            con.Open();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "get_page_id_by_path";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("p_page_path", OracleDbType.Varchar2).Value = pagePath;
+                cmd.Parameters.Add("p_page_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
+                cmd.ExecuteNonQuery();
+                var val = cmd.Parameters["p_page_id"].Value;
+                if (val != null && val != DBNull.Value)
+                    pageId = Convert.ToInt32(val.ToString());
+                }
+            con.Dispose();
+            return pageId;
+            }
 
         }
-
     }
+        

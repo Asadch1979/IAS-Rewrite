@@ -14,6 +14,7 @@ namespace AIS.Models
         public string AUDITED_BY_ID { get; set; }
         public string STATUS_ID { get; set; }
         public string STATUS { get; set; }
+        public string REPORT_ID { get; set; }
 
 
         }

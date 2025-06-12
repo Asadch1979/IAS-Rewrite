@@ -112,6 +112,16 @@ namespace AIS
             return Convert.ToBase64String(randomBytes);
             }
 
+        public void SetPageId(int pageId)
+            {
+            _session.SetInt32("page_id", pageId);
+            }
+
+        public int GetPageId()
+            {
+            int? id = _session.GetInt32("page_id");
+            return id.HasValue ? id.Value : 0;
+            }
 
         }
     }

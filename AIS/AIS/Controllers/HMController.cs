@@ -84,5 +84,13 @@ namespace AIS.Controllers
             {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
+        [HttpPost]
+        public IActionResult SetPageId(string page_path)
+            {
+            int id = dBConnection.GetPageIdByPath(page_path);
+            sessionHandler.SetPageId(id);
+            return Ok(new { pageId = id });
+            }
         }
+
     }

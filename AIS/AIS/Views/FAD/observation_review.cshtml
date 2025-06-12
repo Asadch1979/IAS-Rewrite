@@ -10,6 +10,7 @@
     var g_engId = 0;
     var g_obsid = 0;
     var g_obsIndex = 0;
+    var g_rptid =   0;
 
     function escapeHtml(text) {
         return $('<div>').text(text).html();
@@ -84,7 +85,7 @@
     function getEngagementDetails() {
         $('#engsListPanel tbody').empty();
         $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/get_engagements_details_for_status_reversal",
+            url: g_asiBaseURL + "/ApiCalls/get_engagements_details_for_fad_review",
             type: "POST",
             data: {
                 'ENTITY_ID': $('#childposting option:selected').val()
@@ -113,7 +114,7 @@
         g_engId = parseInt(engId);
         $('#obsListPanel tbody').empty();
         $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_status_reversal",
+            url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_fad",
             type: "POST",
             data: {
                 'ENG_ID': g_engId
@@ -123,14 +124,30 @@
                 $.each(data, function (i, v) {
                    if (v.memO_DATE != null)
                         v.memO_DATE = v.memO_DATE.split(' ')[0];
-                     $('#obsListPanel tbody').append('<tr><td class="text-center">' + (i + 1) + '</td><td>' + v.memO_NO + '</td><td>' + v.gist + '</td><td>' + v.memO_DATE + '</td><td>' + v.assigneD_TO + '</td><td>' + v.status + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.id + ');">View Para</a></td></tr>');
+                     $('#obsListPanel tbody').append('<tr><td class="text-center">' + (i + 1) + '</td><td>' + v.memO_NO + '</td><td>' + v.finaL_PARA + '</td><td>' + v.gist + '</td><td>' + v.memO_DATE + '</td><td>' + v.assigneD_TO + '</td><td>' + v.status + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.id + ');">View Para</a></td><td class="text-center"><a href="#" class="text-primary" onclick="viewReport(' + v.rpT_ID + ');">View Para</a></td></tr>');
                  });
             },
             dataType: "json",
         });
     }
 
-    
+        function viewReport(rpt_id) {
+         g_rptid = parseInt(rpt_id);
+        $('#paraViewTable tbody').empty();
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/get_audit_report_for_fad_review",
+            type: "POST",
+            data: {
+                'RPT_ID': g_rptid
+            },
+            cache: false,
+            success: function (data)
+             $('#paraViewModal').modal('show');
+            },
+            dataType: "json",
+        });
+    }
+
 
     function viewPara(id) {
          g_obsId = parseInt(id);
@@ -244,6 +261,7 @@
             <tr style="background-color: #19875478 !important; ">
                 <th class="col-md-auto">Sr No.</th>
                 <th class="col-md-auto">Memo No</th>
+                <th class="col-md-auto">Para No</th>
                 <th class="col-md-auto">Gist</th>
                 <th class="col-md-auto">Memo Date</th>
                 <th class="col-md-auto">Assigned To</th>
