@@ -124,7 +124,17 @@
                 $.each(data, function (i, v) {
                    if (v.memO_DATE != null)
                         v.memO_DATE = v.memO_DATE.split(' ')[0];
-                     $('#obsListPanel tbody').append('<tr><td class="text-center">' + (i + 1) + '</td><td>' + v.memO_NO + '</td><td>' + v.finaL_PARA + '</td><td>' + v.gist + '</td><td>' + v.memO_DATE + '</td><td>' + v.assigneD_TO + '</td><td>' + v.status + '</td><td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.id + ');">View Para</a></td><td class="text-center"><a href="#" class="text-primary" onclick="viewReport(' + v.rpT_ID + ');">View Para</a></td></tr>');
+                    $('#obsListPanel tbody').append('<tr>' +
+                        '<td class="text-center">' + (i + 1) + '</td>' +
+                        '<td>' + v.memO_NO + '</td>' +
+                        '<td>' + v.finaL_PARA + '</td>' +
+                        '<td>' + v.gist + '</td>' +
+                        '<td>' + v.memO_DATE + '</td>' +
+                        '<td>' + v.assigneD_TO + '</td>' +
+                        '<td>' + v.status + '</td>' +
+                        '<td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.id + ');">View Para</a></td>' +
+                        '<td class="text-center"><a href="#" class="text-primary" onclick="viewReport(' + v.rpT_ID + ');">View Report</a></td>' +
+                        '</tr>');
                  });
             },
             dataType: "json",
@@ -132,21 +142,53 @@
     }
 
         function viewReport(rpt_id) {
-         g_rptid = parseInt(rpt_id);
-        $('#paraViewTable tbody').empty();
-        $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/get_audit_report_for_fad_review",
-            type: "POST",
-            data: {
-                'RPT_ID': g_rptid
-            },
-            cache: false,
-            success: function (data)
-             $('#paraViewModal').modal('show');
-            },
-            dataType: "json",
-        });
-    }
+            g_rptid = parseInt(rpt_id);
+            $.ajax({
+                url: g_asiBaseURL + "/ApiCalls/get_audit_report_for_fad_review",
+                type: "POST",
+                data: {
+                    'RPT_ID': g_rptid
+                },
+                cache: false,
+                success: function (data) {
+                    if (data && data.length > 0) {
+                        var rep = data[0].audiT_REPORT || data[0].audit_report;
+                        if (rep) {
+                            var pdfSrc = "data:application/pdf;base64," + rep;
+                            var win = window.open(pdfSrc, "_blank");
+                            if (!win) {
+                                const blob = base64ToBlob(rep, 'application/pdf');
+                                const link = document.createElement('a');
+                                link.href = URL.createObjectURL(blob);
+                                link.download = 'Audit_Report_' + g_rptid + '.pdf';
+                                link.click();
+                            }
+                        } else {
+                            alert('Audit report not found');
+                        }
+                    } else {
+                        alert('Audit report not found');
+                    }
+                },
+                dataType: "json",
+            });
+        }
+
+        function base64ToBlob(base64, contentType) {
+            const byteCharacters = atob(base64);
+            const byteArrays = [];
+
+            for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+                const slice = byteCharacters.slice(offset, offset + 512);
+                const byteNumbers = new Array(slice.length);
+                for (let i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+            return new Blob(byteArrays, { type: contentType });
+        }
 
 
     function viewPara(id) {
@@ -266,7 +308,8 @@
                 <th class="col-md-auto">Memo Date</th>
                 <th class="col-md-auto">Assigned To</th>
                 <th class="col-md-auto">Status</th>
-                <th class="col-md-auto text-center">Action</th>
+                <th class="col-md-auto text-center">View Para</th>
+                <th class="col-md-auto text-center">Audit Report</th>
             </tr>
         </thead>
         <tbody></tbody>
