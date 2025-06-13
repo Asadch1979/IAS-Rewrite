@@ -218,7 +218,7 @@
                     rows += '<tr><th>PPNO</th><td>' + escapeHtml(v.ppno) + '</td></tr>';
                     rows += '<tr><th>Resp Role</th><td>' + escapeHtml(v.resP_ROLE) + '</td></tr>';
                     rows += '<tr><th>Resp Amount</th><td>' + escapeHtml(v.resP_AMOUNT) + '</td></tr>';
-                    $('#paraViewTable tbody').append(rows);                      
+                    $('#paraViewTable tbody').append(rows);
                 });
                 $('#paraViewModal').modal('show');
             },
@@ -246,7 +246,7 @@
                 {
                     foreach (var item in (dynamic)(ViewData["Userrelationship"]))
                     {
-                                                <option value="@item.ENTITY_REALTION_ID" id="@item.ENTITY_REALTION_ID">@item.FIELD_NAME</option>
+                        <option value="@item.ENTITY_REALTION_ID" id="@item.ENTITY_REALTION_ID">@item.FIELD_NAME</option>
                     }
                 }
             }
