@@ -1,4 +1,5 @@
 using AIS.Controllers;
+using AIS;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,7 +32,11 @@ namespace AIS
             services.AddScoped<SessionHandler>();
             services.AddScoped<DBConnection>();
             services.AddScoped<TopMenus>();
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddScoped<PageIdFilter>();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<PageIdFilter>();
+            }).AddRazorRuntimeCompilation();
             services.AddHttpContextAccessor();
 
 
