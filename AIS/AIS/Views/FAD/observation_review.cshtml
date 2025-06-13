@@ -114,7 +114,7 @@
         g_engId = parseInt(engId);
         $('#obsListPanel tbody').empty();
         $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_fad",
+            url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_report",
             type: "POST",
             data: {
                 'ENG_ID': g_engId
@@ -195,7 +195,7 @@
          g_obsId = parseInt(id);
         $('#paraViewTable tbody').empty();
         $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_report",
+            url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_fad",
             type: "POST",
             data: {
                 'OBS_ID': g_obsId
@@ -217,6 +217,10 @@
                     rows += '<tr><th>PPNO</th><td>' + escapeHtml(v.ppno) + '</td></tr>';
                     rows += '<tr><th>Resp Role</th><td>' + escapeHtml(v.resP_ROLE) + '</td></tr>';
                     rows += '<tr><th>Resp Amount</th><td>' + escapeHtml(v.resP_AMOUNT) + '</td></tr>';
+                    rows += '<tr><th>Auditee Reply</th><td>' + v.auditeE_REPLY + '</td></tr>';
+                    rows += '<tr><th>Auditor Comments</th><td>' + v.auditoR_COMMENTS + '</td></tr>';
+                    rows += '<tr><th>Head Comments</th><td>' + v.headcomments + '</td></tr>';
+                    rows += '<tr><th>Root Cause</th><td>' + v.rooT_CAUSE + '</td></tr>';
                     $('#paraViewTable tbody').append(rows);
                 });
                 $('#paraViewModal').modal('show');

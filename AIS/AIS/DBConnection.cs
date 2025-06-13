@@ -14411,40 +14411,7 @@ Dear {userFullName},
             return resp;
             }
 
-        public List<FADAuditParasReviewModel> GetObservationDetailsForReport(int OBS_ID = 0)
-            {
-            List<FADAuditParasReviewModel> resp = new List<FADAuditParasReviewModel>();
-            var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
-                {
-                cmd.CommandText = "pkg_fad.p_get_audit_observtion";
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Clear();
-                cmd.Parameters.Add("OB_ID", OracleDbType.Int32).Value = OBS_ID;
-                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-                OracleDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
-                    {
-                    FADAuditParasReviewModel os = new FADAuditParasReviewModel();
-                    os.MEMO_NO = rdr["MEMO"].ToString();
-                    os.PARA_NO = rdr["PARA_NO"].ToString();
-                    os.ANNEX = rdr["ANNEX"].ToString();
-                    os.PROCESS = rdr["HEADINGS"].ToString();
-                    os.SUB_PROCESS = rdr["ASSIGNED_TO"].ToString();
-                    os.CHECK_LIST = rdr["CHECK_LIST"].ToString();
-                    os.OBS_GIST = rdr["GIST"].ToString();
-                    os.PARA_TEXT = rdr["PARA_TEXT"].ToString();
-                    os.AMOUNT_INV = rdr["AMOUNT_INV"].ToString();
-                    os.NO_INSTANCES = rdr["NO_INSTANCES"].ToString();
-                    os.PPNO = rdr["PPNO"].ToString();
-                    os.RESP_ROLE = rdr["RESP_ROLE"].ToString();
-                    os.RESP_AMOUNT = rdr["RESP_AMOUNT"].ToString();
-                    resp.Add(os);
-                    }
-                }
-            con.Dispose();
-            return resp;
-            }
+       
         public List<ObservationStatusReversalModel> GetObservationReversalStatus()
             {
 
@@ -21992,6 +21959,44 @@ Dear {userFullName},
             return resp;
             }
 
+        public List<FADAuditParasReviewModel> GetObservationDetailsForReport(int OBS_ID = 0)
+            {
+            List<FADAuditParasReviewModel> resp = new List<FADAuditParasReviewModel>();
+            var con = this.DatabaseConnection(); con.Open();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_fad.p_get_audit_observtion";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("OB_ID", OracleDbType.Int32).Value = OBS_ID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    FADAuditParasReviewModel os = new FADAuditParasReviewModel();
+                    os.MEMO_NO = rdr["MEMO"].ToString();
+                    os.PARA_NO = rdr["PARA_NO"].ToString();
+                    os.ANNEX = rdr["ANNEX"].ToString();
+                    os.PROCESS = rdr["HEADINGS"].ToString();
+                    os.SUB_PROCESS = rdr["ASSIGNED_TO"].ToString();
+                    os.CHECK_LIST = rdr["CHECK_LIST"].ToString();
+                    os.OBS_GIST = rdr["GIST"].ToString();
+                    os.PARA_TEXT = rdr["PARA_TEXT"].ToString();
+                    os.AMOUNT_INV = rdr["AMOUNT_INV"].ToString();
+                    os.NO_INSTANCES = rdr["NO_INSTANCES"].ToString();
+                    os.PPNO = rdr["PPNO"].ToString();
+                    os.RESP_ROLE = rdr["RESP_ROLE"].ToString();
+                    os.RESP_AMOUNT = rdr["RESP_AMOUNT"].ToString();
+                    os.AUDITEE_REPLY = rdr["auditee_reply"].ToString();
+                    os.AUDITOR_COMMENTS = rdr["auditor_comments"].ToString();
+                    os.HEADCOMMENTS = rdr["HEAD_COMMENTS"].ToString();
+                    os.ROOT_CAUSE = rdr["ROOT_CAUSE"].ToString();
+                    resp.Add(os);
+                    }
+                }
+            con.Dispose();
+            return resp;
+            }
         public List<AuditReportModel> GetAuditReportForFadReview(int RPT_ID = 0, int ENG_ID = 0)
             {
             List<AuditReportModel> resp = new List<AuditReportModel>();
@@ -22011,7 +22016,7 @@ Dear {userFullName},
                     or.ID = rdr["id"].ToString();
                     or.ENG_ID = rdr["eng_id"].ToString();
                     or.AUDIT_REPORT = rdr["audit_report"].ToString();
-
+                    or.DOC_TYPE = rdr["doc_type"].ToString();
                     resp.Add(or);
                     }
                 }
