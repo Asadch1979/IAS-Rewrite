@@ -8,7 +8,7 @@
 
     var g_memoStatusReversalIds = [];
     var g_engId = 0;
-    var g_obsid = 0;
+    var g_obsId = 0;
     var g_obsIndex = 0;
     var g_rptid =   0;
 
@@ -154,11 +154,24 @@
                 success: function (data) {
                     if (data && data.length > 0) {
                         var rep = data[0].audiT_REPORT || data[0].audit_report;
+                        var docType = data[0].doC_TYPE || data[0].doc_type || '';
                         if (rep) {
-                            const blob = base64ToBlob(rep, 'application/pdf');
+                            var extension = '.pdf';
+                            var contentType = 'application/pdf';
+                            if (docType) {
+                                docType = docType.toLowerCase();
+                                if (docType.indexOf('doc') !== -1) {
+                                    contentType = docType.indexOf('openxml') !== -1 ?
+                                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
+                                        'application/msword';
+                                    extension = docType.indexOf('openxml') !== -1 ? '.docx' : '.doc';
+                                }
+                            }
+
+                            const blob = base64ToBlob(rep, contentType);
                             const link = document.createElement("a");
                             link.href = URL.createObjectURL(blob);
-                            link.download = "Audit_Report_" + g_rptid + ".pdf";
+                            link.download = "Audit_Report_" + g_rptid + extension;
                             document.body.appendChild(link);
                             link.click();
                             document.body.removeChild(link);
