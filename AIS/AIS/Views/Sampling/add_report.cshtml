@@ -39,8 +39,7 @@
                 <td>${index + 1}</td>
                 <td>${item.reporT_TITLE}</td>
                 <td class="text-center">${item.discription}</td>
-                <td class="text-center"><button class="btn btn-primary btn-sm" onclick="openUpdateModal(${item.reporT_ID}, '${item.reporT_TITLE}', '${item.discription}', '${item.reporT_INDICATOR}')">Update</button></td>
-            </tr>`;
+    <td class="text-center"><button class="btn btn-primary btn-sm" onclick="openUpdateModal(${item.reporT_ID}, '${item.reporT_TITLE}', '${item.discription}', '${item.reporT_INDICATOR}', ${item.loaN_STATUS})">Update</button></td>            </tr>`;
             tableBody.append(row);
         });
         initializeDataTable("reportList");
@@ -57,13 +56,14 @@
         $('#addReportModal').modal('show');
     }
 
-    function openUpdateModal(id, title, desc, type) {
+    function openUpdateModal(id, title, desc, type, statusId) {
         g_reportId = id;
         g_action = 'U';
         $('#modalTitle').text('Update Exception Report');
         $('#reportName').val(title);
         $('#thingsCheck').val(desc);
         $('#reportType').val(type);
+        $('#loanStatus').val(statusId);
         $('#addReportModal').modal('show');
     }
 
@@ -76,7 +76,8 @@
                 'REPORT_ID': g_reportId,
                 'REPORT_TITLE': $('#reportName').val(),
                 'DESCRIPTION': $('#thingsCheck').val(),
-                'TYPE': $('#reportType').val()
+                'TYPE': $('#reportType').val(),
+                'LOAN_STATUS_ID': $('#loanStatus').val()
             },
             success: function () {
                 $('#addReportModal').modal('hide');
@@ -131,6 +132,20 @@
                     <select id="reportType" class="form-select">
                         <option value="L">Loan</option>
                         <option value="A">Account</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Loan Status</label>
+                    <select id="loanStatus" class="form-select">
+                        @{
+                            if (ViewData["LoanStatusList"] != null)
+                            {
+                                foreach (var st in (dynamic)(ViewData["LoanStatusList"]))
+                                {
+                                    <option value="@st.CODE">@st.NAME</option>
+                                }
+                            }
+                        }
                     </select>
                 </div>
             </div>

@@ -21765,7 +21765,8 @@ Dear {userFullName},
             return list;
             }
 
-        public string AddExceptionAccountReport(string IND, int REPORT_ID, string REPORT_TITLE, string DESCRIPTION, string TYPE)
+        public string AddExceptionAccountReport(string IND, int REPORT_ID, string REPORT_TITLE, string DESCRIPTION, string TYPE, int LOAN_STATUS_ID)
+
             {
             string resp = "";
             sessionHandler = new SessionHandler();
@@ -21783,6 +21784,7 @@ Dear {userFullName},
                 cmd.Parameters.Add("REPORT_TITLE", OracleDbType.Varchar2).Value = REPORT_TITLE;
                 cmd.Parameters.Add("DESCRIPTION", OracleDbType.Varchar2).Value = DESCRIPTION;
                 cmd.Parameters.Add("TYPE", OracleDbType.Varchar2).Value = TYPE;
+                cmd.Parameters.Add("LStatus", OracleDbType.Int32).Value = LOAN_STATUS_ID;
                 cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
                 cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
@@ -22023,6 +22025,48 @@ Dear {userFullName},
             con.Dispose();
             return resp;
             }
+
+        public List<MenuPagesModel> GetMenuPagesId(string Page_Path)
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var con = this.DatabaseConnection(); con.Open();
+            var loggedInUser = sessionHandler.GetSessionUser();
+            List<MenuPagesModel> modelList = new List<MenuPagesModel>();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_lg.p_GetTopMenuPages";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("Page_Path", OracleDbType.Varchar2).Value = Page_Path;
+                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    MenuPagesModel menuPage = new MenuPagesModel();
+                    menuPage.Id = Convert.ToInt32(rdr["ID"]);
+                    menuPage.Menu_Id = Convert.ToInt32(rdr["MENU_ID"]);
+                    menuPage.Page_Name = rdr["PAGE_NAME"].ToString();
+                    menuPage.Page_Path = rdr["PAGE_PATH"].ToString();
+                    menuPage.Page_Order = Convert.ToInt32(rdr["PAGE_ORDER"]);
+                    menuPage.Status = rdr["STATUS"].ToString();
+                    menuPage.Sub_Menu = rdr["Sub_Menu"].ToString();
+                    menuPage.Sub_Menu_Id = rdr["Sub_Menu_Id"].ToString();
+                    menuPage.Sub_Menu_Name = rdr["Sub_Menu_Name"].ToString();
+                    menuPage.Status = rdr["STATUS"].ToString();
+                    if (rdr["HIDE_MENU"].ToString() != null && rdr["HIDE_MENU"].ToString() != "")
+                        menuPage.Hide_Menu = Convert.ToInt32(rdr["HIDE_MENU"]);
+                    modelList.Add(menuPage);
+                    }
+                }
+            con.Dispose();
+            return modelList;
+            }
+
         public int GetPageIdByPath(string pagePath)
             {
             int pageId = 0;

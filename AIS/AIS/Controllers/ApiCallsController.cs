@@ -2795,9 +2795,9 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
-        public string add_exception_account_report(string IND = "", int REPORT_ID = 0, string REPORT_TITLE = "", string DESCRIPTION = "", string TYPE = "")
+        public string add_exception_account_report(string IND = "", int REPORT_ID = 0, string REPORT_TITLE = "", string DESCRIPTION = "", string TYPE = "", int LOAN_STATUS_ID = 0)
             {
-            return "{\"Status\":true,\"Message\":\"" + dBConnection.AddExceptionAccountReport(IND, REPORT_ID, REPORT_TITLE, DESCRIPTION, TYPE) + "\"}";
+            return "{\"Status\":true,\"Message\":\"" + dBConnection.AddExceptionAccountReport(IND, REPORT_ID, REPORT_TITLE, DESCRIPTION, TYPE, LOAN_STATUS_ID) + "\"}";
             }
 
         [HttpPost]
