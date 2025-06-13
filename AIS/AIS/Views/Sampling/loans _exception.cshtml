@@ -1,6 +1,8 @@
 ﻿@{
     var passedTitle = Context.Request.Query["title"].ToString();
+    var passedDesc = Context.Request.Query["desc"].ToString();
     ViewData["Title"] = string.IsNullOrEmpty(passedTitle) ? "Samples of Loans" : passedTitle;
+    ViewData["Description"] = passedDesc;
     Layout = "_Layout";
 }
 
@@ -96,6 +98,10 @@
             <h4 class="mb-0">@ViewData["Title"]</h4>
         </div>
         <div class="card-body">
+            @if(!string.IsNullOrWhiteSpace(ViewData["Description"] as string))
+            {
+                <p class="font-weight-bold text-danger">@ViewData["Description"]</p>
+            }
             <div class="table-responsive">
                 <table id="loan_sample_list" class="table table-hover table-bordered table-striped">
                     <thead>
