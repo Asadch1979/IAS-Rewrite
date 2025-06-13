@@ -1,5 +1,6 @@
 ﻿@{
-    ViewData["Title"] = "CTR Reports Related to Accounts";
+    var passedTitle = Context.Request.Query["title"].ToString();
+    ViewData["Title"] = string.IsNullOrEmpty(passedTitle) ? "CTR Reports Related to Accounts" : passedTitle;
     Layout = "_Layout";
 }
 

@@ -1,5 +1,6 @@
 ﻿@{
-    ViewData["Title"] = "Samples of Loans";
+    var passedTitle = Context.Request.Query["title"].ToString();
+    ViewData["Title"] = string.IsNullOrEmpty(passedTitle) ? "Samples of Loans" : passedTitle;
     Layout = "_Layout";
 }
 
