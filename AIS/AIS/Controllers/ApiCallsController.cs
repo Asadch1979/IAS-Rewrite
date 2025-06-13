@@ -2795,6 +2795,12 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
+        public List<AuditeeEntitiesModel> get_loan_status_list()
+            {
+            return dBConnection.GetLoanStatus();
+            }
+
+        [HttpPost]
         public string add_exception_account_report(string IND = "", int REPORT_ID = 0, string REPORT_TITLE = "", string DESCRIPTION = "", string TYPE = "")
             {
             return "{\"Status\":true,\"Message\":\"" + dBConnection.AddExceptionAccountReport(IND, REPORT_ID, REPORT_TITLE, DESCRIPTION, TYPE) + "\"}";

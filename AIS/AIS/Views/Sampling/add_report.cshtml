@@ -7,11 +7,15 @@
     var g_engID = 0;
     var g_reportId = 0;
     var g_action = "A";
+    var g_loanStatusList = [];
     $(document).ready(function () {
         var url_string = window.location;
         var url = new URL(url_string);
         g_engID = url.searchParams.get("engId");
         loadReports();
+        loadLoanStatus();
+        $('#reportType').on('change', toggleLoanStatusField);
+        toggleLoanStatusField();
     });
 
     function loadReports() {
@@ -47,6 +51,33 @@
         $('#wait').hide();
     }
 
+    function loadLoanStatus() {
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/get_loan_status_list",
+            type: "POST",
+            cache: false,
+            success: function (data) {
+                g_loanStatusList = data;
+                var ddl = $('#loanStatusField');
+                ddl.empty();
+                ddl.append('<option value="0" selected>Select Loan Status</option>');
+                $.each(data, function (i, v) {
+                    ddl.append('<option value="' + v.code + '">' + v.name + '</option>');
+                });
+            },
+            dataType: "json"
+        });
+    }
+
+    function toggleLoanStatusField() {
+        if ($('#reportType').val() === 'L') {
+            $('#loanStatusDiv').show();
+        } else {
+            $('#loanStatusDiv').hide();
+            $('#loanStatusField').val('0');
+        }
+    }
+
     function openAddModal() {
         g_reportId = 0;
         g_action = 'A';
@@ -54,6 +85,8 @@
         $('#reportName').val('');
         $('#thingsCheck').val('');
         $('#reportType').val('L');
+        $('#loanStatusField').val('0');
+        toggleLoanStatusField();
         $('#addReportModal').modal('show');
     }
 
@@ -64,10 +97,13 @@
         $('#reportName').val(title);
         $('#thingsCheck').val(desc);
         $('#reportType').val(type);
+        toggleLoanStatusField();
+        $('#loanStatusField').val('0');
         $('#addReportModal').modal('show');
     }
 
     function saveReport() {
+        var loanStatus = $('#reportType').val() === 'L' ? $('#loanStatusField').val() : '0';
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/add_exception_account_report",
             type: "POST",
@@ -76,7 +112,8 @@
                 'REPORT_ID': g_reportId,
                 'REPORT_TITLE': $('#reportName').val(),
                 'DESCRIPTION': $('#thingsCheck').val(),
-                'TYPE': $('#reportType').val()
+                'TYPE': $('#reportType').val(),
+                'LOAN_STATUS': loanStatus
             },
             success: function () {
                 $('#addReportModal').modal('hide');
@@ -131,6 +168,12 @@
                     <select id="reportType" class="form-select">
                         <option value="L">Loan</option>
                         <option value="A">Account</option>
+                    </select>
+                </div>
+                <div class="mb-3" id="loanStatusDiv" style="display:none;">
+                    <label class="form-label">Loan Status</label>
+                    <select id="loanStatusField" class="form-select">
+                        <option value="0" selected>Select Loan Status</option>
                     </select>
                 </div>
             </div>
