@@ -155,15 +155,14 @@
                     if (data && data.length > 0) {
                         var rep = data[0].audiT_REPORT || data[0].audit_report;
                         if (rep) {
-                            var pdfSrc = "data:application/pdf;base64," + rep;
-                            var win = window.open(pdfSrc, "_blank");
-                            if (!win) {
-                                const blob = base64ToBlob(rep, 'application/pdf');
-                                const link = document.createElement('a');
-                                link.href = URL.createObjectURL(blob);
-                                link.download = 'Audit_Report_' + g_rptid + '.pdf';
-                                link.click();
-                            }
+                            const blob = base64ToBlob(rep, 'application/pdf');
+                            const link = document.createElement("a");
+                            link.href = URL.createObjectURL(blob);
+                            link.download = "Audit_Report_" + g_rptid + ".pdf";
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            URL.revokeObjectURL(link.href);
                         } else {
                             alert('Audit report not found');
                         }
