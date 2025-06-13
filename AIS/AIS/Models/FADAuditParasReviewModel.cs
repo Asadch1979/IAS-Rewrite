@@ -23,5 +23,10 @@ namespace AIS.Models
         public string REPORT_ID { get; set; }
         public string REPORT_NAME { get; set; }
 
+        public string AUDITEE_REPLY { get; set; }
+        public string AUDITOR_COMMENTS { get; set; }
+        public string HEADCOMMENTS { get; set; }
+        public string ROOT_CAUSE { get; set; }
+
         }
     }
