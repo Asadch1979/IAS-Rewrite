@@ -21935,7 +21935,7 @@ Dear {userFullName},
             var con = this.DatabaseConnection(); con.Open();
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "pkg_ad.p_get_audit_engagement";
+                cmd.CommandText = "pkg_fad.p_get_audit_engagement";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("ent_id", OracleDbType.Int32).Value = ENTITY_ID;
