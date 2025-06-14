@@ -12301,11 +12301,11 @@ Dear {userFullName},
                     {
                     AuditeeOldParasModel chk = new AuditeeOldParasModel();
                     chk.AUDIT_PERIOD = rdr["AUDIT_PERIOD"].ToString();
-                    chk.PARA_CATEGORY = rdr["PARA_CATEGORY"].ToString();
+                    chk.PARA_CATEGORY = rdr["IND"].ToString();
                     chk.MEMO_NO = rdr["PARA_NO"].ToString();
                     chk.GIST_OF_PARAS = rdr["GIST_OF_PARAS"].ToString();
                     chk.ENTITY_NAME = rdr["ENTITY_NAME"].ToString();
-                    chk.REF_P = rdr["REF_P"].ToString();
+                    chk.PARA_ID = rdr["PARA_ID"].ToString();
                     chk.OBS_ID = rdr["OBS_ID"].ToString();
                     list.Add(chk);
                     }
@@ -12333,7 +12333,7 @@ Dear {userFullName},
             con.Dispose();
             return resp;
             }
-        public string GetAllParaText(string REF_P, string OBS_ID, string PARA_CATEGORY)
+        public string GetAllParaText(string PARA_ID, string OBS_ID, string PARA_CATEGORY)
             {
             string resp = "";
             var con = this.DatabaseConnection(); con.Open();
@@ -12344,7 +12344,7 @@ Dear {userFullName},
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("CAT", OracleDbType.Varchar2).Value = PARA_CATEGORY;
                 cmd.Parameters.Add("OBS_ID", OracleDbType.Varchar2).Value = OBS_ID;
-                cmd.Parameters.Add("REFP", OracleDbType.Varchar2).Value = REF_P;
+                cmd.Parameters.Add("PARA_ID", OracleDbType.Varchar2).Value = PARA_ID;
                 cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
