@@ -2811,6 +2811,12 @@ namespace AIS.Controllers
             return dBConnection.GetLoanSamples(INDICATOR, STATUS_ID, ENG_ID, SAMPLE_ID);
             }
         [HttpPost]
+
+        public List<LoanCaseSampleModel> get_loan_Exceptions(string INDICATOR, int STATUS_ID, int ENG_ID)
+            {
+            return dBConnection.GetLoanExceptions(INDICATOR, STATUS_ID, ENG_ID);
+            }
+        [HttpPost]
         public List<LoanCaseSampleDocumentsModel> get_loan_documents(int ENG_ID, string LOAN_DISB_ID)
             {
             return dBConnection.GetLoanSamplesDocuments(ENG_ID, LOAN_DISB_ID);

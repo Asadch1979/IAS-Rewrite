@@ -21450,6 +21450,50 @@ Dear {userFullName},
             con.Dispose();
             return list;
             }
+
+        public List<LoanCaseSampleModel> GetLoanExceptions(string INDICATOR, int STATUS_ID, int ENG_ID)
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var con = this.DatabaseConnection(); con.Open();
+            var loggedInUser = sessionHandler.GetSessionUser();
+            List<LoanCaseSampleModel> list = new List<LoanCaseSampleModel>();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_sm.P_GET_LOANS_Exceptions";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                // cmd.Parameters.Add("IND", OracleDbType.Varchar2).Value = INDICATOR;
+                cmd.Parameters.Add("LStatus", OracleDbType.Int32).Value = STATUS_ID;
+                cmd.Parameters.Add("E_ID", OracleDbType.Int32).Value = ENG_ID;
+                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    LoanCaseSampleModel chk = new LoanCaseSampleModel();
+                    chk.LOAN_DISB_ID = rdr["loan_disb_id"].ToString();
+                    chk.TYPE = rdr["TYPE"].ToString();
+                    chk.SCHEME = rdr["SCHEME"].ToString();
+                    chk.L_PURPOSE = rdr["L_PURPOSE"].ToString();
+                    chk.LC_NO = rdr["LC_NO"].ToString();
+                    chk.CNIC = rdr["CNIC"].ToString();
+                    chk.CUSTOMERNAME = rdr["CUSTOMERNAME"].ToString();
+                    chk.APP_DATE = Convert.ToDateTime(rdr["APP_DATE"]);
+                    chk.DISB_DATE = Convert.ToDateTime(rdr["DISB_DATE"]);
+                    chk.DEV_AMOUNT = Convert.ToDecimal(rdr["DEV_AMOUNT"]);
+                    chk.OUTSTANDING = Convert.ToDecimal(rdr["OUTSTANDING"]);
+                    list.Add(chk);
+                    }
+
+                }
+            con.Dispose();
+            return list;
+            }
+
         public List<LoanCaseSampleDocumentsModel> GetLoanSamplesDocuments(int ENG_ID, string LOAN_DISB_ID)
             {
             sessionHandler = new SessionHandler();

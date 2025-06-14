@@ -1,7 +1,7 @@
 ﻿@{
     var passedTitle = Context.Request.Query["title"].ToString();
     var passedDesc = Context.Request.Query["desc"].ToString();
-    ViewData["Title"] = string.IsNullOrEmpty(passedTitle) ? "Samples of Loans" : passedTitle;
+    ViewData["Title"] = string.IsNullOrEmpty(passedTitle) ? "Loans Exception Report" : passedTitle;
     ViewData["Description"] = passedDesc;
     Layout = "_Layout";
 }
@@ -24,15 +24,14 @@
     function loadLoanSamples() {
 
         $.ajax({
-             url: g_asiBaseURL + "/ApiCalls/get_loan_samples",
+             url: g_asiBaseURL + "/ApiCalls/get_loan_Exceptions",
             type: "POST",
                cache: false,
 
             data: {
                 'ENG_ID': g_engId,
                 'INDICATOR':g_indicator,
-                'STATUS_ID':g_loanStatus,
-                'SAMPLE_ID':g_sampleId
+                'STATUS_ID':g_loanStatus
             },
             success: function (data) {
                 if (data.length > 0) {
