@@ -2743,6 +2743,11 @@ namespace AIS.Controllers
             return "{\"Status\":true,\"Message\":\"" + dBConnection.CreateSampleDataAfterEngagementApproval(ENG_ID) + "\"}";
             }
 
+        public string create_engagement_Exception_data(int ENG_ID)
+            {
+            return "{\"Status\":true,\"Message\":\"" + dBConnection.CreateExceptionDataAfterEngagementApproval(ENG_ID) + "\"}";
+            }
+
         [HttpPost]
         public List<BiometSamplingModel> get_biomet_sampling_details(int ENG_ID)
             {

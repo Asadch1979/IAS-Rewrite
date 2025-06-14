@@ -3491,6 +3491,56 @@ Dear {userFullName},
             return resp;
             }
 
+        public string CreateExceptionDataAfterEngagementApproval(int ENG_ID)
+            {
+            string resp = "";
+            string email = "";
+            string email_cc = "";
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection(); con.Open();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_sm.P_add_exception_data";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("E_ID", OracleDbType.Int32).Value = ENG_ID;
+                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    resp = rdr["REMARKS"].ToString();
+                    //email = rdr["email"].ToString();
+                    // email_cc = rdr["email_cc"].ToString();
+                    }
+                }
+            con.Dispose();
+
+            if (resp == "N")
+                {
+                string emailSubject = $"IAS~Notification: Issue in Audit Exception for Engagement ID: {ENG_ID}";
+
+                string emailBody = $@"
+                    Dear Sir,
+
+                    This is to notify you that the issue has been identified while creating exception reports Please check and fix.  
+
+                  
+
+                    Best Regards,  
+                    Internal Audit System (IAS)
+                    ";
+
+                EmailConfiguration econ = new EmailConfiguration();
+                econ.ConfigEmail(email, email_cc, emailSubject, emailBody);
+                }
+            return resp;
+            }
         public UserModel GetMatchedPPNumbers(string PPNO)
             {
             UserModel um = new UserModel();
@@ -21756,7 +21806,7 @@ Dear {userFullName},
                     chk.REPORT_ID = Convert.ToInt32(rdr["R_ID"].ToString());
                     chk.REPORT_TITLE = rdr["REPORT_TITLE"].ToString();
                     chk.DISCRIPTION = rdr["DISCRIPTION"].ToString();
-                    chk.LOAN_STATUS = rdr["sample_final"].ToString();
+                    chk.LOAN_STATUS = rdr["loan_status"].ToString();
                     chk.REPORT_INDICATOR = rdr["IND"].ToString();
                     list.Add(chk);
                     }

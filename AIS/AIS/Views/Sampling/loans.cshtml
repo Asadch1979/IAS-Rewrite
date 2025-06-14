@@ -9,12 +9,17 @@
     var g_sampleId = 0;
     var g_loanStatus = 0;
     var g_indicator="L";
+    var g_sampleType = "";
     $(document).ready(function () {
         var url_string = window.location;
         var url = new URL(url_string);
         g_engId = url.searchParams.get("engId");
         g_sampleId = url.searchParams.get("sample_id");
         g_loanStatus = url.searchParams.get("loan_status");
+        g_sampleType = url.searchParams.get("sample_type");
+        if(g_sampleType){
+            $("#sampleTypeHeader").text(g_sampleType);
+        }
         loadLoanSamples();
     });
 
@@ -82,18 +87,17 @@
     }
 
     function getLoanTransactions (l_disb_id){
-        window.location.href=  "./loan_transactions?engId="+g_engId+"&disbId="+l_disb_id;
-    }
-      function getLoanDocuments (l_disb_id){
-        window.location.href=  "./loan_documents?engId="+g_engId+"&disbId="+l_disb_id;
-    }
-
+            window.location.href=  "./loan_transactions?engId="+g_engId+"&disbId="+l_disb_id+"&sample_type="+encodeURIComponent(g_sampleType);
+        }
+          function getLoanDocuments (l_disb_id){
+            window.location.href=  "./loan_documents?engId="+g_engId+"&disbId="+l_disb_id+"&sample_type="+encodeURIComponent(g_sampleType);
+        }
 </script>
 <link rel="stylesheet" href="~/css/sampling.css" />
 <div class="container-fluid mt-4">
     <div class="card card-sample shadow-sm">
         <div class="card-header">
-            <h4 class="mb-0">@ViewData["Title"]</h4>
+            <h4 class="mb-0">@ViewData["Title"] <span id="sampleTypeHeader" style="color:red;font-weight:bold;"></span></h4>
         </div>
         <div class="card-body">
             <div class="table-responsive">

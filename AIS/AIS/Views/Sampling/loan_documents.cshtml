@@ -6,12 +6,17 @@
     var g_engId = 0;
     var g_accountNo = 0;
     var g_loanDisbId = 0;  // Fix: Declare this variable
+    var g_sampleType = "";
 
     $(document).ready(function () {
         var url_string = window.location.href;
         var url = new URL(url_string);
         g_engId = url.searchParams.get("engId");
         g_loanDisbId = url.searchParams.get("disbId");
+        g_sampleType = url.searchParams.get("sample_type");
+        if(g_sampleType){
+            $("#sampleTypeHeader").text(g_sampleType);
+        }
         loadLoanDocuments();
     });
 
@@ -117,7 +122,7 @@
 <div class="container-fluid mt-4">
     <div class="card card-sample shadow-sm">
         <div class="card-header">
-            <h4 class="mb-0">Loan Documents List</h4>
+            <h4 class="mb-0">Loan Documents List <span id="sampleTypeHeader" style="color:red;font-weight:bold;"></span></h4>
         </div>
         <div class="card-body">
             <div class="table-responsive">

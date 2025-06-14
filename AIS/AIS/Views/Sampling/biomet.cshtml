@@ -1,20 +1,20 @@
-﻿@{
-    ViewData["Title"] = "Samples for Biometrics";
-    Layout = "_Layout";
+﻿﻿@{
+ViewData["Title"] = "Samples for Biometrics";
+Layout = "_Layout";
 }
 
 <script type="text/javascript">
     var g_engId = 0;
+    var g_sampleType = "";
     $(document).ready(function () {
         var url_string = window.location;
         var url = new URL(url_string);
 
        g_engId = url.searchParams.get("engId");
-        g_sampleID  = url.searchParams.get("sample_id"); 
+        g_sampleID  = url.searchParams.get("sample_id");
+        g_sampleType = url.searchParams.get("sample_type");
 
-        g_engId = url.searchParams.get("engId");
-
-        loadBIOMETSamples();
+       loadBIOMETSamples();
     });
 
 
@@ -33,7 +33,7 @@
             dataType: "json",
         });
     }
-        
+
     function populateTable(data) {
         $('#wait').show();
         var tableBody = $("#biomet_sample_list tbody");
@@ -52,7 +52,7 @@
         <td>${item.accounT_TYPE}</td>
         <td>${item.accounT_CATEGORY}</td>
         <td>
-            <a href="./account_document?engId=${g_engId}&acNo=${item.accounT_NO}" class="btn btn-primary btn-sm">Documents</a>
+            <a href="./account_document?engId=${g_engId}&acNo=${item.accounT_NO}&sample_type=${encodeURIComponent(g_sampleType)}" class="btn btn-primary btn-sm">Documents</a>
         </td>
         <td>
             <a href="./account_transaction?engId=${g_engId}&acNo=${item.accounT_NO}" class="btn btn-success btn-sm">Transactions</a>
@@ -64,7 +64,7 @@
         initializeDataTable('biomet_sample_list');
         $('#wait').hide();
     }
-        
+
     function formatDate(dateString) {
         if (!dateString || dateString.trim() === "") return "";
         let date = new Date(dateString);
