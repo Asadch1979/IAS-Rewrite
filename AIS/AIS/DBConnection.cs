@@ -15902,6 +15902,36 @@ Dear {userFullName},
             return resp;
             }
 
+        public string UpdateParaEntity(int OBS_ID, int NEW_ENT_ID, int OLD_ENT_ID)
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection(); con.Open();
+            var resp = "";
+
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_ad.p_audit_observation_reversal";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("NEW_ENT_ID", OracleDbType.Varchar2).Value = NEW_ENT_ID;
+                cmd.Parameters.Add("OLD_ENT_ID", OracleDbType.Varchar2).Value = OLD_ENT_ID;
+                cmd.Parameters.Add("O_ID", OracleDbType.Varchar2).Value = OBS_ID;
+                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Varchar2).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("R_ID", OracleDbType.Varchar2).Value = loggedInUser.UserRoleID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    resp = rdr["remarks"].ToString();
+                    }
+                }
+            con.Dispose();
+            return resp;
+            }
         public List<SettledParasMonitoringModel> GetSettledParasForMonitoring(int ENTITY_ID)
             {
             sessionHandler = new SessionHandler();

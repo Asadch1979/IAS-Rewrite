@@ -1904,6 +1904,18 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
+
+        public string Para_Shifted_To(List<int> OBS_IDS, int NEW_ENT_ID, int OLD_ENT_ID)
+            {
+            string resp = "";
+            foreach (int ID in OBS_IDS)
+                {
+                resp += dBConnection.UpdateParaEntity(ID, NEW_ENT_ID, OLD_ENT_ID) + "<br />";
+                }
+            return "{\"Status\":true,\"Message\":\"" + resp + "\"}";
+            }
+
+        [HttpPost]
         public List<SettledParasMonitoringModel> get_settled_paras_for_monitoring(int ENTITY_ID)
             {
             return dBConnection.GetSettledParasForMonitoring(ENTITY_ID);
