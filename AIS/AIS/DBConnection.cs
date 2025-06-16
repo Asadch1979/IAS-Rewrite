@@ -12306,7 +12306,7 @@ Dear {userFullName},
                     chk.GIST_OF_PARAS = rdr["GIST_OF_PARAS"].ToString();
                     chk.ENTITY_NAME = rdr["ENTITY_NAME"].ToString();
                     chk.PARA_ID = rdr["PARA_ID"].ToString();
-                    chk.OBS_ID = rdr["OBS_ID"].ToString();
+                    chk.OBS_ID = rdr["OBS_ID"].ToString();                   
                     list.Add(chk);
                     }
                 }
@@ -15902,7 +15902,7 @@ Dear {userFullName},
             return resp;
             }
 
-        public string UpdateParaEntity(int OBS_ID, int NEW_ENT_ID, int OLD_ENT_ID)
+        public string ParaShiftedTo(int OBS_ID, int NEW_ENT_ID, int OLD_ENT_ID, string P_IND)
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
@@ -15913,12 +15913,13 @@ Dear {userFullName},
 
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "pkg_ad.p_audit_observation_reversal";
+                cmd.CommandText = "pkg_fad.P_PARA_SHIFTING";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("NEW_ENT_ID", OracleDbType.Varchar2).Value = NEW_ENT_ID;
                 cmd.Parameters.Add("OLD_ENT_ID", OracleDbType.Varchar2).Value = OLD_ENT_ID;
                 cmd.Parameters.Add("O_ID", OracleDbType.Varchar2).Value = OBS_ID;
+                cmd.Parameters.Add("P_IND", OracleDbType.Varchar2).Value = P_IND;
                 cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 cmd.Parameters.Add("ENT_ID", OracleDbType.Varchar2).Value = loggedInUser.UserEntityID;
                 cmd.Parameters.Add("R_ID", OracleDbType.Varchar2).Value = loggedInUser.UserRoleID;

@@ -38,7 +38,7 @@
                 cache: false,
                 success: function (data) {
                     $.each(data, function (i, v) {
-                        $('#manageObsPanel tbody').append('<tr id="assignedObRow_' + v.id + '"><td><input type="checkbox" class="shift-check" value="' + v.obS_ID + '"></td><td>' + (++i) + '</td><td>' + v.entitY_NAME + '</td><td>' + v.audiT_PERIOD + '</td><td>' + v.memO_NO + '</td><td>' + v.gisT_OF_PARAS + '</td></tr>');
+                        $('#manageObsPanel tbody').append('<tr id="assignedObRow_' + v.id + '"><td><input type="checkbox" class="shift-check" value="' + v.obS_ID + '"><input type="checkbox" class="shift-check" value="' + v.parA_CATEGORY + '"></td><td>' + (++i) + '</td><td>' + v.entitY_NAME + '</td><td>' + v.audiT_PERIOD + '</td><td>' + v.memO_NO + '</td><td>' + v.gisT_OF_PARAS + '</td></tr>');
                     });
                     initializeDataTable('manageObsPanel');
                 },
@@ -88,7 +88,8 @@
             data: {
                 'OBS_IDS': ids,
                 'NEW_ENT_ID': $('#shiftBranchSelect option:selected').val(),
-                'OLD_ENT_ID': $('#branchSelectField option:selected').val()
+                'OLD_ENT_ID': $('#branchSelectField option:selected').val(),
+                'P_IND' : parA_CATEGORY
             },
             cache: false,
             success: function (data) {

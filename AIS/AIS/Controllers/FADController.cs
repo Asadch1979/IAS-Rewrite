@@ -66,6 +66,7 @@ namespace AIS.Controllers
             ViewData["TopMenu"] = tm.GetTopMenus();
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();
             ViewData["Userrelationship"] = dBConnection.Getrealtionshiptype();
+            ViewData["ZonesList"] = dBConnection.GetZonesoldparamointoring();
 
             if (!sessionHandler.IsUserLoggedIn())
                 {

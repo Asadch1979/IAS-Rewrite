@@ -1089,9 +1089,9 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
-        public string get_all_para_text(string REF_P, string OBS_ID, string PARA_CATEGORY)
+        public string get_all_para_text(string PARA_ID, string OBS_ID, string PARA_CATEGORY)
             {
-            return dBConnection.GetAllParaText(REF_P, OBS_ID, PARA_CATEGORY);
+            return dBConnection.GetAllParaText(PARA_ID, OBS_ID, PARA_CATEGORY);
             }
 
 
@@ -1905,12 +1905,12 @@ namespace AIS.Controllers
 
         [HttpPost]
 
-        public string Para_Shifted_To(List<int> OBS_IDS, int NEW_ENT_ID, int OLD_ENT_ID)
+        public string Para_Shifted_To(List<int> OBS_IDS, int NEW_ENT_ID, int OLD_ENT_ID, string P_IND)
             {
             string resp = "";
             foreach (int ID in OBS_IDS)
                 {
-                resp += dBConnection.UpdateParaEntity(ID, NEW_ENT_ID, OLD_ENT_ID) + "<br />";
+                resp += dBConnection.ParaShiftedTo(ID, NEW_ENT_ID, OLD_ENT_ID, P_IND) + "<br />";
                 }
             return "{\"Status\":true,\"Message\":\"" + resp + "\"}";
             }
