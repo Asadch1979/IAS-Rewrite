@@ -12305,7 +12305,7 @@ Dear {userFullName},
                     chk.MEMO_NO = rdr["PARA_NO"].ToString();
                     chk.GIST_OF_PARAS = rdr["GIST_OF_PARAS"].ToString();
                     chk.ENTITY_NAME = rdr["ENTITY_NAME"].ToString();
-                    chk.PARA_ID = rdr["PARA_ID"].ToString();
+                    chk.PARA_ID = rdr["OLD_PARA_ID"].ToString();
                     chk.OBS_ID = rdr["OBS_ID"].ToString();                   
                     list.Add(chk);
                     }
