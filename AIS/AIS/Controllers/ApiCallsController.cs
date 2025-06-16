@@ -1905,12 +1905,13 @@ namespace AIS.Controllers
 
         [HttpPost]
 
-        public string Para_Shifted_To(List<int> OBS_IDS, int NEW_ENT_ID, int OLD_ENT_ID, string P_IND)
+        public string Para_Shifted_To(List<int> OBS_IDS, int NEW_ENT_ID, int OLD_ENT_ID, List<string> P_INDS)
             {
             string resp = "";
-            foreach (int ID in OBS_IDS)
+            for (int i = 0; i < OBS_IDS.Count; i++)
                 {
-                resp += dBConnection.ParaShiftedTo(ID, NEW_ENT_ID, OLD_ENT_ID, P_IND) + "<br />";
+                string pInd = P_INDS.Count > i ? P_INDS[i] : string.Empty;
+                resp += dBConnection.ParaShiftedTo(OBS_IDS[i], NEW_ENT_ID, OLD_ENT_ID, pInd) + "<br />";
                 }
             return "{\"Status\":true,\"Message\":\"" + resp + "\"}";
             }
