@@ -4,6 +4,15 @@
 }
 <script type="text/javascript">
     var postComplianceData = [];
+    var tableFields = [
+        "P_NAME","C_NAME","COM_ID","OLD_PARA_ID","NEW_PARA_ID","AUDIT_PERIOD",
+        "ENTITY_ID","ENTITY_CODE","AUDITED_BY","ENTITY_TYPE_ID","COM_CYCLE",
+        "COM_STATUS","COM_STAGE","PARA_STATUS","PARA_NO","GIST_OF_PARAS",
+        "SETTELED_ON","SETTELED_BY","IND","PARA_ADDED_ON","CAU_STATUS",
+        "CAU_ASSIGNED_ENT_ID","BR_RESPONSE_BY","BR_RESPONSE_ON","CAU_ASSIGNED_BY",
+        "CAU_ASSIGNED_ON","SETTLEMENT_COM_REVIEWED_BY","SETTLEMENT_COM_REVIEWED_ON",
+        "RISK","ANNEX"
+    ];
     function getZoneBranches() {
         destroyDatatable('manageObsPanel');
         $('#branchSelectField').empty();
@@ -38,8 +47,17 @@
                 cache: false,
                 success: function (data) {
                     postComplianceData = data;
-                    $.each(data, function (i, v) {
-                    $('#manageObsPanel tbody').append('<tr data-index="' + i + '"><td>' + (++i) + '</td><td>' + v.p_NAME + '</td><td>' + v.c_NAME + '</td><td>' + v.audiT_PERIOD + '</td><td>' + v.parA_NO + '</td><td>' + v.gisT_OF_PARAS + '</td><td><button class="btn btn-sm btn-primary" onclick="openUpdateModal(' + (i-1) + ');">Update</button></td></tr>');                    });
+                    $.each(data, function (idx, v) {
+                        var row = '<tr data-index="' + idx + '"><td>' + (idx + 1) + '</td>';
+                        $.each(tableFields, function(_, f){
+                            var val = v[f];
+                            if (val === undefined) val = v[f.toLowerCase()];
+                            if (val === undefined) val = v[f.toUpperCase()];
+                            row += '<td>' + (val !== undefined ? val : '') + '</td>';
+                        });
+                        row += '<td><button class="btn btn-sm btn-primary" onclick="openUpdateModal(' + idx + ');">Update</button></td></tr>';
+                        $('#manageObsPanel tbody').append(row);
+                    });
                     initializeDataTable('manageObsPanel');
                 },
                 dataType: "json",
@@ -110,12 +128,38 @@
     <table id="manageObsPanel" class="table table-hover table-bordered table-hover mt-3 table-striped">
         <thead style="background-color: #19875478 !important; ">
             <tr>
-                <th class="col-md-1">Sr. No.</th>
-                <th class="col-md-2">Entity Name</th>
-                <th class="col-md-1">Audit Period</th>
-                <th class="col-md-1">Para Number</th>
-                <th class="col-md-5">Heading</th>
-                <th class="col-md-1">Action</th>
+                <th>Sr. No.</th>
+                <th>P_NAME</th>
+                <th>C_NAME</th>
+                <th>COM_ID</th>
+                <th>OLD_PARA_ID</th>
+                <th>NEW_PARA_ID</th>
+                <th>AUDIT_PERIOD</th>
+                <th>ENTITY_ID</th>
+                <th>ENTITY_CODE</th>
+                <th>AUDITED_BY</th>
+                <th>ENTITY_TYPE_ID</th>
+                <th>COM_CYCLE</th>
+                <th>COM_STATUS</th>
+                <th>COM_STAGE</th>
+                <th>PARA_STATUS</th>
+                <th>PARA_NO</th>
+                <th>GIST_OF_PARAS</th>
+                <th>SETTELED_ON</th>
+                <th>SETTELED_BY</th>
+                <th>IND</th>
+                <th>PARA_ADDED_ON</th>
+                <th>CAU_STATUS</th>
+                <th>CAU_ASSIGNED_ENT_ID</th>
+                <th>BR_RESPONSE_BY</th>
+                <th>BR_RESPONSE_ON</th>
+                <th>CAU_ASSIGNED_BY</th>
+                <th>CAU_ASSIGNED_ON</th>
+                <th>SETTLEMENT_COM_REVIEWED_BY</th>
+                <th>SETTLEMENT_COM_REVIEWED_ON</th>
+                <th>RISK</th>
+                <th>ANNEX</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
