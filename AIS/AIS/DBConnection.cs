@@ -22188,6 +22188,108 @@ Dear {userFullName},
             return modelList;
             }
 
+        public List<AISPostComplianceModel> GetAisPostComplianceDetails(int ENT)
+            {
+            List<AISPostComplianceModel> list = new List<AISPostComplianceModel>();
+            var con = this.DatabaseConnection();
+            con.Open();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_ad.P_get_latest_para_details";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ENT", OracleDbType.Int32).Value = ENT;
+                cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    AISPostComplianceModel m = new AISPostComplianceModel();
+                    m.P_NAME = rdr["P_NAME"].ToString();
+                    m.C_NAME = rdr["C_NAME"].ToString();
+                    m.COM_ID = rdr["COM_ID"].ToString();
+                    m.OLD_PARA_ID = rdr["OLD_PARA_ID"].ToString();
+                    m.NEW_PARA_ID = rdr["NEW_PARA_ID"].ToString();
+                    m.AUDIT_PERIOD = rdr["AUDIT_PERIOD"].ToString();
+                    m.ENTITY_ID = rdr["ENTITY_ID"].ToString();
+                    m.ENTITY_CODE = rdr["ENTITY_CODE"].ToString();
+                    m.AUDITED_BY = rdr["AUDITED_BY"].ToString();
+                    m.ENTITY_TYPE_ID = rdr["ENTITY_TYPE_ID"].ToString();
+                    m.COM_CYCLE = rdr["COM_CYCLE"].ToString();
+                    m.COM_STATUS = rdr["COM_STATUS"].ToString();
+                    m.COM_STAGE = rdr["COM_STAGE"].ToString();
+                    m.PARA_STATUS = rdr["PARA_STATUS"].ToString();
+                    m.PARA_NO = rdr["PARA_NO"].ToString();
+                    m.GIST_OF_PARAS = rdr["GIST_OF_PARAS"].ToString();
+                    m.SETTELED_ON = rdr["SETTELED_ON"].ToString();
+                    m.SETTELED_BY = rdr["SETTELED_BY"].ToString();
+                    m.IND = rdr["IND"].ToString();
+                    m.PARA_ADDED_ON = rdr["PARA_ADDED_ON"].ToString();
+                    m.CAU_STATUS = rdr["CAU_STATUS"].ToString();
+                    m.CAU_ASSIGNED_ENT_ID = rdr["CAU_ASSIGNED_ENT_ID"].ToString();
+                    m.BR_RESPONSE_BY = rdr["BR_RESPONSE_BY"].ToString();
+                    m.BR_RESPONSE_ON = rdr["BR_RESPONSE_ON"].ToString();
+                    m.CAU_ASSIGNED_BY = rdr["CAU_ASSIGNED_BY"].ToString();
+                    m.CAU_ASSIGNED_ON = rdr["CAU_ASSIGNED_ON"].ToString();
+                    m.SETTLEMENT_COM_REVIEWED_BY = rdr["SETTLEMENT_COM_REVIEWED_BY"].ToString();
+                    m.SETTLEMENT_COM_REVIEWED_ON = rdr["SETTLEMENT_COM_REVIEWED_ON"].ToString();
+                    m.RISK = rdr["RISK"].ToString();
+                    m.ANNEX = rdr["ANNEX"].ToString();
+                    list.Add(m);
+                    }
+                }
+            con.Dispose();
+            return list;
+            }
+
+        public string UpdateAisPostCompliance(AISPostComplianceModel m)
+            {
+            string resp = "";
+            var con = this.DatabaseConnection();
+            con.Open();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_ad.P_Update_para_AIS_post_compliance";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ca_com_id", OracleDbType.Int32).Value = Convert.ToInt32(m.COM_ID);
+                cmd.Parameters.Add("ca_old_para_id", OracleDbType.Int32).Value = Convert.ToInt32(m.OLD_PARA_ID);
+                cmd.Parameters.Add("ca_new_para_id", OracleDbType.Int32).Value = Convert.ToInt32(m.NEW_PARA_ID);
+                cmd.Parameters.Add("ca_audit_period", OracleDbType.Varchar2).Value = m.AUDIT_PERIOD;
+                cmd.Parameters.Add("ca_entity_id", OracleDbType.Int32).Value = Convert.ToInt32(m.ENTITY_ID);
+                cmd.Parameters.Add("ca_entity_code", OracleDbType.Int32).Value = Convert.ToInt32(m.ENTITY_CODE);
+                cmd.Parameters.Add("ca_audited_by", OracleDbType.Int32).Value = Convert.ToInt32(m.AUDITED_BY);
+                cmd.Parameters.Add("ca_entity_type_id", OracleDbType.Int32).Value = Convert.ToInt32(m.ENTITY_TYPE_ID);
+                cmd.Parameters.Add("ca_com_cycle", OracleDbType.Int32).Value = Convert.ToInt32(m.COM_CYCLE);
+                cmd.Parameters.Add("ca_com_status", OracleDbType.Int32).Value = Convert.ToInt32(m.COM_STATUS);
+                cmd.Parameters.Add("ca_com_stage", OracleDbType.Int32).Value = Convert.ToInt32(m.COM_STAGE);
+                cmd.Parameters.Add("ca_para_status", OracleDbType.Int32).Value = Convert.ToInt32(m.PARA_STATUS);
+                cmd.Parameters.Add("ca_para_no", OracleDbType.Varchar2).Value = m.PARA_NO;
+                cmd.Parameters.Add("ca_gist_of_paras", OracleDbType.Varchar2).Value = m.GIST_OF_PARAS;
+                cmd.Parameters.Add("ca_setteled_on", OracleDbType.Varchar2).Value = m.SETTELED_ON;
+                cmd.Parameters.Add("ca_setteled_by", OracleDbType.Int32).Value = Convert.ToInt32(m.SETTELED_BY);
+                cmd.Parameters.Add("ca_ind", OracleDbType.Varchar2).Value = m.IND;
+                cmd.Parameters.Add("ca_para_added_on", OracleDbType.Varchar2).Value = m.PARA_ADDED_ON;
+                cmd.Parameters.Add("ca_cau_status", OracleDbType.Int32).Value = Convert.ToInt32(m.CAU_STATUS);
+                cmd.Parameters.Add("ca_cau_assigned_ent_id", OracleDbType.Int32).Value = Convert.ToInt32(m.CAU_ASSIGNED_ENT_ID);
+                cmd.Parameters.Add("ca_br_response_by", OracleDbType.Int32).Value = Convert.ToInt32(m.BR_RESPONSE_BY);
+                cmd.Parameters.Add("ca_br_response_on", OracleDbType.Varchar2).Value = m.BR_RESPONSE_ON;
+                cmd.Parameters.Add("ca_cau_assigned_by", OracleDbType.Int32).Value = Convert.ToInt32(m.CAU_ASSIGNED_BY);
+                cmd.Parameters.Add("ca_cau_assigned_on", OracleDbType.Varchar2).Value = m.CAU_ASSIGNED_ON;
+                cmd.Parameters.Add("ca_settlement_com_reviewed_by", OracleDbType.Int32).Value = Convert.ToInt32(m.SETTLEMENT_COM_REVIEWED_BY);
+                cmd.Parameters.Add("ca_settlement_com_reviewed_on", OracleDbType.Varchar2).Value = m.SETTLEMENT_COM_REVIEWED_ON;
+                cmd.Parameters.Add("ca_risk", OracleDbType.Int32).Value = Convert.ToInt32(m.RISK);
+                cmd.Parameters.Add("ca_annex", OracleDbType.Int32).Value = Convert.ToInt32(m.ANNEX);
+                cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    resp = rdr[0].ToString();
+                    }
+                }
+            con.Dispose();
+            return resp;
+            }
+
         public int GetPageIdByPath(string pagePath)
             {
             int pageId = 0;

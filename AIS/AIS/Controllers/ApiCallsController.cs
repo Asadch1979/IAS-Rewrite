@@ -1829,7 +1829,17 @@ namespace AIS.Controllers
             return "{\"Status\":true,\"Message\":\"" + resp + "\"}";
 
             }
+        [HttpPost]
+        public List<AISPostComplianceModel> get_ais_post_compliance_details(int ENT)
+            {
+            return dBConnection.GetAisPostComplianceDetails(ENT);
+            }
 
+        [HttpPost]
+        public string update_ais_post_compliance(AISPostComplianceModel model)
+            {
+            return "{\"Status\":true,\"Message\":\"" + dBConnection.UpdateAisPostCompliance(model) + "\"}";
+            }
 
         [HttpPost]
         public string merge_duplicate_checklists(string MAIN_CHECKLIST_ID, List<string> MERGE_CHECKLIST_IDs)
