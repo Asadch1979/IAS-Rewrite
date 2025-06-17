@@ -15,7 +15,7 @@
         var checklistsub_id = url.searchParams.get("id");
         S_ID = checklistsub_id;
         g_engId = url.searchParams.get("engId");
-        $('#updatedAnnexlist').select2();
+        $('#updatedAnnexlist').select2({ dropdownParent: $('#viewMemoModel') });
 
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/checklist_details",
@@ -152,6 +152,21 @@
             g_memoObj.push(memo);
 
         $('#viewMemoModel').modal('hide');
+         $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/save_observations",
+            type: "POST",
+            data: {
+                'LIST_OBS': [memo],
+                'ENG_ID': g_engId,
+                'S_ID': S_ID
+            },
+            cache: false,
+            success: function (data) {
+                alert(data.Message);
+                onAlertCallback(reloadLocation);
+            },
+            dataType: "json",
+        });
     }
     function viewCreatedMemo(e, id) {
         g_observationId = id;
@@ -495,7 +510,6 @@
 </div>
 <div class="row mt-3">
     <button onclick="history.back()" class="col-md-3 btn btn-secondary">Back to Sub Process</button>
-    <button onclick="saveChecklistObservations();" class="col-md-3 btn btn-success" style="margin-left:10px;">Save</button>
 </div>
 
 
