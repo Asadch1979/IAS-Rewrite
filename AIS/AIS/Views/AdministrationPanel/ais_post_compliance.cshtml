@@ -5,44 +5,93 @@
 <script type="text/javascript">
     var postComplianceData = [];
     var tableFields = [
-        "P_NAME","C_NAME","COM_ID","OLD_PARA_ID","NEW_PARA_ID","AUDIT_PERIOD",
-        "ENTITY_ID","ENTITY_CODE","AUDITED_BY","ENTITY_TYPE_ID","COM_CYCLE",
-        "COM_STATUS","COM_STAGE","PARA_STATUS","PARA_NO","GIST_OF_PARAS",
-        "SETTELED_ON","SETTELED_BY","IND","PARA_ADDED_ON","CAU_STATUS",
-        "CAU_ASSIGNED_ENT_ID","BR_RESPONSE_BY","BR_RESPONSE_ON","CAU_ASSIGNED_BY",
-        "CAU_ASSIGNED_ON","SETTLEMENT_COM_REVIEWED_BY","SETTLEMENT_COM_REVIEWED_ON",
-        "RISK","ANNEX"
+        "COMID",
+        "AUDITPERIOD",
+        "GISTOFPARAS",
+        "AUDITEDBY",
+        "ENTITYTYPEID",
+        "COMCYCLE",
+        "COMSTATUS",
+        "COMSTAGE",
+        "PARASTATUS",
+        "PARANO",
+        "IND",
+        "RISK"
     ];
-    function getZoneBranches() {
-        destroyDatatable('manageObsPanel');
-        $('#branchSelectField').empty();
-        if ($('#zoneSelectField option:selected').val() != 0) {
-            $.ajax({
-                url: g_asiBaseURL + "/ApiCalls/get_zone_Branches",
-                type: "POST",
-                data: {
-                    'ZONEID': $('#zoneSelectField option:selected').val()
-                },
-                cache: false,
-                success: function (data) {
-                    $('#branchSelectField').append('<option value="0" id="0">--Select Branch--</option>');
-                    $.each(data, function (i, v) {
-                        $('#branchSelectField').append('<option value="' + v.branchid + '" id="' + v.branchid + '">' + v.branchname + '</option>');
-                    })
-                },
-                dataType: "json",
-            });
-        }
+    function getrelation(parentEntityId = 0, userEntityId = 0) {
+
+
+        $('#controlingsearch').empty();
+        $('#childposting').empty();
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/getparentrel",
+            type: "POST",
+            data: {
+                'ENTITY_REALTION_ID': $('#RelationshipField option:selected').val()
+            },
+
+
+            cache: false,
+            success: function (data) {
+
+
+                $('#controlingsearch').append('<option id="0" value="0">--Select Controlling/Reporting Office--</option>');
+                $.each(data, function (index, contof) {
+
+                    var selected = '';
+                    if (contof.entitY_ID == parentEntityId)
+                        selected = 'selected="selected"';
+
+                    $('#controlingsearch').append('<option ' + selected + ' value="' + contof.entitY_ID + '" id="' + contof.entitY_REALTION_ID + '">' + contof.description + '</option>')
+                });
+                if (userEntityId != 0)
+                    getplacepost(userEntityId)
+
+                // console.log(data);
+
+            },
+            dataType: "json",
+        });
+
+
+    }
+
+    function getplacepost(userEntityId = 0) {
+        $('#childposting').empty();
+
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/getpostplace",
+            type: "POST",
+            data: {
+                'E_R_ID': $('#controlingsearch option:selected').val()
+            },
+
+
+            cache: false,
+            success: function (data) {
+                $('#childposting').append('<option id="0" value="0" selected="selected">--Select Place of Posting--</option>');
+                $.each(data, function (index, gpp) {
+
+                    var selected = '';
+                    if (gpp.entitY_ID == userEntityId)
+                        selected = 'selected="selected"';
+                    $('#childposting').append('<option ' + selected + ' value="' + gpp.entitY_ID + '" id="' + gpp.entitY_ID + '">' + gpp.c_NAME + '</option>')
+                });
+            },
+            dataType: "json",
+        });
+        //  getrelation();
+
     }
     function getPostCompliance() {
         destroyDatatable('manageObsPanel');
         $('#manageObsPanel tbody').empty();
-        if ($('#branchSelectField option:selected').val() != 0) {
+        if ($('#childposting option:selected').val() != 0) {
             $.ajax({
                 url: g_asiBaseURL + "/ApiCalls/get_ais_post_compliance_details",
                 type: "POST",
                 data: {
-                    'ENT': $('#branchSelectField option:selected').val()
+                    'ENT': $('#childposting option:selected').val()
                 },
                 cache: false,
                 success: function (data) {
@@ -96,35 +145,53 @@
     }
 </script>
 <h3 style=" display:block;color: #45c545;" class="mt-3">@ViewData["Title"]</h3>
-<div class="row col-md-12 mt-3">
+<div class="row col-md-12 mt-1">
     <div class="col-md-2">
-        <label><b>Reporting Office:</b></label>
+        <label>Relationship Type</label>
     </div>
     <div class="col-md-10">
-        <select id="zoneSelectField" onchange="getZoneBranches()" class="form-control form-select">
-            <option value="0" id="0">--Select Reporting Office--</option>
+        <select id="RelationshipField" onchange="getrelation();" class="form-control form-select">
+            <option id="0" value="0" selected="selected">--Select Relationship Type--</option>
+
+
             @{
-                if (ViewData["ZonesList"] != null)
+                if (ViewData["Userrelationship"] != null)
                 {
-                    foreach (var item in (dynamic)(ViewData["ZonesList"]))
+                    foreach (var item in (dynamic)(ViewData["Userrelationship"]))
                     {
-                        <option value="@item.ZONEID" id="@item.ZONEID">@item.ZONENAME</option>
+                        <option value="@item.ENTITY_REALTION_ID" id="@item.ENTITY_REALTION_ID">@item.FIELD_NAME</option>
                     }
                 }
             }
+
+
+
         </select>
     </div>
 </div>
-<div class="row col-md-12 mt-3">
+
+<div class="row col-md-12 mt-1">
     <div class="col-md-2">
-        <label><b>Entity:</b></label>
+        <label>Controlling/Reporting Office</label>
     </div>
-    <div class="col-md-10">
-        <select id="branchSelectField" onchange="getPostCompliance();" class="form-control form-select">
-            <option value="0" id="0">--Select Entity--</option>
+    <div class="col-md-4">
+        <select id="controlingsearch" onchange="getplacepost();" class="form-control form-select">
+            <option id="0" value="0" selected="selected">--Select Controlling/Reporting Office--</option>
+        </select>
+    </div>
+
+
+    <div class="col-md-2">
+        <label>Place of Posting</label>
+    </div>
+    <div class="col-md-4">
+        <select id="childposting" onchange="getPostCompliance();" class="form-control form-select">
+            <option id="0" value="0" selected="selected">--Select Place of Posting--</option>
+
         </select>
     </div>
 </div>
+   
 <div class="row col-md-12 mt-4">
     <table id="manageObsPanel" class="table table-hover table-bordered table-hover mt-3 table-striped">
         <thead style="background-color: #19875478 !important; ">
@@ -158,36 +225,18 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id="rowIndex" />
-                <div class="mb-2"><label>P NAME</label><input id="upd_PNAME" name="PNAME" class="form-control" /></div>
-                <div class="mb-2"><label>C NAME</label><input id="upd_CNAME" name="CNAME" class="form-control" /></div>
                 <div class="mb-2"><label>COMID</label><input id="upd_COMID" name="COMID" class="form-control" /></div>
-                <div class="mb-2"><label>OLD_PARA_ID</label><input id="updOLDPARAID" name="OLDPARAID" class="form-control" /></div>
-                <div class="mb-2"><label>NEW_PARA_ID</label><input id="upd_NEWPARAID" name="NEWPARAID" class="form-control" /></div>
                 <div class="mb-2"><label>AUDIT_PERIOD</label><input id="upd_AUDITPERIOD" name="AUDITPERIOD" class="form-control" /></div>
-                <div class="mb-2"><label>ENTITY_ID</label><input id="upd_ENTITYID" name="ENTITYID" class="form-control" /></div>
-                <div class="mb-2"><label>ENTITY_CODE</label><input id="upd_ENTITYCODE" name="ENTITYCODE" class="form-control" /></div>
+                <div class="mb-2"><label>GIST_OF_PARAS</label><input id="upd_GISTOFPARAS" name="GISTOFPARAS" class="form-control" /></div>
                 <div class="mb-2"><label>AUDITED_BY</label><input id="upd_AUDITEDBY" name="AUDITEDBY" class="form-control" /></div>
                 <div class="mb-2"><label>ENTITY_TYPE_ID</label><input id="upd_ENTITYTYPEID" name="ENTITYTYPEID" class="form-control" /></div>
-                <div class="mb-2"><label>COM_CYCLE</label><input id="upd_COMCYCLE" name="COM_CYCLE" class="form-control" /></div>
+                <div class="mb-2"><label>COM_CYCLE</label><input id="upd_COMCYCLE" name="COMCYCLE" class="form-control" /></div>
                 <div class="mb-2"><label>COM_STATUS</label><input id="upd_COMSTATUS" name="COMSTATUS" class="form-control" /></div>
                 <div class="mb-2"><label>COM_STAGE</label><input id="upd_COMSTAGE" name="COMSTAGE" class="form-control" /></div>
                 <div class="mb-2"><label>PARA_STATUS</label><input id="upd_PARASTATUS" name="PARASTATUS" class="form-control" /></div>
                 <div class="mb-2"><label>PARA_NO</label><input id="upd_PARANO" name="PARANO" class="form-control" /></div>
-                <div class="mb-2"><label>GIST_OF_PARAS</label><input id="upd_GISTOFPARAS" name="GISTOFPARAS" class="form-control" /></div>
-                <div class="mb-2"><label>SETTELED_ON</label><input id="upd_SETTELEDON" name="SETTELEDON" class="form-control" /></div>
-                <div class="mb-2"><label>SETTELED_BY</label><input id="upd_SETTELEDBY" name="SETTELEDBY" class="form-control" /></div>
                 <div class="mb-2"><label>IND</label><input id="upd_IND" name="IND" class="form-control" /></div>
-                <div class="mb-2"><label>PARA_ADDEDON</label><input id="upd_PARAADDEDON" name="PARAADDEDON" class="form-control" /></div>
-                <div class="mb-2"><label>CAU STATUS</label><input id="upd_CAUSTATUS" name="CAUSTATUS" class="form-control" /></div>
-                <div class="mb-2"><label>CAU ASSIGNED_ENT_ID</label><input id="upd_CAUASSIGNEDENTID" name="CAUASSIGNEDENTID" class="form-control" /></div>
-                <div class="mb-2"><label>BR_RESPONSE_BY</label><input id="upd_BRRESPONSEBY" name="BRRESPONSEBY" class="form-control" /></div>
-                <div class="mb-2"><label>BR_RESPONSE_ON</label><input id="upd_BRRESPONSEON" name="BRRESPONSEON" class="form-control" /></div>
-                <div class="mb-2"><label>CAU_ASSIGNED_BY</label><input id="upd_CAUASSIGNEDBY" name="CAUASSIGNEDBY" class="form-control" /></div>
-                <div class="mb-2"><label>CAU_ASSIGNED_ON</label><input id="upd_CAUASSIGNEDON" name="CAUASSIGNEDON" class="form-control" /></div>
-                <div class="mb-2"><label>SETTLEMENT_COM_REVIEWED_BY</label><input id="upd_SETTLEMENTCOMREVIEWEDBY" name="SETTLEMENTCOMREVIEWEDBY" class="form-control" /></div>
-                <div class="mb-2"><label>SETTLEMENT_COM_REVIEWED_ON</label><input id="upd_SETTLEMENTCOMREVIEWEDON" name="SETTLEMENTCOMREVIEWEDON" class="form-control" /></div>
                 <div class="mb-2"><label>RISK</label><input id="upd_RISK" name="RISK" class="form-control" /></div>
-                <div class="mb-2"><label>ANNEX</label><input id="upd_ANNEX" name="ANNEX" class="form-control" /></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="submitUpdate();">Update</button>

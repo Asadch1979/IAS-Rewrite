@@ -22235,8 +22235,7 @@ Dear {userFullName},
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("ca_com_id", OracleDbType.Int32).Value = Convert.ToInt32(m.COMID);
                 cmd.Parameters.Add("ca_audit_period", OracleDbType.Varchar2).Value = m.AUDITPERIOD;
-                cmd.Parameters.Add("ca_entity_id", OracleDbType.Int32).Value = Convert.ToInt32(m.ENTITYID);
-                cmd.Parameters.Add("ca_entity_code", OracleDbType.Int32).Value = Convert.ToInt32(m.ENTITYCODE);
+                cmd.Parameters.Add("ca_gist_of_paras", OracleDbType.Varchar2).Value = m.GISTOFPARAS;
                 cmd.Parameters.Add("ca_audited_by", OracleDbType.Int32).Value = Convert.ToInt32(m.AUDITEDBY);
                 cmd.Parameters.Add("ca_entity_type_id", OracleDbType.Int32).Value = Convert.ToInt32(m.ENTITYTYPEID);
                 cmd.Parameters.Add("ca_com_cycle", OracleDbType.Int32).Value = Convert.ToInt32(m.COMCYCLE);
@@ -22244,21 +22243,8 @@ Dear {userFullName},
                 cmd.Parameters.Add("ca_com_stage", OracleDbType.Int32).Value = Convert.ToInt32(m.COMSTAGE);
                 cmd.Parameters.Add("ca_para_status", OracleDbType.Int32).Value = Convert.ToInt32(m.PARASTATUS);
                 cmd.Parameters.Add("ca_para_no", OracleDbType.Varchar2).Value = m.PARANO;
-                cmd.Parameters.Add("ca_gist_of_paras", OracleDbType.Varchar2).Value = m.GISTOFPARAS;
-                cmd.Parameters.Add("ca_setteled_on", OracleDbType.Varchar2).Value = m.SETTELEDON;
-                cmd.Parameters.Add("ca_setteled_by", OracleDbType.Int32).Value = Convert.ToInt32(m.SETTELEDBY);
                 cmd.Parameters.Add("ca_ind", OracleDbType.Varchar2).Value = m.IND;
-                cmd.Parameters.Add("ca_para_added_on", OracleDbType.Varchar2).Value = m.PARAADDEDON;
-                cmd.Parameters.Add("ca_cau_status", OracleDbType.Int32).Value = Convert.ToInt32(m.CAUSTATUS);
-                cmd.Parameters.Add("ca_cau_assigned_ent_id", OracleDbType.Int32).Value = Convert.ToInt32(m.CAUASSIGNEDENTID);
-                cmd.Parameters.Add("ca_br_response_by", OracleDbType.Int32).Value = Convert.ToInt32(m.BRRESPONSEBY);
-                cmd.Parameters.Add("ca_br_response_on", OracleDbType.Varchar2).Value = m.BRRESPONSEON;
-                cmd.Parameters.Add("ca_cau_assigned_by", OracleDbType.Int32).Value = Convert.ToInt32(m.CAUASSIGNEDBY);
-                cmd.Parameters.Add("ca_cau_assigned_on", OracleDbType.Varchar2).Value = m.CAUASSIGNEDON;
-                cmd.Parameters.Add("ca_settlement_com_reviewed_by", OracleDbType.Int32).Value = Convert.ToInt32(m.SETTLEMENTCOMREVIEWEDBY);
-                cmd.Parameters.Add("ca_settlement_com_reviewed_on", OracleDbType.Varchar2).Value = m.SETTLEMENTCOMREVIEWEDON;
                 cmd.Parameters.Add("ca_risk", OracleDbType.Int32).Value = Convert.ToInt32(m.RISK);
-                cmd.Parameters.Add("ca_annex", OracleDbType.Int32).Value = Convert.ToInt32(m.ANNEX);
                 cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
