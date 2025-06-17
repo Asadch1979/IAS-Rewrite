@@ -21908,8 +21908,8 @@ Dear {userFullName},
                 cmd.Parameters.Add("REPORT_ID", OracleDbType.Int32).Value = REPORT_ID;
                 cmd.Parameters.Add("REPORT_TITLE", OracleDbType.Varchar2).Value = REPORT_TITLE;
                 cmd.Parameters.Add("DESCRIPTION", OracleDbType.Varchar2).Value = DESCRIPTION;
-                cmd.Parameters.Add("TYPE", OracleDbType.Varchar2).Value = TYPE;
-                cmd.Parameters.Add("LStatus", OracleDbType.Int32).Value = LOAN_STATUS_ID;
+                cmd.Parameters.Add("R_TYPE", OracleDbType.Varchar2).Value = TYPE;
+                cmd.Parameters.Add("L_Status", OracleDbType.Int32).Value = LOAN_STATUS_ID;
                 cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
                 cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
@@ -21982,13 +21982,10 @@ Dear {userFullName},
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
-
             var con = this.DatabaseConnection();
             con.Open();
-
             List<AccountExceptionsModel> responseList = new List<AccountExceptionsModel>();
             var loggedInUser = sessionHandler.GetSessionUser();
-
             using (OracleCommand cmd = con.CreateCommand())
                 {
                 cmd.CommandText = "pkg_sm.p_exception_get_Account";
@@ -22000,24 +21997,23 @@ Dear {userFullName},
                 cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
                 cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
                 cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-
                 using (OracleDataReader rdr = cmd.ExecuteReader())
-                    {
                     while (rdr.Read())
                         {
-                        AccountExceptionsModel record = new AccountExceptionsModel()
-                            {
-                            BRANCH_CODE = rdr["branchcode"].ToString(),
-                            ACCOUNT_NO = rdr["oldaccountno"].ToString(),
-                            ACCOUNT_TITLE = rdr["title"].ToString(),
-                            CUSTOMER_NAME = rdr["customername"].ToString(),            
-                            TR_DESCRIPTION = rdr["description"].ToString()
+                        AccountExceptionsModel rd = new AccountExceptionsModel();
+                        rd.ACCOUNT_NO = rdr["oldaccountno"].ToString();
+                        rd.ACCOUNT_TITLE = rdr["title"].ToString();
+                        rd.CUSTOMER_NAME = rdr["customername"].ToString();
+                        rd.MASTER_CODE = rdr["transactionmastercode"].ToString();
+                        rd.TR_DESCRIPTION = rdr["description"].ToString();
+                        rd.TR_DATE = rdr["tr_date"].ToString();
+                        rd.TR_AUTHDATE = rdr["tr_authdate"].ToString();
+                        rd.DR_AMOUNT = rdr["dramount"].ToString();
+                        rd.CR_AMOUNT = rdr["cramount"].ToString();                       
 
-                            };
-
-                        responseList.Add(record);
+                        responseList.Add(rd);
                         }
-                    }
+
                 }
             con.Dispose();
             return responseList;

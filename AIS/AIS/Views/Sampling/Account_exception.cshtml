@@ -24,7 +24,7 @@
             url: g_asiBaseURL + "/ApiCalls/get_exception_account_report",
             cache: false,
             type: "POST",
-            data:{ENG_ID:g_engId, RPT_ID:g_rptID }, 
+            data:{ENG_ID:g_engId, RPT_ID:g_rptID },
             success: function (data) {
                 if(data.length > 0) {
                     populateTable(data);
@@ -35,6 +35,7 @@
                 $("#wait").hide();
             },
         });
+    }
     function populateTable(data) {
         $('#wait').show();
         var tableBody = $("#biomet_sample_list tbody");
