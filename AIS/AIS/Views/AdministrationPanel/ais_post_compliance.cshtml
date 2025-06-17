@@ -130,14 +130,9 @@
         <thead style="background-color: #19875478 !important; ">
             <tr>
                 <th>Sr. No.</th>
-                <th>P NAME</th>
-                <th>C NAME</th>
                 <th>COM ID</th>
-                <th>OLD PARA ID</th>
-                <th>NEW PARA ID</th>
                 <th>AUDIT PERIOD</th>
-                <th>ENTITY ID</th>
-                <th>ENTITY CODE</th>
+                <th>GIST OF PARAS</th>
                 <th>AUDITED BY</th>
                 <th>ENTITY TYPE ID</th>
                 <th>COM CYCLE</th>
@@ -145,21 +140,8 @@
                 <th>COM STAGE</th>
                 <th>PARA STATUS</th>
                 <th>PARA NO</th>
-                <th>GIST OF PARAS</th>
-                <th>SETTELED ON</th>
-                <th>SETTELED BY</th>
                 <th>IND</th>
-                <th>PARA ADDED ON</th>
-                <th>CAU STATUS</th>
-                <th>CAU ASSIGNED ENT ID</th>
-                <th>BR RESPONSE BY</th>
-                <th>BR RESPONSE ON</th>
-                <th>CAU ASSIGNED BY</th>
-                <th>CAU ASSIGNED ON</th>
-                <th>SETTLEMENT COM REVIEWED BY</th>
-                <th>SETTLEMENT COM REVIEWED ON</th>
                 <th>RISK</th>
-                <th>ANNEX</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -176,34 +158,34 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id="rowIndex" />
-                <div class="mb-2"><label>P_NAME</label><input id="upd_P_NAME" name="P_NAME" class="form-control" /></div>
-                <div class="mb-2"><label>C_NAME</label><input id="upd_C_NAME" name="C_NAME" class="form-control" /></div>
-                <div class="mb-2"><label>COM_ID</label><input id="upd_COM_ID" name="COM_ID" class="form-control" /></div>
-                <div class="mb-2"><label>OLD_PARA_ID</label><input id="upd_OLD_PARA_ID" name="OLD_PARA_ID" class="form-control" /></div>
-                <div class="mb-2"><label>NEW_PARA_ID</label><input id="upd_NEW_PARA_ID" name="NEW_PARA_ID" class="form-control" /></div>
-                <div class="mb-2"><label>AUDIT_PERIOD</label><input id="upd_AUDIT_PERIOD" name="AUDIT_PERIOD" class="form-control" /></div>
-                <div class="mb-2"><label>ENTITY_ID</label><input id="upd_ENTITY_ID" name="ENTITY_ID" class="form-control" /></div>
-                <div class="mb-2"><label>ENTITY_CODE</label><input id="upd_ENTITY_CODE" name="ENTITY_CODE" class="form-control" /></div>
-                <div class="mb-2"><label>AUDITED_BY</label><input id="upd_AUDITED_BY" name="AUDITED_BY" class="form-control" /></div>
-                <div class="mb-2"><label>ENTITY_TYPE_ID</label><input id="upd_ENTITY_TYPE_ID" name="ENTITY_TYPE_ID" class="form-control" /></div>
-                <div class="mb-2"><label>COM_CYCLE</label><input id="upd_COM_CYCLE" name="COM_CYCLE" class="form-control" /></div>
-                <div class="mb-2"><label>COM_STATUS</label><input id="upd_COM_STATUS" name="COM_STATUS" class="form-control" /></div>
-                <div class="mb-2"><label>COM_STAGE</label><input id="upd_COM_STAGE" name="COM_STAGE" class="form-control" /></div>
-                <div class="mb-2"><label>PARA_STATUS</label><input id="upd_PARA_STATUS" name="PARA_STATUS" class="form-control" /></div>
-                <div class="mb-2"><label>PARA_NO</label><input id="upd_PARA_NO" name="PARA_NO" class="form-control" /></div>
-                <div class="mb-2"><label>GIST_OF_PARAS</label><input id="upd_GIST_OF_PARAS" name="GIST_OF_PARAS" class="form-control" /></div>
-                <div class="mb-2"><label>SETTELED_ON</label><input id="upd_SETTELED_ON" name="SETTELED_ON" class="form-control" /></div>
-                <div class="mb-2"><label>SETTELED_BY</label><input id="upd_SETTELED_BY" name="SETTELED_BY" class="form-control" /></div>
+                <div class="mb-2"><label>P NAME</label><input id="upd_PNAME" name="PNAME" class="form-control" /></div>
+                <div class="mb-2"><label>C NAME</label><input id="upd_CNAME" name="CNAME" class="form-control" /></div>
+                <div class="mb-2"><label>COMID</label><input id="upd_COMID" name="COMID" class="form-control" /></div>
+                <div class="mb-2"><label>OLD_PARA_ID</label><input id="updOLDPARAID" name="OLDPARAID" class="form-control" /></div>
+                <div class="mb-2"><label>NEW_PARA_ID</label><input id="upd_NEWPARAID" name="NEWPARAID" class="form-control" /></div>
+                <div class="mb-2"><label>AUDIT_PERIOD</label><input id="upd_AUDITPERIOD" name="AUDITPERIOD" class="form-control" /></div>
+                <div class="mb-2"><label>ENTITY_ID</label><input id="upd_ENTITYID" name="ENTITYID" class="form-control" /></div>
+                <div class="mb-2"><label>ENTITY_CODE</label><input id="upd_ENTITYCODE" name="ENTITYCODE" class="form-control" /></div>
+                <div class="mb-2"><label>AUDITED_BY</label><input id="upd_AUDITEDBY" name="AUDITEDBY" class="form-control" /></div>
+                <div class="mb-2"><label>ENTITY_TYPE_ID</label><input id="upd_ENTITYTYPEID" name="ENTITYTYPEID" class="form-control" /></div>
+                <div class="mb-2"><label>COM_CYCLE</label><input id="upd_COMCYCLE" name="COM_CYCLE" class="form-control" /></div>
+                <div class="mb-2"><label>COM_STATUS</label><input id="upd_COMSTATUS" name="COMSTATUS" class="form-control" /></div>
+                <div class="mb-2"><label>COM_STAGE</label><input id="upd_COMSTAGE" name="COMSTAGE" class="form-control" /></div>
+                <div class="mb-2"><label>PARA_STATUS</label><input id="upd_PARASTATUS" name="PARASTATUS" class="form-control" /></div>
+                <div class="mb-2"><label>PARA_NO</label><input id="upd_PARANO" name="PARANO" class="form-control" /></div>
+                <div class="mb-2"><label>GIST_OF_PARAS</label><input id="upd_GISTOFPARAS" name="GISTOFPARAS" class="form-control" /></div>
+                <div class="mb-2"><label>SETTELED_ON</label><input id="upd_SETTELEDON" name="SETTELEDON" class="form-control" /></div>
+                <div class="mb-2"><label>SETTELED_BY</label><input id="upd_SETTELEDBY" name="SETTELEDBY" class="form-control" /></div>
                 <div class="mb-2"><label>IND</label><input id="upd_IND" name="IND" class="form-control" /></div>
-                <div class="mb-2"><label>PARA_ADDED_ON</label><input id="upd_PARA_ADDED_ON" name="PARA_ADDED_ON" class="form-control" /></div>
-                <div class="mb-2"><label>CAU_STATUS</label><input id="upd_CAU_STATUS" name="CAU_STATUS" class="form-control" /></div>
-                <div class="mb-2"><label>CAU_ASSIGNED_ENT_ID</label><input id="upd_CAU_ASSIGNED_ENT_ID" name="CAU_ASSIGNED_ENT_ID" class="form-control" /></div>
-                <div class="mb-2"><label>BR_RESPONSE_BY</label><input id="upd_BR_RESPONSE_BY" name="BR_RESPONSE_BY" class="form-control" /></div>
-                <div class="mb-2"><label>BR_RESPONSE_ON</label><input id="upd_BR_RESPONSE_ON" name="BR_RESPONSE_ON" class="form-control" /></div>
-                <div class="mb-2"><label>CAU_ASSIGNED_BY</label><input id="upd_CAU_ASSIGNED_BY" name="CAU_ASSIGNED_BY" class="form-control" /></div>
-                <div class="mb-2"><label>CAU_ASSIGNED_ON</label><input id="upd_CAU_ASSIGNED_ON" name="CAU_ASSIGNED_ON" class="form-control" /></div>
-                <div class="mb-2"><label>SETTLEMENT_COM_REVIEWED_BY</label><input id="upd_SETTLEMENT_COM_REVIEWED_BY" name="SETTLEMENT_COM_REVIEWED_BY" class="form-control" /></div>
-                <div class="mb-2"><label>SETTLEMENT_COM_REVIEWED_ON</label><input id="upd_SETTLEMENT_COM_REVIEWED_ON" name="SETTLEMENT_COM_REVIEWED_ON" class="form-control" /></div>
+                <div class="mb-2"><label>PARA_ADDEDON</label><input id="upd_PARAADDEDON" name="PARAADDEDON" class="form-control" /></div>
+                <div class="mb-2"><label>CAU STATUS</label><input id="upd_CAUSTATUS" name="CAUSTATUS" class="form-control" /></div>
+                <div class="mb-2"><label>CAU ASSIGNED_ENT_ID</label><input id="upd_CAUASSIGNEDENTID" name="CAUASSIGNEDENTID" class="form-control" /></div>
+                <div class="mb-2"><label>BR_RESPONSE_BY</label><input id="upd_BRRESPONSEBY" name="BRRESPONSEBY" class="form-control" /></div>
+                <div class="mb-2"><label>BR_RESPONSE_ON</label><input id="upd_BRRESPONSEON" name="BRRESPONSEON" class="form-control" /></div>
+                <div class="mb-2"><label>CAU_ASSIGNED_BY</label><input id="upd_CAUASSIGNEDBY" name="CAUASSIGNEDBY" class="form-control" /></div>
+                <div class="mb-2"><label>CAU_ASSIGNED_ON</label><input id="upd_CAUASSIGNEDON" name="CAUASSIGNEDON" class="form-control" /></div>
+                <div class="mb-2"><label>SETTLEMENT_COM_REVIEWED_BY</label><input id="upd_SETTLEMENTCOMREVIEWEDBY" name="SETTLEMENTCOMREVIEWEDBY" class="form-control" /></div>
+                <div class="mb-2"><label>SETTLEMENT_COM_REVIEWED_ON</label><input id="upd_SETTLEMENTCOMREVIEWEDON" name="SETTLEMENTCOMREVIEWEDON" class="form-control" /></div>
                 <div class="mb-2"><label>RISK</label><input id="upd_RISK" name="RISK" class="form-control" /></div>
                 <div class="mb-2"><label>ANNEX</label><input id="upd_ANNEX" name="ANNEX" class="form-control" /></div>
             </div>

@@ -22204,36 +22204,18 @@ Dear {userFullName},
                 while (rdr.Read())
                     {
                     AISPostComplianceModel m = new AISPostComplianceModel();
-                    m.PNAME = rdr["P_NAME"].ToString();
-                    m.CNAME = rdr["C_NAME"].ToString();
-                    m.COMID = rdr["COM_ID"].ToString();
-                    m.OLDPARAID = rdr["OLD_PARA_ID"].ToString();
-                    m.NEWPARAID = rdr["NEW_PARA_ID"].ToString();
-                    m.AUDITPERIOD = rdr["AUDIT_PERIOD"].ToString();
-                    m.ENTITYID = rdr["ENTITY_ID"].ToString();
-                    m.ENTITYCODE = rdr["ENTITY_CODE"].ToString();
-                    m.AUDITEDBY = rdr["AUDITED_BY"].ToString();
-                    m.ENTITYTYPEID = rdr["ENTITY_TYPE_ID"].ToString();
-                    m.COMCYCLE = rdr["COM_CYCLE"].ToString();
-                    m.COMSTATUS = rdr["COM_STATUS"].ToString();
-                    m.COMSTAGE = rdr["COM_STAGE"].ToString();
-                    m.PARASTATUS = rdr["PARA_STATUS"].ToString();
-                    m.PARANO = rdr["PARA_NO"].ToString();
-                    m.GISTOFPARAS = rdr["GIST_OF_PARAS"].ToString();
-                    m.SETTELEDON = rdr["SETTELED_ON"].ToString();
-                    m.SETTELEDBY = rdr["SETTELED_BY"].ToString();
+                    m.COMID = rdr["COMID"].ToString();
+                    m.AUDITPERIOD = rdr["AUDITPERIOD"].ToString();
+                    m.AUDITEDBY = rdr["AUDITEDBY"].ToString();
+                    m.ENTITYTYPEID = rdr["ENTITYTYPEID"].ToString();
+                    m.COMCYCLE = rdr["COMCYCLE"].ToString();
+                    m.COMSTATUS = rdr["COMSTATUS"].ToString();
+                    m.COMSTAGE = rdr["COMSTAGE"].ToString();
+                    m.PARASTATUS = rdr["PARASTATUS"].ToString();
+                    m.PARANO = rdr["PARANO"].ToString();
+                    m.GISTOFPARAS = rdr["GISTOFPARAS"].ToString();
                     m.IND = rdr["IND"].ToString();
-                    m.PARAADDEDON = rdr["PARA_ADDED_ON"].ToString();
-                    m.CAUSTATUS = rdr["CAU_STATUS"].ToString();
-                    m.CAUASSIGNEDENTID = rdr["CAU_ASSIGNED_ENT_ID"].ToString();
-                    m.BRRESPONSEBY = rdr["BR_RESPONSE_BY"].ToString();
-                    m.BRRESPONSEON = rdr["BR_RESPONSE_ON"].ToString();
-                    m.CAUASSIGNEDBY = rdr["CAU_ASSIGNED_BY"].ToString();
-                    m.CAUASSIGNEDON = rdr["CAU_ASSIGNED_ON"].ToString();
-                    m.SETTLEMENTCOMREVIEWEDBY = rdr["SETTLEMENT_COM_REVIEWED_BY"].ToString();
-                    m.SETTLEMENTCOMREVIEWEDON = rdr["SETTLEMENT_COM_REVIEWED_ON"].ToString();
                     m.RISK = rdr["RISK"].ToString();
-                    m.ANNEX = rdr["ANNEX"].ToString();
                     list.Add(m);
                     }
                 }
@@ -22252,8 +22234,6 @@ Dear {userFullName},
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("ca_com_id", OracleDbType.Int32).Value = Convert.ToInt32(m.COMID);
-                cmd.Parameters.Add("ca_old_para_id", OracleDbType.Int32).Value = Convert.ToInt32(m.OLDPARAID);
-                cmd.Parameters.Add("ca_new_para_id", OracleDbType.Int32).Value = Convert.ToInt32(m.NEWPARAID);
                 cmd.Parameters.Add("ca_audit_period", OracleDbType.Varchar2).Value = m.AUDITPERIOD;
                 cmd.Parameters.Add("ca_entity_id", OracleDbType.Int32).Value = Convert.ToInt32(m.ENTITYID);
                 cmd.Parameters.Add("ca_entity_code", OracleDbType.Int32).Value = Convert.ToInt32(m.ENTITYCODE);
