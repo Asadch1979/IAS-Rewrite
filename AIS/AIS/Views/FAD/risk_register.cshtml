@@ -1,0 +1,172 @@
+@{
+    ViewData["Title"] = "Risk Register";
+    Layout = "_Layout";
+}
+
+<h2 class="mt-4 mb-4">Audit Risk Rating Matrix</h2>
+
+<table id="riskRegisterTable" class="table table-bordered table-striped bg-white">
+    <thead class="table-success">
+        <tr>
+            <th>Work Package / Process</th>
+            <th>Area / Description</th>
+            <th class="text-center">Gravity</th>
+            <th class="text-center">Number of Observations</th>
+            <th class="text-center">Total Marks</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="6">Portfolio Management (Lending &amp; Credit Administration / Recovery / Collection &amp; Default Management)</td>
+            <td>Pre Sanctioning: Already Mortgaged Land, eCIB Missing, Wrong Feeding of MCL in System</td>
+            <td class="text-center">5</td>
+            <td class="text-center">0</td>
+            <td class="text-center">28</td>
+        </tr>
+        <tr>
+            <td>Pre Sanctioning: Incomplete Loan Documentation, NDC Missing, Old Record, Area Under Preemption etc.</td>
+            <td class="text-center">4</td>
+            <td class="text-center">7</td>
+            <td class="text-center"></td>
+        </tr>
+        <tr>
+            <td>Pre Sanctioning: Passbook not Revalidated, Debt to Equity, Charge not Confirmed</td>
+            <td class="text-center">2</td>
+            <td class="text-center">0</td>
+            <td class="text-center"></td>
+        </tr>
+        <tr>
+            <td>Post Sanctioning: Collateral/Security Documentation, Tractor Insurance and Repayment Schedule Delivery</td>
+            <td class="text-center">5</td>
+            <td class="text-center">0</td>
+            <td class="text-center">3</td>
+        </tr>
+        <tr>
+            <td>Post Sanctioning: Tractor Registration, Crop Insurance &amp; Record Digitalization</td>
+            <td class="text-center">3</td>
+            <td class="text-center">1</td>
+            <td class="text-center"></td>
+        </tr>
+        <tr>
+            <td>Post Sanctioning: Dispatch of Sanction Letter to Borrower</td>
+            <td class="text-center">1</td>
+            <td class="text-center">0</td>
+            <td class="text-center"></td>
+        </tr>
+        <tr class="table-secondary">
+            <td colspan="5"></td>
+        </tr>
+        <tr>
+            <td rowspan="4">Collection, Recovery &amp; Default Management</td>
+            <td>Redemption of Land in Alive Loan Case, Defective and Missing Security/Collaterals Documents</td>
+            <td class="text-center">5</td>
+            <td class="text-center">1</td>
+            <td class="text-center">5</td>
+        </tr>
+        <tr>
+            <td>Time Barred Loan Cases &amp; Loan Disbursed/Processed on Unpossessed Land</td>
+            <td class="text-center">5</td>
+            <td class="text-center">0</td>
+            <td class="text-center">23</td>
+        </tr>
+        <tr>
+            <td>Zero/Artificial &amp; Stuck up Recovery Cases, Prudent Recovery Practices, Embezzlement/Misuse of Recovery</td>
+            <td class="text-center">4</td>
+            <td class="text-center">5</td>
+            <td class="text-center"></td>
+        </tr>
+        <tr>
+            <td>Demand, Legal &amp; eCIB Notices. Normal Issues in NPL/SAM Loans. Legal Case Management. Pending Installments</td>
+            <td class="text-center">3</td>
+            <td class="text-center">1</td>
+            <td class="text-center"></td>
+        </tr>
+        <tr class="table-secondary">
+            <td colspan="5"></td>
+        </tr>
+        <tr>
+            <td rowspan="4">General Banking Operations &amp; Management (Security &amp; Cash Operations, Account Opening, Cheque Book/Debit Card Management, Receipt/Payment Operations &amp; General Controls)</td>
+            <td>Branch &amp; Vault Security and Cash Operations</td>
+            <td class="text-center">4</td>
+            <td class="text-center">2</td>
+            <td class="text-center">11</td>
+        </tr>
+        <tr>
+            <td>Security Stationary Management, Record Keeping, Issuance, Balancing etc.</td>
+            <td class="text-center">3</td>
+            <td class="text-center">1</td>
+            <td class="text-center"></td>
+        </tr>
+        <tr>
+            <td>Cash with Banker Limits, Insurance of Cash in Hand/Teller/MCO, Cash Operations and Documentation Issues</td>
+            <td class="text-center">5</td>
+            <td class="text-center">4</td>
+            <td class="text-center">20</td>
+        </tr>
+        <tr>
+            <td>Account Opening, Maintenance &amp; Closing</td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+        </tr>
+        <tr>
+            <td>Unclaimed Accounts, KYC/CDD, PEP, Proscribe/Designated Persons/Entities, Statement of Account Delivery and Dormancy Notices</td>
+            <td class="text-center">5</td>
+            <td class="text-center">0</td>
+            <td class="text-center">160</td>
+        </tr>
+        <tr>
+            <td>Biometric Verification of Customers, Customer Profile in CDMS, Account Opening/Operations &amp; Dormancy Violations, CDD &amp; EDD Issues</td>
+            <td class="text-center">4</td>
+            <td class="text-center">40</td>
+            <td class="text-center"></td>
+        </tr>
+        <tr>
+            <td>Issues Related to Zakat Exemption, Deduction, Refund etc.</td>
+            <td class="text-center">2</td>
+            <td class="text-center">0</td>
+            <td class="text-center"></td>
+        </tr>
+        <tr>
+            <td>Cheque Book/ATM/Debit Cards</td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+        </tr>
+        <tr>
+            <td>Request, Delivery, Stop Payment and Shredding of Cheque Book/ATM/Debit Cards</td>
+            <td class="text-center">4</td>
+            <td class="text-center">0</td>
+            <td class="text-center">0</td>
+        </tr>
+        <tr>
+            <td>Payment/Receipt Operations</td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+        </tr>
+        <tr class="table-secondary">
+            <td colspan="5"></td>
+        </tr>
+        <tr>
+            <td>Fraud &amp; Forgery, Embezzlement, Impersonation, Parallel Banking etc.</td>
+            <td></td>
+            <td class="text-center">5</td>
+            <td class="text-center">0</td>
+            <td class="text-center">0</td>
+        </tr>
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#riskRegisterTable').DataTable({
+                paging: false,
+                searching: false,
+                info: false,
+                ordering: false
+            });
+        });
+    </script>
+}
