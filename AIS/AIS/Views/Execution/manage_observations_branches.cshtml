@@ -24,6 +24,7 @@
     var g_currentStatus = 0;
     var g_obsList = [];
     var g_respUser = [];
+    var g_respUsersArr = [];
     var g_ele = null;
     var g_ind = "";
     $(document).ready(function () {
@@ -463,14 +464,18 @@
             if (lc == "" && acc == "") {
                 alert("Please enter Either Loan Case Or Account Number to Proceed"); return false;
             }
+            if (action === 'A') {
+                var srNo = $('#update_listofRespPersons tbody tr').length + 1;
+                $('#update_listofRespPersons tbody').append('<tr id="tr_' + g_respUser[0].ppNumber + '"><td>' + srNo + '</td><td>' + g_respUser[0].ppNumber + '</td><td>' + g_respUser[0].name + '</td><td>' + lc + '</td><td>' + $('#resp_loan_amount').val() + '</td><td>' + acc + '</td><td>' + $('#resp_account_amount').val() + '</td><td class="text-center"><a href="#" onclick="event.preventDefault();updateRespRow(this);">Update / delete</a></td></tr>');
+            }
             $.ajax({
                 url: g_asiBaseURL + "/ApiCalls/add_responsible_to_observation",
                 type: "POST",
                 data: {
                     'PP_NO': g_respUser[0].ppNumber,
-                    'LOAN_CASE': $('#resp_loan_case').val(),
+                    'LOAN_CASE': lc,
                     'LC_AMOUNT': $('#resp_loan_amount').val(),
-                    'ACCOUNT_NUMBER': $('#resp_account_number').val(),
+                    'ACCOUNT_NUMBER': acc,
                     'ACC_AMOUNT': $('#resp_account_amount').val(),
                     'EMP_NAME': g_respUser[0].name,
                     'REMARKS': $('#resp_remarks').val(),
@@ -518,7 +523,7 @@
             data: {
                 'OBS_ID': g_obsId,
                 'OBS_TITLE': $('#updateMemo_heading').val(),
-                'OBS_TEXT': $('.richText-editor').html(),
+                'OBS_TEXT': $('#updateMemoContent').val(),
                 'ANNEXURE_ID': $('#updateMemo_annex').val(),
                 'RISK_ID': $('#updateMemo_risk').val(),
                 'PROCESS_ID': $('#updateMemo_process').val(),
@@ -527,6 +532,7 @@
             },
             cache: false,
             success: function (data) {
+                $('#updateMemoModel').modal('hide');
                 alert(data.Message);
                 onAlertCallback(reloadLocation);
             },
@@ -688,9 +694,7 @@
         <div class="modal-content">
             <div class="modal-header bg-success text-white">
                 <h5 class="modal-title">Responsible Person</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
