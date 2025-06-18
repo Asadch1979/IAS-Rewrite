@@ -399,10 +399,11 @@
     function ObservationResponsibles() {
         $('#update_listofRespPersons tbody').empty();
         $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/get_observation_responsible_ppnos",
+            url: g_asiBaseURL + "/ApiCalls/get_responsible_person_list",
             type: "POST",
             data: {
-                'OBS_ID': g_obsId
+                'PARA_ID': g_obsId,
+                'INDICATOR': g_ind
             },
             cache: false,
             success: function (data) {
