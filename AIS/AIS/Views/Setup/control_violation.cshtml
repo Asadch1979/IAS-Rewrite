@@ -45,11 +45,11 @@
         var badge;
         if ($('#controlViolationActiveModelField').is(':checked')) {
             status = 'Y';
-            badge = 'badge-success ';
+            badge = 'text-bg-success ';
         }
         else {
             status = 'N';
-            badge = 'badge-danger ';
+            badge = 'text-bg-danger ';
         }
         
         $.ajax({
@@ -112,9 +112,9 @@
                                         @{
                                             if (item.STATUS == "Y")
 
-                                            { <span class="badge badge-success rounded-pill d-inline">@item.STATUS</span>}
+                                            { <span class="badge text-bg-success rounded-pill d-inline">@item.STATUS</span>}
                                         else
-                                        { <span class="badge badge-danger rounded-pill d-inline" style="color: red">@item.STATUS</span>}
+                                        { <span class="badge text-bg-danger rounded-pill d-inline" style="color: red">@item.STATUS</span>}
                                         }
                                     </td>
                                     <td>
