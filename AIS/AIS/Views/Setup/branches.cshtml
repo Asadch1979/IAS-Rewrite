@@ -54,11 +54,11 @@
         var badge;
         if ($('#branchActiveModalField').is(':checked')) {
             status = 'Active';
-            badge = 'badge-success ';
+            badge = 'text-bg-success ';
         }
         else {
             status = 'InActive';
-            badge = 'badge-danger ';
+            badge = 'text-bg-danger ';
         }
         if (g_branchId == 0)
             var row = "<tr id=\"div_" + g_branchId + " \"><td><p class=\"fw - normal mb - 1\">" + code + "</p></td><td><p class=\"fw - normal mb - 1\">" + name + "</p></td><td><p class=\"fw - normal mb - 1\">" + zone_name + "</p></td><td><p class=\"fw - normal mb - 1\">" + size + "</p></td><td><p class=\"fw - normal mb - 1\">" + risk + "</p></td><td><span class=\"badge " + badge + " rounded - pill d - inline\">" + status + "</span></td><td><button type=\"button\" class=\"btn btn - link text - danger btn - sm btn - rounded\" onclick=\"setupBranch('" + code + "', '" + name + "', '" + zone_name + "', '" + zoneId + "', '" + size + "', '" + sizeId + "', '" + risk + "', '" + status + "', '" + g_branchId + "'); \" > Edit</button></td ></tr >";
@@ -148,10 +148,10 @@
                                     if (item.ISACTIVE == "Active")
 
                                     {
-                                        <span class="badge badge-success rounded-pill d-inline" style="color: green">@item.ISACTIVE</span>
+                                        <span class="badge text-bg-success rounded-pill d-inline" style="color: green">@item.ISACTIVE</span>
                                     }
                                 else
-                                { <span class="badge badge-danger rounded-pill d-inline" style="color: red">@item.ISACTIVE</span>}
+                                { <span class="badge text-bg-danger rounded-pill d-inline" style="color: red">@item.ISACTIVE</span>}
                                 }
                             </td>
                             <td>

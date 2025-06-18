@@ -47,11 +47,11 @@
         var badge;
         if ($('#ICActiveModalField').is(':checked')) {
             status = 'Active';
-            badge = 'badge-success ';
+            badge = 'text-bg-success ';
         }
         else {
             status = 'InActive';
-            badge = 'badge-danger ';
+            badge = 'text-bg-danger ';
         }
         if (g_divId == 0)
             var row = "<tr id=\"IC_" + g_ICId + "\"><td class=\"IC_code\"><p class=\"fw-normal mb-1\">" + code + "</p></td><td class=\"IC_name\"><p class=\"fw-normal mb-1\">" + name + "</p></td ><td class=\"IC_desc\"><p class=\"fw-normal mb-1\">" + desc + "</p></td><td class=\"IC_status\"><span class=\"badge " + badge + " rounded-pill d-inline\">" + status + "</span></td><td class=\"IC_action\"><button type=\"button\" class=\"btn btn-link text-danger btn-sm btn-rounded\" onclick=\"setupIC('" + code + "','" + name + "','" + desc + "','" + status + "','" + g_ICId + "');\">Edit</button></td></tr>";
@@ -124,9 +124,9 @@
                                 @{
                                     if (item.STATUS == "Y")
 
-                                    { <span class="badge badge-success rounded-pill d-inline">@item.STATUS</span>}
+                                    { <span class="badge text-bg-success rounded-pill d-inline">@item.STATUS</span>}
                                 else
-                                { <span class="badge badge-danger rounded-pill d-inline" style="color: red">@item.STATUS</span>}
+                                { <span class="badge text-bg-danger rounded-pill d-inline" style="color: red">@item.STATUS</span>}
                                 }
                             </td>
                             <td class="IC_action">

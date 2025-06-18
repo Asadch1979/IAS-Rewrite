@@ -44,11 +44,11 @@
         var badge;
         if ($('#groupActiveModalField').is(':checked')) {
             status = 'Y';
-            badge = 'badge-success ';
+            badge = 'text-bg-success ';
         }
         else {
             status = 'N';
-            badge = 'badge-danger ';
+            badge = 'text-bg-danger ';
         }
         $.ajax({
             url: g_asiBaseURL + "/AdministrationPanel/group_add",
@@ -109,9 +109,9 @@
                                 @{
                                     if (item.ISACTIVE == "Y")
 
-                                    { <span class="badge badge-success rounded-pill d-inline">Active</span>}
+                                    { <span class="badge text-bg-success rounded-pill d-inline">Active</span>}
                                 else
-                                { <span class="badge badge-danger rounded-pill d-inline" style="color: red">InActive</span>}
+                                { <span class="badge text-bg-danger rounded-pill d-inline" style="color: red">InActive</span>}
                                 }
                             </td>
                             <td>

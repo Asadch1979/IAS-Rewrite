@@ -51,11 +51,11 @@
         var badge;
         if ($('#deptActiveModalField').is(':checked')) {
             status = 'Active';
-            badge = 'badge-success ';
+            badge = 'text-bg-success ';
         }
         else {
             status = 'InActive';
-            badge = 'badge-danger ';
+            badge = 'text-bg-danger ';
         }
         if (auditby_id == 0) {
             alert("Select Audit By Department");
@@ -131,9 +131,9 @@
                                 @{
                                     if (item.STATUS == "Active")
 
-                                    { <span class="badge badge-success rounded-pill d-inline">@item.STATUS</span>}
+                                    { <span class="badge text-bg-success rounded-pill d-inline">@item.STATUS</span>}
                                 else
-                                { <span class="badge badge-danger rounded-pill d-inline" style="color: red">@item.STATUS</span>}
+                                { <span class="badge text-bg-danger rounded-pill d-inline" style="color: red">@item.STATUS</span>}
                                 }
                             </td>
                             <td class="dept_action">
