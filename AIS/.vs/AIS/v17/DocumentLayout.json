@@ -3,24 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|c:\\users\\asad\\documents\\github\\asad\\ias-rewrite\\ais\\ais\\views\\sampling\\biomet.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|solutionrelative:ais\\views\\sampling\\biomet.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|c:\\users\\asad\\documents\\github\\asad\\ias-rewrite\\ais\\ais\\views\\administrationpanel\\entity_relationship.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|solutionrelative:ais\\views\\administrationpanel\\entity_relationship.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|c:\\users\\asad\\documents\\github\\asad\\ias-rewrite\\ais\\ais\\views\\shared\\_blanklayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|solutionrelative:ais\\views\\shared\\_blanklayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|c:\\users\\asad\\documents\\github\\asad\\ias-rewrite\\ais\\ais\\controllers\\administrationpanelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|solutionrelative:ais\\controllers\\administrationpanelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|c:\\users\\asad\\documents\\github\\asad\\ias-rewrite\\ais\\ais\\views\\login\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|solutionrelative:ais\\views\\login\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|c:\\users\\asad\\documents\\github\\asad\\ias-rewrite\\ais\\ais\\dbconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|solutionrelative:ais\\dbconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|c:\\users\\asad\\documents\\github\\asad\\ias-rewrite\\ais\\ais\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|solutionrelative:ais\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|c:\\users\\asad\\documents\\github\\asad\\ias-rewrite\\ais\\ais\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|solutionrelative:ais\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|c:\\users\\asad\\documents\\github\\asad\\ias-rewrite\\ais\\ais\\wwwroot\\css\\login.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|solutionrelative:ais\\wwwroot\\css\\login.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|c:\\users\\asad\\documents\\github\\asad\\ias-rewrite\\ais\\ais\\controllers\\reportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|solutionrelative:ais\\controllers\\reportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|c:\\users\\asad\\documents\\github\\asad\\ias-rewrite\\ais\\ais\\controllers\\setupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|solutionrelative:ais\\controllers\\setupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,63 +43,75 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "biomet.cshtml",
-              "DocumentMoniker": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Views\\Sampling\\biomet.cshtml",
-              "RelativeDocumentMoniker": "AIS\\Views\\Sampling\\biomet.cshtml",
-              "ToolTip": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Views\\Sampling\\biomet.cshtml",
-              "RelativeToolTip": "AIS\\Views\\Sampling\\biomet.cshtml",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABYAAAAQAAAAAAAAAA==",
+              "Title": "entity_relationship.cshtml",
+              "DocumentMoniker": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Views\\AdministrationPanel\\entity_relationship.cshtml",
+              "RelativeDocumentMoniker": "AIS\\Views\\AdministrationPanel\\entity_relationship.cshtml",
+              "ToolTip": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Views\\AdministrationPanel\\entity_relationship.cshtml",
+              "RelativeToolTip": "AIS\\Views\\AdministrationPanel\\entity_relationship.cshtml",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-04T13:13:16.748Z",
+              "WhenOpened": "2025-06-19T07:49:47.593Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "_BlankLayout.cshtml",
-              "DocumentMoniker": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Views\\Shared\\_BlankLayout.cshtml",
-              "RelativeDocumentMoniker": "AIS\\Views\\Shared\\_BlankLayout.cshtml",
-              "ToolTip": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Views\\Shared\\_BlankLayout.cshtml",
-              "RelativeToolTip": "AIS\\Views\\Shared\\_BlankLayout.cshtml",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAABsAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-04T11:10:08.683Z"
+              "Title": "AdministrationPanelController.cs",
+              "DocumentMoniker": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Controllers\\AdministrationPanelController.cs",
+              "RelativeDocumentMoniker": "AIS\\Controllers\\AdministrationPanelController.cs",
+              "ToolTip": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Controllers\\AdministrationPanelController.cs",
+              "RelativeToolTip": "AIS\\Controllers\\AdministrationPanelController.cs",
+              "ViewState": "AgIAAGsBAAAAAAAAAAAAAHoBAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-19T07:48:52.04Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "AIS\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "AIS\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAL0AAAAAAAAAAAAAAMsAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-04T11:07:03.122Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "index.cshtml",
-              "DocumentMoniker": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Views\\Login\\index.cshtml",
-              "RelativeDocumentMoniker": "AIS\\Views\\Login\\index.cshtml",
-              "ToolTip": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Views\\Login\\index.cshtml",
-              "RelativeToolTip": "AIS\\Views\\Login\\index.cshtml",
-              "ViewState": "AgIAANYAAAAAAAAAAAAwwIYAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-04T10:49:00.574Z"
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\appsettings.json",
+              "RelativeDocumentMoniker": "AIS\\appsettings.json",
+              "ToolTip": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\appsettings.json",
+              "RelativeToolTip": "AIS\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-06-19T05:38:10.81Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "login.css",
-              "DocumentMoniker": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\wwwroot\\css\\login.css",
-              "RelativeDocumentMoniker": "AIS\\wwwroot\\css\\login.css",
-              "ToolTip": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\wwwroot\\css\\login.css",
-              "RelativeToolTip": "AIS\\wwwroot\\css\\login.css",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAEAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-06-04T10:48:39.71Z"
+              "Title": "ReportsController.cs",
+              "DocumentMoniker": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Controllers\\ReportsController.cs",
+              "RelativeDocumentMoniker": "AIS\\Controllers\\ReportsController.cs",
+              "ToolTip": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Controllers\\ReportsController.cs",
+              "RelativeToolTip": "AIS\\Controllers\\ReportsController.cs",
+              "ViewState": "AgIAAI8AAAAAAAAAAAAowKEAAABlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-19T04:59:51.781Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SetupController.cs",
+              "DocumentMoniker": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Controllers\\SetupController.cs",
+              "RelativeDocumentMoniker": "AIS\\Controllers\\SetupController.cs",
+              "ToolTip": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Controllers\\SetupController.cs",
+              "RelativeToolTip": "AIS\\Controllers\\SetupController.cs",
+              "ViewState": "AgIAAJwBAAAAAAAAAAAqwKUBAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-18T10:15:49.683Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DBConnection.cs",
+              "DocumentMoniker": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\DBConnection.cs",
+              "RelativeDocumentMoniker": "AIS\\DBConnection.cs",
+              "ToolTip": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\DBConnection.cs",
+              "RelativeToolTip": "AIS\\DBConnection.cs",
+              "ViewState": "AgIAAM4nAAAAAAAAAAAQwNgnAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-18T10:02:10.49Z"
             }
           ]
         }
