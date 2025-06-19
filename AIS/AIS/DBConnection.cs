@@ -10198,12 +10198,15 @@ Dear {userFullName},
 
             List<UserRelationshipModel> entitiesList = new List<UserRelationshipModel>();
             var con = this.DatabaseConnection(); con.Open();
-
+            var loggedInUser = sessionHandler.GetSessionUser();
             using (OracleCommand cmd = con.CreateCommand())
                 {
                 cmd.CommandText = "pkg_ad.P_Getrealtionshiptype";
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Clear();
+                cmd.Parameters.Clear();                
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserGroupID;
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
