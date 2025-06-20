@@ -21,7 +21,7 @@
                 g_entities = data;
                 $.each(data, function (i, v) {
                     var id = getVal(v, 'entitY_ID');
-                    $('#entitiesGrid tbody').append('<tr><td>' + id + '</td><td>' + getVal(v, 'code') + '</td><td>' + getVal(v, 'name') + '</td><td>' + getVal(v, 'active') + '</td><td>' + getVal(v, 'auditbY_ID') + '</td><td>' + getVal(v, 'auditable') + '</td><td>' + getVal(v, 'address') + '</td><td>' + getVal(v, 'telephone') + '</td><td>' + getVal(v, 'emaiL_ADDRESS') + '</td><td><a href="#" onclick="event.preventDefault();editEntity(' + id + ');" class="text-danger">Update</a></td></tr>');
+                    $('#entitiesGrid tbody').append('<tr><td>' + id + '</td><td>' + getVal(v, 'code') + '</td><td>' + getVal(v, 'name') + '</td><td>' + getVal(v, 'active') + '</td><td>' + getVal(v, 'auditbY_ID') + '</td><td>' + getVal(v, 'auditable') + '</td><td>' + getVal(v, 'address') + '</td><td>' + getVal(v, 'telephone') + '</td><td>' + getVal(v, 'emaiL_ADDRESS') + '</td><td>' + getVal(v, 'risk_ID') + '</td><td>' + getVal(v, 'size_ID') + '</td><td><a href="#" onclick="event.preventDefault();editEntity(' + id + ');" class="text-danger">Update</a></td></tr>');
                 });
             },
             dataType: "json",
@@ -39,6 +39,8 @@
         $('#modalAddress').val(getVal(ent, 'address'));
         $('#modalTelephone').val(getVal(ent, 'telephone'));
         $('#modalEmail').val(getVal(ent, 'emaiL_ADDRESS'));
+        $('#modalRisk').val(getVal(ent, 'risk_ID'));
+        $('#modalSize').val(getVal(ent, 'size_ID'));
         $('#updateEntityModal').modal('show');
     }
     function saveEntity() {
@@ -52,6 +54,8 @@
             'ADDRESS': $('#modalAddress').val(),
             'TELEPHONE': $('#modalTelephone').val(),
             'EMAIL_ADDRESS': $('#modalEmail').val(),
+            'RISK_ID': $('#modalRisk').val(),
+            'SIZE_ID': $('#modalSize').val(),
             'UP_STATUS': 'U'
         };
         $.ajax({
@@ -124,6 +128,36 @@
                 <div class="form-group"><label>Address</label><input id="modalAddress" type="text" class="form-control" /></div>
                 <div class="form-group"><label>Telephone</label><input id="modalTelephone" type="text" class="form-control" /></div>
                 <div class="form-group"><label>Email</label><input id="modalEmail" type="text" class="form-control" /></div>
+                <div class="form-group">
+                    <label>Risk</label>
+                    <select id="modalRisk" class="form-select">
+                        <option value="0">--Select Risk--</option>
+                        @{
+                            if (ViewData["RiskList"] != null)
+                            {
+                                foreach (var r in (dynamic)ViewData["RiskList"])
+                                {
+                                    <option value="@r.R_ID">@r.DESCRIPTION</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Size</label>
+                    <select id="modalSize" class="form-select">
+                        <option value="0">--Select Size--</option>
+                        @{
+                            if (ViewData["BranchSizesList"] != null)
+                            {
+                                foreach (var s in (dynamic)ViewData["BranchSizesList"])
+                                {
+                                    <option value="@s.BR_SIZE_ID">@s.DESCRIPTION</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

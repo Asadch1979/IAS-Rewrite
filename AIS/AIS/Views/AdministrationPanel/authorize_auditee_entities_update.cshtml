@@ -13,7 +13,7 @@
             success: function (data) {
                 g_pending = data;
                 $.each(data, function (i, v) {
-                    $('#pendingGrid tbody').append('<tr><td>' + v.entitY_ID + '</td><td>' + v.code + '</td><td>' + v.name + '</td><td>' + v.active + '</td><td>' + v.auditbY_ID + '</td><td>' + v.auditable + '</td><td>' + v.address + '</td><td>' + v.telephone + '</td><td>' + v.emaiL_ADDRESS + '</td><td><a href="#" onclick="event.preventDefault();authorize(' + v.entity_id + ');" class="text-success">Authorize</a></td></tr>');
+                    $('#pendingGrid tbody').append('<tr><td>' + v.entitY_ID + '</td><td>' + v.code + '</td><td>' + v.name + '</td><td>' + v.active + '</td><td>' + v.auditbY_ID + '</td><td>' + v.auditable + '</td><td>' + v.address + '</td><td>' + v.telephone + '</td><td>' + v.emaiL_ADDRESS + '</td><td><a href="#" onclick="event.preventDefault();authorize(' + v.entity_id + ');" class="text-success">Authorize</a> | <a href="#" onclick="event.preventDefault();reject(' + v.entity_id + ');" class="text-danger">Reject</a></td></tr>');
                 });
             },
             dataType: "json",
@@ -27,6 +27,22 @@
             url: g_asiBaseURL + "/ApiCalls/UpdateAuditeeEntity",
             type: "POST",
             data: { ENTITY_MODEL: ent, IND: 'A' },
+            cache: false,
+            success: function (resp) {
+                alert(resp.Message);
+                loadPending();
+            },
+            dataType: "json",
+        });
+    }
+    function reject(id) {
+        var ent = g_pending.find(e => e.ENTITY_ID == id);
+        if (!ent) return;
+        ent.UP_STATUS = 'R';
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/UpdateAuditeeEntity",
+            type: "POST",
+            data: { ENTITY_MODEL: ent, IND: 'R' },
             cache: false,
             success: function (resp) {
                 alert(resp.Message);
