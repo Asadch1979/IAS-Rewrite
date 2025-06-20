@@ -2226,12 +2226,12 @@ namespace AIS.Controllers
             List<AuditeeEntityUpdateModel> entitiesList = new List<AuditeeEntityUpdateModel>();
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "pkg_ad.P_GetEntitees_for_update";
+                cmd.CommandText = "pkg_ad.P_GetEntitees_for_update_comp";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
-                cmd.Parameters.Add("ENTITYID", OracleDbType.Int32).Value = ENTITY_ID;
-                cmd.Parameters.Add("TYPEID", OracleDbType.Int32).Value = ENTITY_TYPE_ID;
-                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                cmd.Parameters.Add("E_ENTITY_ID", OracleDbType.Int32).Value = ENTITY_ID;
+                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserGroupID;
                 cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                 OracleDataReader rdr = cmd.ExecuteReader();
 
@@ -2264,16 +2264,39 @@ namespace AIS.Controllers
                         entity.AUDITBY_ID_OLD = Convert.ToInt32(rdr["AUDITBY_ID_OLD"]);
 
                     entity.AUDITBY_NAME = rdr["AUDITBY_NAME"].ToString();
+                    entity.AUDITBY_NAME_OLD = rdr["AUDITBY_NAME_OLD"].ToString();
+                    
                     entity.AUDITABLE = rdr["AUDITABLE"].ToString();
+                    entity.AUDITABLE_OLD = rdr["AUDITABLE_OLD"].ToString();
+
                     entity.ADDRESS = rdr["ADDRESS"].ToString();
+                    entity.ADDRESS_OLD = rdr["ADDRESS_OLD"].ToString();
+
                     entity.TELEPHONE = rdr["TELEPHONE"].ToString();
+                    entity.TELEPHONE_OLD = rdr["TELEPHONE_OLD"].ToString();
+
                     entity.EMAIL_ADDRESS = rdr["EMAIL_ADDRESS"].ToString();
+                    entity.EMAIL_ADDRESS_OLD = rdr["EMAIL_ADDRESS_OLD"].ToString();
+
+
                     if (rdr["RISK_ID"].ToString() != "" && rdr["RISK_ID"].ToString() != null)
                         entity.RISK_ID = Convert.ToInt32(rdr["RISK_ID"]);
+
+                    if (rdr["RISK_ID_OLD"].ToString() != "" && rdr["RISK_ID_OLD"].ToString() != null)
+                        entity.RISK_ID_OLD = Convert.ToInt32(rdr["RISK_ID_OLD"]);
+
                     if (rdr["SIZE_ID"].ToString() != "" && rdr["SIZE_ID"].ToString() != null)
                         entity.SIZE_ID = Convert.ToInt32(rdr["SIZE_ID"]);
+
+                    if (rdr["SIZE_ID_OLD"].ToString() != "" && rdr["SIZE_ID_OLD"].ToString() != null)
+                        entity.SIZE_ID_OLD = Convert.ToInt32(rdr["SIZE_ID_OLD"]);
+
                     entity.ERISK = rdr["ERISK"].ToString();
+                    entity.ERISK_OLD = rdr["ERISK_OLD"].ToString();
+
                     entity.ESIZE = rdr["ESIZE"].ToString();
+                    entity.ESIZE_OLD = rdr["ESIZE_OLD"].ToString();
+
                     entitiesList.Add(entity);
                     }
                 }
