@@ -5,16 +5,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - IAS</title>
-    <!-- Core CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
-    <link rel="stylesheet" href="~/lib/rich-text-editor/richtext.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/lib/rich-text-editor/richtext.min.css">
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
     <link rel="stylesheet" href="~/lib/bootstrap-image-uploader/jquery.imagesloader.css" />
     <link rel="stylesheet" href="~/lib/file-uploader/style.css" />
     <link rel="stylesheet" href="~/lib/select2/select2.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-    <!-- Buttons CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+    <link href="~/lib/datatable/datatables.min.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="~/Images/ztbllogo.png">
 
 
@@ -25,9 +25,6 @@
     <script src="~/lib/draggable/jquery-ui.js"></script>
     <script src="~/lib/crypto/crypto-js.min.js"></script>
     <script src="~/lib/datatable/datatables.min.js"></script>
-    <!-- Buttons JS -->
-    <script src="~/lib/datatable/dataTables.buttons.min.js"></script>
-    <script src="~/lib/datatable/buttons.html5.min.js"></script>
 
     <!-- JSZip for Excel export -->
     <script src="~/lib/datatable/jszip.min.js"></script>
@@ -56,14 +53,12 @@
 </head>
 <body>
     <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow mb-3">
-        <a class="navbar-brand" href="@Url.Action("Index", "Home")">
-            <img src="~/Images/ztbllogo.png" width="35" height="35" class="d-inline-block align-top" alt="ZTBL" />
-            <span class="ml-2 font-weight-bold">ZTBL Audit System</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navBarTopMenu" aria-controls="navBarTopMenu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <nav class="navbar navbar-expand-lg navbar-light fw-bold" style="background: linear-gradient(45deg, #b1e9b9, #96c3ef) ;">
+            <a class="navbar-brand" href="#"><img height="50" src="~/Images/ztbllogo.png" alt="Logo"></a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navBarTopMenu" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
             <div id="navBarTopMenu" class="collapse navbar-collapse">
 
@@ -77,7 +72,7 @@
                             menu_name = item.Menu_Name;
                             <div class="dropdown">
 
-                                <button class="btn btn-default bg-transparent dropdown-toggle font-weight-bold" type="button" data-bs-toggle="dropdown">@item.Menu_Name</button>
+                                <button class="btn btn-link bg-transparent dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown">@item.Menu_Name</button>
 
                                 @if (ViewData["TopMenuPages"] != null)
                                     {
@@ -103,7 +98,7 @@
                                                         {
                                                         SubMenuIds.Add(itemPage.Sub_Menu_Id);
                                                         <li class="dropdown-submenu">
-                                                            <a class="nested-menu dropdown-item" tabindex="-1" href="#">@itemPage.Sub_Menu_Name<span class="fa fa-caret-right ml-2"></span></a>
+                                                            <a class="nested-menu dropdown-item" tabindex="-1" href="#">@itemPage.Sub_Menu_Name<span class="fa fa-caret-right ms-2"></span></a>
                                                             <ul class="dropdown-menu">
                                                                 @foreach (var itemSubPage in (dynamic)(ViewData["TopMenuPages"]))
                                                                     {
@@ -150,11 +145,11 @@
 
 
 
-                <ul class="navbar-nav mt-2 mt-lg-0 ml-auto">
-                    <!-- ml-auto will align items to the right -->
+                <ul class="navbar-nav mt-2 mt-lg-0 ms-auto">
+                    <!-- ms-auto aligns items to the right -->
                     <li class="nav-item active dropdown">
                         <a class="nav-link" href="#" id="navImg" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <small><b>Welcome:</b></small>
+                            <small class="welcome-text">Welcome:</small>
                             @if (ViewData["TopMenuPages"] != null)
                                 {
                                 foreach (var itemPage in (dynamic)(ViewData["TopMenuPages"]))
@@ -163,9 +158,7 @@
                                         {
                                         <span id="avatarEmpName">
                                             <small>
-                                                <b>
-                                                    @itemPage.Name (@itemPage.PPNO)
-                                                </b>
+                                                @itemPage.Name (@itemPage.PPNO)
                                             </small>
                                             <img class="rounded-circle" height="18" src="~/Images/profile.png" />
                                             <br /><small style="display:block; line-height:11px;">@itemPage.User_Entity_Name</small>
@@ -176,7 +169,7 @@
                                 }
 
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navImg">
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navImg">
                             <a class="dropdown-item" href="~/Home/Change_Password">Change Password</a>
                             <a id="logout_action_url" class="dropdown-item" href="~/Login/Logout">Logout</a>
                         </div>
@@ -194,10 +187,10 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="row col-md-12">
+        <div class="row col-md-10">
             <div class="container text-center">
-                &copy; ZTBL INTERNAL AUDIT DIVISION (Developed By A.A.A)
-                <i style="float:right;">Version No:  25.0313</i>
+                &copy; ZTBL INTERNAL AUDIT DIVISION (Developed By ISAD)
+                <i style="float:right;">Version No:  30.0604</i>
             </div>
         </div>
 
@@ -207,12 +200,7 @@
     </div>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/idleSessionHandler.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <script type="text/javascript">var page_id = 0;</script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script type="text/javascript" src="~/lib/rich-text-editor/jquery.richtext.js"></script>
     <script type="text/javascript" src="~/lib/word-export/FileSaver.js"></script>

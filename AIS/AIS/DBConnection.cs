@@ -2175,6 +2175,7 @@ namespace AIS.Controllers
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("ENTITYID", OracleDbType.Int32).Value = ENTITY_ID;
                 cmd.Parameters.Add("TYPEID", OracleDbType.Int32).Value = ENTITY_TYPE_ID;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
                 cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                 OracleDataReader rdr = cmd.ExecuteReader();
 
@@ -2202,7 +2203,7 @@ namespace AIS.Controllers
                     entity.TELEPHONE = rdr["TELEPHONE"].ToString();
                     entity.EMAIL_ADDRESS = rdr["EMAIL_ADDRESS"].ToString();
 
-                    entitiesList.Add(ed);
+                    entitiesList.Add(entity);
                     }
                 }
             con.Dispose();
