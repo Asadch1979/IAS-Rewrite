@@ -22,6 +22,17 @@
     color: #fff;
 }
 
+.kill-btn {
+    background: #dc3545;
+    color: #fff;
+    transition: background-color .2s ease;
+}
+
+.kill-btn:hover {
+    background: #b52a37;
+    color: #fff;
+}
+
 .login-btn:hover {
     background: #3b49a1;
     color: #fff;

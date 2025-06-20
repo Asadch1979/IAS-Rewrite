@@ -1,5 +1,8 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
+body {
+    font-family: 'DejaVu Sans', sans-serif;
+}
 .container-clob {
     width: 100% !important;
     margin: 10px auto !important;
@@ -194,5 +197,15 @@ table.dataTable thead th {
 /* Color for top menu buttons */
 .navbar .btn-link {
     --bs-btn-color: #3a5681;
+}
+
+/* Rounded modals for cleaner look */
+.modal-content {
+    border-radius: 0.75rem;
+}
+
+/* Sleek card edges */
+.card {
+    border-radius: 0.75rem;
 }
 
