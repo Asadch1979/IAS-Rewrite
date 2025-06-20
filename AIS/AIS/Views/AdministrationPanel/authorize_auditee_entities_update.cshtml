@@ -14,7 +14,7 @@
             success: function (data) {
                 g_pending = data;
                 $.each(data, function (i, v) {
-                    $('#pendingGrid tbody').append('<tr><td>' + v.entitY_ID + '</td><td>' + v.code + '</td><td>' + v.name + '</td><td>' + v.active + '</td><td>' + v.auditbY_ID + '</td><td>' + v.auditable + '</td><td>' + v.address + '</td><td>' + v.telephone + '</td><td>' + v.emaiL_ADDRESS + '</td><td><a href="#" onclick="event.preventDefault();openCompare(' + v.entity_id + ');" class="text-danger">View</a></td></tr>');
+                    $('#pendingGrid tbody').append('<tr><td>' + v.entitY_ID + '</td><td>' + v.code + '</td><td>' + v.name + '</td><td>' + v.active + '</td><td>' + v.auditbY_ID + '</td><td>' + v.auditable + '</td><td>' + v.address + '</td><td>' + v.telephone + '</td><td>' + v.emaiL_ADDRESS + '</td><td>' + v.erisk + '</td><td>' + v.esize + '</td><td><a href="#" onclick="event.preventDefault();openCompare(' + v.entity_id + ');" class="text-danger">View</a></td></tr>');
                 });
             },
             dataType: "json",
@@ -109,6 +109,8 @@
                     <th>ADDRESS</th>
                     <th>TELEPHONE</th>
                     <th>EMAIL ADDRESS</th>
+                    <th>Risk</th>
+                    <th>Size</th>
                     <th>Action</th>
                 </tr>
             </thead>
