@@ -19251,6 +19251,7 @@ namespace AIS.Controllers
                     cp.TOTAL = rdr["Total"].ToString();
                     cp.REFERRED_BACK = rdr["Referred_Back"].ToString();
                     cp.RECOMMENDED = rdr["Recommended"].ToString();
+                    cp.PENDING = rdr["Pending"].ToString();
                     if (rdr["last_login"] != DBNull.Value && rdr["last_login"] != null)
                         {
                         cp.LAST_LOGIN_ON = rdr["last_login"].ToString();
