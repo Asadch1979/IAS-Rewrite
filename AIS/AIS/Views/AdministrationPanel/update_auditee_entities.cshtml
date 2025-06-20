@@ -39,8 +39,8 @@
         $('#modalAddress').val(getVal(ent, 'address'));
         $('#modalTelephone').val(getVal(ent, 'telephone'));
         $('#modalEmail').val(getVal(ent, 'emaiL_ADDRESS'));
-        $('#modalRisk').val(getVal(ent, 'risk_ID'));
-        $('#modalSize').val(getVal(ent, 'size_ID'));
+        $('#modalRisk').val(String(getVal(ent, 'risk_ID')));
+        $('#modalSize').val(String(getVal(ent, 'size_ID')));
         $('#updateEntityModal').modal('show');
     }
     function saveEntity() {

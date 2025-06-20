@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 
@@ -479,6 +480,11 @@ namespace AIS.Controllers
         public List<AuditeeEntitiesModel> GetAuditeeEntitiesByTypeId(int ENTITY_TYPE_ID = 0)
             {
             return dBConnection.GetAuditeeEntitiesForUpdate(ENTITY_TYPE_ID);
+            }
+        [HttpPost]
+        public AuditeeEntitiesModel GetAuditeeEntityById(int ENTITY_ID = 0)
+            {
+            return dBConnection.GetAuditeeEntitiesForUpdate(0, ENTITY_ID).FirstOrDefault();
             }
         [HttpPost]
         public List<AuditeeEntityUpdateModel> GetAuditeeEntitiesPendingAuthorization()
