@@ -481,6 +481,17 @@ namespace AIS.Controllers
             return dBConnection.GetAuditeeEntitiesForUpdate(ENTITY_TYPE_ID);
             }
         [HttpPost]
+        public List<AuditeeEntityUpdateModel> GetAuditeeEntitiesPendingAuthorization()
+            {
+            return dBConnection.GetAuditeeEntitiesForAuthorization();
+            }
+
+        [HttpPost]
+        public string UpdateAuditeeEntity(AuditeeEntityUpdateModel ENTITY_MODEL, string IND)
+            {
+            return "{\"Status\":true,\"Message\":\"" + dBConnection.UpdateAuditeeEntity(ENTITY_MODEL, IND) + "\"}";
+            }
+        [HttpPost]
         public List<AuditeeEntitiesModel> GetAISEntities(string ENTITY_ID, string TYPE_ID)
             {
             return dBConnection.GetAISEntities(ENTITY_ID, TYPE_ID);

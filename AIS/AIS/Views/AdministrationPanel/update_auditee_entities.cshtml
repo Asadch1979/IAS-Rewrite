@@ -1,0 +1,127 @@
+﻿@{
+    ViewData["Title"] = "Update Audit Entities";
+    Layout = "_Layout";
+}
+<script type="text/javascript">
+    var g_entities = [];
+    function loadEntities() {
+        $('#entitiesGrid tbody').empty();
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/GetAuditeeEntitiesByTypeId",
+            type: "POST",
+            data: {
+                'ENTITY_TYPE_ID': $('#entTypeField').val()
+            },
+            cache: false,
+            success: function (data) {
+                g_entities = data;
+                $.each(data, function (i, v) {
+                    $('#entitiesGrid tbody').append('<tr><td>' + v.ENTITY_ID + '</td><td>' + v.CODE + '</td><td>' + v.NAME + '</td><td>' + v.ACTIVE + '</td><td>' + v.AUDITBY_NAME + '</td><td>' + v.AUDITABLE + '</td><td>' + v.ADDRESS + '</td><td>' + v.TELEPHONE + '</td><td>' + v.EMAIL_ADDRESS + '</td><td><a href="#" onclick="event.preventDefault();editEntity(' + v.ENTITY_ID + ');" class="text-danger">Update</a></td></tr>');
+                });
+            },
+            dataType: "json",
+        });
+    }
+    function editEntity(id) {
+        var ent = g_entities.find(e => e.ENTITY_ID == id);
+        if (!ent) return;
+        $('#modalEntityId').val(ent.ENTITY_ID);
+        $('#modalCode').val(ent.CODE);
+        $('#modalName').val(ent.NAME);
+        $('#modalActive').val(ent.ACTIVE);
+        $('#modalAuditBy').val(ent.AUDITBY_ID);
+        $('#modalAuditable').val(ent.AUDITABLE);
+        $('#modalAddress').val(ent.ADDRESS);
+        $('#modalTelephone').val(ent.TELEPHONE);
+        $('#modalEmail').val(ent.EMAIL_ADDRESS);
+        $('#updateEntityModal').modal('show');
+    }
+    function saveEntity() {
+        var model = {
+            'ENTITY_ID': $('#modalEntityId').val(),
+            'CODE': $('#modalCode').val(),
+            'NAME': $('#modalName').val(),
+            'ACTIVE': $('#modalActive').val(),
+            'AUDITBY_ID': $('#modalAuditBy').val(),
+            'AUDITABLE': $('#modalAuditable').val(),
+            'ADDRESS': $('#modalAddress').val(),
+            'TELEPHONE': $('#modalTelephone').val(),
+            'EMAIL_ADDRESS': $('#modalEmail').val(),
+            'UP_STATUS': 'U'
+        };
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/UpdateAuditeeEntity",
+            type: "POST",
+            data: { ENTITY_MODEL: model, IND: 'U' },
+            cache: false,
+            success: function (resp) {
+                alert(resp.Message);
+                loadEntities();
+            },
+            dataType: "json",
+        });
+    }
+</script>
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <label>Entity Type</label>
+            <select id="entTypeField" class="form-select" onchange="loadEntities()">
+                <option value="0" selected>--Select Entity--</option>
+                @{
+                    if (ViewData["AuditEntitiesType"] != null)
+                    {
+                        foreach (var item in (dynamic)(ViewData["AuditEntitiesType"]))
+                        {
+                            <option value="@item.AUTID">@item.ENTITYTYPEDESC</option>
+                        }
+                    }
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row col-md-12 mt-3">
+        <table id="entitiesGrid" class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr style="background-color:#19875478;">
+                    <th>ENTITY ID</th>
+                    <th>CODE</th>
+                    <th>NAME</th>
+                    <th>Active</th>
+                    <th>AUDIT BY</th>
+                    <th>AUDITABLE</th>
+                    <th>ADDRESS</th>
+                    <th>TELEPHONE</th>
+                    <th>EMAIL ADDRESS</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+<div id="updateEntityModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Update Entity</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group"><label>ID</label><input id="modalEntityId" type="text" class="form-control" readonly /></div>
+                <div class="form-group"><label>Code</label><input id="modalCode" type="text" class="form-control" /></div>
+                <div class="form-group"><label>Name</label><input id="modalName" type="text" class="form-control" /></div>
+                <div class="form-group"><label>Active</label><input id="modalActive" type="text" class="form-control" /></div>
+                <div class="form-group"><label>Audit By</label><input id="modalAuditBy" type="text" class="form-control" /></div>
+                <div class="form-group"><label>Auditable</label><input id="modalAuditable" type="text" class="form-control" /></div>
+                <div class="form-group"><label>Address</label><input id="modalAddress" type="text" class="form-control" /></div>
+                <div class="form-group"><label>Telephone</label><input id="modalTelephone" type="text" class="form-control" /></div>
+                <div class="form-group"><label>Email</label><input id="modalEmail" type="text" class="form-control" /></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" onclick="saveEntity();" data-bs-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
