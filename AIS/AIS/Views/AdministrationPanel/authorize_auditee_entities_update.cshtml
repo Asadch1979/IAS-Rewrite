@@ -17,7 +17,7 @@
             success: function (data) {
                 g_pending = data;
                 $.each(data, function (i, v) {
-    var id = getVal(v, 'entity_id');
+    var id = getVal(v, 'entitY_ID');
                     $('#pendingGrid tbody').append(
                         '<tr><td>' + id + '</td>' +
                         '<td>' + getVal(v, 'code') + '</td>' +
@@ -41,7 +41,7 @@
         });
     }
     function openCompare(id) {
-        var ent = g_pending.find(e => getVal(e, 'entity_id') == id);
+        var ent = g_pending.find(e => getVal(e, 'entitY_ID') == id);
         if (!ent) return;
         g_current = ent;
         $('#compareEntityId').val(id);
@@ -52,6 +52,7 @@
             cache: false,
             success: function (orig) {
                 if (!orig) return;
+
                 $('#oldCode').val(getVal(orig, 'code'));
                 $('#oldName').val(getVal(orig, 'name'));
                 $('#oldActive').val(getVal(orig, 'active'));

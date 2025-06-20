@@ -2215,6 +2215,72 @@ namespace AIS.Controllers
             return entitiesList;
 
             }
+
+        public List<AuditeeEntityUpdateModel> GetAuditeeEntitiesForUpdateForAuthorization(int ENTITY_TYPE_ID = 0, int ENTITY_ID = 0)
+            {
+            var con = this.DatabaseConnection(); con.Open();
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            List<AuditeeEntityUpdateModel> entitiesList = new List<AuditeeEntityUpdateModel>();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_ad.P_GetEntitees_for_update";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ENTITYID", OracleDbType.Int32).Value = ENTITY_ID;
+                cmd.Parameters.Add("TYPEID", OracleDbType.Int32).Value = ENTITY_TYPE_ID;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                    {
+                    AuditeeEntityUpdateModel entity = new AuditeeEntityUpdateModel();
+
+                    if (rdr["ENTITY_ID"].ToString() != "" && rdr["ENTITY_ID"].ToString() != null)
+                        entity.ENTITY_ID = Convert.ToInt32(rdr["ENTITY_ID"]);
+
+                    if (rdr["CODE"].ToString() != "" && rdr["CODE"].ToString() != null)
+                        entity.CODE = Convert.ToInt32(rdr["CODE"]);
+
+                    if (rdr["CODE_OLD"].ToString() != "" && rdr["CODE_OLD"].ToString() != null)
+                        entity.CODE_OLD = Convert.ToInt32(rdr["CODE_OLD"]);
+
+                    if (rdr["NAME"].ToString() != "" && rdr["NAME"].ToString() != null)
+                        entity.NAME = rdr["NAME"].ToString();
+
+                    if (rdr["NAME_OLD"].ToString() != "" && rdr["NAME_OLD"].ToString() != null)
+                        entity.NAME_OLD = rdr["NAME_OLD"].ToString();
+
+                    entity.ACTIVE = rdr["ACTIVE"].ToString();
+                    entity.ACTIVE_OLD = rdr["ACTIVE_OLD"].ToString();
+
+                    if (rdr["AUDITBY_ID"].ToString() != "" && rdr["AUDITBY_ID"].ToString() != null)
+                        entity.AUDITBY_ID = Convert.ToInt32(rdr["AUDITBY_ID"]);
+
+                    if (rdr["AUDITBY_ID_OLD"].ToString() != "" && rdr["AUDITBY_ID_OLD"].ToString() != null)
+                        entity.AUDITBY_ID_OLD = Convert.ToInt32(rdr["AUDITBY_ID_OLD"]);
+
+                    entity.AUDITBY_NAME = rdr["AUDITBY_NAME"].ToString();
+                    entity.AUDITABLE = rdr["AUDITABLE"].ToString();
+                    entity.ADDRESS = rdr["ADDRESS"].ToString();
+                    entity.TELEPHONE = rdr["TELEPHONE"].ToString();
+                    entity.EMAIL_ADDRESS = rdr["EMAIL_ADDRESS"].ToString();
+                    if (rdr["RISK_ID"].ToString() != "" && rdr["RISK_ID"].ToString() != null)
+                        entity.RISK_ID = Convert.ToInt32(rdr["RISK_ID"]);
+                    if (rdr["SIZE_ID"].ToString() != "" && rdr["SIZE_ID"].ToString() != null)
+                        entity.SIZE_ID = Convert.ToInt32(rdr["SIZE_ID"]);
+                    entity.ERISK = rdr["ERISK"].ToString();
+                    entity.ESIZE = rdr["ESIZE"].ToString();
+                    entitiesList.Add(entity);
+                    }
+                }
+            con.Dispose();
+            return entitiesList;
+
+            }
         public List<AuditeeEntityUpdateModel> GetAuditeeEntitiesForAuthorization()
             {
             var con = this.DatabaseConnection(); con.Open();
