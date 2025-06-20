@@ -4,6 +4,10 @@
 }
 <script type="text/javascript">
     var g_entities = [];
+
+    function getVal(obj, prop) {
+        return obj[prop] ?? obj[prop.toLowerCase()] ?? obj[prop.toUpperCase()] ?? obj[prop.replace(/_/g, '')];
+    }
     function loadEntities() {
         $('#entitiesGrid tbody').empty();
         $.ajax({
@@ -16,24 +20,25 @@
             success: function (data) {
                 g_entities = data;
                 $.each(data, function (i, v) {
-                    $('#entitiesGrid tbody').append('<tr><td>' + v.ENTITY_ID + '</td><td>' + v.CODE + '</td><td>' + v.NAME + '</td><td>' + v.ACTIVE + '</td><td>' + v.AUDITBY_NAME + '</td><td>' + v.AUDITABLE + '</td><td>' + v.ADDRESS + '</td><td>' + v.TELEPHONE + '</td><td>' + v.EMAIL_ADDRESS + '</td><td><a href="#" onclick="event.preventDefault();editEntity(' + v.ENTITY_ID + ');" class="text-danger">Update</a></td></tr>');
+                    var id = getVal(v, 'ENTITY_ID');
+                    $('#entitiesGrid tbody').append('<tr><td>' + id + '</td><td>' + getVal(v, 'CODE') + '</td><td>' + getVal(v, 'NAME') + '</td><td>' + getVal(v, 'ACTIVE') + '</td><td>' + getVal(v, 'AUDITBY_NAME') + '</td><td>' + getVal(v, 'AUDITABLE') + '</td><td>' + getVal(v, 'ADDRESS') + '</td><td>' + getVal(v, 'TELEPHONE') + '</td><td>' + getVal(v, 'EMAIL_ADDRESS') + '</td><td><a href="#" onclick="event.preventDefault();editEntity(' + id + ');" class="text-danger">Update</a></td></tr>');
                 });
             },
             dataType: "json",
         });
     }
     function editEntity(id) {
-        var ent = g_entities.find(e => e.ENTITY_ID == id);
+        var ent = g_entities.find(e => getVal(e, 'ENTITY_ID') == id);
         if (!ent) return;
-        $('#modalEntityId').val(ent.ENTITY_ID);
-        $('#modalCode').val(ent.CODE);
-        $('#modalName').val(ent.NAME);
-        $('#modalActive').val(ent.ACTIVE);
-        $('#modalAuditBy').val(ent.AUDITBY_ID);
-        $('#modalAuditable').val(ent.AUDITABLE);
-        $('#modalAddress').val(ent.ADDRESS);
-        $('#modalTelephone').val(ent.TELEPHONE);
-        $('#modalEmail').val(ent.EMAIL_ADDRESS);
+        $('#modalEntityId').val(getVal(ent, 'ENTITY_ID'));
+        $('#modalCode').val(getVal(ent, 'CODE'));
+        $('#modalName').val(getVal(ent, 'NAME'));
+        $('#modalActive').val(getVal(ent, 'ACTIVE'));
+        $('#modalAuditBy').val(getVal(ent, 'AUDITBY_ID'));
+        $('#modalAuditable').val(getVal(ent, 'AUDITABLE'));
+        $('#modalAddress').val(getVal(ent, 'ADDRESS'));
+        $('#modalTelephone').val(getVal(ent, 'TELEPHONE'));
+        $('#modalEmail').val(getVal(ent, 'EMAIL_ADDRESS'));
         $('#updateEntityModal').modal('show');
     }
     function saveEntity() {

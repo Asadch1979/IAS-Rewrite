@@ -20,6 +20,10 @@
 <script type="text/javascript">
     var g_entId = 0;
     var g_entList = [];
+
+    function getVal(obj, prop) {
+        return obj[prop] ?? obj[prop.toLowerCase()] ?? obj[prop.toUpperCase()] ?? obj[prop.replace(/_/g, '')];
+    }
     $(document).ready(function () {
       
         $("#searchTableRecord").on("keyup", function () {
@@ -35,16 +39,16 @@
 
         g_entId = id;
         $.each(g_entList, function (i, v) {
-             if (v.ENTITY_ID == g_entId) {
-                $('#modalEntityId').val(v.ENTITY_ID);
-                $('#modalCode').val(v.CODE);
-                $('#modalName').val(v.NAME);
-                $('#modalActive').val(v.ACTIVE);
-                $('#modalAuditBy').val(v.AUDITBY_ID);
-                $('#modalAuditable').val(v.AUDITABLE);
-                $('#modalAddress').val(v.ADDRESS);
-                $('#modalTelephone').val(v.TELEPHONE);
-                $('#modalEmail').val(v.EMAIL_ADDRESS);
+             if (getVal(v, 'ENTITY_ID') == g_entId) {
+                $('#modalEntityId').val(getVal(v, 'ENTITY_ID'));
+                $('#modalCode').val(getVal(v, 'CODE'));
+                $('#modalName').val(getVal(v, 'NAME'));
+                $('#modalActive').val(getVal(v, 'ACTIVE'));
+                $('#modalAuditBy').val(getVal(v, 'AUDITBY_ID'));
+                $('#modalAuditable').val(getVal(v, 'AUDITABLE'));
+                $('#modalAddress').val(getVal(v, 'ADDRESS'));
+                $('#modalTelephone').val(getVal(v, 'TELEPHONE'));
+                $('#modalEmail').val(getVal(v, 'EMAIL_ADDRESS'));
              }
         });
 
@@ -69,7 +73,8 @@
                     var sr = 0;
                     $.each(data, function (i, v) {
                         sr++;
-                        $('#auditeeEntitiesList tbody').append('<tr><td>' + sr + '</td><td>' + v.ENTITY_ID + '</td><td>' + v.CODE + '</td><td>' + v.NAME + '</td><td>' + v.ACTIVE + '</td><td>' + v.AUDITBY_NAME + '</td><td>' + v.AUDITABLE + '</td><td>' + v.ADDRESS + '</td><td>' + v.TELEPHONE + '</td><td>' + v.EMAIL_ADDRESS + '</td><td><a class="text-danger" onclick="event.preventDefault();updateAuditeeEntities(' + v.ENTITY_ID + ')">Update</a></td></tr>');
+                        var id = getVal(v, 'ENTITY_ID');
+                        $('#auditeeEntitiesList tbody').append('<tr><td>' + sr + '</td><td>' + id + '</td><td>' + getVal(v, 'CODE') + '</td><td>' + getVal(v, 'NAME') + '</td><td>' + getVal(v, 'ACTIVE') + '</td><td>' + getVal(v, 'AUDITBY_NAME') + '</td><td>' + getVal(v, 'AUDITABLE') + '</td><td>' + getVal(v, 'ADDRESS') + '</td><td>' + getVal(v, 'TELEPHONE') + '</td><td>' + getVal(v, 'EMAIL_ADDRESS') + '</td><td><a class="text-danger" onclick="event.preventDefault();updateAuditeeEntities(' + id + ')">Update</a></td></tr>');
                     });
                 },
                 dataType: "json",
@@ -112,22 +117,17 @@
         <label>Entity Type</label>
     </div>
     <div class="col-md-10">
-        <select id="RelationshipField" onchange="ShowEntities();" class="form-control form-select">
+        <select id="entityTypeSelectField" onchange="ShowEntities();" class="form-control form-select">
             <option id="0" value="0" selected="selected">--Select Entity Type--</option>
-
-
             @{
-                if (ViewData["Userrelationship"] != null)
+                if (ViewData["AuditEntitiesType"] != null)
                 {
-                    foreach (var item in (dynamic)(ViewData["Userrelationship"]))
+                    foreach (var item in (dynamic)(ViewData["AuditEntitiesType"]))
                     {
-                        <option value="@item.ENTITY_REALTION_ID" id="@item.ENTITY_REALTION_ID">@item.FIELD_NAME</option>
+                        <option value="@item.AUTID">@item.ENTITYTYPEDESC</option>
                     }
                 }
             }
-
-
-
         </select>
     </div>
 </div>
