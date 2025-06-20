@@ -467,10 +467,18 @@
                     <div class="form-group">
                         <label for="riskCategory">Risk Category</label>
                         <select id="riskCategory" class="form-control" required>
-                            <option value="">Select Risk Category</option>
-                            <option value="Low">Low</option>
-                            <option value="Medium">Medium</option>
-                            <option value="High">High</option>
+                            <option value="0" id="0" selected>--Select Risk Category--</option>
+                            @{
+                                if (ViewData["RiskList"] != null)
+                                {
+
+                                    foreach (var risk in (dynamic)(ViewData["RiskList"]))
+                                    {
+                                        <option id="@risk.R_ID" value="@risk.R_ID">@risk.DESCRIPTION</option>
+                                    }
+
+                                }
+                            }
                         </select>
                     </div>
 
