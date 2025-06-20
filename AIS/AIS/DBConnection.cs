@@ -1,5 +1,6 @@
 
 using AIS.Models;
+using AIS;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -2179,14 +2180,20 @@ namespace AIS.Controllers
 
                 while (rdr.Read())
                     {
-                    AuditeeEntitiesModel entity = new AuditeeEntitiesModel();
-                    if (rdr["ENTITY_ID"].ToString() != "" && rdr["ENTITY_ID"].ToString() != null)
-                        entity.ENTITY_ID = Convert.ToInt32(rdr["ENTITY_ID"]);
+                    AuditeeEntitiesModel ed = new AuditeeEntitiesModel();
+                    ed.ENTITY_ID = rdr["entity_id"].ToString();
+                    ed.CODE = rdr["code"].ToString();
+                    ed.NAME = rdr["NAME"].ToString();
+                    ed.ACTIVE = rdr["ACTIVE"].ToString();
+                    ed.AUDITBY_ID = rdr["auditby_id"].ToString();
+                    ed.AUDITABLE = rdr["auditable"].ToString();
+                    ed.ADDRESS = rdr["address"].ToString();
+                    ed.TELEPHONE = rdr["telephone"].ToString();
+                    ed.EMAIL_ADDRESS = rdr["email_address"].ToString();
+                    ed.RISK_ID = rdr["risk_id"].ToString();
+                    ed.SIZE_ID = rdr["size_id"].ToString();
 
-                    if (rdr["c_name"].ToString() != "" && rdr["c_name"].ToString() != null)
-                        entity.NAME = rdr["c_name"].ToString();
-
-                    entitiesList.Add(entity);
+                    entitiesList.Add(ed);
                     }
                 }
             con.Dispose();
@@ -2472,27 +2479,7 @@ namespace AIS.Controllers
             con.Dispose();
             if (successIndicator.Trim() == "Y")
                 {
-                string emailSubject = "IAS~ Password Reset Successful";
-                string emailBody = $@"
-Dear {userFullName},
-
-                    
-                Your password has been successfully reset. Please find your new login details below:
-
-                Username: {PPNumber}
-                Password: {pass}
-
-                For security reasons, we recommend that you change this password immediately after logging in.
-
-                If you did not request this password reset, please contact our support team immediately.
-
-                
-            Best Regards,
-
-            Internal Audit System (IAS)
-";
-                EmailConfiguration email = new EmailConfiguration();
-                email.ConfigEmail(userEmail, userCCEmail, emailSubject, emailBody);
+                EmailNotification.SendPasswordResetSuccess(userFullName, PPNumber, pass, userEmail, userCCEmail); EmailNotification.SendPasswordResetSuccess(userFullName, PPNumber, pass, userEmail, userCCEmail);
                 }
             return res;
 
@@ -3472,21 +3459,7 @@ Dear {userFullName},
 
             if (resp == "N")
                 {
-                string emailSubject = $"IAS~Notification: Issue in Audit Sample for Engagement ID: {ENG_ID}";
-
-                string emailBody = $@"
-                    Dear Sir,
-
-                    This is to notify you that the issue has been identified in Audit Sample Creation Please check and fix.  
-
-                  
-
-                    Best Regards,  
-                    Internal Audit System (IAS)
-                    ";
-
-                EmailConfiguration econ = new EmailConfiguration();
-                econ.ConfigEmail(email, email_cc, emailSubject, emailBody);
+                EmailNotification.NotifyAuditSampleIssue(ENG_ID.ToString(), email, email_cc);
                 }
             return resp;
             }
@@ -3523,21 +3496,7 @@ Dear {userFullName},
 
             if (resp == "N")
                 {
-                string emailSubject = $"IAS~Notification: Issue in Audit Exception for Engagement ID: {ENG_ID}";
-
-                string emailBody = $@"
-                    Dear Sir,
-
-                    This is to notify you that the issue has been identified while creating exception reports Please check and fix.  
-
-                  
-
-                    Best Regards,  
-                    Internal Audit System (IAS)
-                    ";
-
-                EmailConfiguration econ = new EmailConfiguration();
-                econ.ConfigEmail(email, email_cc, emailSubject, emailBody);
+                EmailNotification.NotifyAuditExceptionIssue(ENG_ID.ToString(), email, email_cc);
                 }
             return resp;
             }
@@ -4623,30 +4582,8 @@ Dear {userFullName},
                 }
             if (email == "Y")
                 {
-                string emailSubject = $"IAS~Notification: Audit Team has Joined for {auditEntity}";
-
-                string emailBody = $@"
-            Dear Sir,
-
-            This is to notify you that the audit team has officially joined for the audit of {auditEntity}.  
-
-            Please coordinate with the Audit Team for any necessary assistance during the audit process.  
-
-          
-            Audit Team Details 
-            {teamLead}  {teamMembers} 
-
-            You must provide all information desired by the Audit Team during the course of Audit.
-
-            Best Regards,  
-            Internal Audit System (IAS)
-            ";
-
-                EmailConfiguration econ = new EmailConfiguration();
-                econ.ConfigEmail(toEmail, ccEmail, emailSubject, emailBody);
+                Task.Run(() => EmailNotification.SendJoiningNotificationAsync(toEmail, ccEmail, auditEntity, teamLead, teamMembers));
                 }
-
-
             return response;
             }
 
@@ -10196,9 +10133,12 @@ Dear {userFullName},
         public List<UserRelationshipModel> Getrealtionshiptype()
             {
 
-            List<UserRelationshipModel> entitiesList = new List<UserRelationshipModel>();
-            var con = this.DatabaseConnection(); con.Open();
+            List<UserRelationshipModel> entitiesList = new List<UserRelationshipModel>();         
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection(); con.Open();
             using (OracleCommand cmd = con.CreateCommand())
                 {
                 cmd.CommandText = "pkg_ad.P_Getrealtionshiptype";
@@ -11317,39 +11257,7 @@ Dear {userFullName},
             con.Dispose();
             return list;
             }
-        public List<GetOldParasBranchComplianceModel> GetOldParasBranchComplianceRef()
-            {
-            sessionHandler = new SessionHandler();
-            sessionHandler._httpCon = this._httpCon;
-            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
-            var con = this.DatabaseConnection(); con.Open();
-            var loggedInUser = sessionHandler.GetSessionUser();
-            List<GetOldParasBranchComplianceModel> list = new List<GetOldParasBranchComplianceModel>();
-            using (OracleCommand cmd = con.CreateCommand())
-                {
-                cmd.CommandText = "pkg_ae.P_GetAuditeeOldParasFAD_REF";
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Clear();
-                cmd.Parameters.Add("EntityID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
-                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                while (rdr.Read())
-                    {
-                    GetOldParasBranchComplianceModel chk = new GetOldParasBranchComplianceModel();
-                    chk.AUDIT_PERIOD = rdr["audit_period"].ToString();
-                    chk.NAME = rdr["name"].ToString();
-                    chk.PARA_NO = rdr["para_no"].ToString();
-                    chk.GIST_OF_PARAS = rdr["gist_of_paras"].ToString();
-                    chk.NEW_PARA_ID = rdr["new_paraid"].ToString() == "" ? 0 : Convert.ToInt32(rdr["new_paraid"].ToString());
-                    chk.OLD_PARA_ID = rdr["old_para_id"].ToString() == "" ? 0 : Convert.ToInt32(rdr["old_para_id"].ToString());
-                    chk.AUDIT_BY_ID = rdr["auditedby"].ToString();
-                    list.Add(chk);
-                    }
-                }
-            con.Dispose();
-            return list;
-            }
+       
         public GetOldParasBranchComplianceTextModel GetParaComplianceText(int OLD_PARA_ID, int NEW_PARA_ID, string INDICATOR)
             {
 
@@ -11825,22 +11733,7 @@ Dear {userFullName},
                 }
             if (to_email != "")
                 {
-                string emailSubject = $"IAS~Notification: Para No: {para_no} is marked {para_status}";
-
-                string emailBody = $@"
-            Dear Sir,  
-
-            This is to notify you that Para No. {para_no} has been marked as {para_status}.  
-
-            Gist of Para:  
-            {para_gist}  
-
-            Best Regards,  
-            Internal Audit System (IAS)  
-            ";
-                //    string ccEmails = string.Join(";", new[] { cc_email, cc2_email }.Where(e => !string.IsNullOrWhiteSpace(e)));
-                EmailConfiguration econ = new EmailConfiguration();
-                econ.ConfigEmail(to_email, emailSubject, emailBody);
+                EmailNotification.NotifyParaStatus(para_no, para_status, para_gist, to_email, cc_email, cc2_email);
                 }
 
             con.Dispose();

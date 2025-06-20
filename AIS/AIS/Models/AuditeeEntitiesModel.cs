@@ -15,6 +15,16 @@ namespace AIS.Models
         public string STATUS { get; set; }
         public int? INSPECTEDBY_ID { get; set; }
         public string COST_CENTER { get; set; }
+        public string AUDITOR { get; set; }
+        public string IAD { get; set; }
+        public string COMPLICE_BY { get; set; }
+        public string COMPLIANCE_UNIT { get; set; }
+        public string ADDRESS { get; set; }
+        public string TELEPHONE { get; set; }
+        public string EMAIL_ADDRESS { get; set; }
+        public string RISK_ID { get; set; }
+        public string SIZE_ID { get; set; }
+
         public int? ENG_ID { get; set; }
 
         public string COM_BY { get; set; }
