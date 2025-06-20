@@ -20,25 +20,25 @@
             success: function (data) {
                 g_entities = data;
                 $.each(data, function (i, v) {
-                    var id = getVal(v, 'ENTITY_ID');
-                    $('#entitiesGrid tbody').append('<tr><td>' + id + '</td><td>' + getVal(v, 'CODE') + '</td><td>' + getVal(v, 'NAME') + '</td><td>' + getVal(v, 'ACTIVE') + '</td><td>' + getVal(v, 'AUDITBY_NAME') + '</td><td>' + getVal(v, 'AUDITABLE') + '</td><td>' + getVal(v, 'ADDRESS') + '</td><td>' + getVal(v, 'TELEPHONE') + '</td><td>' + getVal(v, 'EMAIL_ADDRESS') + '</td><td><a href="#" onclick="event.preventDefault();editEntity(' + id + ');" class="text-danger">Update</a></td></tr>');
+                    var id = getVal(v, 'entitY_ID');
+                    $('#entitiesGrid tbody').append('<tr><td>' + id + '</td><td>' + getVal(v, 'code') + '</td><td>' + getVal(v, 'name') + '</td><td>' + getVal(v, 'active') + '</td><td>' + getVal(v, 'auditbY_ID') + '</td><td>' + getVal(v, 'auditable') + '</td><td>' + getVal(v, 'address') + '</td><td>' + getVal(v, 'telephone') + '</td><td>' + getVal(v, 'emaiL_ADDRESS') + '</td><td><a href="#" onclick="event.preventDefault();editEntity(' + id + ');" class="text-danger">Update</a></td></tr>');
                 });
             },
             dataType: "json",
         });
     }
     function editEntity(id) {
-        var ent = g_entities.find(e => getVal(e, 'ENTITY_ID') == id);
+        var ent = g_entities.find(e => getVal(e, 'entitY_ID') == id);
         if (!ent) return;
-        $('#modalEntityId').val(getVal(ent, 'ENTITY_ID'));
-        $('#modalCode').val(getVal(ent, 'CODE'));
-        $('#modalName').val(getVal(ent, 'NAME'));
-        $('#modalActive').val(getVal(ent, 'ACTIVE'));
-        $('#modalAuditBy').val(getVal(ent, 'AUDITBY_ID'));
-        $('#modalAuditable').val(getVal(ent, 'AUDITABLE'));
-        $('#modalAddress').val(getVal(ent, 'ADDRESS'));
-        $('#modalTelephone').val(getVal(ent, 'TELEPHONE'));
-        $('#modalEmail').val(getVal(ent, 'EMAIL_ADDRESS'));
+        $('#modalEntityId').val(getVal(ent, 'entitY_ID'));
+        $('#modalCode').val(getVal(ent, 'code'));
+        $('#modalName').val(getVal(ent, 'name'));
+        $('#modalActive').val(getVal(ent, 'active'));
+        $('#modalAuditBy').val(getVal(ent, 'auditbY_ID'));
+        $('#modalAuditable').val(getVal(ent, 'auditable'));
+        $('#modalAddress').val(getVal(ent, 'address'));
+        $('#modalTelephone').val(getVal(ent, 'telephone'));
+        $('#modalEmail').val(getVal(ent, 'emaiL_ADDRESS'));
         $('#updateEntityModal').modal('show');
     }
     function saveEntity() {
@@ -98,6 +98,8 @@
                     <th>ADDRESS</th>
                     <th>TELEPHONE</th>
                     <th>EMAIL ADDRESS</th>
+                    <th>RISK</th>
+                    <th>SIZE</th>
                     <th>Action</th>
                 </tr>
             </thead>
