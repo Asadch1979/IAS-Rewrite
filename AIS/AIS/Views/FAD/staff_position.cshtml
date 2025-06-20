@@ -1,0 +1,137 @@
+@{
+    ViewData["Title"] = "Staff Position";
+    Layout = "_Layout";
+}
+<h3 style=" display:block;color: #45c545;" class="mt-3">@ViewData["Title"]</h3>
+<button class="btn btn-danger mb-2" onclick="openStaffModal()">Add</button>
+<table id="staffTable" class="table table-bordered table-striped bg-white">
+    <thead style="background-color: #19875478 !important;">
+        <tr>
+            <th>Sr</th>
+            <th>PPNO</th>
+            <th>Name</th>
+            <th>Rank</th>
+            <th>Designation</th>
+            <th>Placement</th>
+            <th>Highest Qualification</th>
+            <th>Specialization</th>
+            <th>Audit related Certification</th>
+            <th>Total Experience</th>
+            <th>Audit Experience</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+<div id="staffModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Staff Position</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="staffId" />
+                <div class="form-group mb-2">
+                    <label>Rank</label>
+                    <select id="rankField" class="form-control form-select"></select>
+                </div>
+                <div class="form-group mb-2">
+                    <label>Designation</label>
+                    <select id="designationField" class="form-control form-select"></select>
+                </div>
+                <div class="form-group mb-2">
+                    <label>Placement</label>
+                    <select id="placementField" class="form-control form-select"></select>
+                </div>
+                <div class="form-group mb-2">
+                    <label>Highest Qualification</label>
+                    <select id="qualificationField" class="form-control form-select"></select>
+                </div>
+                <div class="form-group mb-2">
+                    <label>Specialization</label>
+                    <select id="specializationField" class="form-control form-select"></select>
+                </div>
+                <div class="form-group mb-2">
+                    <label>Audit related Certification</label>
+                    <select id="certField" class="form-control form-select"></select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" onclick="saveStaff()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+<script type="text/javascript">
+    $(document).ready(function () {
+        loadStaff();
+    });
+    function loadStaff() {
+        $.post(g_asiBaseURL + "/ApiCalls/get_audit_emp", function (data) {
+            var tbody = $("#staffTable tbody");
+            tbody.empty();
+            var sr = 1;
+            $.each(data, function (i, v) {
+                var row = "<tr>" +
+                    "<td>" + sr++ + "</td>" +
+                    "<td>" + v.ppno + "</td>" +
+                    "<td>" + v.name + "</td>" +
+                    "<td>" + v.rank + "</td>" +
+                    "<td>" + v.designation + "</td>" +
+                    "<td>" + v.placement + "</td>" +
+                    "<td>" + v.qualification + "</td>" +
+                    "<td>" + v.specialization + "</td>" +
+                    "<td>" + v.certification + "</td>" +
+                    "<td>" + v.total_Experience + "</td>" +
+                    "<td>" + v.audit_Experience + "</td>" +
+                    "<td><button class='btn btn-sm btn-primary' onclick='editStaff(" + v.id + ")'>Update</button></td>" +
+                    "</tr>";
+                tbody.append(row);
+            });
+        });
+    }
+    function loadDropdowns() {
+        $.post(g_asiBaseURL + "/ApiCalls/get_hr_rank", function (d) { fillSelect("#rankField", d); });
+        $.post(g_asiBaseURL + "/ApiCalls/get_hr_designation", function (d) { fillSelect("#designationField", d); });
+        $.post(g_asiBaseURL + "/ApiCalls/get_hr_posting", function (d) { fillSelect("#placementField", d); });
+        $.post(g_asiBaseURL + "/ApiCalls/get_qualification", function (d) { fillSelect("#qualificationField", d); });
+        $.post(g_asiBaseURL + "/ApiCalls/get_qualification_specialization", function (d) { fillSelect("#specializationField", d); });
+        $.post(g_asiBaseURL + "/ApiCalls/get_certification", function (d) { fillSelect("#certField", d); });
+    }
+    function fillSelect(sel, data) {
+        var s = $(sel); s.empty();
+        $.each(data, function (i, v) { s.append('<option value="' + v.id + '">' + v.description + '</option>'); });
+    }
+    function openStaffModal(){
+        $("#staffId").val(0);
+        loadDropdowns();
+        $("#staffModal").modal('show');
+    }
+    function editStaff(id){
+        var row = $("#staffTable tbody tr").filter(function(){ return $(this).find('button').attr('onclick')=="editStaff("+id+")"});
+        if(row.length){
+            $("#staffId").val(id);
+            loadDropdowns();
+            $("#staffModal").modal('show');
+        }
+    }
+    function saveStaff(){
+        var obj = {
+            ID: $("#staffId").val(),
+            RANK: $("#rankField").val(),
+            DESIGNATION: $("#designationField").val(),
+            PLACEMENT: $("#placementField").val(),
+            QUALIFICATION: $("#qualificationField").val(),
+            SPECIALIZATION: $("#specializationField").val(),
+            CERTIFICATION: $("#certField").val()
+        };
+        $.post(g_asiBaseURL + "/ApiCalls/update_audit_emp", obj, function(){
+            $("#staffModal").modal('hide');
+            loadStaff();
+        });
+    }
+</script>
+}

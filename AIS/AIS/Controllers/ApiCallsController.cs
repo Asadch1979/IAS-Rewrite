@@ -2896,6 +2896,84 @@ namespace AIS.Controllers
             return dBConnection.GetCDMSMasterTransactions(ENTITY_ID, START_DATE, END_DATE, CNIC_NO, ACC_NO);
             }
 
+        [HttpPost]
+        public List<FADAuditEmpModel> get_audit_emp()
+            {
+            return dBConnection.GetAuditEmployees();
+            }
+
+        [HttpPost]
+        public string update_audit_emp(FADAuditEmpModel model)
+            {
+            return "{\"Status\":true,\"Message\":\"" + dBConnection.UpdateAuditEmployee(model) + "\"}";
+            }
+
+        [HttpPost]
+        public List<FADAuditManpowerModel> get_audit_manpower()
+            {
+            return dBConnection.GetAuditManpower();
+            }
+
+        [HttpPost]
+        public string update_audit_manpower(FADAuditManpowerModel model)
+            {
+            return "{\"Status\":true,\"Message\":\"" + dBConnection.UpdateAuditManpower(model) + "\"}";
+            }
+
+        [HttpPost]
+        public List<FADAuditBudgetModel> get_audit_budget()
+            {
+            return dBConnection.GetAuditBudget();
+            }
+
+        [HttpPost]
+        public string update_audit_budget(FADAuditBudgetModel model)
+            {
+            return "{\"Status\":true,\"Message\":\"" + dBConnection.UpdateAuditBudget(model) + "\"}";
+            }
+
+        [HttpPost]
+        public List<DropDownModel> get_hr_rank()
+            {
+            return dBConnection.GetHrRanks();
+            }
+
+        [HttpPost]
+        public List<DropDownModel> get_hr_designation()
+            {
+            return dBConnection.GetHrDesignations();
+            }
+
+        [HttpPost]
+        public List<DropDownModel> get_hr_posting()
+            {
+            return dBConnection.GetHrPosting();
+            }
+
+        [HttpPost]
+        public List<DropDownModel> get_qualification()
+            {
+            return dBConnection.GetQualifications();
+            }
+
+        [HttpPost]
+        public List<DropDownModel> get_qualification_specialization()
+            {
+            return dBConnection.GetQualificationSpecialization();
+            }
+
+        [HttpPost]
+        public List<DropDownModel> get_certification()
+            {
+            return dBConnection.GetCertifications();
+            }
+
+        [HttpPost]
+        public List<DropDownModel> get_gl_heads()
+            {
+            return dBConnection.GetGLHeads();
+            }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
             {
