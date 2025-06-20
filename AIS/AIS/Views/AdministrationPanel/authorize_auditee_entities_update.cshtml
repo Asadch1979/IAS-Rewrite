@@ -1,0 +1,62 @@
+@{
+    ViewData["Title"] = "Authorize Audit Entity Updates";
+    Layout = "_Layout";
+}
+<script type="text/javascript">
+    var g_pending = [];
+    function loadPending() {
+        $('#pendingGrid tbody').empty();
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/GetAuditeeEntitiesPendingAuthorization",
+            type: "POST",
+            cache: false,
+            success: function (data) {
+                g_pending = data;
+                $.each(data, function (i, v) {
+                    $('#pendingGrid tbody').append('<tr><td>' + v.ENTITY_ID + '</td><td>' + v.CODE + '</td><td>' + v.NAME + '</td><td>' + v.ACTIVE + '</td><td>' + v.AUDITBY_ID + '</td><td>' + v.AUDITABLE + '</td><td>' + v.ADDRESS + '</td><td>' + v.TELEPHONE + '</td><td>' + v.EMAIL_ADDRESS + '</td><td><a href="#" onclick="event.preventDefault();authorize(' + v.ENTITY_ID + ');" class="text-success">Authorize</a></td></tr>');
+                });
+            },
+            dataType: "json",
+        });
+    }
+    function authorize(id) {
+        var ent = g_pending.find(e => e.ENTITY_ID == id);
+        if (!ent) return;
+        ent.UP_STATUS = 'A';
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/UpdateAuditeeEntity",
+            type: "POST",
+            data: { ENTITY_MODEL: ent, IND: 'A' },
+            cache: false,
+            success: function (resp) {
+                alert(resp.Message);
+                loadPending();
+            },
+            dataType: "json",
+        });
+    }
+    $(document).ready(function(){
+        loadPending();
+    });
+</script>
+<div class="container">
+    <div class="row col-md-12 mt-3">
+        <table id="pendingGrid" class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr style="background-color:#19875478;">
+                    <th>ENTITY ID</th>
+                    <th>CODE</th>
+                    <th>NAME</th>
+                    <th>Active</th>
+                    <th>AUDIT BY</th>
+                    <th>AUDITABLE</th>
+                    <th>ADDRESS</th>
+                    <th>TELEPHONE</th>
+                    <th>EMAIL ADDRESS</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>

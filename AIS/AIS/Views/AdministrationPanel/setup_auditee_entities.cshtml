@@ -35,11 +35,16 @@
 
         g_entId = id;
         $.each(g_entList, function (i, v) {
-            if (v.entitY_ID == g_entId) {
-                $('#entNameField').val(v.name);
-                $('#entCodeField').val(v.name);
-                $('#entParentField').val('');
-                $('#entChildField').val('');
+            if (v.ENTITY_ID == g_entId) {
+                $('#modalEntityId').val(v.ENTITY_ID);
+                $('#modalCode').val(v.CODE);
+                $('#modalName').val(v.NAME);
+                $('#modalActive').val(v.ACTIVE);
+                $('#modalAuditBy').val(v.AUDITBY_ID);
+                $('#modalAuditable').val(v.AUDITABLE);
+                $('#modalAddress').val(v.ADDRESS);
+                $('#modalTelephone').val(v.TELEPHONE);
+                $('#modalEmail').val(v.EMAIL_ADDRESS);
             }
         });
 
@@ -130,14 +135,39 @@
                     var sr = 0;
                     $.each(data, function (i, v) {
                         sr++;
-                        $('#auditeeEntitiesList tbody').append('<tr><td>' + sr + '</td><td>' + v.entitY_ID + '</td><td>' + v.name + '</td><td><a class="text-danger" onclick="event.preventDefault();updateAuditeeEntities(' + v.entitY_ID + ')">Update</a></td></tr>');
-
+                        $('#auditeeEntitiesList tbody').append('<tr><td>' + sr + '</td><td>' + v.ENTITY_ID + '</td><td>' + v.CODE + '</td><td>' + v.NAME + '</td><td>' + v.ACTIVE + '</td><td>' + v.AUDITBY_NAME + '</td><td>' + v.AUDITABLE + '</td><td>' + v.ADDRESS + '</td><td>' + v.TELEPHONE + '</td><td>' + v.EMAIL_ADDRESS + '</td><td><a class="text-danger" onclick="event.preventDefault();updateAuditeeEntities(' + v.ENTITY_ID + ')">Update</a></td></tr>');
                     });
                 },
                 dataType: "json",
             });
         }
 
+    }
+
+    function saveEntity() {
+        var model = {
+            'ENTITY_ID': $('#modalEntityId').val(),
+            'CODE': $('#modalCode').val(),
+            'NAME': $('#modalName').val(),
+            'ACTIVE': $('#modalActive').val(),
+            'AUDITBY_ID': $('#modalAuditBy').val(),
+            'AUDITABLE': $('#modalAuditable').val(),
+            'ADDRESS': $('#modalAddress').val(),
+            'TELEPHONE': $('#modalTelephone').val(),
+            'EMAIL_ADDRESS': $('#modalEmail').val(),
+            'UP_STATUS': 'U'
+        };
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/UpdateAuditeeEntity",
+            type: "POST",
+            data: { ENTITY_MODEL: model, IND: 'U' },
+            cache: false,
+            success: function (resp) {
+                alert(resp.Message);
+                ShowEntities();
+            },
+            dataType: "json",
+        });
     }
 </script>
 <div class="row text-center" style="margin-top:30px;">
@@ -197,8 +227,15 @@
         <thead>
             <tr style="background-color: #19875478 !important; ">
                 <th class="col-md-auto">Sr No.</th>
-                <th class="col-md-auto">ID</th>
-                <th class="col-md-auto">Entity Name</th>
+                <th class="col-md-auto">ENTITY ID</th>
+                <th class="col-md-auto">CODE</th>
+                <th class="col-md-auto">NAME</th>
+                <th class="col-md-auto">Active</th>
+                <th class="col-md-auto">AUDIT BY</th>
+                <th class="col-md-auto">AUDITABLE</th>
+                <th class="col-md-auto">ADDRESS</th>
+                <th class="col-md-auto">TELEPHONE</th>
+                <th class="col-md-auto">EMAIL ADDRESS</th>
                 <th class="col-md-auto">Action</th>
             </tr>
         </thead>
@@ -218,51 +255,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="row col-md-12 mt-3">
-                        <div class="row col-md-4">
-                            <h5>Name</h5>
-                        </div>
-                        <div class="row col-md-8">
-                            <input id="entNameField" class="form-control" type="text" />
-                        </div>
-                    </div>
-                    <div class="row col-md-12 mt-3">
-                        <div class="row col-md-4">
-                            <h5>Code</h5>
-                        </div>
-                        <div class="row col-md-8">
-                            <input id="entCodeField" class="form-control" type="text" />
-                        </div>
-                    </div>
-                    <div class="row col-md-12 mt-3">
-                        <div class="row col-md-4">
-                            <h5>Parent Office</h5>
-                        </div>
-                        <div class="row col-md-8">
-                            <select id="entParentField" class="form-control">
-                                <option value="0">--Select Parent Office--</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row col-md-12 mt-3">
-                        <div class="row col-md-4">
-                            <h5>Child Office </h5>
-                        </div>
-                        <div class="row col-md-8">
-                            <select id="entChildField" class="form-control">
-                                <option value="0">--Select Child Office--</option>
-                            </select>
-                        </div>
-                    </div>
-
-
-
-                </form>
+                <div class="form-group"><label>ID</label><input id="modalEntityId" type="text" class="form-control" readonly /></div>
+                <div class="form-group"><label>Code</label><input id="modalCode" type="text" class="form-control" /></div>
+                <div class="form-group"><label>Name</label><input id="modalName" type="text" class="form-control" /></div>
+                <div class="form-group"><label>Active</label><input id="modalActive" type="text" class="form-control" /></div>
+                <div class="form-group"><label>Audit By</label><input id="modalAuditBy" type="text" class="form-control" /></div>
+                <div class="form-group"><label>Auditable</label><input id="modalAuditable" type="text" class="form-control" /></div>
+                <div class="form-group"><label>Address</label><input id="modalAddress" type="text" class="form-control" /></div>
+                <div class="form-group"><label>Telephone</label><input id="modalTelephone" type="text" class="form-control" /></div>
+                <div class="form-group"><label>Email</label><input id="modalEmail" type="text" class="form-control" /></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button onclick="" type="button" data-bs-dismiss="modal" class="btn btn-success">Update</button>
+                <button onclick="saveEntity();" type="button" data-bs-dismiss="modal" class="btn btn-success">Save</button>
 
             </div>
         </div>
