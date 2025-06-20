@@ -2202,7 +2202,8 @@ namespace AIS.Controllers
                     entity.ADDRESS = rdr["ADDRESS"].ToString();
                     entity.TELEPHONE = rdr["TELEPHONE"].ToString();
                     entity.EMAIL_ADDRESS = rdr["EMAIL_ADDRESS"].ToString();
-
+                    entity.ERISK = rdr["ERISK"].ToString();
+                    entity.ESIZE = rdr["ESIZE"].ToString();
                     entitiesList.Add(entity);
                     }
                 }
@@ -2253,6 +2254,8 @@ namespace AIS.Controllers
                     if (rdr["SIZE_ID"].ToString() != "" && rdr["SIZE_ID"].ToString() != null)
                         entity.SIZE_ID = Convert.ToInt32(rdr["SIZE_ID"]);
                     entity.UP_STATUS = rdr["UP_STATUS"].ToString();
+                    entity.ERISK = rdr["ERISK"].ToString();
+                    entity.ESIZE = rdr["ESIZE"].ToString();
                     entitiesList.Add(entity);
                     }
                 }

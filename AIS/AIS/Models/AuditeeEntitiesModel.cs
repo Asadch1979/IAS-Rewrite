@@ -22,6 +22,8 @@ namespace AIS.Models
         public string ADDRESS { get; set; }
         public string TELEPHONE { get; set; }
         public string EMAIL_ADDRESS { get; set; }
+        public string ERISK { get; set; }
+        public string ESIZE { get; set; }
         public int? RISK_ID { get; set; }
         public int? SIZE_ID { get; set; }
 

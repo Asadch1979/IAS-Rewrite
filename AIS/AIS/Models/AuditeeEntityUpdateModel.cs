@@ -16,6 +16,8 @@ namespace AIS.Models
         public int? RISK_ID { get; set; }
         public int? SIZE_ID { get; set; }
         public string UP_STATUS { get; set; }
+        public string ERISK { get; set; }
+        public string ESIZE { get; set; }
         public string UPDATED_BY { get; set; }
         public string UPDATE_ON { get; set; }
         public string AUTHORIZED_BY { get; set; }
