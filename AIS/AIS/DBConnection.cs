@@ -2202,6 +2202,10 @@ namespace AIS.Controllers
                     entity.ADDRESS = rdr["ADDRESS"].ToString();
                     entity.TELEPHONE = rdr["TELEPHONE"].ToString();
                     entity.EMAIL_ADDRESS = rdr["EMAIL_ADDRESS"].ToString();
+                    if (rdr["RISK_ID"].ToString() != "" && rdr["RISK_ID"].ToString() != null)
+                        entity.RISK_ID = Convert.ToInt32(rdr["RISK_ID"]);
+                    if (rdr["SIZE_ID"].ToString() != "" && rdr["SIZE_ID"].ToString() != null)
+                        entity.SIZE_ID = Convert.ToInt32(rdr["SIZE_ID"]);
                     entity.ERISK = rdr["ERISK"].ToString();
                     entity.ESIZE = rdr["ESIZE"].ToString();
                     entitiesList.Add(entity);

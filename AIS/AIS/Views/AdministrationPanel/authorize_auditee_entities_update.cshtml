@@ -5,6 +5,9 @@
 <script type="text/javascript">
     var g_pending = [];
     var g_current = null;
+    function getVal(obj, prop) {
+        return obj[prop] ?? obj[prop.toLowerCase()] ?? obj[prop.toUpperCase()] ?? obj[prop.replace(/_/g, '')];
+    }
     function loadPending() {
         $('#pendingGrid tbody').empty();
         $.ajax({
@@ -14,14 +17,31 @@
             success: function (data) {
                 g_pending = data;
                 $.each(data, function (i, v) {
-                    $('#pendingGrid tbody').append('<tr><td>' + v.entitY_ID + '</td><td>' + v.code + '</td><td>' + v.name + '</td><td>' + v.active + '</td><td>' + v.auditbY_ID + '</td><td>' + v.auditable + '</td><td>' + v.address + '</td><td>' + v.telephone + '</td><td>' + v.emaiL_ADDRESS + '</td><td>' + v.erisk + '</td><td>' + v.esize + '</td><td><a href="#" onclick="event.preventDefault();openCompare(' + v.entity_id + ');" class="text-danger">View</a></td></tr>');
+    var id = getVal(v, 'entity_id');
+                    $('#pendingGrid tbody').append(
+                        '<tr><td>' + id + '</td>' +
+                        '<td>' + getVal(v, 'code') + '</td>' +
+                        '<td>' + getVal(v, 'name') + '</td>' +
+                        '<td>' + getVal(v, 'active') + '</td>' +
+                        '<td>' + getVal(v, 'auditbY_ID') + '</td>' +
+                        '<td>' + getVal(v, 'auditable') + '</td>' +
+                        '<td>' + getVal(v, 'address') + '</td>' +
+                        '<td>' + getVal(v, 'telephone') + '</td>' +
+                        '<td>' + getVal(v, 'emaiL_ADDRESS') + '</td>' +
+                        '<td>' + getVal(v, 'erisk') + '</td>' +
+                        '<td>' + getVal(v, 'esize') + '</td>' +
+                        '<td>' +
+                        '<a href="#" onclick="event.preventDefault();openCompare(' + id + ');" class="text-danger me-2">View</a>' +
+                        '<a href="#" onclick="event.preventDefault();authorizeEntry(' + id + ');" class="text-success me-2">Authorize</a>' +
+                        '<a href="#" onclick="event.preventDefault();rejectEntry(' + id + ');" class="text-danger">Reject</a>' +
+                        '</td></tr>');
                 });
             },
             dataType: "json",
         });
     }
     function openCompare(id) {
-        var ent = g_pending.find(e => e.ENTITY_ID == id);
+        var ent = g_pending.find(e => getVal(e, 'entity_id') == id);
         if (!ent) return;
         g_current = ent;
         $('#compareEntityId').val(id);
@@ -32,27 +52,27 @@
             cache: false,
             success: function (orig) {
                 if (!orig) return;
-                $('#oldCode').val(orig.code);
-                $('#oldName').val(orig.name);
-                $('#oldActive').val(orig.active);
-                $('#oldAuditBy').val(orig.auditbY_ID);
-                $('#oldAuditable').val(orig.auditable);
-                $('#oldAddress').val(orig.address);
-                $('#oldTelephone').val(orig.telephone);
-                $('#oldEmail').val(orig.emaiL_ADDRESS);
-                $('#oldRisk').val(orig.risk_ID);
-                $('#oldSize').val(orig.size_ID);
+                $('#oldCode').val(getVal(orig, 'code'));
+                $('#oldName').val(getVal(orig, 'name'));
+                $('#oldActive').val(getVal(orig, 'active'));
+                $('#oldAuditBy').val(getVal(orig, 'auditbY_ID'));
+                $('#oldAuditable').val(getVal(orig, 'auditable'));
+                $('#oldAddress').val(getVal(orig, 'address'));
+                $('#oldTelephone').val(getVal(orig, 'telephone'));
+                $('#oldEmail').val(getVal(orig, 'emaiL_ADDRESS'));
+                $('#oldRisk').val(getVal(orig, 'risk_ID'));
+                $('#oldSize').val(getVal(orig, 'size_ID'));
 
-                $('#newCode').val(ent.code);
-                $('#newName').val(ent.name);
-                $('#newActive').val(ent.active);
-                $('#newAuditBy').val(ent.auditbY_ID);
-                $('#newAuditable').val(ent.auditable);
-                $('#newAddress').val(ent.address);
-                $('#newTelephone').val(ent.telephone);
-                $('#newEmail').val(ent.emaiL_ADDRESS);
-                $('#newRisk').val(ent.risk_ID);
-                $('#newSize').val(ent.size_ID);
+                $('#newCode').val(getVal(ent, 'code'));
+                $('#newName').val(getVal(ent, 'name'));
+                $('#newActive').val(getVal(ent, 'active'));
+                $('#newAuditBy').val(getVal(ent, 'auditbY_ID'));
+                $('#newAuditable').val(getVal(ent, 'auditable'));
+                $('#newAddress').val(getVal(ent, 'address'));
+                $('#newTelephone').val(getVal(ent, 'telephone'));
+                $('#newEmail').val(getVal(ent, 'emaiL_ADDRESS'));
+                $('#newRisk').val(getVal(ent, 'risk_ID'));
+                $('#newSize').val(getVal(ent, 'size_ID'));
 
                 $('#compareModal').modal('show');
             },
@@ -90,6 +110,18 @@
             },
             dataType: "json",
         });
+    }
+    function authorizeEntry(id) {
+        var ent = g_pending.find(e => getVal(e, 'entity_id') == id);
+        if (!ent) return;
+        g_current = ent;
+        authorizeCurrent();
+    }
+    function rejectEntry(id) {
+        var ent = g_pending.find(e => getVal(e, 'entity_id') == id);
+        if (!ent) return;
+        g_current = ent;
+        rejectCurrent();
     }
     $(document).ready(function(){
         loadPending();
