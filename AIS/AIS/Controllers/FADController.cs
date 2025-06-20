@@ -82,6 +82,51 @@ namespace AIS.Controllers
                     return View();
                 }
             }
+
+        public IActionResult staff_position()
+            {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                {
+                if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
+                    return RedirectToAction("Index", "PageNotFound");
+                else
+                    return View();
+                }
+            }
+
+        public IActionResult manpower_position()
+            {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                {
+                if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
+                    return RedirectToAction("Index", "PageNotFound");
+                else
+                    return View();
+                }
+            }
+
+        public IActionResult financial_budget()
+            {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                {
+                if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
+                    return RedirectToAction("Index", "PageNotFound");
+                else
+                    return View();
+                }
+            }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
             {
