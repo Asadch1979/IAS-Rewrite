@@ -19294,6 +19294,8 @@ namespace AIS.Controllers
                     cp.TOTAL = rdr["Total"].ToString();
                     cp.REFERRED_BACK = rdr["Refered_back"].ToString();
                     cp.RECOMMENDED = rdr["Satisfied"].ToString();
+                    cp.PENDING  =   rdr["Pending"].ToString();
+
                     resp.Add(cp);
                     }
                 }

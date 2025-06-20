@@ -15,6 +15,7 @@ namespace AIS.Models
         public string TOTAL { get; set; }
         public string REFERRED_BACK { get; set; }
         public string RECOMMENDED { get; set; }
+        public string PENDING { get; set; }
 
         }
     }
