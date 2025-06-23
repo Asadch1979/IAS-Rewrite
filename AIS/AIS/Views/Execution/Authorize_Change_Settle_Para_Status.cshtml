@@ -38,7 +38,7 @@
                 $.each(data, function (index, child) {
                     var status_text= child.parA_STATUS;
                     var status_change_text = child.parA_CHANGE_REQUEST_STATUS;
-                    $('#manageObsPanel tbody').append('<tr id="div_' + child.id + '"><td><p class="fw-normal mb-1">' + child.entitY_NAME + '</p></td><td><p class="fw-normal mb-1">' + child.audiT_PERIOD + '</p></td><td><p class="fw-normal mb-1">' + child.parA_NO + '</p></td><td><p class="fw-normal mb-1">' + child.gisT_OF_PARAS + '</p></td><td><p class="fw-normal mb-1">' + child.parA_RISK + '</p></td><td><p class="fw-normal mb-1">' + child.voL_I_II + '</p></td><td><p class="fw-normal mb-1">' + status_text + '</p></td><td><p class="fw-normal mb-1">' + status_change_text + '</p></td><td class="col-md-1"><p  class="fw-normal mb-1" >' + child.remarks + '</p></td><td class="text-center"><a class="text-center text-primary" style="cursor:pointer;" onclick="event.preventDefault();paraText(\'' + child.reF_P + '\',\'' + child.aU_OBS_ID + '\');">Para Text</a></td><td class="text-center"><a class="text-danger" style="cursor:pointer;" onclick="event.preventDefault();parastatuschange(\'' + child.reF_P + '\',\'' + child.aU_OBS_ID + '\',\'A\');">Authorize</a> | <a class="text-danger" style="cursor:pointer;" onclick="event.preventDefault();rejectPara(\'' + child.reF_P + '\',\'' + child.aU_OBS_ID + '\');">Reject</a></td></tr>');
+                    $('#manageObsPanel tbody').append('<tr id="div_' + child.id + '"><td><p class="fw-normal mb-1">' + child.entitY_NAME + '</p></td><td><p class="fw-normal mb-1">' + child.audiT_PERIOD + '</p></td><td><p class="fw-normal mb-1">' + child.parA_NO + '</p></td><td><p class="fw-normal mb-1">' + child.gisT_OF_PARAS + '</p></td><td><p class="fw-normal mb-1">' + child.parA_RISK + '</p></td><td><p class="fw-normal mb-1">' + child.voL_I_II + '</p></td><td><p class="fw-normal mb-1">' + status_text + '</p></td><td><p class="fw-normal mb-1">' + status_change_text + '</p></td><td class="col-md-1"><p  class="fw-normal mb-1" >' + child.remarks + '</p></td><td class="text-center"><a class="text-center text-primary" style="cursor:pointer;" onclick="event.preventDefault();paraText(\'' + child.reF_P + '\',\'' + child.aU_OBS_ID + '\');">Para Text</a></td><td class="text-center"><a class="text-danger" style="cursor:pointer;" onclick="event.preventDefault();parastatuschange(\'' + child.reF_P + '\',\'' + child.aU_OBS_ID + '\',\'' + child.ind + '\');">Authorize</a> | <a class="text-danger" style="cursor:pointer;" onclick="event.preventDefault();rejectPara(\'' + child.reF_P + '\',\'' + child.aU_OBS_ID + '\',\'' + child.ind + '\');">Reject</a></td></tr>');
                 });
             },
 
@@ -57,10 +57,11 @@
 
     }
 
-    function rejectPara(refp, obsId) {
+    function rejectPara(refp, obsId, ind) {
         g_action = 'R';
         g_paraRef = refp;
         g_paraObsId = obsId;
+        g_ind = ind;
         confirmAlert("Do you confirm to reject this Para Status Change Request");
         onconfirmAlertCallback(Publishchange);
     }
@@ -75,7 +76,8 @@
             data: {
                 'REFID': g_paraRef,
                 'OBS_ID': g_paraObsId,
-                'Action_IND': g_action
+                'Action_IND': g_action,
+                'IND': g_ind
             },
             cache: false,
             success: function (data) {
