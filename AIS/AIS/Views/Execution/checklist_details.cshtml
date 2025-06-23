@@ -9,6 +9,8 @@
     var g_engId = 0;
     var S_ID = 0;
     var g_respUsersArr = [];
+    var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
+    var g_selectedRiskId = 0;
     $(document).ready(function () {
         var url_string = window.location;
         var url = new URL(url_string);
@@ -16,6 +18,7 @@
         S_ID = checklistsub_id;
         g_engId = url.searchParams.get("engId");
         $('#updatedAnnexlist').select2({ dropdownParent: $('#viewMemoModel') });
+        $('#updatedAnnexlist').on('change', updateRiskDisplay);
 
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/checklist_details",
@@ -53,6 +56,8 @@
             $('.richText-editor').html('');
             $('#viewMemo_heading').val('');
             $('#updatedAnnexlist').val('0');
+            g_selectedRiskId = 0;
+            $('#viewMemo_risk_display').val('');
             $('#viewMemo_replydays').val(1);
             $('#viewMemo_loancase').val('');
             $('#listofRespPersons tbody').empty();
@@ -81,6 +86,20 @@
     function reloadLocation() {
         window.location.reload();
     }
+
+    function updateRiskDisplay() {
+        var annexId = $('#updatedAnnexlist').val();
+        var riskName = '';
+        g_selectedRiskId = 0;
+        $.each(g_annexList, function (i, v) {
+            var id = v.ID || v.id;
+            if (id == annexId) {
+                riskName = v.RISK || v.risk;
+                g_selectedRiskId = v.RISK_ID || v.risK_ID;
+            }
+        });
+        $('#viewMemo_risk_display').val(riskName);
+    }
     function saveMemoContent() {
         if ($('#updatedAnnexlist').val() == 0) {
             alert("Please select Annexure");
@@ -90,8 +109,9 @@
             alert("Please Enter Para Heading");
             return false;
         }
-        if ($('#viewMemo_risk').val() == "0") {
-            alert("Please Select Risk");
+        updateRiskDisplay();
+        if (g_selectedRiskId == 0) {
+            alert("Risk not available for selected Annexure");
             return false;
         }
          if($('#viewMemo_amountInv').val()  == ""){
@@ -117,7 +137,7 @@
         });
         var memo = {
             'HEADING': $('#viewMemo_heading').val(),
-            'RISK': $('#viewMemo_risk').val(),
+            'RISK': g_selectedRiskId,
             'ANNEXURE_ID': $('#updatedAnnexlist').val(),
             'MEMO': $('.richText-editor').html(),
             'ID': g_observationId,
@@ -197,8 +217,9 @@
             $('#viewMemoModel').modal('show');
             $('.richText-editor').html(tempobj.MEMO);
             $('#viewMemo_heading').val(tempobj.HEADING);
-            $('#viewMemo_risk').val(tempobj.RISK);
             $('#updatedAnnexlist').val(tempobj.ANNEXURE_ID);
+            g_selectedRiskId = tempobj.RISK;
+            updateRiskDisplay();
             $('#viewMemo_replydays').val(tempobj.DAYS);
             $('#viewMemo_loancase').val(tempobj.LOANCASE);
             $('#viewMemo_noinstances').val(tempobj.NO_OF_INSTANCES);
@@ -552,21 +573,8 @@
                         <textarea id="viewMemo_memo" style="height:300px;" class="form-control"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="viewMemo_risk">Risk</label>
-                        <select id="viewMemo_risk" class="form-select form-control" aria-label="Default select example">
-                            <option value="0" id="0" selected>--Select Risk Category--</option>
-                            @{
-                                if (ViewData["RiskList"] != null)
-                                {
-
-                                    foreach (var risk in (dynamic)(ViewData["RiskList"]))
-                                    {
-                                        <option id="@risk.R_ID" value="@risk.R_ID">@risk.DESCRIPTION</option>
-                                    }
-
-                                }
-                            }
-                        </select>
+                        <label for="viewMemo_risk_display">Risk</label>
+                        <input id="viewMemo_risk_display" class="form-control" readonly />
                     </div>
 
                     <div class="form-group">
@@ -769,23 +777,8 @@
                         <div id="viewMemo_memo_ObSent" disabled="disabled" style="height: auto; overflow-y: auto;" class="form-control"></div>
                     </div>
                     <div class="form-group">
-                        <label for="viewMemo_risk">Risk</label>
-                        <select id="viewMemo_risk_ObSent" disabled="disabled" class="form-select form-control" aria-label="Default select example">
-                            <option value="0" id="0" selected>--Select Risk Category--</option>
-                            @{
-                                if (ViewData["RiskList"] != null)
-                                {
-
-                                    foreach (var risk in (dynamic)(ViewData["RiskList"]))
-                                    {
-                                        <option id="@risk.R_ID" value="@risk.R_ID">@risk.DESCRIPTION</option>
-                                    }
-
-                                }
-                            }
-                        </select>
-
-
+                        <label for="viewMemo_risk_ObSent">Risk</label>
+                        <input id="viewMemo_risk_ObSent" class="form-control" readonly />
                     </div>
 
                     <div class="form-group">
