@@ -81,6 +81,10 @@
             },
             cache: false,
             success: function (data) {
+                if (data.databaseDown) {
+                    window.location.href = g_asiBaseURL + "/Login/Maintenance";
+                    return;
+                }
                 if (!data.isAuthenticate) {
                     $('#submitKillSessionButton').addClass('d-none');
                     $('#submitLoginButton').removeClass('d-none');

@@ -39,11 +39,19 @@ namespace AIS.Controllers
             dBConnection.DisposeLoginSession();
             return RedirectToAction("Index", "Login");
             }
+
+        public IActionResult Maintenance()
+            {
+            return View();
+            }
         [HttpPost]
         public UserModel DoLogin(LoginModel login)
             {
-
-            var user = dBConnection.AutheticateLogin(login);
+            UserModel user = dBConnection.AutheticateLogin(login);
+            if (user.DatabaseDown)
+                {
+                return user;
+                }
             if (user.ID != 0 && !user.isAlreadyLoggedIn && user.isAuthenticate)
                 {
                 return user;
