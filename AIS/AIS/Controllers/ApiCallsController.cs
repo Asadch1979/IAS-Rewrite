@@ -1139,17 +1139,17 @@ namespace AIS.Controllers
             return "{\"Status\":true,\"Message\":\"" + response + "\"}";
             }
         [HttpPost]
-        public string Add_Old_Para_Change_status_Review(string REFID, string REMARKS)
+        public string Add_Old_Para_Change_status_Review(string REFID, string REMARKS, string Action_IND)
             {
             string response = "";
-            response = dBConnection.ReviewerAddChangeStatusRequestForSettledPara(REFID, REMARKS);
+            response = dBConnection.ReviewerAddChangeStatusRequestForSettledPara(REFID, REMARKS, Action_IND);
             return "{\"Status\":true,\"Message\":\"" + response + "\"}";
             }
         [HttpPost]
-        public string Add_Old_Para_Change_status_Authorize(string REFID, int NEW_STATUS, string REMARKS)
+        public string Add_Old_Para_Change_status_Authorize(string REFID, int NEW_STATUS, string REMARKS, string Action_IND)
             {
             string response = "";
-            response = dBConnection.AuthorizerAddChangeStatusRequestForSettledPara(REFID, NEW_STATUS, REMARKS);
+            response = dBConnection.AuthorizerAddChangeStatusRequestForSettledPara(REFID, NEW_STATUS, REMARKS, Action_IND);
             return "{\"Status\":true,\"Message\":\"" + response + "\"}";
             }
 
@@ -1168,10 +1168,10 @@ namespace AIS.Controllers
             return dBConnection.GetZoneBranchParaPositionStatus(ENTITY_ID);
             }
         [HttpPost]
-        public string Add_Authorization_Old_Para_Change_status(string REFID, string OBS_ID, string INDICATOR)
+        public string Add_Authorization_Old_Para_Change_status(string REFID, string OBS_ID, string Action_IND)
             {
             string response = "";
-            response = dBConnection.AddAuthorizeChangeStatusRequestForSettledPara(REFID, OBS_ID, INDICATOR);
+            response = dBConnection.AddAuthorizeChangeStatusRequestForSettledPara(REFID, OBS_ID, Action_IND);
             return "{\"Status\":true,\"Message\":\"" + response + "\"}";
             }
         [HttpPost]
