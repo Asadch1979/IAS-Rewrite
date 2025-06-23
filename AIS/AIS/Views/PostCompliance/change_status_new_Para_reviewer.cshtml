@@ -6,6 +6,7 @@
     var g_paraId = 0;
     var refp = 0;
     var g_obsList = [];
+    var g_action = "A";
 
     $(document).ready(function () {
         getLegacyPara();
@@ -25,7 +26,7 @@
                 g_obsList = data;
 
                 $.each(data, function (index, child) {
-                    $('#manageObsPanel tbody').append('<tr id="div_' + child.id + '"><td><p class="fw-normal mb-1">' + child.entitY_NAME + '</p></td><td><p class="fw-normal mb-1">' + child.audiT_PERIOD + '</p></td><td><p class="fw-normal mb-1">' + child.parA_NO + '</p></td><td><p class="fw-normal mb-1">' + child.gisT_OF_PARAS + '</p></td><td><p class="fw-normal mb-1">' + child.amounT_INVOLVED + '</p></td><td class="col-md-1"><p  class="fw-normal mb-1" >' + child.parA_STATUS + '</p></td><td class="col-md-1"><p  class="fw-normal mb-1" >' + child.makeR_REMARKS + '</p></td><td class="text-center"><a class="text-center text-primary" style="cursor:pointer;" onclick="event.preventDefault();paraText(\'' + child.id + '\');">View Para Text</a></td><td><a class="text-danger" style="cursor:pointer;" onclick="parastatuschange(\'' + child.id + '\');">Recommend Status Change Request</a></td></tr>')
+                    $('#manageObsPanel tbody').append('<tr id="div_' + child.id + '"><td><p class="fw-normal mb-1">' + child.entitY_NAME + '</p></td><td><p class="fw-normal mb-1">' + child.audiT_PERIOD + '</p></td><td><p class="fw-normal mb-1">' + child.parA_NO + '</p></td><td><p class="fw-normal mb-1">' + child.gisT_OF_PARAS + '</p></td><td><p class="fw-normal mb-1">' + child.amounT_INVOLVED + '</p></td><td><p class="fw-normal mb-1">' + child.parA_RISK + '</p></td><td class="col-md-1"><p  class="fw-normal mb-1" >' + child.parA_STATUS + '</p></td><td class="col-md-1"><p  class="fw-normal mb-1" >' + child.makeR_REMARKS + '</p></td><td class="text-center"><a class="text-center text-primary" style="cursor:pointer;" onclick="event.preventDefault();paraText(\'' + child.id + '\');">View Para Text</a></td><td><a class="text-danger" style="cursor:pointer;" onclick="parastatuschange(\'' + child.id + '\');">Recommend</a> | <a class="text-danger" style="cursor:pointer;" onclick="rejectPara(\'' + child.id + '\');">Reject</a></td></tr>');
                 });
 
             },
@@ -35,6 +36,13 @@
 
     }
     function parastatuschange(id) {
+        g_action = 'A';
+        refp = id;
+        $('#process_detail').modal('show');
+    }
+
+    function rejectPara(id) {
+        g_action = 'R';
         refp = id;
         $('#process_detail').modal('show');
     }
@@ -50,7 +58,8 @@
             type: "POST",
             data: {
                 'REFID': refp,
-                'REMARKS': $('#Reason_Unsettle').val()
+                'REMARKS': $('#Reason_Unsettle').val(),
+                'INDICATOR': g_action
             },
             cache: false,
             success: function (data) {
@@ -101,6 +110,7 @@
                     <th class="col-md-auto">Para No.</th>
                     <th class="col-md-auto">Observation</th>
                     <th class="col-md-auto">Amount</th>
+                    <th class="col-md-auto">Risk</th>
                     <th class="col-md-auto">Para Status</th>
                     <th class="col-md-3">Maker Remarks</th>
                     <th class="col-md-auto">Para Text</th>
