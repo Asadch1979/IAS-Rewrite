@@ -12550,7 +12550,7 @@ namespace AIS.Controllers
             con.Dispose();
             return resp;
             }
-        public string AuthorizerAddChangeStatusRequestForSettledPara(string REFID, int NEW_STATUS, string REMARKS)
+        public string AuthorizerAddChangeStatusRequestForSettledPara(string REFID, int NEW_STATUS, string REMARKS, string INDICATOR)
             {
             string resp = "";
             sessionHandler = new SessionHandler();
@@ -12565,6 +12565,7 @@ namespace AIS.Controllers
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("obs_id", OracleDbType.Varchar2).Value = REFID;
                 cmd.Parameters.Add("remark", OracleDbType.Varchar2).Value = REMARKS;
+                cmd.Parameters.Add("indicator", OracleDbType.Varchar2).Value = INDICATOR;
                 cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
                 cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
