@@ -3337,6 +3337,7 @@ namespace AIS.Controllers
                     tplan.FREQUENCY_DESCRIPTION = rdr["FREQUENCY_DISCRIPTION"].ToString();
                     tplan.PERIOD_NAME = rdr["PERIOD_NAME"].ToString();
                     tplan.REPORTING_OFFICE = rdr["REPORTING_OFFICE"].ToString();
+                    tplan.ENT_TYPE = rdr["ent_type"].ToString();
                     tplansList.Add(tplan);
                     }
                 }
