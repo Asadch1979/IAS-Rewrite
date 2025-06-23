@@ -13,6 +13,8 @@
 <script type="text/javascript">
     var g_engId=0;
     var g_respUser=[];
+    var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
+    var g_selectedRiskId = 0;
     $('#document').ready(function () {
         var url_string = window.location;
         var url = new URL(url_string);
@@ -25,6 +27,7 @@
         });
 
         $('#updatedAnnexlist').select2();
+        $('#updatedAnnexlist').on('change', updateRiskDisplay);
 
          document.getElementById('amount_inv_field').addEventListener('input', function (e) {
         this.value = this.value.replace(/\D|^0(?=\d)/g, ''); // Removes decimals and leading zeros
@@ -152,8 +155,9 @@
         }
 
 
-        if ($('#viewMemo_risk').val() == 0) {
-           alert('Select Risk');
+        updateRiskDisplay();
+        if (g_selectedRiskId == 0) {
+           alert('Risk not available for selected Annexure');
            return;
         }
         if ($('#viewMemo_heading').val() == 0) {
@@ -187,7 +191,7 @@
             'MEMO': $('.richText-editor').html(),
             'ID': 'obs_0',
             'HEADING': $('#viewMemo_heading').val(),
-            'RISK': $('#viewMemo_risk').val(),
+            'RISK': g_selectedRiskId,
             'AMOUNT_INVOLVED': $('#amount_inv_field').val(),
             'NO_OF_INSTANCES': $('#no_instances_field').val(),
             'DAYS': $('#viewMemo_replydays option:selected').val(),
@@ -222,6 +226,20 @@
 
     function reloadLocation() {
         window.location.reload();
+    }
+
+    function updateRiskDisplay() {
+        var annexId = $('#updatedAnnexlist').val();
+        var riskName = '';
+        g_selectedRiskId = 0;
+        $.each(g_annexList, function (i, v) {
+            var id = v.ID || v.id;
+            if (id == annexId) {
+                riskName = v.RISK || v.risk;
+                g_selectedRiskId = v.RISK_ID || v.risK_ID;
+            }
+        });
+        $('#viewMemo_risk_display').val(riskName);
     }
 
     function openResponsiblePPs() {
@@ -494,22 +512,7 @@
     </div>
     <div class="col-md-12 mt-3">
         <h5>Risk</h5>
-        <select id="viewMemo_risk" class="form-select form-control" aria-label="Default select example">
-            <option value="0" id="0" selected>--Select Risk Category--</option>
-            @{
-                if (ViewData["RiskList"] != null)
-                {
-
-                    foreach (var risk in (dynamic)(ViewData["RiskList"]))
-                    {
-                        <option id="@risk.R_ID" value="@risk.R_ID">@risk.DESCRIPTION</option>
-                    }
-
-                }
-            }
-        </select>
-
-
+        <input id="viewMemo_risk_display" class="form-control" readonly />
     </div>
     <div class="row col-sm-12">
         <div class="col-md-2 mt-3">
