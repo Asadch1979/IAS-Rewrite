@@ -99,6 +99,15 @@
             }
         });
         $('#viewMemo_risk_display').val(riskName);
+        var color = '';
+        if (riskName.toLowerCase() === 'high') {
+            color = 'red';
+        } else if (riskName.toLowerCase() === 'medium') {
+            color = 'gold';
+        } else if (riskName.toLowerCase() === 'low') {
+            color = 'green';
+        }
+        $('#viewMemo_risk_display').css('color', color);
     }
     function saveMemoContent() {
         if ($('#updatedAnnexlist').val() == 0) {
@@ -564,6 +573,10 @@
                         </div>
 
                     </div>
+                    <div class="form-group mt-2">
+                        <label for="viewMemo_risk_display">Risk will be assigned on the basis of Selected Annexure</label>
+                        <input id="viewMemo_risk_display" class="form-control" readonly />
+                    </div>
                     <div class="form-group">
                         <label for="viewMemo_memo">Heading/Title of Para</label>
                         <input id="viewMemo_heading" class="form-control" />
@@ -571,10 +584,6 @@
                     <div class="form-group">
                         <label for="viewMemo_memo">Memo</label>
                         <textarea id="viewMemo_memo" style="height:300px;" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewMemo_risk_display">Risk</label>
-                        <input id="viewMemo_risk_display" class="form-control" readonly />
                     </div>
 
                     <div class="form-group">
