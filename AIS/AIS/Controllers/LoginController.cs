@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Diagnostics;
 
 namespace AIS.Controllers
@@ -40,27 +41,38 @@ namespace AIS.Controllers
             return RedirectToAction("Index", "Login");
             }
         [HttpPost]
-        public UserModel DoLogin(LoginModel login)
+        public IActionResult DoLogin(LoginModel login)
             {
-
-            var user = dBConnection.AutheticateLogin(login);
-            if (user.ID != 0 && !user.isAlreadyLoggedIn && user.isAuthenticate)
+            try
                 {
-                return user;
-                }
-            else
-                {
-                if (user.isAuthenticate && user.isAlreadyLoggedIn)
+                var user = dBConnection.AutheticateLogin(login);
+                if (user.ID != 0 && !user.isAlreadyLoggedIn && user.isAuthenticate)
                     {
-                    user.ErrorMsg = "You are already loggin in System";
-                    return user;
+                    return Json(user);
                     }
                 else
                     {
-                    user.ErrorMsg = "Incorrect UserName or Password";
-                    return user;
+                    if (user.isAuthenticate && user.isAlreadyLoggedIn)
+                        {
+                        user.ErrorMsg = "You are already loggin in System";
+                        }
+                    else
+                        {
+                        user.ErrorMsg = "Incorrect UserName or Password";
+                        }
+                    return Json(user);
                     }
                 }
+            catch (Exception ex)
+                {
+                _logger.LogError(ex, "Database error during login");
+                return StatusCode(StatusCodes.Status503ServiceUnavailable);
+                }
+            }
+
+        public IActionResult Maintenance()
+            {
+            return View();
             }
 
         public string ResetPassword(string PPNumber, string CNICNumber)

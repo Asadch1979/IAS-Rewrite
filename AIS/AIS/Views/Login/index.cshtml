@@ -108,6 +108,9 @@
                 $('#submitLoginButton').attr('disabled', false);
             },
             dataType: "json",
+            error: function () {
+                window.location.href = g_asiBaseURL + "/Login/Maintenance";
+            }
         });
     }
 
