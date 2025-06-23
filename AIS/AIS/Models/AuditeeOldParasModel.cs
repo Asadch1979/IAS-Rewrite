@@ -15,6 +15,7 @@ namespace AIS.Models
         public string AUDIT_PERIOD_DES { get; set; }
         public string ENTITY_NAME { get; set; }
         public string PARA_CATEGORY { get; set; }
+        public string PARA_RISK { get; set; }
         public string REPORT_NAME { get; set; }
         public string PARA_NO { get; set; }
         public string MEMO_NO { get; set; }
