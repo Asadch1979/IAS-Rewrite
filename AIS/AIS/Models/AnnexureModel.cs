@@ -21,6 +21,11 @@ namespace AIS.Models
         public string WEIGHTAGE { get; set; }
         public string GRAVITY { get; set; }
 
+        public string FUNCTION_ID_1 { get; set; }
+        public string FUNCTION_1 { get; set; }
+        public string FUNCTION_ID_2 { get; set; }
+        public string FUNCTION_2 { get; set; }
+
 
         }
     }

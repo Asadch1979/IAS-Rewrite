@@ -2427,14 +2427,14 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
-        public string add_annexure(string ANNEX_CODE = "", int PROCESS_ID = 0, int FUNCTION_OWNER_ID = 0, string HEADING = "", int RISK_ID = 0, string MAX_NUMBER = "", string GRAVITY = "", string WEIGHTAGE = "")
+        public string add_annexure(string ANNEX_CODE = "", int PROCESS_ID = 0, int FUNCTION_OWNER_ID = 0, int FUNCTION_ID_1 = 0, int FUNCTION_ID_2 = 0, string HEADING = "", int RISK_ID = 0, string MAX_NUMBER = "", string GRAVITY = "", string WEIGHTAGE = "")
             {
-            return "{\"Status\":true,\"Message\":\"" + dBConnection.AddAnnexure(ANNEX_CODE, HEADING, PROCESS_ID, FUNCTION_OWNER_ID, RISK_ID, MAX_NUMBER, GRAVITY, WEIGHTAGE) + "\"}";
+            return "{\"Status\":true,\"Message\":\"" + dBConnection.AddAnnexure(ANNEX_CODE, HEADING, PROCESS_ID, FUNCTION_OWNER_ID, FUNCTION_ID_1, FUNCTION_ID_2, RISK_ID, MAX_NUMBER, GRAVITY, WEIGHTAGE) + "\"}";
             }
         [HttpPost]
-        public string update_annexure(int ANNEX_ID = 0, int PROCESS_ID = 0, int FUNCTION_OWNER_ID = 0, string HEADING = "", int RISK_ID = 0, string MAX_NUMBER = "", string GRAVITY = "", string WEIGHTAGE = "")
+        public string update_annexure(int ANNEX_ID = 0, int PROCESS_ID = 0, int FUNCTION_OWNER_ID = 0, int FUNCTION_ID_1 = 0, int FUNCTION_ID_2 = 0, string HEADING = "", int RISK_ID = 0, string MAX_NUMBER = "", string GRAVITY = "", string WEIGHTAGE = "")
             {
-            return "{\"Status\":true,\"Message\":\"" + dBConnection.UpdateAnnexure(ANNEX_ID, HEADING, PROCESS_ID, FUNCTION_OWNER_ID, RISK_ID, MAX_NUMBER, GRAVITY, WEIGHTAGE) + "\"}";
+            return "{\"Status\":true,\"Message\":\"" + dBConnection.UpdateAnnexure(ANNEX_ID, HEADING, PROCESS_ID, FUNCTION_OWNER_ID, FUNCTION_ID_1, FUNCTION_ID_2, RISK_ID, MAX_NUMBER, GRAVITY, WEIGHTAGE) + "\"}";
             }
         [HttpPost]
         public string generate_traditional_risk_rating_of_engagement(int ENG_ID)
