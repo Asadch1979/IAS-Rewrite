@@ -191,6 +191,8 @@
                 <th class="col-md-auto">Code</th>
                 <th class="col-md-auto">Heading</th>
                 <th class="col-md-auto">Functional Owner</th>
+                <th class="col-md-auto">Co Function 1</th>
+                <th class="col-md-auto">Co Function 2</th>
                 <th class="col-md-auto">Risk</th>
                 <th class="col-md-auto">Max Number</th>
                 <th class="col-md-auto">Weightage</th>
@@ -216,6 +218,8 @@
                                     <td class="col-md-auto">@item.CODE</td>
                                     <td class="col-md-auto">@item.HEADING</td>
                                     <td class="col-md-auto">@item.FUNCTION_OWNER</td>
+                                    <td class="col-md-auto">@item.FUNCTION_1</td>
+                                    <td class="col-md-auto">@item.FUNCTION_2</td>
                                     <td class="col-md-auto">@item.RISK</td>
                                     <td class="col-md-auto text-right">@item.MAX_NUMBER</td>
                                     <td class="col-md-auto text-right">@item.WEIGHTAGE</td>
@@ -232,7 +236,7 @@
 
                         }
                             <tr>
-                                <td colspan="6" class="text-center">Total</td>
+                                <td colspan="8" class="text-center">Total</td>
                                 <td class="col-md-auto text-right">@max</td>
                                 <td class="col-md-auto text-right">@weight</td>
                                 <td class="col-md-auto text-right">@gravity</td>
