@@ -50,6 +50,8 @@
             if (id == v.id) {
                 $('#annexProcField').val(v.procesS_ID);
                 $('#annexFuncOwnerField').val(v.functioN_OWNER_ID);
+                $('#annexCoFunc1Field').val(v.function_id_1);
+                $('#annexCoFunc2Field').val(v.function_id_2);
                 $('#annexCodeField').val(v.code);
                 $('#annexRiskField').val(v.risK_ID);
                 $('#annexHeadingField').val(v.heading);
@@ -112,6 +114,8 @@
                     'ANNEX_ID': g_annexId,
                     'PROCESS_ID': $('#annexProcField').val(),
                     'FUNCTION_OWNER_ID': $('#annexFuncOwnerField').val(),
+                    'FUNCTION_ID_1': $('#annexCoFunc1Field').val(),
+                    'FUNCTION_ID_2': $('#annexCoFunc2Field').val(),
                     'RISK_ID': $('#annexRiskField').val(),
                     'MAX_NUMBER': $('#annexMaxNumberField').val(),
                     'WEIGHTAGE': $('#annexWeightageField').val(),
@@ -133,6 +137,8 @@
                     'ANNEX_CODE': $('#annexCodeField').val(),
                     'PROCESS_ID': $('#annexProcField').val(),
                     'FUNCTION_OWNER_ID': $('#annexFuncOwnerField').val(),
+                    'FUNCTION_ID_1': $('#annexCoFunc1Field').val(),
+                    'FUNCTION_ID_2': $('#annexCoFunc2Field').val(),
                     'RISK_ID': $('#annexRiskField').val(),
                     'MAX_NUMBER': $('#annexMaxNumberField').val(),
                     'WEIGHTAGE': $('#annexWeightageField').val(),
@@ -155,6 +161,8 @@
         $('#updateAnnexureModel').modal('show');
         $('#annexProcField').val('');
         $('#annexFuncOwnerField').val('');
+        $('#annexCoFunc1Field').val('');
+        $('#annexCoFunc2Field').val('');
         $('#annexRiskField').val(0);
         $('#annexHeadingField').val('');
         $('#annexCodeField').val('');
@@ -308,6 +316,44 @@
                                         }
                                 }
 
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 mt-3">
+                        <div class="row col-md-4">
+                            <label>Co Function 1</label>
+                        </div>
+                        <div class="row col-md-8">
+                            <select id="annexCoFunc1Field" class="form-select form-control">
+                                <option selected="selected" value="" id="0">--Select Co Function--</option>
+                                @{
+                                    if (ViewData["ProcOwnerList"] != null)
+                                    {
+                                        foreach (var item in (dynamic)(ViewData["ProcOwnerList"]))
+                                        {
+                                            <option id="@item.ENTITY_ID" value="@item.ENTITY_ID">@item.NAME</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 mt-3">
+                        <div class="row col-md-4">
+                            <label>Co Function 2</label>
+                        </div>
+                        <div class="row col-md-8">
+                            <select id="annexCoFunc2Field" class="form-select form-control">
+                                <option selected="selected" value="" id="0">--Select Co Function--</option>
+                                @{
+                                    if (ViewData["ProcOwnerList"] != null)
+                                    {
+                                        foreach (var item in (dynamic)(ViewData["ProcOwnerList"]))
+                                        {
+                                            <option id="@item.ENTITY_ID" value="@item.ENTITY_ID">@item.NAME</option>
+                                        }
+                                    }
+                                }
                             </select>
                         </div>
                     </div>
