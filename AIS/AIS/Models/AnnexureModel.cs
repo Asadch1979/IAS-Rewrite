@@ -17,6 +17,11 @@ namespace AIS.Models
         public string RISK_MODEL { get; set; }
         public string STATUS { get; set; }
 
+        public string FUNCTION_ID_1 { get; set; }
+        public string FUNCTION_1 { get; set; }
+        public string FUNCTION_ID_2 { get; set; }
+        public string FUNCTION_2 { get; set; }
+
         public string MAX_NUMBER { get; set; }
         public string WEIGHTAGE { get; set; }
         public string GRAVITY { get; set; }
