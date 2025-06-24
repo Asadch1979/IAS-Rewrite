@@ -65,6 +65,15 @@ namespace AIS
                 app.UseHsts();
                 }
             app.UseHttpsRedirection();
+
+            // Disable client-side caching to mimic a hard refresh on every load
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+                context.Response.Headers["Pragma"] = "no-cache";
+                context.Response.Headers["Expires"] = "0";
+                await next();
+            });
             app.UseStaticFiles();
             app.UseSession();
             app.UseRouting();
