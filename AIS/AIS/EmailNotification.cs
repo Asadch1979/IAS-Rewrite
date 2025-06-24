@@ -68,12 +68,12 @@ Internal Audit System (IAS)
             {
             string subject = $"IAS~Notification: Issue in Audit Exception for Engagement ID: {engagementId}";
             string body = $@"
-                    Dear Sir,
+ Dear Sir,
 
-                    This is to notify you that the issue has been identified while creating exception reports Please check and fix.
+This is to notify you that the issue has been identified while creating exception reports Please check and fix.
 
-                    Best Regards,
-                    Internal Audit System (IAS)
+Best Regards,
+Internal Audit System (IAS)
                     ";
             EmailConfiguration econ = new EmailConfiguration();
             econ.ConfigEmail(toEmail, ccEmail, subject, body);
@@ -89,15 +89,15 @@ Internal Audit System (IAS)
             {
             string subject = $"IAS~Notification: Para No: {paraNo} is marked {paraStatus}";
             string body = $@"
-            Dear Sir,
+Dear Sir,
 
-            This is to notify you that Para No. {paraNo} has been marked as {paraStatus}.
+This is to notify you that Para No. {paraNo} has been marked as {paraStatus}.
 
-            Gist of Para:
-            {paraGist}
+Gist of Para:
+{paraGist}
 
-            Best Regards,
-            Internal Audit System (IAS)
+Best Regards,
+Internal Audit System (IAS)
             ";
             string ccCombined = string.Join(";", new[] { ccEmail, cc2Email }.Where(e => !string.IsNullOrWhiteSpace(e)));
             EmailConfiguration econ = new EmailConfiguration();
