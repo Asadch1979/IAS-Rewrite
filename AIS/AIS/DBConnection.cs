@@ -12569,7 +12569,6 @@ namespace AIS.Controllers
                 cmd.Parameters.Add("P_IND", OracleDbType.Varchar2).Value = IND;
                 cmd.Parameters.Add("remark", OracleDbType.Varchar2).Value = REMARKS;
                 cmd.Parameters.Add("indicator", OracleDbType.Varchar2).Value = Action_IND;
-                cmd.Parameters.Add("indicator", OracleDbType.Varchar2).Value = INDICATOR;
                 cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
                 cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
@@ -14552,7 +14551,7 @@ namespace AIS.Controllers
                     os.GIST = rdr["GIST"].ToString();
                     os.MEMO_DATE = rdr["MEMO_DATE"].ToString();
                     os.HEADING = rdr["HEADINGS"].ToString();
-                    os.ASSIGNED_TO = rdr["ASSIGNED_TO"].ToString();
+                    os.RISK = rdr["RISK"].ToString();
                     os.STATUS = rdr["STATUS"].ToString();
                     resp.Add(os);
                     }
