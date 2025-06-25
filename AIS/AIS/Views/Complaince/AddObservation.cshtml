@@ -4,7 +4,7 @@
 }
 <h4>Add SBP Observation</h4>
 <p>This screen allows Compliance &amp; ICFR Division to record SBP observations and assign them to a division.</p>
-<form>
+<form id="addObservationForm" enctype="multipart/form-data">
     <div class="form-group">
         <label for="observation">Observation</label>
         <textarea class="form-control" id="observation" rows="3"></textarea>
@@ -12,8 +12,71 @@
     <div class="form-group">
         <label for="division">Assign to Division</label>
         <select class="form-control" id="division">
-            <option>-- Select Division --</option>
+            <option value="">-- Select Division --</option>
+            @{
+                if (ViewData["DivisionList"] != null)
+                {
+                    foreach (var item in (dynamic)ViewData["DivisionList"])
+                    {
+                        <option value="@item.DIVISIONID">@item.NAME</option>
+                    }
+                }
+            }
         </select>
+    </div>
+    <div class="form-group">
+        <label for="attachment">Attachment</label>
+        <input type="file" class="form-control" id="attachment" />
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#addObservationForm').on('submit', function (e) {
+            e.preventDefault();
+
+            var obs = $('#observation').val();
+            var divId = $('#division').val();
+            var files = $('#attachment')[0].files;
+
+            if (files.length > 0) {
+                var fd = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    fd.append('files', files[i]);
+                }
+                $.ajax({
+                    url: g_asiBaseURL + '/ApiCalls/upload_post_compliance_evidences',
+                    type: 'POST',
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    success: function () {
+                        var path = 'Audit_Evidences/' + files[0].name;
+                        addObservation(obs, divId, path);
+                    }
+                });
+            } else {
+                addObservation(obs, divId, '');
+            }
+        });
+
+        function addObservation(obs, divId, path) {
+            $.ajax({
+                url: g_asiBaseURL + '/ApiCalls/sbp_add_observation',
+                type: 'POST',
+                data: {
+                    'observation_text': obs,
+                    'division_id': divId,
+                    'attachment_path': path
+                },
+                success: function (data) {
+                    alert('Observation Added. ID: ' + data);
+                    $('#observation').val('');
+                    $('#division').val('');
+                    $('#attachment').val('');
+                }
+            });
+        }
+    });
+</script>

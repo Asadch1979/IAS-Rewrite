@@ -54,3 +54,9 @@ The `ApiCallsController` exposes an `sbp_audit_validation` endpoint which wraps
 the `ProcessSBPAuditValidation` method in `DBConnection`. This endpoint accepts
 the observation id, action and remarks so that the Internal Audit team can
 validate, refer back or raise queries on an observation.
+
+The new `ViewHistory` page displays the review timeline for each observation.
+
+The `AddObservation` screen now submits data through the `sbp_add_observation`
+API endpoint, which in turn calls `DBConnection.AddSBPObservation` to execute
+the `PKG_T_AU_SBP_COMPLIANCE.ADD_OBSERVATION` stored procedure.
