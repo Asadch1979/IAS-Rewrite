@@ -1,0 +1,23 @@
+@model AIS.Models.AuditValidationModel
+@{
+    ViewData["Title"] = "Audit Validation";
+    Layout = "_Layout";
+}
+<h4>Audit Validation</h4>
+<p>The Internal Audit team reviews the observation and may validate it, refer it back, or raise a query.</p>
+<form asp-action="AuditValidation" asp-controller="SBPCompliance" method="post">
+    <input type="hidden" asp-for="ObservationId" />
+    <div class="form-group">
+        <label asp-for="Remarks"></label>
+        <textarea asp-for="Remarks" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="Action"></label>
+        <select asp-for="Action" class="form-control">
+            <option value="Validate">Validate</option>
+            <option value="ReferBack">Refer Back</option>
+            <option value="RaiseQuery">Raise Query</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
