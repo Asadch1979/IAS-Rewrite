@@ -4,12 +4,76 @@
 }
 <h4>Assign Division</h4>
 <p>Compliance &amp; ICFR Division forwards the observation to the appropriate division.</p>
-<form>
-    <div class="form-group">
-        <label for="division">Division</label>
-        <select class="form-control" id="division">
-            <option>-- Select Division --</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Assign</button>
-</form>
+<table id="observationTable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Observation</th>
+            <th>Division</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    var g_divisionOptions = "";
+    $(document).ready(function () {
+        @if (ViewData["DivisionList"] != null)
+        {
+            foreach (var item in (dynamic)ViewData["DivisionList"])
+            {
+                <text>g_divisionOptions += '<option value="@item.DIVISIONID">@item.NAME</option>';</text>
+            }
+        }
+        loadObservations();
+
+        $('#observationTable').on('click', '.assign-btn', function (e) {
+            e.preventDefault();
+            var row = $(this).closest('tr');
+            var obsId = row.data('obs');
+            var divId = row.find('.division-select').val();
+            if (!divId) {
+                alert('Please select a division');
+                return;
+            }
+            $.ajax({
+                url: g_asiBaseURL + '/ApiCalls/sbp_assign_observation',
+                type: 'POST',
+                data: {
+                    'observation_id': obsId,
+                    'assigned_role': 'Division',
+                    'assigned_id': divId,
+                    'instructions': ''
+                },
+                success: function () {
+                    alert('Observation Assigned');
+                    loadObservations();
+                }
+            });
+        });
+    });
+
+    function loadObservations() {
+        destroyDatatable('observationTable');
+        $('#observationTable tbody').empty();
+        $.ajax({
+            url: g_asiBaseURL + '/ApiCalls/sbp_fetch_observations',
+            type: 'POST',
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    var row = '<tr data-obs="' + item.OBSERVATION_ID + '">' +
+                        '<td>' + item.OBSERVATION_ID + '</td>' +
+                        '<td>' + item.OBSERVATION_TEXT + '</td>' +
+                        '<td><select class="form-control division-select"><option value="">-- Select Division --</option>' + g_divisionOptions + '</select></td>' +
+                        '<td><button class="btn btn-primary assign-btn">Assign</button></td>' +
+                        '</tr>';
+                    $('#observationTable tbody').append(row);
+                });
+                initializeDataTable('observationTable');
+            },
+            dataType: 'json'
+        });
+    }
+</script>
