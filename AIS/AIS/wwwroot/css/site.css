@@ -40,19 +40,13 @@ body {
     text-align: end !important;
 }
 
-.dt-container .dt-length {
-    text-align: start !important;
-}
+    .dt-container .dt-length {
+        text-align: end !important;
+    }
 
-.dt-container .dt-top {
-    display: flex !important;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.dt-container .bottom {
-    text-align: end !important;
-}
+    .dt-container .bottom {
+        text-align: end !important;
+    }
 
 
 .modal-header, .modal-footer {
