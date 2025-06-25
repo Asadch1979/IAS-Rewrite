@@ -36,6 +36,7 @@ namespace AIS.Controllers.Compliance
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            ViewData["DivisionList"] = dBConnection.GetDivisions(false);
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
@@ -129,6 +130,18 @@ namespace AIS.Controllers.Compliance
 
             dBConnection.ProcessSBPAuditValidation(model.ObservationId, model.Action, model.Remarks);
             return RedirectToAction("ReviewHistory");
+        }
+        [HttpGet("Complaince/SBPCompliance/ViewHistory/{observationId}")]
+        public IActionResult ViewHistory(int observationId)
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            var history = dBConnection.GetSBPReviewHistory(observationId);
+            return View("../Complaince/SBPCompliance/ViewHistory", history);
+        }
+
         }
     }
 }

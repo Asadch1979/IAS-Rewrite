@@ -1,0 +1,37 @@
+@model List<AIS.Models.SBPReviewHistory>
+@{
+    ViewData["Title"] = "View History";
+    Layout = "_Layout";
+}
+<h4>Observation History</h4>
+<table id="historyTable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Reviewer Role</th>
+            <th>Reviewer Id</th>
+            <th>Comments</th>
+            <th>Action</th>
+            <th>Reviewed On</th>
+        </tr>
+    </thead>
+    <tbody>
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.REVIEWER_ROLE</td>
+                <td>@item.REVIEWER_ID</td>
+                <td>@item.COMMENTS</td>
+                <td>@item.ACTION</td>
+                <td>@item.REVIEWED_ON.ToString("yyyy-MM-dd")</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+<script>
+    $(document).ready(function(){
+        initializeDataTable('historyTable');
+    });
+</script>
