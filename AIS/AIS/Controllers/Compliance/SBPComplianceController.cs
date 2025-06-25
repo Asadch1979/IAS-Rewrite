@@ -48,6 +48,7 @@ namespace AIS.Controllers.Compliance
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            ViewData["DivisionList"] = dBConnection.GetDivisions(false);
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
