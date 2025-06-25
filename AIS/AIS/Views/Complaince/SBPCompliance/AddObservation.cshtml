@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "Add SBP Observation";
+    Layout = "_Layout";
+}
+<h4>Add SBP Observation</h4>
+<p>This screen allows Compliance &amp; ICFR Division to record SBP observations and assign them to a division.</p>
+<form>
+    <div class="form-group">
+        <label for="observation">Observation</label>
+        <textarea class="form-control" id="observation" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="division">Assign to Division</label>
+        <select class="form-control" id="division">
+            <option>-- Select Division --</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
