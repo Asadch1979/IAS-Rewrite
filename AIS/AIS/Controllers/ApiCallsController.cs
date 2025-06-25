@@ -2974,6 +2974,74 @@ namespace AIS.Controllers
             return dBConnection.GetGLHeads();
             }
 
+        // SBP Compliance API calls -------------------------------------------------
+
+        [HttpPost]
+        public int sbp_add_observation(string observation_text, int division_id, string attachment_path)
+            {
+            return dBConnection.AddSBPObservation(observation_text, division_id, attachment_path);
+            }
+
+        [HttpPost]
+        public void sbp_update_observation_status(int observation_id, string status)
+            {
+            dBConnection.UpdateSBPObservationStatus(observation_id, status);
+            }
+
+        [HttpPost]
+        public int sbp_assign_observation(int observation_id, string assigned_role, int assigned_id, string instructions)
+            {
+            return dBConnection.AssignSBPObservation(observation_id, assigned_role, assigned_id, instructions);
+            }
+
+        [HttpPost]
+        public void sbp_update_assignment_status(int assignment_id, string status)
+            {
+            dBConnection.UpdateSBPAssignmentStatus(assignment_id, status);
+            }
+
+        [HttpPost]
+        public int sbp_add_response(int observation_id, int department_id, string response_text, string attachment_path)
+            {
+            return dBConnection.AddSBPResponse(observation_id, department_id, response_text, attachment_path);
+            }
+
+        [HttpPost]
+        public void sbp_update_response_status(int response_id, string status)
+            {
+            dBConnection.UpdateSBPResponseStatus(response_id, status);
+            }
+
+        [HttpPost]
+        public void sbp_add_review_history(int observation_id, string reviewer_role, int reviewer_id, string comments, string action)
+            {
+            dBConnection.AddSBPReviewHistory(observation_id, reviewer_role, reviewer_id, comments, action);
+            }
+
+        [HttpPost]
+        public List<SBPObservation> sbp_fetch_observations(int division_id = 0, string status = "")
+            {
+            return dBConnection.GetSBPObservations(division_id, status);
+            }
+
+        [HttpPost]
+        public List<SBPAssignment> sbp_fetch_assignments(int observation_id)
+            {
+            return dBConnection.GetSBPAssignments(observation_id);
+            }
+
+        [HttpPost]
+        public List<SBPResponse> sbp_fetch_responses(int observation_id)
+            {
+            return dBConnection.GetSBPResponses(observation_id);
+            }
+
+        [HttpPost]
+        public List<SBPReviewHistory> sbp_fetch_review_history(int observation_id)
+            {
+            return dBConnection.GetSBPReviewHistory(observation_id);
+            }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
             {
