@@ -107,5 +107,28 @@ namespace AIS.Controllers.Compliance
             else
                 return View("../Complaince/SBPCompliance/ReviewHistory");
         }
+
+        [HttpGet("Complaince/SBPCompliance/AuditValidation/{observationId}")]
+        public IActionResult AuditValidation(int observationId)
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                return View("../Complaince/SBPCompliance/AuditValidation", new AuditValidationModel { ObservationId = observationId });
+        }
+
+        [HttpPost("Complaince/SBPCompliance/AuditValidation")]
+        public IActionResult AuditValidation(AuditValidationModel model)
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+
+            dBConnection.ProcessSBPAuditValidation(model.ObservationId, model.Action, model.Remarks);
+            return RedirectToAction("ReviewHistory");
+        }
     }
 }

@@ -3019,6 +3019,12 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
+        public void sbp_audit_validation(int observation_id, string action, string remarks)
+            {
+            dBConnection.ProcessSBPAuditValidation(observation_id, action, remarks);
+            }
+
+        [HttpPost]
         public List<SBPObservation> sbp_fetch_observations(int division_id = 0, string status = "")
             {
             return dBConnection.GetSBPObservations(division_id, status);
