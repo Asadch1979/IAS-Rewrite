@@ -12,6 +12,8 @@ namespace AIS.Models
             Database.EnsureCreated();
             }
         public DbSet<UserModel> userModels { get; set; }
+        public DbSet<StaffPosition> StaffPositions { get; set; }
+        public DbSet<ManpowerDemand> ManpowerDemands { get; set; }
 
         }
     }
