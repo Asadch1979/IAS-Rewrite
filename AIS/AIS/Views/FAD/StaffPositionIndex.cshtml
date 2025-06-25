@@ -1,0 +1,33 @@
+@model IEnumerable<AIS.Models.StaffPosition>
+@{
+    ViewData["Title"] = "Staff Positions";
+    Layout = "_Layout";
+}
+<h3 class="mt-3" style="display:block;color:#45c545;">@ViewData["Title"]</h3>
+<p>
+    <a class="btn btn-danger" asp-action="Create">Add New</a>
+</p>
+<table class="table table-bordered table-striped bg-white">
+    <thead class="table-success">
+        <tr>
+            <th>PPNO</th>
+            <th>Name</th>
+            <th>Rank</th>
+            <th>Designation</th>
+            <th>Placement</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach(var item in Model){
+        <tr>
+            <td>@item.PPNO</td>
+            <td>@item.Name</td>
+            <td>@item.Rank</td>
+            <td>@item.Designation</td>
+            <td>@item.Placement</td>
+            <td></td>
+        </tr>
+    }
+    </tbody>
+</table>
