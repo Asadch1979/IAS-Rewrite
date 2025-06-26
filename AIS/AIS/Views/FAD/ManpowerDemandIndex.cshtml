@@ -7,7 +7,7 @@
 <p>
     <a class="btn btn-danger" asp-action="ManpowerDemandCreate">Add New Demand</a>
 </p>
-<table class="table table-bordered table-striped bg-white">
+<table id="manpowerDemandTable" class="table table-bordered table-striped bg-white">
     <thead class="table-success">
         <tr>
             <th>Rank</th>
@@ -33,3 +33,10 @@
     }
     </tbody>
 </table>
+@section Scripts{
+<script>
+    $(document).ready(function(){
+        initializeDataTable('manpowerDemandTable');
+    });
+</script>
+}

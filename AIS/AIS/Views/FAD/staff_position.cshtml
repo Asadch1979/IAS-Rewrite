@@ -71,6 +71,7 @@
     });
     function loadStaff() {
         $.post(g_asiBaseURL + "/ApiCalls/get_audit_emp", function (data) {
+            destroyDatatable('staffTable');
             var tbody = $("#staffTable tbody");
             tbody.empty();
             var sr = 1;
@@ -91,6 +92,7 @@
                     "</tr>";
                 tbody.append(row);
             });
+            initializeDataTable('staffTable');
         });
     }
     function loadDropdowns() {

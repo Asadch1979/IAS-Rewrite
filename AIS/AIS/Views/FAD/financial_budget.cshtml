@@ -66,6 +66,7 @@
     function fillSelect(sel,d){var s=$(sel);s.empty();$.each(d,function(i,v){s.append('<option value="'+v.id+'">'+v.description+'</option>');});}
     function loadBudget(){
         $.post(g_asiBaseURL+"/ApiCalls/get_audit_budget",function(data){
+            destroyDatatable('budgetTable');
             var tbody=$("#budgetTable tbody");tbody.empty();var sr=1;
             $.each(data,function(i,v){
                 var row='<tr>'+
@@ -80,6 +81,7 @@
                     '<td><button class="btn btn-sm btn-primary" onclick="editBudget('+v.id+')">Update</button></td>'+
                     '</tr>';tbody.append(row);
             });
+            initializeDataTable('budgetTable');
         });
     }
     function editBudget(id){ $("#budgetId").val(id); $("#budgetModal").modal('show'); }

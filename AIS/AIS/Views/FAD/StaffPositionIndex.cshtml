@@ -7,7 +7,7 @@
 <p>
     <a class="btn btn-danger" asp-action="StaffPositionCreate">Add New</a>
 </p>
-<table class="table table-bordered table-striped bg-white">
+<table id="staffPositionIndexTable" class="table table-bordered table-striped bg-white">
     <thead class="table-success">
         <tr>
             <th>PPNO</th>
@@ -31,3 +31,10 @@
     }
     </tbody>
 </table>
+@section Scripts{
+<script>
+    $(document).ready(function(){
+        initializeDataTable('staffPositionIndexTable');
+    });
+</script>
+}
