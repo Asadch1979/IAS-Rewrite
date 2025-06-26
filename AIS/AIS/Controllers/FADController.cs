@@ -112,6 +112,84 @@ namespace AIS.Controllers
                     return View("~/Views/FAD/manpower_position.cshtml");
             }
         }
+
+        // Typed CRUD screens for manpower budgeting
+
+        public IActionResult StaffPositionIndex()
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            var zone = sessionHandler.GetSessionUser().UserPostingAuditZone ?? 0;
+            var list = dBConnection.GetStaffPositions(zone);
+            return View("~/Views/FAD/StaffPositionIndex.cshtml", list);
+        }
+
+        public IActionResult StaffPositionCreate()
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            return View("~/Views/FAD/StaffPositionCreate.cshtml");
+        }
+
+        [HttpPost]
+        public IActionResult StaffPositionCreate(StaffPosition model)
+        {
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            dBConnection.AddStaffPosition(model);
+            return RedirectToAction("StaffPositionIndex");
+        }
+
+        public IActionResult ManpowerDemandIndex()
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            var list = dBConnection.GetDemandSummary("ZTBL");
+            return View("~/Views/FAD/ManpowerDemandIndex.cshtml", list);
+        }
+
+        public IActionResult ManpowerDemandCreate()
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            return View("~/Views/FAD/ManpowerDemandCreate.cshtml");
+        }
+
+        [HttpPost]
+        public IActionResult ManpowerDemandCreate(ManpowerDemand model)
+        {
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            dBConnection.AddManpowerDemand(model);
+            return RedirectToAction("ManpowerDemandIndex");
+        }
+
+        public IActionResult ManpowerDemandReview(int id)
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            var dem = dBConnection.GetDemandSummary("ZTBL").FirstOrDefault(x => x.Id == id);
+            return View("~/Views/FAD/ManpowerDemandReview.cshtml", dem);
+        }
+
+        [HttpPost]
+        public IActionResult ManpowerDemandReview(ManpowerDemand model)
+        {
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            dBConnection.UpdateManpowerDemandStatus(model.Id, model.Status, model.HeadFadRemarks);
+            return RedirectToAction("ManpowerDemandIndex");
+        }
         
 
         public IActionResult risk_register()
