@@ -3013,7 +3013,7 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
-        public void sbp_add_review_history(int observation_id, string reviewer_role, int reviewer_id, string comments, string action)
+        public void sbp_add_review_history(int observation_id, string reviewer_role, string reviewer_id, string comments, string action)
             {
             dBConnection.AddSBPReviewHistory(observation_id, reviewer_role, reviewer_id, comments, action);
             }
