@@ -7,11 +7,11 @@
 <form asp-action="ManpowerDemandCreate" method="post" class="mt-3">
     <div class="mb-2">
         <label class="form-label">Rank</label>
-        <input asp-for="Rank" class="form-control" />
+        <select asp-for="Rank" class="form-select" id="rankField"></select>
     </div>
     <div class="mb-2">
         <label class="form-label">Placement</label>
-        <input asp-for="Placement" class="form-control" />
+        <select asp-for="Placement" class="form-select" id="placementField"></select>
     </div>
     <div class="mb-2">
         <label class="form-label">Existing Strength</label>
@@ -23,7 +23,24 @@
     </div>
     <div class="mb-2">
         <label class="form-label">Zone Id</label>
-        <input asp-for="ZoneId" class="form-control" />
+        <select asp-for="ZoneId" class="form-select" id="zoneField"></select>
     </div>
     <button type="submit" class="btn btn-danger">Submit</button>
 </form>
+@section Scripts{
+<script type="text/javascript">
+    $(document).ready(function () {
+        loadDropdowns();
+    });
+    function loadDropdowns() {
+        $.post(g_asiBaseURL + "/ApiCalls/get_hr_rank", function (d) { fillSelect("#rankField", d); });
+        $.post(g_asiBaseURL + "/ApiCalls/get_hr_posting", function (d) { fillSelect("#placementField", d); fillSelect("#zoneField", d); });
+    }
+    function fillSelect(sel, data) {
+        var s = $(sel); s.empty();
+        $.each(data, function (i, v) {
+            s.append('<option value="' + v.id + '">' + v.description + '</option>');
+        });
+    }
+</script>
+}
