@@ -63,9 +63,9 @@
             type: 'POST',
             success: function (data) {
                 $.each(data, function (index, item) {
-                    var row = '<tr data-obs="' + item.OBSERVATION_ID + '">' +
-                        '<td>' + item.OBSERVATION_ID + '</td>' +
-                        '<td>' + item.OBSERVATION_TEXT + '</td>' +
+                    var row = '<tr data-obs="' + item.observatioN_ID + '">' +
+                        '<td>' + item.observatioN_ID + '</td>' +
+                        '<td>' + item.observatioN_TEXT + '</td>' +
                         '<td><select class="form-control division-select"><option value="">-- Select Division --</option>' + g_divisionOptions + '</select></td>' +
                         '<td><button class="btn btn-primary assign-btn">Assign</button></td>' +
                         '</tr>';

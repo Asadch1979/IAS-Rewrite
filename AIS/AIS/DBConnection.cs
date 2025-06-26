@@ -22848,7 +22848,7 @@ namespace AIS.Controllers
             con.Dispose();
             }
 
-        public void AddSBPReviewHistory(int observationId, string reviewerRole, int reviewerId, string comments, string action)
+        public void AddSBPReviewHistory(int observationId, string reviewerRole, string reviewerId, string comments, string action)
             {
             var con = this.DatabaseConnection();
             con.Open();
