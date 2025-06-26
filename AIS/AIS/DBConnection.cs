@@ -22725,7 +22725,7 @@ namespace AIS.Controllers
             int observationId = 0;
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "PKG_T_AU_SBP_COMPLIANCE.ADD_OBSERVATION";
+                cmd.CommandText = "PKG_SBP_COM.ADD_OBSERVATION";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("p_observation_text", OracleDbType.Clob).Value = observationText;
@@ -22748,7 +22748,7 @@ namespace AIS.Controllers
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "PKG_T_AU_SBP_COMPLIANCE.UPDATE_OBSERVATION_STATUS";
+                cmd.CommandText = "PKG_SBP_COM.UPDATE_OBSERVATION_STATUS";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("p_observation_id", OracleDbType.Int32).Value = observationId;
@@ -22769,7 +22769,7 @@ namespace AIS.Controllers
             int assignmentId = 0;
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "PKG_T_AU_SBP_COMPLIANCE.ASSIGN_OBSERVATION";
+                cmd.CommandText = "PKG_SBP_COM.ASSIGN_OBSERVATION";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("p_observation_id", OracleDbType.Int32).Value = observationId;
@@ -22793,7 +22793,7 @@ namespace AIS.Controllers
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "PKG_T_AU_SBP_COMPLIANCE.UPDATE_ASSIGNMENT_STATUS";
+                cmd.CommandText = "PKG_SBP_COM.UPDATE_ASSIGNMENT_STATUS";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("p_assignment_id", OracleDbType.Int32).Value = assignmentId;
@@ -22814,7 +22814,7 @@ namespace AIS.Controllers
             int responseId = 0;
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "PKG_T_AU_SBP_COMPLIANCE.ADD_RESPONSE";
+                cmd.CommandText = "PKG_SBP_COM.ADD_RESPONSE";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("p_observation_id", OracleDbType.Int32).Value = observationId;
@@ -22838,7 +22838,7 @@ namespace AIS.Controllers
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "PKG_T_AU_SBP_COMPLIANCE.UPDATE_RESPONSE_STATUS";
+                cmd.CommandText = "PKG_SBP_COM.UPDATE_RESPONSE_STATUS";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("p_response_id", OracleDbType.Int32).Value = responseId;
@@ -22854,7 +22854,7 @@ namespace AIS.Controllers
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "PKG_T_AU_SBP_COMPLIANCE.ADD_REVIEW_HISTORY";
+                cmd.CommandText = "PKG_SBP_COM.ADD_REVIEW_HISTORY";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("p_observation_id", OracleDbType.Int32).Value = observationId;
@@ -22874,7 +22874,7 @@ namespace AIS.Controllers
             List<SBPObservation> list = new List<SBPObservation>();
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "PKG_T_AU_SBP_COMPLIANCE.FETCH_OBSERVATIONS";
+                cmd.CommandText = "PKG_SBP_COM.FETCH_OBSERVATIONS";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("p_division_id", OracleDbType.Int32).Value = divisionId == 0 ? (object)DBNull.Value : divisionId;
@@ -22906,7 +22906,7 @@ namespace AIS.Controllers
             List<SBPAssignment> list = new List<SBPAssignment>();
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "PKG_T_AU_SBP_COMPLIANCE.FETCH_ASSIGNMENTS";
+                cmd.CommandText = "PKG_SBP_COM.FETCH_ASSIGNMENTS";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("p_observation_id", OracleDbType.Int32).Value = observationId;
@@ -22937,7 +22937,7 @@ namespace AIS.Controllers
             List<SBPResponse> list = new List<SBPResponse>();
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "PKG_T_AU_SBP_COMPLIANCE.FETCH_RESPONSES";
+                cmd.CommandText = "PKG_SBP_COM.FETCH_RESPONSES";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("p_observation_id", OracleDbType.Int32).Value = observationId;
@@ -22985,7 +22985,7 @@ namespace AIS.Controllers
             List<SBPReviewHistory> list = new List<SBPReviewHistory>();
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "PKG_T_AU_SBP_COMPLIANCE.FETCH_REVIEW_HISTORY";
+                cmd.CommandText = "PKG_SBP_COM.FETCH_REVIEW_HISTORY";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("p_observation_id", OracleDbType.Int32).Value = observationId;
