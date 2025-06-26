@@ -129,7 +129,7 @@ namespace AIS.Controllers
             }
         }
 
-        [HttpGet("")]
+        [HttpGet("SBPCompliance")]
         public IActionResult Index()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -140,7 +140,7 @@ namespace AIS.Controllers
                 return View("~/Views/FAD/Index.cshtml");
         }
 
-        [HttpGet("AddObservation")]
+        [HttpGet("SBPCompliance/AddObservation")]
         public IActionResult AddObservation()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -152,7 +152,7 @@ namespace AIS.Controllers
                 return View("~/Views/FAD/AddObservation.cshtml");
         }
 
-        [HttpGet("AssignDivision")]
+        [HttpGet("SBPCompliance/AssignDivision")]
         public IActionResult AssignDivision()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -164,7 +164,7 @@ namespace AIS.Controllers
                 return View("~/Views/FAD/AssignDivision.cshtml");
         }
 
-        [HttpGet("AssignDepartment")]
+        [HttpGet("SBPCompliance/AssignDepartment")]
         public IActionResult AssignDepartment()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -175,7 +175,7 @@ namespace AIS.Controllers
                 return View("~/Views/FAD/AssignDepartment.cshtml");
         }
 
-        [HttpGet("EnterResponse")]
+        [HttpGet("SBPCompliance/EnterResponse")]
         public IActionResult EnterResponse()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -186,7 +186,7 @@ namespace AIS.Controllers
                 return View("~/Views/FAD/EnterResponse.cshtml");
         }
 
-        [HttpGet("ReviewResponse")]
+        [HttpGet("SBPCompliance/ReviewResponse")]
         public IActionResult ReviewResponse()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -197,7 +197,7 @@ namespace AIS.Controllers
                 return View("~/Views/FAD/ReviewResponse.cshtml");
         }
 
-        [HttpGet("ForwardToCompliance")]
+        [HttpGet("SBPCompliance/ForwardToCompliance")]
         public IActionResult ForwardToCompliance()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -208,7 +208,7 @@ namespace AIS.Controllers
                 return View("~/Views/FAD/ForwardToCompliance.cshtml");
         }
 
-        [HttpGet("ReviewHistory")]
+        [HttpGet("SBPCompliance/ReviewHistory")]
         public IActionResult ReviewHistory()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -219,7 +219,7 @@ namespace AIS.Controllers
                 return View("~/Views/FAD/ReviewHistory.cshtml");
         }
 
-        [HttpGet("AuditValidation/{observationId}")]
+        [HttpGet("SBPCompliance/AuditValidation/{observationId}")]
         public IActionResult AuditValidation(int observationId)
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -230,7 +230,7 @@ namespace AIS.Controllers
                 return View("~/Views/FAD/AuditValidation.cshtml", new AuditValidationModel { ObservationId = observationId });
         }
 
-        [HttpPost("AuditValidation")]
+        [HttpPost("SBPCompliance/AuditValidation")]
         public IActionResult AuditValidation(AuditValidationModel model)
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -242,7 +242,7 @@ namespace AIS.Controllers
             return RedirectToAction("ReviewHistory");
         }
 
-        [HttpGet("ViewHistory/{observationId}")]
+        [HttpGet("SBPCompliance/ViewHistory/{observationId}")]
         public IActionResult ViewHistory(int observationId)
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
