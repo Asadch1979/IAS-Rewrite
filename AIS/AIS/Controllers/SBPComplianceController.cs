@@ -1,9 +1,13 @@
 using AIS.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
 
-namespace AIS.Controllers.Compliance
-{
+namespace AIS.Controllers
+    {
+
     public class SBPComplianceController : Controller
     {
         private readonly ILogger<SBPComplianceController> _logger;
@@ -20,7 +24,7 @@ namespace AIS.Controllers.Compliance
             tm = _tpMenu;
         }
 
-        [HttpGet("Complaince/SBPCompliance")]
+        [HttpGet("SBPCompliance")]
         public IActionResult Index()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -28,10 +32,10 @@ namespace AIS.Controllers.Compliance
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../Complaince/SBPCompliance/Index");
+                return View("../SBPCompliance/Index");
         }
 
-        [HttpGet("Complaince/SBPCompliance/AddObservation")]
+        [HttpGet("SBPCompliance/AddObservation")]
         public IActionResult AddObservation()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -40,10 +44,10 @@ namespace AIS.Controllers.Compliance
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../Complaince/SBPCompliance/AddObservation");
+                return View("../SBPCompliance/AddObservation");
         }
 
-        [HttpGet("Complaince/SBPCompliance/AssignDivision")]
+        [HttpGet("SBPCompliance/AssignDivision")]
         public IActionResult AssignDivision()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -52,10 +56,10 @@ namespace AIS.Controllers.Compliance
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../Complaince/SBPCompliance/AssignDivision");
+                return View("../SBPCompliance/AssignDivision");
         }
 
-        [HttpGet("Complaince/SBPCompliance/AssignDepartment")]
+        [HttpGet("SBPCompliance/AssignDepartment")]
         public IActionResult AssignDepartment()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -63,10 +67,10 @@ namespace AIS.Controllers.Compliance
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../Complaince/SBPCompliance/AssignDepartment");
+                return View("../SBPCompliance/AssignDepartment");
         }
 
-        [HttpGet("Complaince/SBPCompliance/EnterResponse")]
+        [HttpGet("SBPCompliance/EnterResponse")]
         public IActionResult EnterResponse()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -74,10 +78,10 @@ namespace AIS.Controllers.Compliance
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../Complaince/SBPCompliance/EnterResponse");
+                return View("../SBPCompliance/EnterResponse");
         }
 
-        [HttpGet("Complaince/SBPCompliance/ReviewResponse")]
+        [HttpGet("SBPCompliance/ReviewResponse")]
         public IActionResult ReviewResponse()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -85,10 +89,10 @@ namespace AIS.Controllers.Compliance
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../Complaince/SBPCompliance/ReviewResponse");
+                return View("../SBPCompliance/ReviewResponse");
         }
 
-        [HttpGet("Complaince/SBPCompliance/ForwardToCompliance")]
+        [HttpGet("SBPCompliance/ForwardToCompliance")]
         public IActionResult ForwardToCompliance()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -96,10 +100,10 @@ namespace AIS.Controllers.Compliance
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../Complaince/SBPCompliance/ForwardToCompliance");
+                return View("../SBPCompliance/ForwardToCompliance");
         }
 
-        [HttpGet("Complaince/SBPCompliance/ReviewHistory")]
+        [HttpGet("SBPCompliance/ReviewHistory")]
         public IActionResult ReviewHistory()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -107,10 +111,10 @@ namespace AIS.Controllers.Compliance
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../Complaince/SBPCompliance/ReviewHistory");
+                return View("../SBPCompliance/ReviewHistory");
         }
 
-        [HttpGet("Complaince/SBPCompliance/AuditValidation/{observationId}")]
+        [HttpGet("SBPCompliance/AuditValidation/{observationId}")]
         public IActionResult AuditValidation(int observationId)
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -118,10 +122,10 @@ namespace AIS.Controllers.Compliance
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../Complaince/SBPCompliance/AuditValidation", new AuditValidationModel { ObservationId = observationId });
+                return View("../SBPCompliance/AuditValidation", new AuditValidationModel { ObservationId = observationId });
         }
 
-        [HttpPost("Complaince/SBPCompliance/AuditValidation")]
+        [HttpPost("SBPCompliance/AuditValidation")]
         public IActionResult AuditValidation(AuditValidationModel model)
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -132,7 +136,7 @@ namespace AIS.Controllers.Compliance
             dBConnection.ProcessSBPAuditValidation(model.ObservationId, model.Action, model.Remarks);
             return RedirectToAction("ReviewHistory");
         }
-        [HttpGet("Complaince/SBPCompliance/ViewHistory/{observationId}")]
+        [HttpGet("SBPCompliance/ViewHistory/{observationId}")]
         public IActionResult ViewHistory(int observationId)
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -140,9 +144,9 @@ namespace AIS.Controllers.Compliance
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             var history = dBConnection.GetSBPReviewHistory(observationId);
-            return View("../Complaince/SBPCompliance/ViewHistory", history);
+            return View("../SBPCompliance/ViewHistory", history);
         }
 
         }
     }
-}
+
