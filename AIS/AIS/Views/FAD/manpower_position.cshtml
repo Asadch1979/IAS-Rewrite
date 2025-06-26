@@ -67,6 +67,7 @@
     function fillSelect(sel,d){ var s=$(sel); s.empty(); $.each(d,function(i,v){ s.append('<option value="'+v.id+'">'+v.description+'</option>');}); }
     function loadManpower(){
         $.post(g_asiBaseURL+"/ApiCalls/get_audit_manpower",function(data){
+            destroyDatatable('manpowerTable');
             var tbody=$("#manpowerTable tbody");tbody.empty();var sr=1;
             $.each(data,function(i,v){
                 var row='<tr>'+
@@ -79,6 +80,7 @@
                     '<td><button class="btn btn-sm btn-primary" onclick="editManpower('+v.id+')">Update</button></td>'+
                     '</tr>';tbody.append(row);
             });
+            initializeDataTable('manpowerTable');
         });
     }
     function editManpower(id){ $("#manpowerId").val(id); $("#manpowerModal").modal('show'); }

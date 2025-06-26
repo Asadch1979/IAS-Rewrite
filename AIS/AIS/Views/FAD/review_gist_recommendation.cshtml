@@ -10,6 +10,7 @@
 
     function getEntityObservations() {
         if($('#entitySelectField').val()==0){
+             destroyDatatable('checklistDetailsPanel');
              $('#checklistDetailsPanel tbody').empty();
              return;
         }
@@ -22,6 +23,7 @@
             cache: false,
             success: function (data) {
                 console.log('subhcekclist', data);
+                destroyDatatable('checklistDetailsPanel');
                 $('#checklistDetailsPanel tbody').empty();
                 var sr = 1;
                 $.each(data, function (i, v) {
@@ -39,6 +41,7 @@
                         $('html').scrollTop(rowpos.top);
                     }
                 }, 200)
+                initializeDataTable('checklistDetailsPanel');
 
             },
             dataType: "json",
@@ -72,6 +75,7 @@
                 $('#viewMemo_process_ObSent').html(data[0].process);
                 $('#viewMemo_subprocess_ObSent').html(data[0].suB_PROCESS);
                 $('#viewMemo_violation_ObSent').html(data[0].checklist_Details);
+                destroyDatatable('listofRespPersons_ObSent');
                 $('#listofRespPersons_ObSent tbody').empty();
                 if (data[0].responsiblE_PPs.length > 0) {
                     $.each(data[0].responsiblE_PPs, function (j, pp) {
@@ -79,7 +83,8 @@
                         srNo++;
                         $('#listofRespPersons_ObSent tbody').append('<tr id="tr__ObSent_' + pp.pP_NO + '"><td>' + srNo + '</td><td>' + pp.pP_NO + '</td><td>' + pp.emP_NAME + '</td><td>' + pp.loaN_CASE + '</td><td>' + pp.lC_AMOUNT + '</td><td>' + pp.accounT_NUMBER + '</td><td>' + pp.acC_AMOUNT + '</td></tr>');
                     });
-                }               
+                    initializeDataTable('listofRespPersons_ObSent');
+                }
             },
             dataType: "json",
         });

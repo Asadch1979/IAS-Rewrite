@@ -83,6 +83,7 @@
     }
 
     function getEngagementDetails() {
+        destroyDatatable('engsListPanel');
         $('#engsListPanel tbody').empty();
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/get_engagements_details_for_fad_review",
@@ -104,6 +105,7 @@
 
                     $('#engsListPanel tbody').append('<tr><td class="text-center">' + (i + 1) + '</td><td>' + v.enG_ID + '</td><td>' + v.teaM_NAME + '</td><td>' + v.audiT_START_DATE + '</td><td>' + v.audiT_END_DATE + '</td><td>' + v.oP_START_DATE + '</td><td>' + v.oP_END_DATE + '</td><td>' + v.status + '</td><td class="text-center"><a href="#" class="text-primary" onclick="loadObservationDetails(' + v.enG_ID + ');">View Details</a></td><td class="text-center"><a href="#" class="text-primary" onclick="viewReport(' + v.rpT_ID + ',' + v.enG_ID + ');">View Report</a></td></tr>');
                 });
+                initializeDataTable('engsListPanel');
             },
             dataType: "json",
         });
@@ -112,6 +114,7 @@
 
     function loadObservationDetails(engId) {
         g_engId = parseInt(engId);
+        destroyDatatable('obsListPanel');
         $('#obsListPanel tbody').empty();
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_report",
@@ -135,6 +138,7 @@
                         '<td class="text-center"><a href="#" class="text-primary" onclick="viewPara(' + v.id + ');">View Para</a></td>' +
                         '</tr>');
                  });
+                initializeDataTable('obsListPanel');
             },
             dataType: "json",
         });
@@ -206,6 +210,7 @@
 
     function viewPara(id) {
          g_obsId = parseInt(id);
+        destroyDatatable('paraViewTable');
         $('#paraViewTable tbody').empty();
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/get_observation_details_for_fad",
@@ -236,6 +241,7 @@
                     rows += '<tr><th>Action Required</th><td>' + v.rooT_CAUSE + '</td></tr>';
                     $('#paraViewTable tbody').append(rows);
                 });
+                initializeDataTable('paraViewTable');
                 $('#paraViewModal').modal('show');
             },
             dataType: "json",
