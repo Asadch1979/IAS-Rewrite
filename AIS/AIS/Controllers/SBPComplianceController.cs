@@ -32,7 +32,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../SBPCompliance/Index");
+                return View("~/Views/Complaince/Index.cshtml");
         }
 
         [HttpGet("SBPCompliance/AddObservation")]
@@ -44,7 +44,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../SBPCompliance/AddObservation");
+                return View("~/Views/Complaince/AddObservation.cshtml");
         }
 
         [HttpGet("SBPCompliance/AssignDivision")]
@@ -56,7 +56,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../SBPCompliance/AssignDivision");
+                return View("~/Views/Complaince/AssignDivision.cshtml");
         }
 
         [HttpGet("SBPCompliance/AssignDepartment")]
@@ -67,7 +67,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../SBPCompliance/AssignDepartment");
+                return View("~/Views/Complaince/AssignDepartment.cshtml");
         }
 
         [HttpGet("SBPCompliance/EnterResponse")]
@@ -78,7 +78,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../SBPCompliance/EnterResponse");
+                return View("~/Views/Complaince/EnterResponse.cshtml");
         }
 
         [HttpGet("SBPCompliance/ReviewResponse")]
@@ -89,7 +89,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../SBPCompliance/ReviewResponse");
+                return View("~/Views/Complaince/ReviewResponse.cshtml");
         }
 
         [HttpGet("SBPCompliance/ForwardToCompliance")]
@@ -100,7 +100,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../SBPCompliance/ForwardToCompliance");
+                return View("~/Views/Complaince/ForwardToCompliance.cshtml");
         }
 
         [HttpGet("SBPCompliance/ReviewHistory")]
@@ -111,7 +111,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../SBPCompliance/ReviewHistory");
+                return View("~/Views/Complaince/ReviewHistory.cshtml");
         }
 
         [HttpGet("SBPCompliance/AuditValidation/{observationId}")]
@@ -122,7 +122,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("../SBPCompliance/AuditValidation", new AuditValidationModel { ObservationId = observationId });
+                return View("~/Views/Complaince/AuditValidation.cshtml", new AuditValidationModel { ObservationId = observationId });
         }
 
         [HttpPost("SBPCompliance/AuditValidation")]
@@ -144,7 +144,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             var history = dBConnection.GetSBPReviewHistory(observationId);
-            return View("../SBPCompliance/ViewHistory", history);
+            return View("~/Views/Complaince/ViewHistory.cshtml", history);
         }
 
         }

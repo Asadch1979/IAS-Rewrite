@@ -1,5 +1,6 @@
 ﻿
-var g_asiBaseURL ="/ZTBLAIS";
+var metaBase = document.querySelector('meta[name="base-url"]');
+var g_asiBaseURL = metaBase ? metaBase.getAttribute('content') : "";
 var g_secretKey="";
 var activeRequests = 0;
 

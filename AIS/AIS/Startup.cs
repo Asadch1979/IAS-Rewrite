@@ -54,7 +54,11 @@ namespace AIS
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             {
-            app.UsePathBase("/ZTBLAIS/");
+            var baseUrl = Configuration["BaseURL"];
+            if (!string.IsNullOrEmpty(baseUrl))
+            {
+                app.UsePathBase(baseUrl);
+            }
             if (env.IsDevelopment() || env.IsProduction())
                 {
                 app.UseDeveloperExceptionPage();
