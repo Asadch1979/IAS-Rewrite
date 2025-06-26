@@ -5,14 +5,36 @@
 
 <h2 class="mt-4 mb-4">Audit Risk Rating Matrix</h2>
 
+<style>
+    /* Allow table cell content to wrap */
+    #riskRegisterTable th,
+    #riskRegisterTable td {
+        white-space: normal !important;
+        word-break: break-word;
+    }
+</style>
+
 <table id="riskRegisterTable" class="table table-bordered table-striped bg-white">
+    <colgroup>
+        <col data-dt-column="0" style="width: 300px;" />
+        <col data-dt-column="1" style="width: 300px;" />
+        <col data-dt-column="2" style="width: 150px;" />
+        <col data-dt-column="3" style="width: 150px;" />
+        <col data-dt-column="4" style="width: 150px;" />
+        <col data-dt-column="5" style="width: 150px;" />
+        <col data-dt-column="6" style="width: 150px;" />
+        <col data-dt-column="7" style="width: 150px;" />
+    </colgroup>
     <thead class="table-success">
         <tr>
             <th>Work Package / Process</th>
             <th>Area / Description</th>
-            <th class="text-center">Gravity</th>
-            <th class="text-center">Number of Observations</th>
-            <th class="text-center">Total Marks</th>
+            <th class="text-center">Weightage</th>
+            <th class="text-center">Weighted Average</th>
+            <th class="text-center">Risk Based Marks</th>
+            <th class="text-center">Weighted Average Marks</th>
+            <th class="text-center">Minimum Formula</th>
+            <th class="text-center">Composite Rating </th>
         </tr>
     </thead>
     <tbody>
