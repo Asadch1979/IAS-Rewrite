@@ -3,7 +3,7 @@
     Layout = "_Layout";
 }
 
-<h2 class="mt-4 mb-4">Audit Risk Rating Matrix</h2>
+<h2 class="mt-1 mb-1">Audit Risk Rating Matrix</h2>
 
 <style>
     /* Allow table cell content to wrap */
@@ -12,9 +12,14 @@
         white-space: normal !important;
         word-break: break-word;
     }
+
+    /* Ensure the table utilizes the full available width */
+    #riskRegisterTable {
+        width: 220% !important;
+    }
 </style>
 
-<table id="riskRegisterTable" class="table table-bordered table-striped bg-white">
+<table id="riskRegisterTable" class="table table-bordered table-striped bg-white w-100">
     <colgroup>
         <col data-dt-column="0" style="width: 400px;" />
         <col data-dt-column="1" style="width: 500px;" />
@@ -98,7 +103,7 @@
             <td class="text-center">1</td>
             <td class="text-center">2</td>
         </tr>
-        <tr class="table-secondary">
+        <tr class="table-success">
             <td></td>
             <td></td>
             <td></td>
@@ -148,7 +153,7 @@
             <td class="text-center">1</td>
             <td class="text-center">2</td>
         </tr>
-        <tr class="table-secondary">
+        <tr class="table-success">
             <td></td>
             <td></td>
             <td></td>
@@ -258,7 +263,7 @@
             <td></td>
             <td></td>
         </tr>
-        <tr class="table-secondary">
+        <tr class="table-success">
             <td></td>
             <td></td>
             <td></td>
