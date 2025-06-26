@@ -128,6 +128,130 @@ namespace AIS.Controllers
                     return View("~/Views/FAD/risk_register.cshtml");
             }
         }
+
+        [HttpGet("SBPCompliance")]
+        public IActionResult Index()
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                return View("~/Views/FAD/Index.cshtml");
+        }
+
+        [HttpGet("SBPCompliance/AddObservation")]
+        public IActionResult AddObservation()
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            ViewData["DivisionList"] = dBConnection.GetDivisions(false);
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                return View("~/Views/FAD/AddObservation.cshtml");
+        }
+
+        [HttpGet("SBPCompliance/AssignDivision")]
+        public IActionResult AssignDivision()
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            ViewData["DivisionList"] = dBConnection.GetDivisions(false);
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                return View("~/Views/FAD/AssignDivision.cshtml");
+        }
+
+        [HttpGet("SBPCompliance/AssignDepartment")]
+        public IActionResult AssignDepartment()
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                return View("~/Views/FAD/AssignDepartment.cshtml");
+        }
+
+        [HttpGet("SBPCompliance/EnterResponse")]
+        public IActionResult EnterResponse()
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                return View("~/Views/FAD/EnterResponse.cshtml");
+        }
+
+        [HttpGet("SBPCompliance/ReviewResponse")]
+        public IActionResult ReviewResponse()
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                return View("~/Views/FAD/ReviewResponse.cshtml");
+        }
+
+        [HttpGet("SBPCompliance/ForwardToCompliance")]
+        public IActionResult ForwardToCompliance()
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                return View("~/Views/FAD/ForwardToCompliance.cshtml");
+        }
+
+        [HttpGet("SBPCompliance/ReviewHistory")]
+        public IActionResult ReviewHistory()
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                return View("~/Views/FAD/ReviewHistory.cshtml");
+        }
+
+        [HttpGet("SBPCompliance/AuditValidation/{observationId}")]
+        public IActionResult AuditValidation(int observationId)
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                return View("~/Views/FAD/AuditValidation.cshtml", new AuditValidationModel { ObservationId = observationId });
+        }
+
+        [HttpPost("SBPCompliance/AuditValidation")]
+        public IActionResult AuditValidation(AuditValidationModel model)
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+
+            dBConnection.ProcessSBPAuditValidation(model.ObservationId, model.Action, model.Remarks);
+            return RedirectToAction("ReviewHistory");
+        }
+
+        [HttpGet("SBPCompliance/ViewHistory/{observationId}")]
+        public IActionResult ViewHistory(int observationId)
+        {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            var history = dBConnection.GetSBPReviewHistory(observationId);
+            return View("~/Views/FAD/ViewHistory.cshtml", history);
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult financial_budget()
         {

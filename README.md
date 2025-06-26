@@ -1,7 +1,7 @@
 # IAS-Rewrite
 
 This project now includes a basic SBP Compliance workflow found under
-`Views/Complaince/SBPCompliance`. It contains placeholder screens for each
+`Views/FAD`. It contains placeholder screens for each
 stage of the SBP observation process.
 
 The backend exposes API endpoints for managing SBP observations under
@@ -45,8 +45,9 @@ The workflow now includes an Internal Audit validation step. The high level proc
 | Compliance/COO  | Escalated obs, workflow history                        | Final review, forward to Audit, return/reject, view workflow                                    | ReviewByCompliance, ViewHistory                                    |
 | Internal Audit  | All obs, responses, history                            | Validate (close), refer back/reject (with remarks), raise query (request info/evidence)         | AuditValidation, ViewHistory                                       |
 
-The `SBPComplianceController` now includes an `AuditValidation` action and the
-corresponding view for Internal Audit to perform these steps.
+The SBP Compliance actions are now handled by `FADController`, which
+includes an `AuditValidation` action and the corresponding view for
+Internal Audit to perform these steps.
 
 ### API Endpoint
 
