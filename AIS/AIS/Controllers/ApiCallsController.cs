@@ -2974,6 +2974,44 @@ namespace AIS.Controllers
             return dBConnection.GetGLHeads();
             }
 
+        // Audit manpower budgeting APIs
+
+        [HttpPost]
+        public void add_staff_position([FromBody] StaffPosition model)
+            {
+            dBConnection.AddStaffPosition(model);
+            }
+
+        [HttpPost]
+        public void update_staff_position([FromBody] StaffPosition model)
+            {
+            dBConnection.UpdateStaffPosition(model);
+            }
+
+        [HttpPost]
+        public void add_manpower_demand([FromBody] ManpowerDemand model)
+            {
+            dBConnection.AddManpowerDemand(model);
+            }
+
+        [HttpPost]
+        public void update_manpower_demand_status(int id, string status, string remarks)
+            {
+            dBConnection.UpdateManpowerDemandStatus(id, status, remarks);
+            }
+
+        [HttpPost]
+        public List<StaffPosition> fetch_staff_positions(int zone_id)
+            {
+            return dBConnection.GetStaffPositions(zone_id);
+            }
+
+        [HttpPost]
+        public List<ManpowerDemand> fetch_demand_summary(string company)
+            {
+            return dBConnection.GetDemandSummary(company);
+            }
+
         // SBP Compliance API calls -------------------------------------------------
 
         [HttpPost]
