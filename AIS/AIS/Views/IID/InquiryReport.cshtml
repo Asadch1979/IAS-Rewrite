@@ -1,0 +1,42 @@
+@{
+    ViewData["Title"] = "Inquiry Report";
+    Layout = "_Layout";
+    var complaintId = ViewData["ComplaintId"];
+}
+<h4>Inquiry Report</h4>
+<form id="reportForm" enctype="multipart/form-data">
+    <input type="hidden" name="ComplaintId" value="@complaintId" />
+    <div class="mb-2">
+        <label class="form-label">Report Details</label>
+        <textarea class="form-control" name="ReportText"></textarea>
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Upload Inquiry Report</label>
+        <input type="file" class="form-control" name="ReportFile" />
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Upload Evidence</label>
+        <input type="file" class="form-control" name="Evidence" multiple />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Report</button>
+</form>
+@section Scripts{
+<script>
+    $(function(){
+        $('#reportForm').on('submit', function(e){
+            e.preventDefault();
+            var fd = new FormData(this);
+            $.ajax({
+                url: g_asiBaseURL + '/ApiCalls/AddInquiryReport',
+                type: 'POST',
+                data: fd,
+                processData:false,
+                contentType:false,
+                success: function(){
+                    alert('Report submitted');
+                }
+            });
+        });
+    });
+</script>
+}

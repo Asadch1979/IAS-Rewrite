@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Investigation Plan";
+    Layout = "_Layout";
+    var complaintId = ViewData["ComplaintId"];
+}
+<h4>Investigation Plan</h4>
+<form id="planForm">
+    <input type="hidden" name="ComplaintId" value="@complaintId" />
+    <div class="mb-2">
+        <label class="form-label">Investigation Plan</label>
+        <textarea class="form-control" name="Plan"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Plan</button>
+</form>
+@section Scripts{
+<script>
+    $(function(){
+        $('#planForm').on('submit', function(e){
+            e.preventDefault();
+            var data = $(this).serialize();
+            $.post(g_asiBaseURL + '/ApiCalls/AddInvestigationPlan', data, function(){
+                alert('Plan submitted');
+            });
+        });
+    });
+</script>
+}

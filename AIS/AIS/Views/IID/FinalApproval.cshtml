@@ -1,0 +1,34 @@
+@{
+    ViewData["Title"] = "Final Approval";
+    Layout = "_Layout";
+    var reportId = ViewData["ReportId"];
+}
+<h4>Final Approval</h4>
+<form id="approvalForm">
+    <input type="hidden" name="ReportId" value="@reportId" />
+    <div class="mb-2">
+        <label class="form-label">Comments</label>
+        <textarea class="form-control" name="Comments"></textarea>
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Action</label>
+        <select class="form-select" name="ReferBack">
+            <option value="false">Approve</option>
+            <option value="true">Refer Back</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+@section Scripts{
+<script>
+    $(function(){
+        $('#approvalForm').on('submit', function(e){
+            e.preventDefault();
+            var data = $(this).serialize();
+            $.post(g_asiBaseURL + '/ApiCalls/AddFinalApproval', data, function(){
+                alert('Action saved');
+            });
+        });
+    });
+</script>
+}

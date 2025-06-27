@@ -3086,6 +3086,85 @@ namespace AIS.Controllers
             return dBConnection.GetSBPReviewHistory(observation_id);
             }
 
+        // ----- I&ID Inquiry API endpoints -----
+
+        [HttpPost]
+        public IActionResult SubmitComplaint([FromForm] AIS.Models.IID.ComplaintModel model)
+            {
+            var id = dBConnection.SubmitComplaint(model);
+            return Ok(new { ComplaintId = id });
+            }
+
+        [HttpPost]
+        public IActionResult AddAssessment([FromBody] AIS.Models.IID.AssessmentModel model)
+            {
+            dBConnection.AddAssessment(model);
+            return Ok();
+            }
+
+        [HttpPost]
+        public IActionResult AddHeadReview([FromBody] AIS.Models.IID.HeadReviewModel model)
+            {
+            dBConnection.AddHeadReview(model);
+            return Ok();
+            }
+
+        [HttpPost]
+        public IActionResult AddInvestigationPlan([FromBody] AIS.Models.IID.InvestigationPlanModel model)
+            {
+            dBConnection.AddInvestigationPlan(model);
+            return Ok();
+            }
+
+        [HttpPost]
+        public IActionResult AddPlanApproval([FromBody] AIS.Models.IID.PlanApprovalModel model)
+            {
+            dBConnection.AddPlanApproval(model);
+            return Ok();
+            }
+
+        [HttpPost]
+        public IActionResult AddInquiryReport([FromForm] AIS.Models.IID.InquiryReportModel model)
+            {
+            dBConnection.AddInquiryReport(model);
+            return Ok();
+            }
+
+        [HttpPost]
+        public IActionResult AddAnalysis([FromBody] AIS.Models.IID.AnalysisModel model)
+            {
+            dBConnection.AddAnalysis(model);
+            return Ok();
+            }
+
+        [HttpPost]
+        public IActionResult AddFinalApproval([FromBody] AIS.Models.IID.FinalApprovalModel model)
+            {
+            dBConnection.AddFinalApproval(model);
+            return Ok();
+            }
+
+        [HttpPost]
+        public IActionResult AddCaseStudy([FromBody] AIS.Models.IID.CaseStudyModel model)
+            {
+            dBConnection.AddCaseStudy(model);
+            return Ok();
+            }
+
+        [HttpPost]
+        public IActionResult GetReports([FromBody] AIS.Models.IID.ReportFilterModel filter)
+            {
+            var list = dBConnection.GetReports(filter);
+            return Ok(list);
+            }
+
+        [HttpPost]
+        public IActionResult GetComplaintsByUser(int userId)
+            {
+            var list = dBConnection.GetComplaintsByUser(userId);
+            return Ok(list);
+            }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
             {

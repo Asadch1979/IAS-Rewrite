@@ -1,0 +1,52 @@
+@{
+    ViewData["Title"] = "Submit Complaint";
+    Layout = "_Layout";
+}
+<h4>Submit Complaint</h4>
+<form id="complaintForm" enctype="multipart/form-data">
+    <div class="mb-2">
+        <label class="form-label">Nature of Complaint</label>
+        <input type="text" class="form-control" name="Nature" />
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Contents of Complaint</label>
+        <textarea class="form-control" name="Contents"></textarea>
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Upload Complaint (PDF)</label>
+        <input type="file" class="form-control" name="ComplaintFile" />
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Upload FFR (PDF)</label>
+        <input type="file" class="form-control" name="FfrFile" />
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Upload Other Evidence</label>
+        <input type="file" class="form-control" name="OtherEvidence" multiple />
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Action Required from I&ID</label>
+        <textarea class="form-control" name="ActionRequired"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+@section Scripts{
+<script>
+    $(function(){
+        $('#complaintForm').on('submit', function(e){
+            e.preventDefault();
+            var fd = new FormData(this);
+            $.ajax({
+                url: g_asiBaseURL + '/ApiCalls/SubmitComplaint',
+                type: 'POST',
+                data: fd,
+                processData:false,
+                contentType:false,
+                success: function(d){
+                    alert('Complaint submitted');
+                }
+            });
+        });
+    });
+</script>
+}

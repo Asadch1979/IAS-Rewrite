@@ -1,0 +1,38 @@
+@{
+    ViewData["Title"] = "Plan Approval";
+    Layout = "_Layout";
+    var planId = ViewData["PlanId"];
+}
+<h4>Plan Approval</h4>
+<form id="approvalForm">
+    <input type="hidden" name="PlanId" value="@planId" />
+    <div class="mb-2">
+        <label class="form-label">Edit Plan</label>
+        <textarea class="form-control" name="UpdatedPlan"></textarea>
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Further Line of Action</label>
+        <textarea class="form-control" name="FurtherAction"></textarea>
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Action</label>
+        <select class="form-select" name="Action">
+            <option value="Approve">Approve</option>
+            <option value="Reject">Reject</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+@section Scripts{
+<script>
+    $(function(){
+        $('#approvalForm').on('submit', function(e){
+            e.preventDefault();
+            var data = $(this).serialize();
+            $.post(g_asiBaseURL + '/ApiCalls/AddPlanApproval', data, function(){
+                alert('Action recorded');
+            });
+        });
+    });
+</script>
+}
