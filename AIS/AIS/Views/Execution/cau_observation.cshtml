@@ -431,7 +431,7 @@
 
         });
 
-         $('.respCheckBOXBYPP:checked').each(function() {
+        $('.respCheckBOXBYPP:checked').each(function() {
             const row = $(this).closest('.row');
             const ppNumber = row.find('span').eq(0).text();
             const name = row.find('span').eq(1).text();
@@ -459,6 +459,83 @@
         });
     }
 
+    // Populate reference types and handle instruction fields
+    $(document).ready(function () {
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/GetReferenceTypes",
+            type: "GET",
+            cache: false,
+            success: function (data) {
+                if (data && data.length > 0) {
+                    $.each(data, function (i, v) {
+                        $('#referenceTypeSelect').append(
+                            $('<option>', { value: v.id, text: v.name })
+                        );
+                    });
+                }
+            }
+        });
+
+        $('#referenceTypeSelect').on('change', function () {
+            if ($(this).val() !== "0") {
+                $('#instructionFields').show();
+            } else {
+                $('#instructionFields').hide();
+                $('#instructionsTitle').val('');
+                $('#instructionsDate').val('');
+                $('#instructionsDetails').val('');
+            }
+        });
+    });
+
+    function saveObservation() {
+        submitObservationToAuditee();
+    }
+
+    function saveObservationWithReference() {
+        var referenceTypeId = $('#referenceTypeSelect').val();
+        var referenceTypeText = $('#referenceTypeSelect option:selected').text();
+        var instructionsTitle = $('#instructionsTitle').val();
+        var instructionsDate = $('#instructionsDate').val();
+        var instructionsDetails = $('#instructionsDetails').val();
+
+        if (referenceTypeId === "0") {
+            alert("Select Reference Type (Manual/Policy/Circular)");
+            return;
+        }
+        if (!instructionsTitle) {
+            alert("Enter Instructions Title");
+            return;
+        }
+        if (!instructionsDate) {
+            alert("Select Instructions Date");
+            return;
+        }
+        if (!instructionsDetails) {
+            alert("Enter Instructions Details");
+            return;
+        }
+
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/UpdateAnnexureInstructions",
+            type: "POST",
+            data: {
+                'ReferenceTypeId': referenceTypeId,
+                'ReferenceType': referenceTypeText,
+                'InstructionsTitle': instructionsTitle,
+                'InstructionsDate': instructionsDate,
+                'InstructionsDetails': instructionsDetails,
+                'AnnexureId': $('#updatedAnnexlist').val()
+            },
+            success: function () {
+                saveObservation();
+            },
+            error: function () {
+                alert("Error saving instructions. Please try again.");
+            }
+        });
+    }
+
 
 </script>
 <div class="row col-md-12">
@@ -482,6 +559,33 @@
             }
 
         </select>
+    </div>
+
+    <!-- Reference Type and Instructions (NEW) -->
+    <div class="col-md-12 mt-3">
+        <h5>Reference Type</h5>
+        <select id="referenceTypeSelect" class="form-select form-control">
+            <option value="0">--Select Reference Type--</option>
+        </select>
+    </div>
+
+    <div id="instructionFields" class="col-md-12 mt-3" style="display:none;">
+        <div class="row">
+            <div class="col-md-4 mt-2">
+                <label>Instructions Title</label>
+                <input id="instructionsTitle" type="text" class="form-control" />
+            </div>
+            <div class="col-md-4 mt-2">
+                <label>Instructions Date</label>
+                <input id="instructionsDate" type="date" class="form-control" />
+            </div>
+            <div class="col-md-4 mt-2">
+                <label>Instructions Details</label>
+                <textarea id="instructionsDetails" class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+    <!-- /End new section -->
     </div>
     <div class="col-md-12 mt-2">
         <label for="viewMemo_risk_display">Risk will be assigned on the basis of Selected Annexure</label>
@@ -614,7 +718,7 @@
     </div>
 
     <div class="row col-md-12 mt-5">
-        <button id="submitCAUobBtn" onclick="submitObservationToAuditee();" style="margin-left:20px;" class="btn btn-primary">Save Observation</button>
+        <button id="submitCAUobBtn" onclick="saveObservationWithReference();" style="margin-left:20px;" class="btn btn-primary">Save Observation</button>
     </div>
 </div>
 
