@@ -1,0 +1,35 @@
+@{
+    ViewData["Title"] = "Head Review";
+    Layout = "_Layout";
+    var complaintId = ViewData["ComplaintId"];
+}
+<h4>Head Review</h4>
+<form id="reviewForm">
+    <input type="hidden" name="ComplaintId" value="@complaintId" />
+    <div class="mb-2">
+        <label class="form-label">Directions</label>
+        <textarea class="form-control" name="Directions"></textarea>
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Assign to I&I Unit</label>
+        <input type="number" class="form-control" name="AssignedUserId" />
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Refer Back Comments</label>
+        <textarea class="form-control" name="Comments"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+@section Scripts{
+<script>
+    $(function(){
+        $('#reviewForm').on('submit', function(e){
+            e.preventDefault();
+            var data = $(this).serialize();
+            $.post(g_asiBaseURL + '/ApiCalls/AddHeadReview', data, function(){
+                alert('Review submitted');
+            });
+        });
+    });
+</script>
+}

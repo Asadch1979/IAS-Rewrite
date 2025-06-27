@@ -1,0 +1,54 @@
+@{
+    ViewData["Title"] = "Inquiry Reports";
+    Layout = "_Layout";
+}
+<h4>Inquiry Reports</h4>
+<form id="filterForm" class="row g-2">
+    <div class="col">
+        <input class="form-control" placeholder="Nature" name="Nature" />
+    </div>
+    <div class="col">
+        <input class="form-control" placeholder="Complaint" name="Complaint" />
+    </div>
+    <div class="col">
+        <input class="form-control" placeholder="Accused" name="Accused" />
+    </div>
+    <div class="col">
+        <input class="form-control" placeholder="Branch" name="Branch" />
+    </div>
+    <div class="col">
+        <input class="form-control" placeholder="Region" name="Region" />
+    </div>
+    <div class="col">
+        <input class="form-control" placeholder="Unit" name="Unit" />
+    </div>
+    <div class="col">
+        <input class="form-control" placeholder="Status" name="Status" />
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+<table class="table table-sm mt-3" id="resultTable">
+    <thead>
+        <tr><th>Complaint</th><th>Complainant</th><th>Branch</th><th>Date</th><th>Status</th></tr>
+    </thead>
+    <tbody></tbody>
+</table>
+@section Scripts{
+<script>
+    $(function(){
+        $('#filterForm').on('submit', function(e){
+            e.preventDefault();
+            var data = $(this).serialize();
+            $.post(g_asiBaseURL + '/ApiCalls/GetReports', data, function(d){
+                var body = $('#resultTable tbody');
+                body.empty();
+                $.each(d, function(i,v){
+                    body.append('<tr><td>'+v.Complaint+'</td><td>'+v.Complainant+'</td><td>'+v.Branch+'</td><td>'+v.Date+'</td><td>'+v.Status+'</td></tr>');
+                });
+            });
+        });
+    });
+</script>
+}

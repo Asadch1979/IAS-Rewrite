@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Analysis";
+    Layout = "_Layout";
+    var reportId = ViewData["ReportId"];
+}
+<h4>Analysis</h4>
+<form id="analysisForm">
+    <input type="hidden" name="ReportId" value="@reportId" />
+    <div class="mb-2">
+        <label class="form-label">Policy Gaps</label>
+        <textarea class="form-control" name="PolicyGaps"></textarea>
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Control Gaps</label>
+        <textarea class="form-control" name="ControlGaps"></textarea>
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Procedural Violations</label>
+        <textarea class="form-control" name="ProceduralViolations"></textarea>
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Comments / Refer Back</label>
+        <textarea class="form-control" name="Comments"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Forward</button>
+</form>
+@section Scripts{
+<script>
+    $(function(){
+        $('#analysisForm').on('submit', function(e){
+            e.preventDefault();
+            var data = $(this).serialize();
+            $.post(g_asiBaseURL + '/ApiCalls/AddAnalysis', data, function(){
+                alert('Analysis submitted');
+            });
+        });
+    });
+</script>
+}
