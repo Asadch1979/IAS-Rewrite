@@ -10,14 +10,40 @@
       var g_subProcId=0;
       var g_procDetailId=0;
 
-     $(document).ready(function () {
-         $('#preConcludingActionHandler').addClass("d-none");
-             $('#viewMemo_memo_ObSent').richText({
-              imageUpload: false,
-              fileUpload: false,
-              videoEmbed: false,
-              urls: false
-          });
+    $(document).ready(function () {
+        $('#preConcludingActionHandler').addClass("d-none");
+            $('#viewMemo_memo_ObSent').richText({
+             imageUpload: false,
+             fileUpload: false,
+             videoEmbed: false,
+             urls: false
+         });
+
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/GetReferenceTypes",
+            type: "GET",
+            cache: false,
+            success: function (data) {
+                if (data && data.length > 0) {
+                    $.each(data, function (i, v) {
+                        $('#referenceTypeSelect').append(
+                            $('<option>', { value: v.id, text: v.name })
+                        );
+                    });
+                }
+            }
+        });
+
+        $('#referenceTypeSelect').on('change', function () {
+            if ($(this).val() !== "0") {
+                $('#instructionFields').show();
+            } else {
+                $('#instructionFields').hide();
+                $('#instructionsTitle').val('');
+                $('#instructionsDate').val('');
+                $('#instructionsDetails').val('');
+            }
+        });
 
             document.getElementById('viewMemo_amount_ObSent').addEventListener('input', function (e) {
         this.value = this.value.replace(/\D|^0(?=\d)/g, ''); // Removes decimals and leading zeros
@@ -117,6 +143,7 @@
            $('#viewMemo_annex_ObSent').val(data.annexurE_ID);
            $('#viewMemo_risk_ObSent').val(data.riskmodeL_ID);
            $('#viewMemo_process_ObSent').val(data.procesS_ID);
+           $('#viewMemo_paraNo_ObSent').val(data.finaL_PARA_NO);
            $('#viewMemo_amount_ObSent').val(data.amounT_INVOLVED);
            $('#viewMemo_inst_ObSent').val(data.nO_OF_INSTANCES);
 
@@ -343,6 +370,49 @@
           return;
       }
 
+      function updateObservationDetailsWithReference(obsId){
+          var referenceTypeId = $('#referenceTypeSelect').val();
+          if(referenceTypeId === "0"){
+              alert("Select Reference Type (Manual/Policy/Circular)");
+              return;
+          }
+          var referenceTypeText = $('#referenceTypeSelect option:selected').text();
+          var instructionsTitle = $('#instructionsTitle').val();
+          var instructionsDate = $('#instructionsDate').val();
+          var instructionsDetails = $('#instructionsDetails').val();
+          if(!instructionsTitle){
+              alert("Enter Instructions Title");
+              return;
+          }
+          if(!instructionsDate){
+              alert("Select Instructions Date");
+              return;
+          }
+          if(!instructionsDetails){
+              alert("Enter Instructions Details");
+              return;
+          }
+
+          $.ajax({
+              url: g_asiBaseURL + "/ApiCalls/UpdateAnnexureInstructions",
+              type: "POST",
+              data: {
+                  'ReferenceTypeId': referenceTypeId,
+                  'ReferenceType': referenceTypeText,
+                  'InstructionsTitle': instructionsTitle,
+                  'InstructionsDate': instructionsDate,
+                  'InstructionsDetails': instructionsDetails,
+                  'CHECKLIST_DETAILS_ID': $('#viewMemo_checklist_ObSent').val()
+              },
+              success: function(){
+                  updateObservationDetails(obsId);
+              },
+              error: function(){
+                  alert("Error saving instructions. Please try again.");
+              }
+          });
+      }
+
       function reloadModel(){
           getEntityObservations();
           viewObservationDetails(g_obsId);
@@ -520,7 +590,7 @@
 
                     <div class="form-group">
                         <label for="viewMemo_risk">Risk</label>
-                        <select id="viewMemo_risk_ObSent" class="form-select form-control" aria-label="Default select example">
+                        <select id="viewMemo_risk_ObSent" class="form-select form-control" disabled aria-label="Default select example">
                             <option value="0" id="0" selected>--Select Risk Category--</option>
                             @{
                                 if (ViewData["RiskList"] != null)
@@ -535,6 +605,32 @@
                             }
                         </select>
 
+                    <div class="form-group">
+                        <label for="viewMemo_paraNo_ObSent" class="font-weight-bold">Para No</label>
+                        <input id="viewMemo_paraNo_ObSent" type="text" class="form-control" />
+                    </div>
+                    <div class="form-group mt-3">
+                        <label>Reference Type</label>
+                        <select id="referenceTypeSelect" class="form-select form-control">
+                            <option value="0">--Select Reference Type--</option>
+                        </select>
+                    </div>
+                    <div id="instructionFields" class="form-group mt-3" style="display:none;">
+                        <div class="row">
+                            <div class="col-md-4 mt-2">
+                                <label>Instructions Title</label>
+                                <input id="instructionsTitle" type="text" class="form-control" />
+                            </div>
+                            <div class="col-md-4 mt-2">
+                                <label>Instructions Date</label>
+                                <input id="instructionsDate" type="date" class="form-control" />
+                            </div>
+                            <div class="col-md-4 mt-2">
+                                <label>Instructions Details</label>
+                                <textarea id="instructionsDetails" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
 
                     </div>
                     <div class="form-group">
@@ -609,7 +705,7 @@
             </div>
             <div class="modal-footer">
                 <button id="gist_recom_inc_pre_con" onclick="saveObservationGistandRecommendation(g_obsId);" type="button" class="btn btn-primary">Save Title & Recommendation</button>
-                <button id="update_audit_obs_button" onclick="updateObservationDetails(g_obsId);" type="button" class="btn btn-danger">Update Para Details</button>
+                <button id="update_audit_obs_button" onclick="updateObservationDetailsWithReference(g_obsId);" type="button" class="btn btn-danger">Update Para Details</button>
 
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
