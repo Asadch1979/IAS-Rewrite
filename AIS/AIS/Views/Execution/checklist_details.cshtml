@@ -21,6 +21,32 @@
         $('#updatedAnnexlist').on('change', updateRiskDisplay);
 
         $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/GetReferenceTypes",
+            type: "GET",
+            cache: false,
+            success: function (data) {
+                if (data && data.length > 0) {
+                    $.each(data, function (i, v) {
+                        $('#referenceTypeSelect').append(
+                            $('<option>', { value: v.id, text: v.name })
+                        );
+                    });
+                }
+            }
+        });
+
+        $('#referenceTypeSelect').on('change', function () {
+            if ($(this).val() !== "0") {
+                $('#instructionFields').show();
+            } else {
+                $('#instructionFields').hide();
+                $('#instructionsTitle').val('');
+                $('#instructionsDate').val('');
+                $('#instructionsDetails').val('');
+            }
+        });
+
+        $.ajax({
             url: g_asiBaseURL + "/ApiCalls/checklist_details",
             type: "POST",
             data: {
@@ -181,7 +207,7 @@
             g_memoObj.push(memo);
 
         $('#viewMemoModel').modal('hide');
-         $.ajax({
+        $.ajax({
             url: g_asiBaseURL + "/ApiCalls/save_observations",
             type: "POST",
             data: {
@@ -195,6 +221,50 @@
                 onAlertCallback(reloadLocation);
             },
             dataType: "json",
+        });
+    }
+
+    function saveMemoContentWithReference() {
+        var referenceTypeId = $('#referenceTypeSelect').val();
+        if (referenceTypeId === "0") {
+            alert("Select Reference Type (Manual/Policy/Circular)");
+            return;
+        }
+        var referenceTypeText = $('#referenceTypeSelect option:selected').text();
+        var instructionsTitle = $('#instructionsTitle').val();
+        var instructionsDate = $('#instructionsDate').val();
+        var instructionsDetails = $('#instructionsDetails').val();
+        if (!instructionsTitle) {
+            alert("Enter Instructions Title");
+            return;
+        }
+        if (!instructionsDate) {
+            alert("Select Instructions Date");
+            return;
+        }
+        if (!instructionsDetails) {
+            alert("Enter Instructions Details");
+            return;
+        }
+
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/UpdateAnnexureInstructions",
+            type: "POST",
+            data: {
+                'ReferenceTypeId': referenceTypeId,
+                'ReferenceType': referenceTypeText,
+                'InstructionsTitle': instructionsTitle,
+                'InstructionsDate': instructionsDate,
+                'InstructionsDetails': instructionsDetails,
+                'AnnexureId': $('#updatedAnnexlist').val(),
+                'CHECKLIST_DETAILS_ID': 0
+            },
+            success: function () {
+                saveMemoContent();
+            },
+            error: function () {
+                alert("Error saving instructions. Please try again.");
+            }
         });
     }
     function viewCreatedMemo(e, id) {
@@ -577,6 +647,31 @@
                         <label for="viewMemo_risk_display">Risk will be assigned on the basis of Selected Annexure</label>
                         <input id="viewMemo_risk_display" class="form-control" readonly />
                     </div>
+
+                    <!-- Reference Type and Instructions -->
+                    <div class="form-group mt-3">
+                        <label>Reference Type</label>
+                        <select id="referenceTypeSelect" class="form-select form-control">
+                            <option value="0">--Select Reference Type--</option>
+                        </select>
+                    </div>
+                    <div id="instructionFields" class="form-group mt-3" style="display:none;">
+                        <div class="row">
+                            <div class="col-md-4 mt-2">
+                                <label>Instructions Title</label>
+                                <input id="instructionsTitle" type="text" class="form-control" />
+                            </div>
+                            <div class="col-md-4 mt-2">
+                                <label>Instructions Date</label>
+                                <input id="instructionsDate" type="date" class="form-control" />
+                            </div>
+                            <div class="col-md-4 mt-2">
+                                <label>Instructions Details</label>
+                                <textarea id="instructionsDetails" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Reference Type and Instructions -->
                     <div class="form-group">
                         <label for="viewMemo_memo">Heading/Title of Para</label>
                         <input id="viewMemo_heading" class="form-control" />
@@ -642,7 +737,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button onclick="saveMemoContent();" type="button" class="btn btn-danger">Save Memo</button>
+                <button onclick="saveMemoContentWithReference();" type="button" class="btn btn-danger">Save Memo</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
