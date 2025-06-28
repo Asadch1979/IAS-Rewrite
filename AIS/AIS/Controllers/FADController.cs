@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 
 namespace AIS.Controllers
@@ -112,9 +113,6 @@ namespace AIS.Controllers
                     return View("~/Views/FAD/manpower_position.cshtml");
             }
         }
-
-        // Typed CRUD screens for manpower budgeting
-
         public IActionResult StaffPositionIndex()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
