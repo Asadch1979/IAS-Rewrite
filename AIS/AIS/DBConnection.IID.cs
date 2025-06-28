@@ -1,25 +1,165 @@
 using AIS.Models.IID;
-using System.Collections.Generic;
+using Oracle.ManagedDataAccess.Client;
+using System;
+using System.Data;
 
-namespace AIS
+namespace AIS.Controllers
 {
     public partial class DBConnection
     {
         public int SubmitComplaint(ComplaintModel model)
         {
-            // Placeholder implementation calling PKG_INQ.ADD_COMPLAINT
-            return 0;
+            using var conn = DatabaseConnection();
+            conn.Open();
+            using var cmd = new OracleCommand("PKG_INQ.ADD_COMPLAINT", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("p_nature", OracleDbType.Varchar2).Value = model.Nature ?? string.Empty;
+            cmd.Parameters.Add("p_contents", OracleDbType.Clob).Value = model.Contents ?? string.Empty;
+            cmd.Parameters.Add("p_action_required", OracleDbType.Varchar2).Value = model.ActionRequired ?? string.Empty;
+            cmd.Parameters.Add("o_complaint_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
+            cmd.ExecuteNonQuery();
+            return Convert.ToInt32(cmd.Parameters["o_complaint_id"].Value.ToString());
         }
 
-        public void AddAssessment(AssessmentModel model) { }
-        public void AddHeadReview(HeadReviewModel model) { }
-        public void AddInvestigationPlan(InvestigationPlanModel model) { }
-        public void AddPlanApproval(PlanApprovalModel model) { }
-        public void AddInquiryReport(InquiryReportModel model) { }
-        public void AddAnalysis(AnalysisModel model) { }
-        public void AddFinalApproval(FinalApprovalModel model) { }
-        public void AddCaseStudy(CaseStudyModel model) { }
-        public List<object> GetReports(ReportFilterModel filter) => new List<object>();
-        public List<object> GetComplaintsByUser(int userId) => new List<object>();
+        public void AddAssessment(AssessmentModel model)
+        {
+            using var conn = DatabaseConnection();
+            conn.Open();
+            using var cmd = new OracleCommand("PKG_INQ.ADD_ASSESSMENT", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("p_complaint_id", OracleDbType.Int32).Value = model.ComplaintId;
+            cmd.Parameters.Add("p_assessment", OracleDbType.Clob).Value = model.Assessment ?? string.Empty;
+            cmd.Parameters.Add("p_recommendation", OracleDbType.Varchar2).Value = model.Recommendation ?? string.Empty;
+            cmd.ExecuteNonQuery();
+        }
+
+        public void AddHeadReview(HeadReviewModel model)
+        {
+            using var conn = DatabaseConnection();
+            conn.Open();
+            using var cmd = new OracleCommand("PKG_INQ.ADD_HEAD_REVIEW", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("p_complaint_id", OracleDbType.Int32).Value = model.ComplaintId;
+            cmd.Parameters.Add("p_directions", OracleDbType.Clob).Value = model.Directions ?? string.Empty;
+            cmd.Parameters.Add("p_assigned_to_unit", OracleDbType.Int32).Value = model.AssignedUserId;
+            cmd.Parameters.Add("p_referred_back_comments", OracleDbType.Clob).Value = model.Comments ?? string.Empty;
+            cmd.Parameters.Add("p_action", OracleDbType.Varchar2).Value = model.ReferBack ? "Refer" : "Forward";
+            cmd.ExecuteNonQuery();
+        }
+
+        public void AddInvestigationPlan(InvestigationPlanModel model)
+        {
+            using var conn = DatabaseConnection();
+            conn.Open();
+            using var cmd = new OracleCommand("PKG_INQ.ADD_INV_PLAN", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("p_complaint_id", OracleDbType.Int32).Value = model.ComplaintId;
+            cmd.Parameters.Add("p_plan_details", OracleDbType.Clob).Value = model.Plan ?? string.Empty;
+            cmd.ExecuteNonQuery();
+        }
+
+        public void AddPlanApproval(PlanApprovalModel model)
+        {
+            using var conn = DatabaseConnection();
+            conn.Open();
+            using var cmd = new OracleCommand("PKG_INQ.ADD_PLAN_APPROVAL", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("p_plan_id", OracleDbType.Int32).Value = model.PlanId;
+            cmd.Parameters.Add("p_edited_plan", OracleDbType.Clob).Value = model.UpdatedPlan ?? string.Empty;
+            cmd.Parameters.Add("p_further_actions", OracleDbType.Clob).Value = model.FurtherAction ?? string.Empty;
+            cmd.Parameters.Add("p_action", OracleDbType.Varchar2).Value = model.Action ?? string.Empty;
+            cmd.ExecuteNonQuery();
+        }
+
+        public void AddInquiryReport(InquiryReportModel model)
+        {
+            using var conn = DatabaseConnection();
+            conn.Open();
+            using var cmd = new OracleCommand("PKG_INQ.ADD_INQUIRY_REPORT", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("p_complaint_id", OracleDbType.Int32).Value = model.ComplaintId;
+            cmd.Parameters.Add("p_report_text", OracleDbType.Clob).Value = model.ReportText ?? string.Empty;
+            cmd.Parameters.Add("o_report_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
+            cmd.ExecuteNonQuery();
+        }
+
+        public void AddAnalysis(AnalysisModel model)
+        {
+            using var conn = DatabaseConnection();
+            conn.Open();
+            using var cmd = new OracleCommand("PKG_INQ.ADD_ANALYSIS", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("p_report_id", OracleDbType.Int32).Value = model.ReportId;
+            cmd.Parameters.Add("p_policy_gaps", OracleDbType.Clob).Value = model.PolicyGaps ?? string.Empty;
+            cmd.Parameters.Add("p_control_gaps", OracleDbType.Clob).Value = model.ControlGaps ?? string.Empty;
+            cmd.Parameters.Add("p_procedural_violations", OracleDbType.Clob).Value = model.ProceduralViolations ?? string.Empty;
+            cmd.Parameters.Add("p_comments", OracleDbType.Clob).Value = model.Comments ?? string.Empty;
+            cmd.Parameters.Add("p_refer_back", OracleDbType.Int32).Value = model.ReferBack ? 1 : 0;
+            cmd.ExecuteNonQuery();
+        }
+
+        public void AddFinalApproval(FinalApprovalModel model)
+        {
+            using var conn = DatabaseConnection();
+            conn.Open();
+            using var cmd = new OracleCommand("PKG_INQ.ADD_FINAL_APPROVAL", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("p_report_id", OracleDbType.Int32).Value = model.ReportId;
+            cmd.Parameters.Add("p_comments", OracleDbType.Clob).Value = model.Comments ?? string.Empty;
+            cmd.Parameters.Add("p_refer_back", OracleDbType.Int32).Value = model.ReferBack ? 1 : 0;
+            cmd.ExecuteNonQuery();
+        }
+
+        public void AddCaseStudy(CaseStudyModel model)
+        {
+            using var conn = DatabaseConnection();
+            conn.Open();
+            using var cmd = new OracleCommand("PKG_INQ.ADD_CASE_STUDY", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("p_complaint_id", OracleDbType.Int32).Value = model.ComplaintId;
+            cmd.Parameters.Add("p_origin_process_owner", OracleDbType.Varchar2).Value = model.OriginatingProcessOwner ?? string.Empty;
+            cmd.Parameters.Add("p_name", OracleDbType.Varchar2).Value = model.Name ?? string.Empty;
+            cmd.Parameters.Add("p_branch", OracleDbType.Varchar2).Value = model.Branch ?? string.Empty;
+            cmd.Parameters.Add("p_gist", OracleDbType.Clob).Value = model.Gist ?? string.Empty;
+            cmd.Parameters.Add("p_outcome", OracleDbType.Clob).Value = model.Outcome ?? string.Empty;
+            cmd.Parameters.Add("p_modus_operandi", OracleDbType.Clob).Value = model.ModusOperandi ?? string.Empty;
+            cmd.Parameters.Add("p_gaps", OracleDbType.Clob).Value = model.Gaps ?? string.Empty;
+            cmd.Parameters.Add("p_root_cause", OracleDbType.Clob).Value = model.RootCause ?? string.Empty;
+            cmd.Parameters.Add("p_actions_rec", OracleDbType.Clob).Value = model.ActionsRecommended ?? string.Empty;
+            cmd.Parameters.Add("p_status", OracleDbType.Varchar2).Value = model.Status ?? string.Empty;
+            cmd.ExecuteNonQuery();
+        }
+
+        public DataTable GetReports(ReportFilterModel filter)
+        {
+            using var conn = DatabaseConnection();
+            conn.Open();
+            using var cmd = new OracleCommand("PKG_INQ.GET_REPORTS", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("p_filter", OracleDbType.Varchar2).Value = filter?.Nature ?? string.Empty;
+            cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+            var dt = new DataTable();
+            using (var rdr = cmd.ExecuteReader())
+            {
+                dt.Load(rdr);
+            }
+            return dt;
+        }
+
+        public DataTable GetComplaintsByUser(int userId)
+        {
+            using var conn = DatabaseConnection();
+            conn.Open();
+            using var cmd = new OracleCommand("PKG_INQ.GET_COMPLAINTS", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("p_user_id", OracleDbType.Int32).Value = userId;
+            cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+            var dt = new DataTable();
+            using (var rdr = cmd.ExecuteReader())
+            {
+                dt.Load(rdr);
+            }
+            return dt;
+        }
     }
 }
