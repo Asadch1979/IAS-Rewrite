@@ -38,13 +38,36 @@
         $('#referenceTypeSelect').on('change', function () {
             if ($(this).val() !== "0") {
                 $('#instructionFields').show();
+                $('#divisionSelect').show();
+                loadDivisions();
             } else {
                 $('#instructionFields').hide();
+                $('#divisionSelect').hide();
                 $('#instructionsTitle').val('');
                 $('#instructionsDate').val('');
                 $('#instructionsDetails').val('');
+                $('#divisionSelect').val('0');
             }
         });
+
+        function loadDivisions() {
+            $('#divisionSelect').empty();
+            $.ajax({
+                url: g_asiBaseURL + "/ApiCalls/getparentrel",
+                type: "POST",
+                data: {
+                    'ENTITY_REALTION_ID': 4
+                },
+                cache: false,
+                success: function (data) {
+                    $('#divisionSelect').append('<option value="0">--Select Division--</option>');
+                    $.each(data, function (i, v) {
+                        $('#divisionSelect').append('<option value="' + v.entitY_ID + '">' + v.description + '</option>');
+                    });
+                },
+                dataType: "json",
+            });
+        }
 
     });
 
@@ -408,9 +431,14 @@
             return;
         }
         var referenceTypeText = $('#referenceTypeSelect option:selected').text();
+        var divisionId = $('#divisionSelect').val();
         var instructionsTitle = $('#instructionsTitle').val();
         var instructionsDate = $('#instructionsDate').val();
         var instructionsDetails = $('#instructionsDetails').val();
+        if (divisionId === "0") {
+            alert("Select Division");
+            return;
+        }
         if (!instructionsTitle) {
             alert("Enter Instructions Title");
             return;
@@ -433,6 +461,7 @@
                 'InstructionsTitle': instructionsTitle,
                 'InstructionsDate': instructionsDate,
                 'InstructionsDetails': instructionsDetails,
+                'ENTITY_ID': divisionId,
                 'CHECKLIST_DETAILS_ID': g_procDetailId
             },
             success: function () {
@@ -451,9 +480,14 @@
             return;
         }
         var referenceTypeText = $('#referenceTypeSelect option:selected').text();
+        var divisionId = $('#divisionSelect').val();
         var instructionsTitle = $('#instructionsTitle').val();
         var instructionsDate = $('#instructionsDate').val();
         var instructionsDetails = $('#instructionsDetails').val();
+        if (divisionId === "0") {
+            alert("Select Division");
+            return;
+        }
         if (!instructionsTitle) {
             alert("Enter Instructions Title");
             return;
@@ -476,6 +510,7 @@
                 'InstructionsTitle': instructionsTitle,
                 'InstructionsDate': instructionsDate,
                 'InstructionsDetails': instructionsDetails,
+                'ENTITY_ID': divisionId,
                 'CHECKLIST_DETAILS_ID': g_procDetailId
             },
             success: function () {
@@ -793,9 +828,18 @@
                     <!-- Reference Type and Instructions -->
                     <div class="form-group mt-3">
                         <label>Reference Type</label>
-                        <select id="referenceTypeSelect" class="form-select form-control">
-                            <option value="0">--Select Reference Type--</option>
-                        </select>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <select id="referenceTypeSelect" class="form-select form-control">
+                                    <option value="0">--Select Reference Type--</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <select id="divisionSelect" class="form-select form-control" style="display:none;">
+                                    <option value="0">--Select Division--</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div id="instructionFields" class="form-group mt-3" style="display:none;">
                         <div class="row">
