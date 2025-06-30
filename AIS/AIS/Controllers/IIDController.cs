@@ -19,7 +19,7 @@ namespace AIS.Controllers
             tm = _tpMenu;
         }
 
-        [HttpGet("iid/submit-complaint")]
+        [HttpPost]
         public IActionResult SubmitComplaint()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -29,7 +29,7 @@ namespace AIS.Controllers
             return View("../IID/SubmitComplaint");
         }
 
-        [HttpGet("iid/assessment/{complaintId}")]
+        [HttpPost]
         public IActionResult Assessment(int complaintId)
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -40,7 +40,7 @@ namespace AIS.Controllers
             return View("../IID/InitialAssessment");
         }
 
-        [HttpGet("iid/head-review/{complaintId}")]
+        [HttpPost]
         public IActionResult HeadReview(int complaintId)
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -51,7 +51,7 @@ namespace AIS.Controllers
             return View("../IID/HeadReview");
         }
 
-        [HttpGet("iid/inv-plan/{complaintId}")]
+        [HttpPost]
         public IActionResult InvestigationPlan(int complaintId)
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -62,7 +62,7 @@ namespace AIS.Controllers
             return View("../IID/InvestigationPlan");
         }
 
-        [HttpGet("iid/plan-approval/{planId}")]
+        [HttpPost]
         public IActionResult PlanApproval(int planId)
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -73,7 +73,7 @@ namespace AIS.Controllers
             return View("../IID/PlanApproval");
         }
 
-        [HttpGet("iid/inquiry-report/{complaintId}")]
+        [HttpPost]
         public IActionResult InquiryReport(int complaintId)
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -84,7 +84,7 @@ namespace AIS.Controllers
             return View("../IID/InquiryReport");
         }
 
-        [HttpGet("iid/analysis/{reportId}")]
+        [HttpPost]
         public IActionResult Analysis(int reportId)
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -95,7 +95,7 @@ namespace AIS.Controllers
             return View("../IID/Analysis");
         }
 
-        [HttpGet("iid/final-approval/{reportId}")]
+        [HttpPost]
         public IActionResult FinalApproval(int reportId)
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -106,7 +106,7 @@ namespace AIS.Controllers
             return View("../IID/FinalApproval");
         }
 
-        [HttpGet("iid/case-study/{complaintId}")]
+        [HttpPost]
         public IActionResult CaseStudy(int complaintId)
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
@@ -117,7 +117,7 @@ namespace AIS.Controllers
             return View("../IID/CaseStudy");
         }
 
-        [HttpGet("iid/reports")]
+        [HttpPost]
         public IActionResult Reports()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
