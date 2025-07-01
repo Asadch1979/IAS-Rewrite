@@ -235,8 +235,7 @@ namespace AIS.Controllers
             {
             ViewData["TopMenu"] = tm.GetTopMenus();
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();
-            ViewData["EntitiesList"] = dBConnection.GetZonesoldparamointoring();
-           // ViewData["EntitiesList"] = dBConnection.GetParasForStatusChange();
+            ViewData["Userrelationship"] = dBConnection.Getrealtionshiptype();
 
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
