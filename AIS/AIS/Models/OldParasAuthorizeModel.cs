@@ -20,6 +20,8 @@ namespace AIS.Models
         public string VOL_I_II { get; set; }
         public string AUDITED_BY { get; set; }
 
+        public string NEW_PARA_ID { get; set; }
+
         public int PROCESS { get; set; }
         public int SUB_PROCESS { get; set; }
         public int PROCESS_DETAIL { get; set; }
