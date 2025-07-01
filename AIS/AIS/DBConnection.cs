@@ -23469,7 +23469,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "pkg_hd.P_ChangeStatusRequestForSettledPara_new";
+                cmd.CommandText = "pkg_hd.P_Add_Paras_For_Status_Change";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("COM_ID", OracleDbType.Int32).Value = COM_ID;
