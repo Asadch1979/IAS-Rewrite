@@ -1,4 +1,4 @@
-@model AIS.Models.CA.CAObservationModel
+@model AIS.Models.CAObservation
 @{
     ViewData["Title"] = "Edit Audit Observation";
     Layout = "_Layout";
@@ -6,22 +6,10 @@
 
 <h2>Edit Audit Observation</h2>
 <form asp-action="EditObservation" enctype="multipart/form-data" method="post">
-    <input type="hidden" asp-for="ObservationId" />
+    <input type="hidden" asp-for="ObservationID" />
     <div>
-        <label>OM/Observation ID (Stage 1):</label>
-        <input asp-for="OMObservationId" class="form-control" />
-    </div>
-    <div>
-        <label>AIR OM No (Stage 2):</label>
-        <input asp-for="AIROMNo" class="form-control" />
-    </div>
-    <div>
-        <label>PDP Para No (Stage 3):</label>
-        <input asp-for="PDPParaNo" class="form-control" />
-    </div>
-    <div>
-        <label>ARPSE Para No (Stage 4):</label>
-        <input asp-for="ARPSEParaNo" class="form-control" />
+        <label>Observation ID (Stage 1):</label>
+        <input asp-for="ObservationID" class="form-control" />
     </div>
     <div>
         <label>Observation Text:</label>
