@@ -1,4 +1,4 @@
-@model IEnumerable<AIS.Models.CA.CAAuditTrailModel>
+@model IEnumerable<AIS.Models.CAObservationAuditTrail>
 @{
     ViewData["Title"] = "Observation Audit Trail";
     Layout = "_Layout";
@@ -17,7 +17,7 @@
         <tr>
             <td>@item.ActionDate.ToString("yyyy-MM-dd HH:mm")</td>
             <td>@item.Action</td>
-            <td>@item.ActionByName</td>
+            <td>@item.ActionBy</td>
             <td>@item.Remarks</td>
         </tr>
     }

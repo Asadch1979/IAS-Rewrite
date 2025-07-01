@@ -1,4 +1,4 @@
-@model AIS.Models.CA.CAObservationModel
+@model AIS.Models.CAObservation
 @{
     ViewData["Title"] = "Audit Observation Details";
     Layout = "_Layout";
@@ -6,18 +6,15 @@
 
 <h2>Audit Observation Details</h2>
 <div>
-    <b>OM/Observation ID:</b> @Model.OMObservationId<br />
-    <b>AIR OM No:</b> @Model.AIROMNo<br />
-    <b>PDP Para No:</b> @Model.PDPParaNo<br />
-    <b>ARPSE Para No:</b> @Model.ARPSEParaNo<br />
+    <b>Observation ID:</b> @Model.ObservationID<br />
     <b>Observation Text:</b> @Model.ObservationText<br />
     <b>Status:</b> @Model.CurrentStatus<br />
     <b>Date Entered:</b> @Model.DateEntered?.ToString("yyyy-MM-dd")<br />
-    <b>Division:</b> @Model.DivisionName<br />
-    <b>Department:</b> @Model.DepartmentName<br />
+    <b>Division ID:</b> @Model.AssignedDivisionID<br />
+    <b>Department ID:</b> @Model.AssignedDepartmentID<br />
     <b>Supporting Documents:</b>
-    @if (!string.IsNullOrEmpty(Model.SupportingDocs))
+    @if (!string.IsNullOrEmpty(Model.SupportingDocuments))
     {
-        <a href="@Url.Content(Model.SupportingDocs)" target="_blank">Download</a>
+        <a href="@Url.Content(Model.SupportingDocuments)" target="_blank">Download</a>
     }
 </div>
