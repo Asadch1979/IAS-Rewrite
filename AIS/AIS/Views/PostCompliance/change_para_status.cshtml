@@ -6,6 +6,27 @@
     var g_obsList = [];
     var g_newComId = 0;
 
+    function getZoneBranches() {
+        $('#entitySelectField').empty();
+        if ($('#zoneSelectField option:selected').val() != 0) {
+            $.ajax({
+                url: g_asiBaseURL + "/ApiCalls/get_zone_Branches",
+                type: "POST",
+                data: {
+                    'ZONEID': $('#zoneSelectField option:selected').val()
+                },
+                cache: false,
+                success: function (data) {
+                    $('#entitySelectField').append('<option value="0" id="0">--Select Audit Entity--</option>');
+                    $.each(data, function (i, v) {
+                        $('#entitySelectField').append('<option value="' + v.branchid + '" id="' + v.branchid + '">' + v.branchname + '</option>');
+                    })
+                },
+                dataType: "json",
+            });
+        }
+    }
+
     function getParas() {
         $('#paraTable tbody').empty();
         $.ajax({
