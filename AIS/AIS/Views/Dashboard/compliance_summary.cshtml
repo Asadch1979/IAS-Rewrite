@@ -40,7 +40,7 @@
                     sr++;
                 });
                 $('#entitywise_panel_mainGrid tbody').append("<tr><td></td><td><b>Total</b></td><td class=\"text-right text-bold\"><b>" + totalC + "</b></td><td class=\"text-right text-bold\"><b>" + atRepo + "</b></td><td class=\"text-right text-bold\"><b>" + underCon + "</b></td><td class=\"text-right text-bold\"><b>" + settled + "</b></td><td class=\"text-right text-bold\"><b>" + rejected + "</b></td><td class=\"text-right text-bold\"><b>" + totalP + "</b></td><td class=\"col_hide\"></td></tr>");
-                if (roleID == 12 || roleID == 13 || roleID == 14 || roleID == 21)
+                if (roleID == 12 || roleID == 13 || roleID == 14 )
                     $('.col_hide').remove();
                 initializeDataTable('entitywise_panel_mainGrid');
 
@@ -136,7 +136,6 @@
                                     <tr>
                                         <th class="col-md-auto text-light">Sr. No.</th>
                                         <th class="col-md-auto text-light">Name</th>
-
                                         <th class="col-md-auto text-center text-light">Total Compliance</th>
                                         <th class="col-md-auto text-center text-light">At Reporting Office</th>
                                         <th class="col-md-auto text-center text-light">Under Consideration</th>

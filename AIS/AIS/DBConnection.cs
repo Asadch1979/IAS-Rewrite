@@ -23421,6 +23421,76 @@ namespace AIS.Controllers
         //        }
         //    }
 
+        public List<OldParasModel> GetParasForStatusChange(int ENTITY_ID = 0)
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var con = this.DatabaseConnection(); con.Open();
+            var loggedInUser = sessionHandler.GetSessionUser();
+            List<OldParasModel> list = new List<OldParasModel>();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_hd.P_GetnewParasForResponse";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                cmd.Parameters.Add("ENTITYID", OracleDbType.Int32).Value = ENTITY_ID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    OldParasModel chk = new OldParasModel();
+                    chk.ID = Convert.ToInt32(rdr["ID"]);
+                    chk.ENTITY_ID = rdr["ENTITY_ID"].ToString();
+                    chk.ENTITY_CODE = rdr["ENTITY_CODE"].ToString();
+                    chk.AUDIT_PERIOD = rdr["AUDIT_PERIOD"].ToString();
+                    chk.ENTITY_NAME = rdr["ENTITY_NAME"].ToString();
+                    chk.PARA_NO = rdr["PARA_NO"].ToString();
+                    chk.GIST_OF_PARAS = rdr["gist_of_para"].ToString();
+                    chk.AMOUNT_INVOLVED = rdr["AMOUNT_INVOLVED"].ToString();
+                    chk.IND = rdr["IND"].ToString();
+                    chk.PARA_STATUS = rdr["PARA_STATUS"].ToString();
+                    list.Add(chk);
+                    }
+                }
+            con.Dispose();
+            return list;
+            }
+
+        public string AddChangeStatusRequestForPara(string REFID, int NEW_STATUS, string REMARKS, string IND, String Action_IND)
+            {
+            string resp = "";
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var con = this.DatabaseConnection(); con.Open();
+            var loggedInUser = sessionHandler.GetSessionUser();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_hd.P_ChangeStatusRequestForSettledPara_new";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("obs_id", OracleDbType.Varchar2).Value = REFID;
+                cmd.Parameters.Add("NewStatus", OracleDbType.Int32).Value = NEW_STATUS;
+                cmd.Parameters.Add("remarks", OracleDbType.Varchar2).Value = REMARKS;
+                cmd.Parameters.Add("IND", OracleDbType.Varchar2).Value = IND;
+                cmd.Parameters.Add("Action_IND", OracleDbType.Varchar2).Value = Action_IND;
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    resp = rdr["Remark"].ToString();
+                    }
+
+                }
+            con.Dispose();
+            return resp;
+            }
         public int GetPageIdByPath(string pagePath)
             {
             int pageId = 0;

@@ -707,6 +707,11 @@ namespace AIS.Controllers
             return dBConnection.GetOldSettledParasForResponse(ENTITY_ID);
             }
         [HttpPost]
+        public List<OldParasModel> get_paras_for_status_change(int ENTITY_ID = 0)
+            {
+            return dBConnection.GetParasForStatusChange(ENTITY_ID);
+            }
+        [HttpPost]
         public List<OldParasModel> get_current_paras_for_status_change_request(int ENTITY_ID = 0)
             {
             return dBConnection.GetCurrentParasForStatusChangeRequest(ENTITY_ID);
@@ -1176,6 +1181,16 @@ namespace AIS.Controllers
             {
             string response = "";
             response = dBConnection.AddChangeStatusRequestForCurrentPara(REFID, NEW_STATUS, REMARKS);
+            return "{\"Status\":true,\"Message\":\"" + response + "\"}";
+            }
+
+
+        [HttpPost]
+
+        public string Add_Para_Change_status_Request(string REFID, int NEW_STATUS, string REMARKS, string IND, String Action_IND)
+            {
+            string response = "";
+            response = dBConnection.AddChangeStatusRequestForPara(REFID, NEW_STATUS, REMARKS, IND, Action_IND);
             return "{\"Status\":true,\"Message\":\"" + response + "\"}";
             }
 
