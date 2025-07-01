@@ -5,14 +5,14 @@ using System.Reflection;
 
 namespace AIS.Controllers.CA
 {
-    public class AuditObservationController : Controller
+    public class CaController : Controller
     {
-        private readonly ILogger<AuditObservationController> _logger;
+        private readonly ILogger<CaController> _logger;
         private readonly TopMenus tm;
         private readonly SessionHandler sessionHandler;
         private readonly DBConnection dBConnection;
 
-        public AuditObservationController(ILogger<AuditObservationController> logger, SessionHandler _sessionHandler, DBConnection _dbCon, TopMenus _tpMenu)
+        public CaController(ILogger<CaController> logger, SessionHandler _sessionHandler, DBConnection _dbCon, TopMenus _tpMenu)
         {
             _logger = logger;
             sessionHandler = _sessionHandler;
