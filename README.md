@@ -66,7 +66,7 @@ the `PKG_T_AU_SBP_COMPLIANCE.ADD_OBSERVATION` stored procedure.
 
 The Commercial Audit (CA) menu provides a basic ARPSE PARA workflow.  Screens exist for creating observations, assigning them through the various review stages and capturing legacy data.
 
-`Controllers/CA/AuditObservationController` exposes actions for each stage (`Index`, `CreateObservation`, `AssignObservation`, `AssignToDepartment`, `DepartmentResponse`, `ReviewObservation`, `HeadFADReview`, `LegacyEntry` and `ObservationAuditTrail`).  Each action checks role based permissions and loads the common top menu lists.
+`Controllers/CA/CaController` exposes actions for each stage (`Index`, `CreateObservation`, `AssignObservation`, `AssignToDepartment`, `DepartmentResponse`, `ReviewObservation`, `HeadFADReview`, `LegacyEntry` and `ObservationAuditTrail`).  Each action checks role based permissions and loads the common top menu lists.
 
 `ApiCallsController` now contains stubbed endpoints such as `ca_submit_to_headfad`, `ca_assign_division`, `ca_department_response` and others.  These call corresponding placeholder methods in `DBConnection` which will later persist Commercial Audit data.
 
