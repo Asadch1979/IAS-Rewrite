@@ -23448,7 +23448,7 @@ namespace AIS.Controllers
                     chk.NEW_PARA_ID = rdr["NEW_PARA_ID"].ToString();                    
                     chk.AUDIT_PERIOD = rdr["AUDIT_PERIOD"].ToString();
                     chk.PARA_NO = rdr["PARA_NO"].ToString();                    
-                    chk.GIST_OF_PARAS = rdr["gist_of_para"].ToString();
+                    chk.GIST_OF_PARAS = rdr["gist_of_paras"].ToString();
                     chk.RISK = rdr["RISK"].ToString();
                     chk.IND = rdr["IND"].ToString();
                     chk.PARA_STATUS = rdr["PARA_STATUS"].ToString();
@@ -23459,7 +23459,7 @@ namespace AIS.Controllers
             return list;
             }
 
-        public string AddChangeStatusRequestForPara(string REFID, int NEW_STATUS, string REMARKS, string IND, String Action_IND)
+        public string AddChangeStatusRequestForPara(string COM_ID, int NEW_STATUS, string REMARKS, string IND, String Action_IND)
             {
             string resp = "";
             sessionHandler = new SessionHandler();
@@ -23472,7 +23472,7 @@ namespace AIS.Controllers
                 cmd.CommandText = "pkg_hd.P_ChangeStatusRequestForSettledPara_new";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
-                cmd.Parameters.Add("obs_id", OracleDbType.Varchar2).Value = REFID;
+                cmd.Parameters.Add("COM_ID", OracleDbType.Int32).Value = COM_ID;
                 cmd.Parameters.Add("NewStatus", OracleDbType.Int32).Value = NEW_STATUS;
                 cmd.Parameters.Add("remarks", OracleDbType.Varchar2).Value = REMARKS;
                 cmd.Parameters.Add("IND", OracleDbType.Varchar2).Value = IND;

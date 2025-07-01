@@ -40,11 +40,11 @@
                 g_obsList = data;
                 $.each(data, function (idx, child) {
                     $('#paraTable tbody').append('<tr>' +
-                        '<td>' + child.audit_year + '</td>' +
-                        '<td>' + child.para_no + '</td>' +
-                        '<td>' + child.heading + '</td>' +
+                        '<td>' + child.audiT_YEAR + '</td>' +
+                        '<td>' + child.parA_NO + '</td>' +
+                        '<td>' + child.gisT_OF_PARAS + '</td>' +
                         '<td>' + child.risk + '</td>' +
-                        '<td>' + child.para_status + '</td>' +
+                        '<td>' + child.parA_STATUS + '</td>' +
                         '<td class="text-center"><a class="text-primary" style="cursor:pointer" onclick="paraText(\'' + child.com_id + '\')">View Para Text</a></td>' +
                         '<td class="text-center"><a class="text-danger" style="cursor:pointer" onclick="openChange(\'' + child.com_id + '\')">Change Status</a></td>' +
                         '</tr>');
@@ -120,7 +120,7 @@
                     {
                         foreach (var item in (dynamic)(ViewData["EntitiesList"]))
                         {
-                            <option value="@item.ENTITY_ID" id="@item.ENTITY_ID">@item.ENTITY_NAME</option>
+                            <option value="@item.ENTITYID" id="@item.ENTITYID">@item.ZONENAME</option>
                         }
                     }
                 }

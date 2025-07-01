@@ -1187,10 +1187,10 @@ namespace AIS.Controllers
 
         [HttpPost]
 
-        public string Add_Para_Change_status_Request(string NEW_PARA_ID, int NEW_STATUS, string REMARKS, string IND, string Action_IND)
+        public string Add_Para_Change_status_Request(string COM_ID, int NEW_STATUS, string REMARKS, string IND, string Action_IND)
             {
             string response = "";
-            response = dBConnection.AddChangeStatusRequestForPara(NEW_PARA_ID, NEW_STATUS, REMARKS, IND, Action_IND);
+            response = dBConnection.AddChangeStatusRequestForPara(COM_ID, NEW_STATUS, REMARKS, IND, Action_IND);
             return "{\"Status\":true,\"Message\":\"" + response + "\"}";
             }
 
