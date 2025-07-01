@@ -25,6 +25,8 @@ namespace AIS.Models
         public string AUDITED_BY { get; set; }
         public string AUDITEDBY { get; set; }
 
+        public string NEW_PARA_ID { get; set; }
+
         public string ENT_TYPE { get; set; }
         public int STATUS { get; set; }
         public string IND { get; set; }

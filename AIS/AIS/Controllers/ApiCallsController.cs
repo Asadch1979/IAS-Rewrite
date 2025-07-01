@@ -1187,10 +1187,10 @@ namespace AIS.Controllers
 
         [HttpPost]
 
-        public string Add_Para_Change_status_Request(string REFID, int NEW_STATUS, string REMARKS, string IND, String Action_IND)
+        public string Add_Para_Change_status_Request(string NEW_PARA_ID, int NEW_STATUS, string REMARKS, string IND, string Action_IND)
             {
             string response = "";
-            response = dBConnection.AddChangeStatusRequestForPara(REFID, NEW_STATUS, REMARKS, IND, Action_IND);
+            response = dBConnection.AddChangeStatusRequestForPara(NEW_PARA_ID, NEW_STATUS, REMARKS, IND, Action_IND);
             return "{\"Status\":true,\"Message\":\"" + response + "\"}";
             }
 
@@ -1201,10 +1201,10 @@ namespace AIS.Controllers
             return dBConnection.GetZoneBranchParaPositionStatus(ENTITY_ID);
             }
         [HttpPost]
-        public string Add_Authorization_Old_Para_Change_status(string REFID, string OBS_ID, string IND, string Action_IND)
+        public string Add_Authorization_Old_Para_Change_status(string NEW_PARA_ID, string OBS_ID, string IND, string Action_IND)
             {
             string response = "";
-            response = dBConnection.AddAuthorizeChangeStatusRequestForSettledPara(REFID, OBS_ID, IND, Action_IND);
+            response = dBConnection.AddAuthorizeChangeStatusRequestForSettledPara(NEW_PARA_ID, OBS_ID, IND, Action_IND);
             return "{\"Status\":true,\"Message\":\"" + response + "\"}";
             }
         [HttpPost]
