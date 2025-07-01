@@ -1,6 +1,19 @@
+@model AIS.Models.CA.CAObservationResponseModel
 @{
-    ViewData["Title"] = "DepartmentResponse";
+    ViewData["Title"] = "Department Response";
     Layout = "_Layout";
 }
-<h4>DepartmentResponse</h4>
-<p>Department submits response/compliance with documentary evidence (Stage 4).</p>
+
+<h2>Submit Department Response</h2>
+<form asp-action="SubmitResponse" enctype="multipart/form-data" method="post">
+    <input type="hidden" asp-for="ObservationId" />
+    <div>
+        <label>Response Text:</label>
+        <textarea asp-for="ResponseText" class="form-control" required></textarea>
+    </div>
+    <div>
+        <label>Supporting Documents:</label>
+        <input asp-for="SupportingDocs" type="file" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Submit Response</button>
+</form>

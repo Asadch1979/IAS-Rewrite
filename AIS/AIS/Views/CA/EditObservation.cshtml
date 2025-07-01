@@ -1,6 +1,31 @@
+@model AIS.Models.CA.CAObservationModel
 @{
-    ViewData["Title"] = "Edit Observation";
+    ViewData["Title"] = "Edit Audit Observation";
     Layout = "_Layout";
 }
-<h4>Edit Observation</h4>
-<p>Edit/Update audit observation (for workflow corrections, supporting documents, etc.).</p>
+
+<h2>Edit Audit Observation</h2>
+<form asp-action="EditObservation" enctype="multipart/form-data" method="post">
+    <input type="hidden" asp-for="ObservationId" />
+    <div>
+        <label>OM/Observation ID (Stage 1):</label>
+        <input asp-for="OMObservationId" class="form-control" />
+    </div>
+    <div>
+        <label>AIR OM No (Stage 2):</label>
+        <input asp-for="AIROMNo" class="form-control" />
+    </div>
+    <div>
+        <label>PDP Para No (Stage 3):</label>
+        <input asp-for="PDPParaNo" class="form-control" />
+    </div>
+    <div>
+        <label>ARPSE Para No (Stage 4):</label>
+        <input asp-for="ARPSEParaNo" class="form-control" />
+    </div>
+    <div>
+        <label>Observation Text:</label>
+        <textarea asp-for="ObservationText" class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success mt-2">Update</button>
+</form>

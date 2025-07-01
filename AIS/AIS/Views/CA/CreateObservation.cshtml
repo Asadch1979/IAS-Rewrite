@@ -1,6 +1,26 @@
+@model AIS.Models.CA.CAObservationModel
 @{
-    ViewData["Title"] = "Create Audit Observation";
+    ViewData["Title"] = "Add New Audit Observation";
     Layout = "_Layout";
 }
-<h4>Create Audit Observation</h4>
-<p>Entry screen for new audit observations (Stage 1, CAU/FAD).</p>
+
+<h2>Add New Audit Observation</h2>
+<form asp-action="CreateObservation" enctype="multipart/form-data" method="post">
+    <div>
+        <label>OM/Observation ID (Stage 1):</label>
+        <input asp-for="OMObservationId" class="form-control" required />
+    </div>
+    <div>
+        <label>Observation Text:</label>
+        <textarea asp-for="ObservationText" class="form-control" required></textarea>
+    </div>
+    <div>
+        <label>Supporting Documents:</label>
+        <input asp-for="SupportingDocs" type="file" class="form-control" />
+    </div>
+    <div>
+        <label>Assign to Division:</label>
+        <select asp-for="AssignedDivisionId" asp-items="Model.Divisions" class="form-control"></select>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+</form>

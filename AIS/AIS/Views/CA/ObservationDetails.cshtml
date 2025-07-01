@@ -1,6 +1,23 @@
+@model AIS.Models.CA.CAObservationModel
 @{
-    ViewData["Title"] = "Observation Details";
+    ViewData["Title"] = "Audit Observation Details";
     Layout = "_Layout";
 }
-<h4>Observation Details</h4>
-<p>View complete observation details, including all stage-wise reference numbers and full trail.</p>
+
+<h2>Audit Observation Details</h2>
+<div>
+    <b>OM/Observation ID:</b> @Model.OMObservationId<br />
+    <b>AIR OM No:</b> @Model.AIROMNo<br />
+    <b>PDP Para No:</b> @Model.PDPParaNo<br />
+    <b>ARPSE Para No:</b> @Model.ARPSEParaNo<br />
+    <b>Observation Text:</b> @Model.ObservationText<br />
+    <b>Status:</b> @Model.CurrentStatus<br />
+    <b>Date Entered:</b> @Model.DateEntered?.ToString("yyyy-MM-dd")<br />
+    <b>Division:</b> @Model.DivisionName<br />
+    <b>Department:</b> @Model.DepartmentName<br />
+    <b>Supporting Documents:</b>
+    @if (!string.IsNullOrEmpty(Model.SupportingDocs))
+    {
+        <a href="@Url.Content(Model.SupportingDocs)" target="_blank">Download</a>
+    }
+</div>
