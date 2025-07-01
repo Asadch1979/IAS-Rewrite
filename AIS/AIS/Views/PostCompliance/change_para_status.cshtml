@@ -6,25 +6,54 @@
     var g_obsList = [];
     var g_newComId = 0;
 
-    function getZoneBranches() {
-        $('#entitySelectField').empty();
-        if ($('#zoneSelectField option:selected').val() != 0) {
-            $.ajax({
-                url: g_asiBaseURL + "/ApiCalls/get_zone_Branches",
-                type: "POST",
-                data: {
-                    'ZONEID': $('#zoneSelectField option:selected').val()
-                },
-                cache: false,
-                success: function (data) {
-                    $('#entitySelectField').append('<option value="0" id="0">--Select Audit Entity--</option>');
-                    $.each(data, function (i, v) {
-                        $('#entitySelectField').append('<option value="' + v.branchid + '" id="' + v.branchid + '">' + v.branchname + '</option>');
-                    })
-                },
-                dataType: "json",
-            });
-        }
+    function getrelation(parentEntityId = 0, userEntityId = 0) {
+
+        $('#controlingsearch').empty();
+        $('#childposting').empty();
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/getparentrel",
+            type: "POST",
+            data: {
+                'ENTITY_REALTION_ID': $('#RelationshipField option:selected').val(),
+            },
+            cache: false,
+            success: function (data) {
+                $('#controlingsearch').append('<option id="0" value="0">--Select Controlling/Reporting Office--</option>');
+                $.each(data, function (index, contof) {
+                    var selected = '';
+                    if (contof.entitY_ID == parentEntityId)
+                        selected = 'selected="selected"';
+                    $('#controlingsearch').append('<option ' + selected + ' value="' + contof.entitY_ID + '" id="' + contof.entitY_REALTION_ID + '">' + contof.description + '</option>');
+                });
+                if (userEntityId != 0)
+                    getplacepost(userEntityId);
+            },
+            dataType: "json",
+        });
+
+    }
+
+    function getplacepost(userEntityId = 0) {
+        $('#childposting').empty();
+
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/getpostplace",
+            type: "POST",
+            data: {
+                'E_R_ID': $('#controlingsearch option:selected').val(),
+            },
+            cache: false,
+            success: function (data) {
+                $('#childposting').append('<option id="0" value="0" selected="selected">--Select Place of Posting--</option>');
+                $.each(data, function (index, gpp) {
+                    var selected = '';
+                    if (gpp.entitY_ID == userEntityId)
+                        selected = 'selected="selected"';
+                    $('#childposting').append('<option ' + selected + ' value="' + gpp.entitY_ID + '" id="' + gpp.entitY_ID + '">' + gpp.c_NAME + '</option>');
+                });
+            },
+            dataType: "json",
+        });
     }
 
     function getParas() {
@@ -33,7 +62,7 @@
             url: g_asiBaseURL + "/ApiCalls/get_paras_for_status_change",
             type: "POST",
             data: {
-                'ENTITY_ID': $('#entitySelectField').val()
+                'ENTITY_ID': $('#childposting option:selected').val()
             },
             cache: false,
             success: function (data) {
@@ -45,7 +74,7 @@
                         '<td>' + child.gisT_OF_PARAS + '</td>' +
                         '<td>' + child.risk + '</td>' +
                         '<td>' + child.parA_STATUS + '</td>' +
-                        '<td class="text-center"><a class="text-primary" style="cursor:pointer" onclick="paraText(\'' + child.com_id + '\')">View Para Text</a></td>' +
+                        '<td class="text-center"><a class="text-primary" style="cursor:pointer" onclick="paraText(\'' + child.new_para_id + '\',\'' + child.old_para_id + '\',\'' + child.ind + '\')">View Para Text</a></td>' +
                         '<td class="text-center"><a class="text-danger" style="cursor:pointer" onclick="openChange(\'' + child.com_id + '\')">Change Status</a></td>' +
                         '</tr>');
                 });
@@ -54,13 +83,17 @@
         });
     }
 
-    function paraText(com_id) {
+    function paraText(newParaId, oldParaId, ind) {
         $('#paraTextDisplayModel').modal('show');
         $('#paraTextModelPanel').empty();
         $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/get_new_para_text",
+            url: g_asiBaseURL + "/ApiCalls/get_all_para_text",
             type: "POST",
-            data: { 'COM_ID': com_id },
+            data: {
+                'PARA_ID': newParaId,
+                'OBS_ID': oldParaId,
+                'PARA_CATEGORY': ind
+            },
             cache: false,
             success: function (data) {
                 $('#paraTextModelPanel').html(data);
@@ -110,20 +143,39 @@
     </div>
     <div class="row col-md-12 mt-3">
         <div class="col-md-2">
-            <label><b>Entity:</b></label>
+            <label>Relationship Type</label>
         </div>
         <div class="col-md-10">
-            <select id="entitySelectField" onchange="getParas();" class="form-control form-select">
-                <option value="0" id="0">--Select Audit Entity--</option>
+            <select id="RelationshipField" onchange="getrelation();" class="form-control form-select">
+                <option id="0" value="0" selected="selected">--Select Relationship Type--</option>
                 @{
-                    if (ViewData["EntitiesList"] != null)
+                    if (ViewData["Userrelationship"] != null)
                     {
-                        foreach (var item in (dynamic)(ViewData["EntitiesList"]))
+                        foreach (var item in (dynamic)(ViewData["Userrelationship"]))
                         {
-                            <option value="@item.ENTITYID" id="@item.ENTITYID">@item.ZONENAME</option>
+                            <option value="@item.ENTITY_REALTION_ID" id="@item.ENTITY_REALTION_ID">@item.FIELD_NAME</option>
                         }
                     }
                 }
+            </select>
+        </div>
+    </div>
+
+    <div class="row col-md-12 mt-3">
+        <div class="col-md-2">
+            <label>Controlling/Reporting Office</label>
+        </div>
+        <div class="col-md-4">
+            <select id="controlingsearch" onchange="getplacepost();" class="form-control form-select">
+                <option id="0" value="0" selected="selected">--Select Controlling/Reporting Office--</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label>Place of Posting</label>
+        </div>
+        <div class="col-md-4">
+            <select id="childposting" onchange="getParas();" class="form-control form-select">
+                <option id="0" value="0" selected="selected">--Select Place of Posting--</option>
             </select>
         </div>
     </div>
