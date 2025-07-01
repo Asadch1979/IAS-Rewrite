@@ -3119,6 +3119,63 @@ namespace AIS.Controllers
             return dBConnection.GetSBPReviewHistory(observation_id);
             }
 
+        // ----- Commercial Audit Observation API endpoints -----
+
+        [HttpPost]
+        public int ca_create_observation(string observation_text, int division_id, int department_id, string attachment_path)
+            {
+            return dBConnection.CACreateObservation(observation_text, division_id, department_id, attachment_path);
+            }
+
+        [HttpPost]
+        public void ca_submit_to_headfad(int observation_id)
+            {
+            dBConnection.CASubmitToHeadFAD(observation_id);
+            }
+
+        [HttpPost]
+        public void ca_assign_division(int observation_id, int division_id)
+            {
+            dBConnection.CAAssignToDivision(observation_id, division_id);
+            }
+
+        [HttpPost]
+        public void ca_assign_department(int observation_id, int department_id)
+            {
+            dBConnection.CAAssignToDepartment(observation_id, department_id);
+            }
+
+        [HttpPost]
+        public void ca_department_response(int observation_id, string response_text, string attachment_path)
+            {
+            dBConnection.CADepartmentResponse(observation_id, response_text, attachment_path);
+            }
+
+        [HttpPost]
+        public void ca_review_and_forward(int observation_id, string action, string remarks)
+            {
+            dBConnection.CAReviewAndForward(observation_id, action, remarks);
+            }
+
+        [HttpPost]
+        public void ca_reject_or_refer_back(int observation_id, string remarks)
+            {
+            dBConnection.CARejectOrReferBack(observation_id, remarks);
+            }
+
+        [HttpPost]
+        public void ca_finalize_observation(int observation_id)
+            {
+            dBConnection.CAFinalizeObservation(observation_id);
+            }
+
+        [HttpPost]
+        public void ca_enter_legacy_observation()
+            {
+            // Parameters are read from the Request.Form collection
+            dBConnection.CAEnterLegacyObservation(Request);
+            }
+
         // ----- I&ID Inquiry API endpoints -----
 
         [HttpPost]

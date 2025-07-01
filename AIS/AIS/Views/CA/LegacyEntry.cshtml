@@ -1,0 +1,93 @@
+@{
+    ViewData["Title"] = "Legacy Audit Observation";
+    Layout = "_Layout";
+}
+<h4>Legacy Observation Entry</h4>
+<form id="legacyObservationForm" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="year">Observation Year</label>
+        <input type="text" class="form-control" id="year" />
+    </div>
+    <div class="form-group">
+        <label for="observation">Observation Text</label>
+        <textarea class="form-control" id="observation" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="division">Division</label>
+        <select class="form-control" id="division">
+            <option value="">-- Select Division --</option>
+            @{
+                if (ViewData["DivisionList"] != null)
+                {
+                    foreach (var item in (dynamic)ViewData["DivisionList"])
+                    {
+                        <option value="@item.DIVISIONID">@item.NAME</option>
+                    }
+                }
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="department">Department</label>
+        <select class="form-control" id="department">
+            <option value="">-- Select Department --</option>
+            @{
+                if (ViewData["DepartmentList"] != null)
+                {
+                    foreach (var item in (dynamic)ViewData["DepartmentList"])
+                    {
+                        <option value="@item.DEPTID">@item.NAME</option>
+                    }
+                }
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="status">Status</label>
+        <select class="form-control" id="status">
+            <option value="CLOSED">Closed</option>
+            <option value="ACTIVE">Active</option>
+            <option value="RESPONDED">Responded</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="attachment">Supporting Document</label>
+        <input type="file" class="form-control" id="attachment" />
+    </div>
+    <div class="form-group">
+        <label for="prevAction">Previous Action/Response</label>
+        <textarea class="form-control" id="prevAction" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#legacyObservationForm').on('submit', function (e) {
+            e.preventDefault();
+
+            var fd = new FormData();
+            fd.append('year', $('#year').val());
+            fd.append('observation_text', $('#observation').val());
+            fd.append('division_id', $('#division').val());
+            fd.append('department_id', $('#department').val());
+            fd.append('status', $('#status').val());
+            fd.append('previous_action', $('#prevAction').val());
+            var files = $('#attachment')[0].files;
+            if (files.length > 0) {
+                fd.append('file', files[0]);
+            }
+            $.ajax({
+                url: g_asiBaseURL + '/ApiCalls/ca_enter_legacy_observation',
+                type: 'POST',
+                data: fd,
+                processData: false,
+                contentType: false,
+                success: function () {
+                    alert('Legacy observation submitted');
+                    $('#legacyObservationForm')[0].reset();
+                }
+            });
+        });
+    });
+</script>

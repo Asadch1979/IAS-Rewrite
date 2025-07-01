@@ -61,3 +61,13 @@ The new `ViewHistory` page displays the review timeline for each observation.
 The `AddObservation` screen now submits data through the `sbp_add_observation`
 API endpoint, which in turn calls `DBConnection.AddSBPObservation` to execute
 the `PKG_T_AU_SBP_COMPLIANCE.ADD_OBSERVATION` stored procedure.
+
+## Commercial Audit Observation Module
+
+The Commercial Audit (CA) menu provides a basic ARPSE PARA workflow.  Screens exist for creating observations, assigning them through the various review stages and capturing legacy data.
+
+`Controllers/CA/AuditObservationController` exposes actions for each stage (`Index`, `CreateObservation`, `AssignObservation`, `AssignToDepartment`, `DepartmentResponse`, `ReviewObservation`, `HeadFADReview`, `LegacyEntry` and `ObservationAuditTrail`).  Each action checks role based permissions and loads the common top menu lists.
+
+`ApiCallsController` now contains stubbed endpoints such as `ca_submit_to_headfad`, `ca_assign_division`, `ca_department_response` and others.  These call corresponding placeholder methods in `DBConnection` which will later persist Commercial Audit data.
+
+The `LegacyEntry` page allows authorized users to capture historical observations with fields for year, text, division, department, status and supporting documents.  Submitted data is posted to the `ca_enter_legacy_observation` endpoint.
