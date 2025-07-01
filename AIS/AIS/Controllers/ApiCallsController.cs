@@ -707,7 +707,7 @@ namespace AIS.Controllers
             return dBConnection.GetOldSettledParasForResponse(ENTITY_ID);
             }
         [HttpPost]
-        public List<OldParasModel> get_paras_for_status_change(int ENTITY_ID = 0)
+        public List<ParaStatusChangeModel> get_paras_for_status_change(int ENTITY_ID = 0)
             {
             return dBConnection.GetParasForStatusChange(ENTITY_ID);
             }
