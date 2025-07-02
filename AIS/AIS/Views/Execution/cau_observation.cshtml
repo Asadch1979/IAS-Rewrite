@@ -482,7 +482,7 @@
             var refId = $('#referenceTypeSelect').val();
             if (divId !== "0" && refId !== "0") {
                 $.ajax({
-                    url: g_asiBaseURL + "/ApiCalls/GetMergedAnnexureInstructions",
+                    url: g_asiBaseURL + "/ApiCalls/Ge_Merged_Annexure_Instructions",
                     type: "GET",
                     data: { divisionId: divId, referenceTypeId: refId },
                     success: function (data) {
@@ -531,7 +531,7 @@
                 url: g_asiBaseURL + "/ApiCalls/getparentrel",
                 type: "POST",
                 data: {
-                    'ENTITY_REALTION_ID': 4
+                    'ENTITY_REALTION_ID': 3
                 },
                 cache: false,
                 success: function (data) {

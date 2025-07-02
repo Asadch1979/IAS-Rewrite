@@ -208,7 +208,7 @@ namespace AIS.Controllers
             return dBConnection.GetAuditChecklistDetails(S_ID);
             }
         [HttpPost]
-        public string save_observations(List<ListObservationModel> LIST_OBS, int ENG_ID, int S_ID, int V_CAT_ID = 0, int V_CAT_NATURE_ID = 0, int OTHER_ENTITY_ID = 0)
+        public string save_observations(List<ListObservationModel> LIST_OBS, int ENG_ID, int S_ID, int V_CAT_ID = 0, int V_CAT_NATURE_ID = 0, int OTHER_ENTITY_ID = 0, int annexureRefId = 0)
             {
 
             string responses = "";
@@ -230,7 +230,7 @@ namespace AIS.Controllers
                 ob.RESPONSIBLE_PPNO = m.RESPONSIBLE_PPNO;
                 ob.AMOUNT_INVOLVED = m.AMOUNT_INVOLVED;
                 ob.STATUS = 1;
-                responses += dBConnection.SaveAuditObservation(ob);
+                responses += dBConnection.SaveAuditObservation(ob, annexureRefId);
 
                 }
             return "{\"Status\":true,\"Message\":\"" + responses + "\"}";
@@ -251,7 +251,7 @@ namespace AIS.Controllers
         [HttpPost]
         public IActionResult UpdateAnnexureInstructions(int ReferenceTypeId, string ReferenceType, string InstructionsTitle, DateTime InstructionsDate, string InstructionsDetails, int AnnexureId, int ENTITY_ID)
             {
-            var result = dbconnection.UpdateAnnexureInstructions(AnnexureId, ReferenceTypeId, ReferenceType, InstructionsTitle, InstructionsDate, InstructionsDetails, ENTITY_ID);
+            var result = dBConnection.UpdateAnnexureInstructions(AnnexureId, ReferenceTypeId, ReferenceType, InstructionsTitle, InstructionsDate, InstructionsDetails, ENTITY_ID);
             return Json(result);
             }
         [HttpPost]
@@ -3266,9 +3266,9 @@ namespace AIS.Controllers
             }
 
         [HttpGet]
-        public IActionResult GetMergedAnnexureInstructions(int divisionId, int referenceTypeId)
+        public IActionResult Ge_Merged_Annexure_Instructions(int divisionId, int referenceTypeId)
             {
-            var result = dbconnection.GetMergedAnnexureInstructions(divisionId, referenceTypeId);
+            var result = dBConnection.GetMergedAnnexureInstructions(divisionId, referenceTypeId);
             return Json(result);
             }
 

@@ -23577,7 +23577,7 @@ namespace AIS.Controllers
             using (var con = this.DatabaseConnection())
                 {
                 con.Open();
-                using (var cmd = new OracleCommand("P_GET_MERGE_ANNEXURE_INSTRUCTIONS", con))
+                using (var cmd = new OracleCommand("pkg_ar.P_GET_MERGE_ANNEXURE_INSTRUCTIONS", con))
                     {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("p_division_id", OracleDbType.Int32).Value = divisionId;
@@ -23613,7 +23613,7 @@ namespace AIS.Controllers
                 {
                 con.Open();
 
-                using (var cmd = new OracleCommand("P_MERGE_ANNEXURE_INSTRUCTIONS", con))
+                using (var cmd = new OracleCommand("PKG_AR.P_MERGE_ANNEXURE_INSTRUCTIONS", con))
                     {
                     cmd.CommandType = CommandType.StoredProcedure;
 
