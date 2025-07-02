@@ -4,91 +4,83 @@
 }
 <script>
     var g_obsList = [];
-    var g_newParaId = 0;
+    var g_comId = "";
+    var g_newId = 0;
+    var g_oldId = 0;
     var g_ind = "";
     var g_action = "A";
-    function convertInd(val){
-        if(val === 'A') return 'new AIS para';
-        if(val === 'O') return 'Old field Para';
-        if(val === 'C') return 'old management Para';
-        return val;
-    }
-    $(document).ready(function(){
-        getRequests();
+
+    $(document).ready(function () {
+        loadRequests();
     });
-    function getRequests(){
+
+    function loadRequests() {
         $('#manageObsPanel tbody').empty();
         $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/get_legacy_settled_paras_autorize",
+            url: g_asiBaseURL + "/ApiCalls/get_paras_for_status_change_authorize",
             type: "POST",
-            data:{},
-            cache:false,
-            success:function(data){
+            data: {},
+            cache: false,
+            success: function (data) {
                 g_obsList = data;
-                $.each(data,function(index,child){
-                    var indText = convertInd(child.ind);
-                    $('#manageObsPanel tbody').append('<tr>'+
-                        '<td>'+child.entitY_NAME+'</td>'+
-                        '<td>'+child.audiT_PERIOD+'</td>'+
-                        '<td>'+child.parA_NO+'</td>'+
-                        '<td>'+child.gisT_OF_PARAS+'</td>'+
-                        '<td>'+child.parA_RISK+'</td>'+
-                        '<td>'+child.voL_I_II+'</td>'+
-                        '<td>'+indText+'</td>'+
-                        '<td>'+child.parA_STATUS+'</td>'+
-                        '<td>'+child.parA_CHANGE_REQUEST_STATUS+'</td>'+
-                        '<td>'+child.remarks+'</td>'+
-                        '<td class="text-center"><a class="text-primary" style="cursor:pointer" onclick="paraText(\''+child.new_paraid+'\')">Para Text</a></td>'+
-                        '<td class="text-center"><a class="text-danger" style="cursor:pointer" onclick="parastatuschange(\''+child.new_paraid+'\',\''+child.ind+'\')">Authorize</a> | <a class="text-danger" style="cursor:pointer" onclick="rejectPara(\''+child.new_paraid+'\',\''+child.ind+'\')">Reject</a></td>'+
+                $.each(data, function (index, child) {
+                    $('#manageObsPanel tbody').append('<tr>' +
+                        '<td>' + (child.parA_NO || '') + '</td>' +
+                        '<td>' + (child.audiT_PERIOD || '') + '</td>' +
+                        '<td>' + (child.parA_STATUS || '') + '</td>' +
+                        '<td>' + (child.nEW_PARA_STATUS || '') + '</td>' +
+                        '<td class="text-center"><a class="text-primary" style="cursor:pointer" onclick="paraText(' + child.nEW_PARA_ID + ')">Para Text</a></td>' +
+                        '<td class="text-center"><a class="text-success" style="cursor:pointer" onclick="openAction(\'' + child.cOM_ID + '\',' + child.nEW_PARA_ID + ',' + child.oLD_PARA_ID + ',\'' + child.iND + '\',\'A\')">Approve</a> | <a class="text-danger" style="cursor:pointer" onclick="openAction(\'' + child.cOM_ID + '\',' + child.nEW_PARA_ID + ',' + child.oLD_PARA_ID + ',\'' + child.iND + '\',\'R\')">Reject</a></td>' +
                         '</tr>');
                 });
             },
-            dataType:"json"
+            dataType: 'json'
         });
     }
-    function parastatuschange(id, ind){
-        g_action = 'A';
-        g_newParaId = id;
-        g_ind = ind;
-        confirmAlert("Do you confirm to authorize this Para Status Change Request");
-        onconfirmAlertCallback(Publishchange);
-    }
-    function rejectPara(id, ind){
-        g_action = 'R';
-        g_newParaId = id;
-        g_ind = ind;
-        confirmAlert("Do you confirm to reject this Para Status Change Request");
-        onconfirmAlertCallback(Publishchange);
-    }
-    function Publishchange(){
-        $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/Add_Authorization_Old_Para_Change_status",
-            type: "POST",
-            data:{
-                'NEW_PARA_ID': g_newParaId,
-                'OBS_ID': g_newParaId,
-                'Action_IND': g_action,
-                'IND': g_ind
-            },
-            cache:false,
-            success:function(data){
-                alert(data.Message);
-                getRequests();
-            },
-            dataType:"json"
-        });
-    }
-    function paraText(id){
+
+    function paraText(id) {
         $('#paraTextDisplayModel').modal('show');
         $('#paraTextModelPanel').empty();
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/get_new_para_text",
             type: "POST",
-            data:{ 'OBS_ID': id },
-            cache:false,
-            success:function(data){
+            data: { 'OBS_ID': id },
+            cache: false,
+            success: function (data) {
                 $('#paraTextModelPanel').html(data);
             }
+        });
+    }
+
+    function openAction(comId, newId, oldId, ind, act) {
+        g_comId = comId;
+        g_newId = newId;
+        g_oldId = oldId;
+        g_ind = ind;
+        g_action = act;
+        $('#RemarkField').val('');
+        $('#process_detail').modal('show');
+    }
+
+    function submitAction() {
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/authorize_para_change_status",
+            type: "POST",
+            data: {
+                'COM_ID': g_comId,
+                'NEW_PARA_ID': g_newId,
+                'OLD_PARA_ID': g_oldId,
+                'REMARKS': $('#RemarkField').val(),
+                'IND': g_ind,
+                'Action_IND': g_action
+            },
+            cache: false,
+            success: function (data) {
+                alert(data.Message);
+                $('#process_detail').modal('hide');
+                loadRequests();
+            },
+            dataType: 'json'
         });
     }
 </script>
@@ -100,22 +92,40 @@
         <table id="manageObsPanel" class="table table-hover table-bordered table-striped">
             <thead style="background-color:#19875478;">
                 <tr>
-                    <th class="col-md-auto">Entity</th>
-                    <th class="col-md-auto">Audit Year</th>
                     <th class="col-md-auto">Para No.</th>
-                    <th class="col-md-auto">Gist</th>
-                    <th class="col-md-auto">Risk</th>
-                    <th class="col-md-auto">VOL I-II</th>
-                    <th class="col-md-auto">Type</th>
-                    <th class="col-md-auto">Existing Status</th>
-                    <th class="col-md-auto">New Status</th>
-                    <th class="col-md-auto">Remarks</th>
+                    <th class="col-md-auto">Audit Year</th>
+                    <th class="col-md-auto">Current Status</th>
+                    <th class="col-md-auto">Requested Status</th>
                     <th class="col-md-auto">Para Text</th>
                     <th class="col-md-auto">Action</th>
                 </tr>
             </thead>
             <tbody></tbody>
         </table>
+    </div>
+</div>
+<div id="process_detail" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Authorization</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="mt-3 modal-body">
+                <form>
+                    <div class="mt-3 col-md-12">
+                        <label class="font-weight-bold">Remarks</label>
+                    </div>
+                    <div class="mt-2 col-md-12">
+                        <textarea class="form-control" id="RemarkField"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="mt-3 modal-footer">
+                <button id="Publishchange" type="button" class="btn btn-danger" onclick="submitAction();">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 <div id="paraTextDisplayModel" class="modal" tabindex="-1" role="dialog">
