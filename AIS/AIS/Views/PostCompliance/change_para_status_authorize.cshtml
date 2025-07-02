@@ -29,27 +29,12 @@
                         '<td>' + (child.audiT_PERIOD || '') + '</td>' +
                          '<td>' + (child.gisT_OF_PARAS || '') + '</td>' +
                         '<td>' + (child.parA_STATUS || '') + '</td>' +
-                        '<td>' + (child.neW_PARA_STATUS || '') + '</td>' +
-                        '<td class="text-center"><a class="text-primary" style="cursor:pointer" onclick="paraText(' + child.NEW_PARA_ID + ')">Para Text</a></td>' +
-                        '<td class="text-center"><a class="text-success" style="cursor:pointer" onclick="openAction(\'' + child.COM_ID + '\',' + child.NEW_PARA_ID + ',' + child.OLD_PARA_ID + ',\'' + child.IND + '\',\'A\')">Approve</a> | <a class="text-danger" style="cursor:pointer" onclick="openAction(\'' + child.COM_ID + '\',' + child.NEW_PARA_ID + ',' + child.OLD_PARA_ID + ',\'' + child.IND + '\',\'R\')">Reject</a></td>' +
+                        '<td>' + (child.neW_PARA_STATUS || '') + '</td>' +                        
+                        '<td class="text-center"><a class="text-success" style="cursor:pointer" onclick="openAction(\'' + child.coM_ID + '\',' + child.neW_PARA_ID + ',' + child.olD_PARA_ID + ',\'' + child.ind + '\',\'A\')">Approve</a> | <a class="text-danger" style="cursor:pointer" onclick="openAction(\'' + child.coM_ID + '\',' + child.neW_PARA_ID + ',' + child.olD_PARA_ID + ',\'' + child.ind + '\',\'R\')">Reject</a></td>' +
                         '</tr>');
                 });
             },
             dataType: 'json'
-        });
-    }
-
-    function paraText(id) {
-        $('#paraTextDisplayModel').modal('show');
-        $('#paraTextModelPanel').empty();
-        $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/get_new_para_text",
-            type: "POST",
-            data: { 'OBS_ID': id },
-            cache: false,
-            success: function (data) {
-                $('#paraTextModelPanel').html(data);
-            }
         });
     }
 
@@ -98,7 +83,6 @@
                     <th class="col-md-auto">Para Title</th>
                     <th class="col-md-auto">Current Status</th>
                     <th class="col-md-auto">Requested Status</th>
-                    <th class="col-md-auto">Para Text</th>
                     <th class="col-md-auto">Action</th>
                 </tr>
             </thead>
