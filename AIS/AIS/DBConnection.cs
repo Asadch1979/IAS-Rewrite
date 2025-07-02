@@ -23602,12 +23602,12 @@ namespace AIS.Controllers
             }
 
         public AnnexureInstructionModel UpdateAnnexureInstructions(int annexureId,
-                                       int referenceTypeId,
-                                        string referenceType,
-                                        string instructionTitle,
-                                        DateTime instructionDate,
-                                        string instructionDetails,
-                                        int divisionId)
+                                                                  int referenceTypeId,
+                                                                  string referenceType,
+                                                                  string instructionTitle,
+                                                                  DateTime instructionDate,
+                                                                  string instructionDetails,
+                                                                  int divisionId)
             {
             using (var con = this.DatabaseConnection())
                 {
@@ -23617,24 +23617,29 @@ namespace AIS.Controllers
                     {
                     cmd.CommandType = CommandType.StoredProcedure;
 
+                    // Defensive checks and assignments
                     cmd.Parameters.Add("p_annexure_id", OracleDbType.Int32).Value = annexureId;
                     cmd.Parameters.Add("p_reference_type_id", OracleDbType.Int32).Value = referenceTypeId;
-                    cmd.Parameters.Add("p_reference_type", OracleDbType.Varchar2).Value = referenceType;
-                    cmd.Parameters.Add("p_instruction_title", OracleDbType.Varchar2).Value = instructionTitle;
-                    cmd.Parameters.Add("p_instruction_date", OracleDbType.Date).Value = instructionDate;
-                    cmd.Parameters.Add("p_instruction_details", OracleDbType.Clob).Value = instructionDetails;
+                    cmd.Parameters.Add("p_reference_type", OracleDbType.Varchar2).Value = referenceType ?? "";
+
+                    cmd.Parameters.Add("p_instruction_title", OracleDbType.Varchar2).Value = instructionTitle ?? "";
+                    cmd.Parameters.Add("p_instruction_date", OracleDbType.Date).Value = instructionDate == default ? DateTime.Now : instructionDate;
+                    cmd.Parameters.Add("p_instruction_details", OracleDbType.Clob).Value = instructionDetails ?? "";
                     cmd.Parameters.Add("p_division_id", OracleDbType.Int32).Value = divisionId;
-                    cmd.Parameters.Add("o_annexure_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
+
+                    // Output parameters
                     cmd.Parameters.Add("o_status", OracleDbType.Varchar2, 100).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("o_annexure_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
 
                     cmd.ExecuteNonQuery();
 
+                    var outId = cmd.Parameters["o_annexure_id"].Value;
                     return new AnnexureInstructionModel
                         {
                         InstructionsTitle = instructionTitle,
                         InstructionsDate = instructionDate,
                         InstructionsDetails = instructionDetails,
-                        AnnexureRefId = cmd.Parameters["o_annexure_id"].Value == DBNull.Value ? 0 : Convert.ToInt32(cmd.Parameters["o_annexure_id"].Value)
+                        AnnexureRefId = outId == DBNull.Value ? 0 : Convert.ToInt32(outId)
                         };
                     }
                 }

@@ -251,8 +251,13 @@ namespace AIS.Controllers
         [HttpPost]
         public IActionResult UpdateAnnexureInstructions(int ReferenceTypeId, string ReferenceType, string InstructionsTitle, DateTime InstructionsDate, string InstructionsDetails, int AnnexureId, int ENTITY_ID)
             {
-            var result = dBConnection.UpdateAnnexureInstructions(AnnexureId, ReferenceTypeId, ReferenceType, InstructionsTitle, InstructionsDate, InstructionsDetails, ENTITY_ID);
-            return Json(result);
+            var refTypeNumeric = ReferenceTypeId;
+            if (int.TryParse(ReferenceType, out var parsed))
+                {
+                refTypeNumeric = parsed;
+                }
+
+            var result = dBConnection.UpdateAnnexureInstructions(AnnexureId, ReferenceTypeId, refTypeNumeric.ToString(), InstructionsTitle, InstructionsDate, InstructionsDetails, ENTITY_ID); return Json(result);
             }
         [HttpPost]
         public string save_observations_cau(List<ListObservationModel> LIST_OBS, int ENG_ID = 0, int BRANCH_ID = 0, int SUB_CHECKLISTID = 0, int CHECKLIST_ID = 0, string ANNEXURE_ID = "", int ANNEXURE_REF_ID = 0)
