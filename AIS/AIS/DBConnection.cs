@@ -23478,8 +23478,78 @@ namespace AIS.Controllers
                 cmd.CommandText = "pkg_hd.P_Add_Paras_For_Status_Change";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
-                cmd.Parameters.Add("COM_ID", OracleDbType.Int32).Value = COM_ID;
+                cmd.Parameters.Add("C_ID", OracleDbType.Int32).Value = COM_ID;
                 cmd.Parameters.Add("NewStatus", OracleDbType.Int32).Value = NEW_STATUS;
+                cmd.Parameters.Add("remarks", OracleDbType.Varchar2).Value = REMARKS;
+                cmd.Parameters.Add("IND", OracleDbType.Varchar2).Value = IND;
+                cmd.Parameters.Add("Action_IND", OracleDbType.Varchar2).Value = Action_IND;
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    resp = rdr["Remark"].ToString();
+                    }
+
+                }
+            con.Dispose();
+            return resp;
+            }
+
+        public List<ParaStatusChangeModel> GetParasForStatusChangeToAuthorize()
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var con = this.DatabaseConnection(); con.Open();
+            var loggedInUser = sessionHandler.GetSessionUser();
+            List<ParaStatusChangeModel> list = new List<ParaStatusChangeModel>();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_hd.P_Get_Paras_For_Status_Change_For_Authorize";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    ParaStatusChangeModel chk = new ParaStatusChangeModel();
+                    chk.COM_ID = rdr["COM_ID"].ToString();
+                    chk.OLD_PARA_ID = rdr["OLD_PARA_ID"].ToString();
+                    chk.NEW_PARA_ID = rdr["NEW_PARA_ID"].ToString();
+                    chk.AUDIT_PERIOD = rdr["AUDIT_PERIOD"].ToString();
+                    chk.PARA_NO = rdr["PARA_NO"].ToString();
+                    chk.GIST_OF_PARAS = rdr["gist_of_paras"].ToString();
+                    chk.RISK = rdr["RISK"].ToString();
+                    chk.IND = rdr["IND"].ToString();
+                    chk.PARA_STATUS = rdr["OLD_PARA_STATUS"].ToString();
+                    chk.NEW_PARA_STATUS = rdr["NEW_PARA_STATUS"].ToString();
+                    list.Add(chk);
+                    }
+                }
+            con.Dispose();
+            return list;
+            }
+
+        public string AuthorizeChangeStatusRequestForPara(string COM_ID, int NEW_PARA_ID, int OLD_PARA_ID, string REMARKS, string IND, String Action_IND)
+            {
+            string resp = "";
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var con = this.DatabaseConnection(); con.Open();
+            var loggedInUser = sessionHandler.GetSessionUser();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_hd.P_Authorize_Paras_For_Status";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("C_ID", OracleDbType.Int32).Value = COM_ID;
+                cmd.Parameters.Add("N_PARA_ID", OracleDbType.Int32).Value = NEW_PARA_ID;
+                cmd.Parameters.Add("O_PARA_ID", OracleDbType.Int32).Value = OLD_PARA_ID;
                 cmd.Parameters.Add("remarks", OracleDbType.Varchar2).Value = REMARKS;
                 cmd.Parameters.Add("IND", OracleDbType.Varchar2).Value = IND;
                 cmd.Parameters.Add("Action_IND", OracleDbType.Varchar2).Value = Action_IND;
