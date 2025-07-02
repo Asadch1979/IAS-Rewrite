@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -3260,6 +3261,13 @@ namespace AIS.Controllers
             {
             var list = dBConnection.GetReports(filter);
             return Ok(list);
+            }
+
+        [HttpGet]
+        public IActionResult GetMergedAnnexureInstructions(int divisionId, int referenceTypeId)
+            {
+            var result = dbconnection.GetMergedAnnexureInstructions(divisionId, referenceTypeId);
+            return Json(result);
             }
 
         [HttpPost]

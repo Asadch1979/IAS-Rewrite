@@ -23567,6 +23567,70 @@ namespace AIS.Controllers
             con.Dispose();
             return resp;
             }
+
+        public List<AnnexureInstructionModel> GetMergedAnnexureInstructions(int divisionId, int referenceTypeId)
+            {
+            var list = new List<AnnexureInstructionModel>();
+            using (var con = this.DatabaseConnection())
+                {
+                con.Open();
+                using (var cmd = new OracleCommand("P_GET_MERGE_ANNEXURE_INSTRUCTIONS", con))
+                    {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("p_division_id", OracleDbType.Int32).Value = divisionId;
+                    cmd.Parameters.Add("p_reference_type_id", OracleDbType.Int32).Value = referenceTypeId;
+                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+
+                    using (var reader = cmd.ExecuteReader())
+                        {
+                        while (reader.Read())
+                            {
+                            list.Add(new AnnexureInstructionModel
+                                {
+                                InstructionsTitle = reader["instructions_title"]?.ToString(),
+                                InstructionsDate = reader["instructions_date"] == DBNull.Value ? null : (DateTime?)reader["instructions_date"],
+                                InstructionsDetails = reader["instructions_details"]?.ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+            return list;
+            }
+
+        public string UpdateAnnexureInstructions(int annexureId,
+                                        int referenceTypeId,
+                                        string referenceType,
+                                        string instructionTitle,
+                                        DateTime instructionDate,
+                                        string instructionDetails,
+                                        int divisionId)
+            {
+            using (var con = this.DatabaseConnection())
+                {
+                con.Open();
+
+                using (var cmd = new OracleCommand("P_MERGE_ANNEXURE_INSTRUCTIONS", con))
+                    {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("p_annexure_id", OracleDbType.Int32).Value = annexureId;
+                    cmd.Parameters.Add("p_reference_type_id", OracleDbType.Int32).Value = referenceTypeId;
+                    cmd.Parameters.Add("p_reference_type", OracleDbType.Varchar2).Value = referenceType;
+                    cmd.Parameters.Add("p_instruction_title", OracleDbType.Varchar2).Value = instructionTitle;
+                    cmd.Parameters.Add("p_instruction_date", OracleDbType.Date).Value = instructionDate;
+                    cmd.Parameters.Add("p_instruction_details", OracleDbType.Clob).Value = instructionDetails;
+                    cmd.Parameters.Add("p_division_id", OracleDbType.Int32).Value = divisionId;
+
+                    cmd.Parameters.Add("o_status", OracleDbType.Varchar2, 100).Direction = ParameterDirection.Output;
+
+                    cmd.ExecuteNonQuery();
+
+                    return cmd.Parameters["o_status"].Value.ToString();
+                    }
+                }
+            }
+
         public int GetPageIdByPath(string pagePath)
             {
             int pageId = 0;
