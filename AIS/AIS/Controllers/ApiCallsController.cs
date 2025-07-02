@@ -1220,6 +1220,20 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
+        public List<ParaStatusChangeModel> get_paras_for_status_change_authorize()
+            {
+            return dBConnection.GetParasForStatusChangeToAuthorize();
+            }
+
+        [HttpPost]
+        public string authorize_para_change_status(string COM_ID, int NEW_PARA_ID, int OLD_PARA_ID, string REMARKS, string IND, string Action_IND)
+            {
+            string response = "";
+            response = dBConnection.AuthorizeChangeStatusRequestForPara(COM_ID, NEW_PARA_ID, OLD_PARA_ID, REMARKS, IND, Action_IND);
+            return "{\"Status\":true,\"Message\":\"" + response + "\"}";
+            }
+
+        [HttpPost]
         public List<GetTeamDetailsModel> GetTeamDetails(int ENG_ID)
             {
             return dBConnection.GetTeamDetails(ENG_ID);
