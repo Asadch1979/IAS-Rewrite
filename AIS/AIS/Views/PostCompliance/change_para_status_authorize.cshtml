@@ -25,10 +25,11 @@
                 g_obsList = data;
                 $.each(data, function (index, child) {
                     $('#manageObsPanel tbody').append('<tr>' +
-                        '<td>' + (child.PARA_NO || '') + '</td>' +
-                        '<td>' + (child.AUDIT_PERIOD || '') + '</td>' +
-                        '<td>' + (child.PARA_STATUS || '') + '</td>' +
-                        '<td>' + (child.NEW_PARA_STATUS || '') + '</td>' +
+                        '<td>' + (child.parA_NO || '') + '</td>' +
+                        '<td>' + (child.audiT_PERIOD || '') + '</td>' +
+                         '<td>' + (child.gisT_OF_PARAS || '') + '</td>' +
+                        '<td>' + (child.parA_STATUS || '') + '</td>' +
+                        '<td>' + (child.neW_PARA_STATUS || '') + '</td>' +
                         '<td class="text-center"><a class="text-primary" style="cursor:pointer" onclick="paraText(' + child.NEW_PARA_ID + ')">Para Text</a></td>' +
                         '<td class="text-center"><a class="text-success" style="cursor:pointer" onclick="openAction(\'' + child.COM_ID + '\',' + child.NEW_PARA_ID + ',' + child.OLD_PARA_ID + ',\'' + child.IND + '\',\'A\')">Approve</a> | <a class="text-danger" style="cursor:pointer" onclick="openAction(\'' + child.COM_ID + '\',' + child.NEW_PARA_ID + ',' + child.OLD_PARA_ID + ',\'' + child.IND + '\',\'R\')">Reject</a></td>' +
                         '</tr>');
@@ -94,6 +95,7 @@
                 <tr>
                     <th class="col-md-auto">Para No.</th>
                     <th class="col-md-auto">Audit Year</th>
+                    <th class="col-md-auto">Para Title</th>
                     <th class="col-md-auto">Current Status</th>
                     <th class="col-md-auto">Requested Status</th>
                     <th class="col-md-auto">Para Text</th>
