@@ -250,7 +250,7 @@ namespace AIS.Controllers
                 }
             }
 
-        public IActionResult authorize_para_status_change()
+        public IActionResult change_para_status_authorize()
             {
             ViewData["TopMenu"] = tm.GetTopMenus();
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();

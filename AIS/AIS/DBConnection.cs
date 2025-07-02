@@ -10126,6 +10126,10 @@ namespace AIS.Controllers
 
             List<UserRelationshipModel> entitiesList = new List<UserRelationshipModel>();
             var con = this.DatabaseConnection(); con.Open();
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
 
             using (OracleCommand cmd = con.CreateCommand())
                 {
@@ -10133,6 +10137,8 @@ namespace AIS.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("rid", OracleDbType.Int32).Value = r_id;
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserGroupID;
                 cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
