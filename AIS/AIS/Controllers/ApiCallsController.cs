@@ -249,12 +249,13 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
-        public IActionResult UpdateAnnexureInstructions(int ReferenceTypeId, string ReferenceType, string InstructionsTitle, DateTime InstructionsDate, string InstructionsDetails, int AnnexureId)
+        public IActionResult UpdateAnnexureInstructions(int ReferenceTypeId, string ReferenceType, string InstructionsTitle, DateTime InstructionsDate, string InstructionsDetails, int AnnexureId, int ENTITY_ID)
             {
-            return Json(new { status = "success", message = "Annexure instructions updated (demo response)" });
+            var result = dbconnection.UpdateAnnexureInstructions(AnnexureId, ReferenceTypeId, ReferenceType, InstructionsTitle, InstructionsDate, InstructionsDetails, ENTITY_ID);
+            return Json(result);
             }
         [HttpPost]
-        public string save_observations_cau(List<ListObservationModel> LIST_OBS, int ENG_ID = 0, int BRANCH_ID = 0, int SUB_CHECKLISTID = 0, int CHECKLIST_ID = 0, string ANNEXURE_ID = "")
+        public string save_observations_cau(List<ListObservationModel> LIST_OBS, int ENG_ID = 0, int BRANCH_ID = 0, int SUB_CHECKLISTID = 0, int CHECKLIST_ID = 0, string ANNEXURE_ID = "", int ANNEXURE_REF_ID = 0)
             {
             string responses = "";
             foreach (ListObservationModel m in LIST_OBS)
@@ -263,6 +264,7 @@ namespace AIS.Controllers
                 ob.SUBCHECKLIST_ID = SUB_CHECKLISTID;
                 ob.CHECKLISTDETAIL_ID = CHECKLIST_ID;
                 ob.ANNEXURE_ID = ANNEXURE_ID;
+                ob.ANNEXURE_REF_ID = ANNEXURE_REF_ID;
                 ob.ENGPLANID = ENG_ID;
                 ob.REPLYDATE = DateTime.Today.AddDays(m.DAYS);
                 ob.OBSERVATION_TEXT = m.MEMO;
@@ -273,7 +275,7 @@ namespace AIS.Controllers
                 ob.NO_OF_INSTANCES = m.NO_OF_INSTANCES;
                 ob.RESPONSIBLE_PPNO = m.RESPONSIBLE_PPNO;
                 ob.STATUS = 1;
-                responses += dBConnection.SaveAuditObservationCAU(ob);
+                responses += dBConnection.SaveAuditObservationCAU(ob, ANNEXURE_REF_ID);
                 }
             return "{\"Status\":true,\"Message\":\"" + responses + "\"}";
             }

@@ -15,6 +15,7 @@ namespace AIS.Models
         public string LOANCASE { get; set; }
         public string AMOUNT_INVOLVED { get; set; }
         public string NO_OF_INSTANCES { get; set; }
+        public int ANNEXURE_REF_ID { get; set; }
         public List<ObservationResponsiblePPNOModel> RESPONSIBLE_PPNO { get; set; }
         }
     }
