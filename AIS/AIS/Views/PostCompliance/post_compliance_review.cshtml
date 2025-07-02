@@ -324,7 +324,7 @@
 
                 if (cycle == "0") {
                     $('#viewMemoModel').modal('show');
-                    alert("Please note all previous evidence submitted has been removed and only evidence attached with this compliance will be considered for Settlement.");
+                  
                     $('.aks-file-upload-delete').click();
                     $('.aks-file-upload-error').remove();
                     document.getElementById('aksfileupload').value = '';
@@ -549,6 +549,7 @@
                 </button>
             </div>
             <div class="modal-body">
+                <p class="text-danger fw-bold">Please note all previous evidence submitted has been removed and only evidence attached with this compliance will be considered for Settlement.</p>
                 <form>
 
                     <div class="row col-md-12 mt-3">
