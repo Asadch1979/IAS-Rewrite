@@ -11,6 +11,7 @@
     var g_respUsersArr = [];
     var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
     var g_selectedRiskId = 0;
+    var g_instructionMap = [];
     $(document).ready(function () {
         var url_string = window.location;
         var url = new URL(url_string);
@@ -44,24 +45,24 @@
                     type: "GET",
                     data: { divisionId: divId, referenceTypeId: refId },
                     success: function (data) {
+                        g_instructionMap = data || [];
                         $('#instructionsTitle').empty();
-                        $('#instructionsTitle').append('<option value="">--Select--</option>');
-                        if (data && data.length > 0) {
-                            $.each(data, function (i, v) {
+                        $('#instructionsTitle').append('<option value="">--Select or Add Instruction Title--</option>');
+                        if (g_instructionMap.length > 0) {
+                            $.each(g_instructionMap, function (i, v) {
                                 var opt = $('<option>', { value: v.instructionsTitle, text: v.instructionsTitle });
                                 opt.data('date', v.instructionsDate ? v.instructionsDate.split('T')[0] : '');
                                 opt.data('details', v.instructionsDetails);
-                        $('#instructionsTitle').append(opt);
-                    });
-                    $('#instructionsTitle').off('change').on('change', function () {
-                        var sel = $(this).find('option:selected');
-                        $('#instructionsDate').val(sel.data('date') || '');
-                        $('#instructionsDetails').val(sel.data('details') || '');
-                    });
+                                $('#instructionsTitle').append(opt);
+                            });
+                            $('#newInstructionsTitle').hide().val('');
                         } else {
+                            $('#newInstructionsTitle').show();
                             $('#instructionsDate').val('');
                             $('#instructionsDetails').val('');
                         }
+                        $('#instructionsTitle').append('<option value="add_new">+ Add New Instruction Title</option>');
+                        $('#instructionsTitle').trigger('change');
                     }
                 });
             }
@@ -81,6 +82,26 @@
                 $('#divisionSelect').val('0');
             }
             tryLoadInstructions();
+        });
+
+        $('#instructionsTitle').on('change', function () {
+            var selected = $(this).val();
+            if (selected === 'add_new') {
+                $('#newInstructionsTitle').show();
+                $('#instructionsDate').val('');
+                $('#instructionsDetails').val('');
+            } else if (selected) {
+                $('#newInstructionsTitle').hide().val('');
+                const match = (g_instructionMap || []).find(x => x.instructionsTitle === selected);
+                if (match) {
+                    $('#instructionsDate').val(match.instructionsDate ? match.instructionsDate.split('T')[0] : '');
+                    $('#instructionsDetails').val(match.instructionsDetails || '');
+                }
+            } else {
+                $('#newInstructionsTitle').hide().val('');
+                $('#instructionsDate').val('');
+                $('#instructionsDetails').val('');
+            }
         });
 
         function loadDivisions() {
@@ -290,6 +311,9 @@
         var referenceTypeText = $('#referenceTypeSelect option:selected').text();
         var divisionId = $('#divisionSelect').val();
         var instructionsTitle = $('#instructionsTitle').val();
+        if (instructionsTitle === 'add_new') {
+            instructionsTitle = $('#newInstructionsTitle').val();
+        }
         var instructionsDate = $('#instructionsDate').val();
         var instructionsDetails = $('#instructionsDetails').val();
         if (divisionId === "0") {
@@ -730,8 +754,11 @@
                     <div id="instructionFields" class="form-group mt-3" style="display:none;">
                         <div class="row">
                             <div class="col-md-4 mt-2">
-                                <label>Instructions Title</label>
-                                <select id="instructionsTitle" class="form-select form-control"></select>
+                                <label for="instructionsTitle">Instructions Title</label>
+                                <select id="instructionsTitle" class="form-control">
+                                    <option value="">--Select or Add Instruction Title--</option>
+                                </select>
+                                <input type="text" id="newInstructionsTitle" class="form-control mt-2" placeholder="Enter new title" style="display:none;" />
                             </div>
                             <div class="col-md-4 mt-2">
                                 <label>Instructions Date</label>
