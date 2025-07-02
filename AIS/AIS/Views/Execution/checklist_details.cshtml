@@ -35,6 +35,38 @@
             }
         });
 
+        function tryLoadInstructions() {
+            var divId = $('#divisionSelect').val();
+            var refId = $('#referenceTypeSelect').val();
+            if (divId !== "0" && refId !== "0") {
+                $.ajax({
+                    url: g_asiBaseURL + "/ApiCalls/GetMergedAnnexureInstructions",
+                    type: "GET",
+                    data: { divisionId: divId, referenceTypeId: refId },
+                    success: function (data) {
+                        $('#instructionsTitle').empty();
+                        $('#instructionsTitle').append('<option value="">--Select--</option>');
+                        if (data && data.length > 0) {
+                            $.each(data, function (i, v) {
+                                var opt = $('<option>', { value: v.instructionsTitle, text: v.instructionsTitle });
+                                opt.data('date', v.instructionsDate ? v.instructionsDate.split('T')[0] : '');
+                                opt.data('details', v.instructionsDetails);
+                        $('#instructionsTitle').append(opt);
+                    });
+                    $('#instructionsTitle').off('change').on('change', function () {
+                        var sel = $(this).find('option:selected');
+                        $('#instructionsDate').val(sel.data('date') || '');
+                        $('#instructionsDetails').val(sel.data('details') || '');
+                    });
+                        } else {
+                            $('#instructionsDate').val('');
+                            $('#instructionsDetails').val('');
+                        }
+                    }
+                });
+            }
+        }
+
         $('#referenceTypeSelect').on('change', function () {
             if ($(this).val() !== "0") {
                 $('#instructionFields').show();
@@ -43,11 +75,12 @@
             } else {
                 $('#instructionFields').hide();
                 $('#divisionSelect').hide();
-                $('#instructionsTitle').val('');
+                $('#instructionsTitle').empty();
                 $('#instructionsDate').val('');
                 $('#instructionsDetails').val('');
                 $('#divisionSelect').val('0');
             }
+            tryLoadInstructions();
         });
 
         function loadDivisions() {
@@ -64,6 +97,7 @@
                     $.each(data, function (i, v) {
                         $('#divisionSelect').append('<option value="' + v.entitY_ID + '">' + v.description + '</option>');
                     });
+                    $("#divisionSelect").off("change").on("change", tryLoadInstructions);
                 },
                 dataType: "json",
             });
@@ -697,7 +731,7 @@
                         <div class="row">
                             <div class="col-md-4 mt-2">
                                 <label>Instructions Title</label>
-                                <input id="instructionsTitle" type="text" class="form-control" />
+                                <select id="instructionsTitle" class="form-select form-control"></select>
                             </div>
                             <div class="col-md-4 mt-2">
                                 <label>Instructions Date</label>

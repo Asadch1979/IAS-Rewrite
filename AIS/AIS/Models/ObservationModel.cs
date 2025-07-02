@@ -12,6 +12,7 @@ namespace AIS.Models
         public string OBSERVATION_TEXT_PLAIN { get; set; }
         public int ENGPLANID { get; set; }
         public string ANNEXURE_ID { get; set; }
+        public int ANNEXURE_REF_ID { get; set; }
         public int STATUS { get; set; }
         public string STATUS_NAME { get; set; }
         public int ENTEREDBY { get; set; }
