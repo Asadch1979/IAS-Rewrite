@@ -19,6 +19,7 @@ namespace AIS.Models
         public string NO_INSTANCES { get; set; }
         public string UPDATED_BY { get; set; }
         public string UPDATED_ON { get; set; }
+        public string ANNEXURE_REF_ID { get; set; }
 
         }
     }
