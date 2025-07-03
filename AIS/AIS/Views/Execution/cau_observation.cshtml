@@ -634,7 +634,8 @@
                 'InstructionsDate': instructionsDate,
                 'InstructionsDetails': instructionsDetails,
                 'AnnexureId': $('#updatedAnnexlist').val(),
-                'ENTITY_ID': divisionId
+                'ENTITY_ID': divisionId,
+                'ind': isAddNew ? 'N' : 'Y'
             },
             success: function (resp) {
                 var annexId = resp && resp.annexureRefId ? resp.annexureRefId : 0;

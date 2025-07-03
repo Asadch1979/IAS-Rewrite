@@ -325,7 +325,8 @@
                 'InstructionsDetails': instructionsDetails,
                 'AnnexureId': $('#updatedAnnexlist').val(),
                 'ENTITY_ID': divisionId,
-                'CHECKLIST_DETAILS_ID': 0
+                'CHECKLIST_DETAILS_ID': 0,
+                'ind': isAddNew ? 'N' : 'Y'
             },
             success: function (resp) {
                 g_annexureRefId = resp && resp.annexureRefId ? resp.annexureRefId : 0;
