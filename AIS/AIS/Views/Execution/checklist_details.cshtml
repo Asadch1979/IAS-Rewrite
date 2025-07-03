@@ -4,7 +4,6 @@
 }
 <script type="text/javascript">
     var g_respUser = [];
-    var g_memoObj = [];
     var g_observationId = 0;
     var g_engId = 0;
     var S_ID = 0;
@@ -12,6 +11,7 @@
     var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
     var g_selectedRiskId = 0;
     var g_instructionMap = [];
+    var g_annexureRefId = 0;
     $(document).ready(function () {
         var url_string = window.location;
         var url = new URL(url_string);
@@ -47,7 +47,7 @@
                     success: function (data) {
                         g_instructionMap = data || [];
                         $('#instructionsTitle').empty();
-                        $('#instructionsTitle').append('<option value="">--Select or Add Instruction Title--</option>');
+                        $('#instructionsTitle').append('<option value="">--Select or Add Title/Chapter--</option>');
                         if (g_instructionMap.length > 0) {
                             $.each(g_instructionMap, function (i, v) {
                                 var opt = $('<option>', { value: v.instructionsTitle, text: v.instructionsTitle });
@@ -61,7 +61,8 @@
                             $('#instructionsDate').val('');
                             $('#instructionsDetails').val('');
                         }
-                        $('#instructionsTitle').append('<option value="add_new">+ Add New Instruction Title</option>');
+                        $('#instructionsTitle').append('<option value="add_new">+ Add New Title/Chapter</option>');
+                        $('#instructionsTitle').select2();
                         $('#instructionsTitle').trigger('change');
                     }
                 });
@@ -86,16 +87,19 @@
 
         $('#instructionsTitle').on('change', function () {
             var selected = $(this).val();
+            $('#instructionCount').text('');
             if (selected === 'add_new') {
                 $('#newInstructionsTitle').show();
                 $('#instructionsDate').val('');
                 $('#instructionsDetails').val('');
             } else if (selected) {
                 $('#newInstructionsTitle').hide().val('');
-                const match = (g_instructionMap || []).find(x => x.instructionsTitle === selected);
-                if (match) {
+                const matches = (g_instructionMap || []).filter(x => x.instructionsTitle === selected);
+                if (matches.length > 0) {
+                    var match = matches[0];
                     $('#instructionsDate').val(match.instructionsDate ? match.instructionsDate.split('T')[0] : '');
                     $('#instructionsDetails').val(match.instructionsDetails || '');
+                    $('#instructionCount').text('Entries: ' + matches.length);
                 }
             } else {
                 $('#newInstructionsTitle').hide().val('');
@@ -168,24 +172,6 @@
             $('#viewMemo_attachments').val('');
         }
     }
-    function saveChecklistObservations() {
-        $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/save_observations",
-            type: "POST",
-            data: {
-                'LIST_OBS': g_memoObj,
-                'ENG_ID': g_engId,
-                'S_ID': S_ID
-            },
-            cache: false,
-            success: function (data) {
-                alert(data.Message);
-                onAlertCallback(reloadLocation);
-            },
-            dataType: "json",
-        });
-
-    }
 
     function reloadLocation() {
         window.location.reload();
@@ -213,7 +199,7 @@
         }
         $('#viewMemo_risk_display').css('color', color);
     }
-    function saveMemoContent(annRefId = 0) {
+    function saveMemoContent() {
         if ($('#updatedAnnexlist').val() == 0) {
             alert("Please select Annexure");
             return false;
@@ -262,27 +248,7 @@
             'RESPONSIBLE_PPNO': resP,
             'RESP_TABLE_ROWS': g_respUsersArr
         };
-        var isFound = false;
-        $.each(g_memoObj, function (i, v) {
-            if (v.ID == g_observationId) {
-                isFound = true;
-                g_memoObj[i].MEMO = memo.MEMO;
-                g_memoObj[i].HEADING = memo.HEADING;
-                g_memoObj[i].RISK = memo.RISK;
-                g_memoObj[i].ANNEXURE_ID = memo.ANNEXURE_ID;
-                g_memoObj[i].ID = memo.ID;
-                g_memoObj[i].LOANCASE = memo.LOANCASE;
-                g_memoObj[i].NO_OF_INSTANCES = memo.NO_OF_INSTANCES;
-                g_memoObj[i].AMOUNT_INVOLVED = memo.AMOUNT_INVOLVED;
-                g_memoObj[i].DAYS = memo.DAYS;
-                g_memoObj[i].ATTACHMENTS = memo.ATTACHMENTS;
-                g_memoObj[i].RESPONSIBLE_PPNO = memo.RESPONSIBLE_PPNO;
-                g_memoObj[i].RESP_TABLE_ROWS = memo.RESP_TABLE_ROWS;
-            }
-        });
 
-        if (!isFound)
-            g_memoObj.push(memo);
 
         $('#viewMemoModel').modal('hide');
         $.ajax({
@@ -292,7 +258,7 @@
                 'LIST_OBS': [memo],
                 'ENG_ID': g_engId,
                 'S_ID': S_ID,
-                'ANNEXURE_REF_ID': annRefId
+                'ANNEXURE_REF_ID': g_annexureRefId
             },
             cache: false,
             success: function (data) {
@@ -322,7 +288,7 @@
             return;
         }
         if (!instructionsTitle) {
-            alert("Enter Instructions Title");
+            alert("Enter Title/Chapter");
             return;
         }
         if (!instructionsDate) {
@@ -348,8 +314,8 @@
                 'CHECKLIST_DETAILS_ID': 0
             },
             success: function (resp) {
-                var annexId = resp && resp.annexureRefId ? resp.annexureRefId : 0;
-                saveMemoContent(annexId);
+                g_annexureRefId = resp && resp.annexureRefId ? resp.annexureRefId : 0;
+                saveMemoContent();
             },
             error: function () {
                 alert("Error saving instructions. Please try again.");
@@ -360,46 +326,19 @@
         g_observationId = id;
         var value = $($(e).parent().parent().find('.checklistaction').eq(0)).val();
 
-        var tempobj = {
-            ID: '0',
-            'MEMO': '',
-            'ANNEXURE_ID': '0',
-            'HEADING': '',
-            'RISK': '',
-            'DAYS': '',
-            'LOANCASE': '',
-            'NO_OF_INSTANCES': '0',
-            'AMOUNT_INVOLVED': '0',
-            'ATTACHMENTS': '',
-            'RESPONSIBLE_PPNO': [],
-            'RESP_TABLE_ROWS': [],
-        };
         if (value == 1) {
-            $.each(g_memoObj, function (i, v) {
-                if (v.ID == id) {
-                    tempobj = v;
-                }
-            });
-        }
-        if (tempobj.ID != 0) {
             $('#viewMemoModel').modal('show');
-            $('.richText-editor').html(tempobj.MEMO);
-            $('#viewMemo_heading').val(tempobj.HEADING);
-            $('#updatedAnnexlist').val(tempobj.ANNEXURE_ID);
-            g_selectedRiskId = tempobj.RISK;
+            $('.richText-editor').html('');
+            $('#viewMemo_heading').val('');
+            $('#updatedAnnexlist').val('0');
+            g_selectedRiskId = 0;
             updateRiskDisplay();
-            $('#viewMemo_replydays').val(tempobj.DAYS);
-            $('#viewMemo_loancase').val(tempobj.LOANCASE);
-            $('#viewMemo_noinstances').val(tempobj.NO_OF_INSTANCES);
-            $('#viewMemo_amountInv').val(tempobj.AMOUNT_INVOLVED);
-            $('#viewMemo_attachments').val(tempobj.ATTACHMENTS);
-            if (tempobj.RESPONSIBLE_PPNO.length > 0) {
-                $.each(tempobj.RESPONSIBLE_PPNO, function (j, pp) {
-                    var srNo = $('#listofRespPersons tbody tr').length;
-                    srNo++;
-                    $('#listofRespPersons tbody').append('<tr id="tr_' + pp.PP_NO + '"><td>' + srNo + '</td><td>' + pp.PP_NO + '</td><td>' + pp.EMP_NAME + '</td><td>' + pp.LOAN_CASE + '</td><td>' + pp.LC_AMOUNT + '</td><td>' + pp.ACCOUNT_NUMBER + '</td><td>' + pp.ACC_AMOUNT + '</td><td class="text-center"><a href="#" onclick="event.preventDefault();deleteRespRow(this);">Delete</a></td></tr>');
-                });
-            }
+            $('#viewMemo_replydays').val(1);
+            $('#viewMemo_loancase').val('');
+            $('#viewMemo_noinstances').val('');
+            $('#viewMemo_amountInv').val('');
+            $('#viewMemo_attachments').val('');
+            $('#listofRespPersons tbody').empty();
         } else {
             alert("Please select Yes to create Observation");
             return;
@@ -756,11 +695,12 @@
                     <div id="instructionFields" class="form-group mt-3" style="display:none;">
                         <div class="row">
                             <div class="col-md-4 mt-2">
-                                <label for="instructionsTitle">Instructions Title</label>
+                                <label for="instructionsTitle">Title/Chapter</label>
                                 <select id="instructionsTitle" class="form-control">
-                                    <option value="">--Select or Add Instruction Title--</option>
+                                    <option value="">--Select or Add Title/Chapter--</option>
                                 </select>
                                 <input type="text" id="newInstructionsTitle" class="form-control mt-2" placeholder="Enter new title" style="display:none;" />
+                                <div id="instructionCount" class="text-info mt-1"></div>
                             </div>
                             <div class="col-md-4 mt-2">
                                 <label>Instructions Date</label>
