@@ -99,6 +99,36 @@ namespace AIS.Controllers
             }
         }
 
+
+        public IActionResult Edit()
+            {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                {
+                if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
+                    return RedirectToAction("Index", "PageNotFound");
+                else
+                    return View("~/Views/Email/Edit.cshtml");
+                }
+            }
+
+        public IActionResult Send()
+            {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                {
+                if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
+                    return RedirectToAction("Index", "PageNotFound");
+                else
+                    return View("~/Views/Email/Send.cshtml");
+                }
+            }
         public IActionResult manpower_position()
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
