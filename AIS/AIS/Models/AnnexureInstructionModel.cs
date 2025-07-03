@@ -8,5 +8,6 @@ namespace AIS.Models
         public DateTime? InstructionsDate { get; set; }
         public string InstructionsDetails { get; set; }
         public int AnnexureRefId { get; set; }
-    }
+        public string IND { get; set; }
+        }
 }

@@ -23608,7 +23608,8 @@ namespace AIS.Controllers
                                                                   string instructionTitle,
                                                                   DateTime instructionDate,
                                                                   string instructionDetails,
-                                                                  int divisionId)
+                                                                  int divisionId,
+                                                                  string ind)
             {
             using (var con = this.DatabaseConnection())
                 {
@@ -23619,10 +23620,10 @@ namespace AIS.Controllers
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     // Defensive checks and assignments
+                    cmd.Parameters.Add("p_ind", OracleDbType.Int32).Value = ind;
                     cmd.Parameters.Add("p_annexure_id", OracleDbType.Int32).Value = annexureId;
                     cmd.Parameters.Add("p_reference_type_id", OracleDbType.Int32).Value = referenceTypeId;
                     cmd.Parameters.Add("p_reference_type", OracleDbType.Varchar2).Value = referenceType ?? "";
-
                     cmd.Parameters.Add("p_instruction_title", OracleDbType.Varchar2).Value = instructionTitle ?? "";
                     cmd.Parameters.Add("p_instruction_date", OracleDbType.Date).Value = instructionDate == default ? DateTime.Now : instructionDate;
                     cmd.Parameters.Add("p_instruction_details", OracleDbType.Clob).Value = instructionDetails ?? "";
