@@ -62,7 +62,7 @@
                             $('#instructionsDetails').val('');
                         }
                         $('#instructionsTitle').append('<option value="add_new">+ Add New Title/Chapter</option>');
-                        $('#instructionsTitle').select2();
+                        $('#instructionsTitle').select2({ dropdownParent: $('#viewMemoModel') });
                         $('#instructionsTitle').trigger('change');
                     }
                 });
