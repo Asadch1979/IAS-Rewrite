@@ -12,6 +12,7 @@
     var g_selectedRiskId = 0;
     var g_instructionMap = [];
     var g_annexureRefId = 0;
+    var g_selectedInstruction = null; // currently chosen instruction object
     $(document).ready(function () {
         var url_string = window.location;
         var url = new URL(url_string);
@@ -85,26 +86,33 @@
             tryLoadInstructions();
         });
 
+        $('#instructionCount').hide();
+
         $('#instructionsTitle').on('change', function () {
             var selected = $(this).val();
-            $('#instructionCount').text('');
+            $('#instructionCount').text('').hide();
+            g_selectedInstruction = null;
             if (selected === 'add_new') {
                 $('#newInstructionsTitle').show();
                 $('#instructionsDate').val('');
                 $('#instructionsDetails').val('');
+                g_annexureRefId = 0;
             } else if (selected) {
                 $('#newInstructionsTitle').hide().val('');
                 const matches = (g_instructionMap || []).filter(x => x.instructionsTitle === selected);
                 if (matches.length > 0) {
                     var match = matches[0];
+                    g_selectedInstruction = match;
                     $('#instructionsDate').val(match.instructionsDate ? match.instructionsDate.split('T')[0] : '');
                     $('#instructionsDetails').val(match.instructionsDetails || '');
-                    $('#instructionCount').text('Entries: ' + matches.length);
+                    $('#instructionCount').text('Entries: ' + matches.length).show();
+                    g_annexureRefId = match.annexureRefId || g_annexureRefId;
                 }
             } else {
                 $('#newInstructionsTitle').hide().val('');
                 $('#instructionsDate').val('');
                 $('#instructionsDetails').val('');
+                g_annexureRefId = 0;
             }
         });
 
@@ -278,8 +286,10 @@
         var referenceTypeText = $('#referenceTypeSelect option:selected').text();
         var divisionId = $('#divisionSelect').val();
         var instructionsTitle = $('#instructionsTitle').val();
+        var isAddNew = false;
         if (instructionsTitle === 'add_new') {
             instructionsTitle = $('#newInstructionsTitle').val();
+            isAddNew = true;
         }
         var instructionsDate = $('#instructionsDate').val();
         var instructionsDetails = $('#instructionsDetails').val();
@@ -298,6 +308,10 @@
         if (!instructionsDetails) {
             alert("Enter Instructions Details");
             return;
+        }
+
+        if (isAddNew) {
+            g_annexureRefId = 0;
         }
 
         $.ajax({
