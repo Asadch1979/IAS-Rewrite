@@ -5376,10 +5376,10 @@ namespace AIS.Controllers
             con.Dispose();
             return list;
             }
-        public string SaveAuditObservation(ObservationModel ob, int annexureRefId)
+        public string SaveAuditObservation(ObservationModel ob, int ANNEXURE_REF_ID)
             {
            
-            ob.ANNEXURE_REF_ID = annexureRefId;
+            ob.ANNEXURE_REF_ID = ANNEXURE_REF_ID;
 
             int addedObsId = 0;
             string returnResp = "";

@@ -208,7 +208,7 @@ namespace AIS.Controllers
             return dBConnection.GetAuditChecklistDetails(S_ID);
             }
         [HttpPost]
-        public string save_observations(List<ListObservationModel> LIST_OBS, int ENG_ID, int S_ID, int V_CAT_ID = 0, int V_CAT_NATURE_ID = 0, int OTHER_ENTITY_ID = 0, int annexureRefId = 0)
+        public string save_observations(List<ListObservationModel> LIST_OBS, int ENG_ID, int S_ID, int V_CAT_ID = 0, int V_CAT_NATURE_ID = 0, int OTHER_ENTITY_ID = 0, int ANNEXURE_REF_ID = 0)
             {
 
             string responses = "";
@@ -230,7 +230,7 @@ namespace AIS.Controllers
                 ob.RESPONSIBLE_PPNO = m.RESPONSIBLE_PPNO;
                 ob.AMOUNT_INVOLVED = m.AMOUNT_INVOLVED;
                 ob.STATUS = 1;
-                responses += dBConnection.SaveAuditObservation(ob, m.ANNEXURE_REF_ID);
+                responses += dBConnection.SaveAuditObservation(ob, ANNEXURE_REF_ID);
 
                 }
             return "{\"Status\":true,\"Message\":\"" + responses + "\"}";
