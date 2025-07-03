@@ -23620,7 +23620,7 @@ namespace AIS.Controllers
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     // Defensive checks and assignments
-                    cmd.Parameters.Add("p_ind", OracleDbType.Int32).Value = ind;
+                    cmd.Parameters.Add("p_ind", OracleDbType.Varchar2).Value = ind ?? "";
                     cmd.Parameters.Add("p_annexure_id", OracleDbType.Int32).Value = annexureId;
                     cmd.Parameters.Add("p_reference_type_id", OracleDbType.Int32).Value = referenceTypeId;
                     cmd.Parameters.Add("p_reference_type", OracleDbType.Varchar2).Value = referenceType ?? "";
@@ -23642,7 +23642,8 @@ namespace AIS.Controllers
                         InstructionsTitle = instructionTitle,
                         InstructionsDate = instructionDate,
                         InstructionsDetails = instructionDetails,
-                        AnnexureRefId = outId == DBNull.Value ? 0 : ((OracleDecimal)outId).ToInt32()
+                        AnnexureRefId = outId == DBNull.Value ? 0 : ((OracleDecimal)outId).ToInt32(),
+                        IND = ind
                         };
 
                     }
