@@ -11,6 +11,9 @@
     var g_respUsersArr = [];
     var g_index = 0;
     var g_ele = null;
+    var g_instructionMap = [];
+    var g_annexureRefId = 0;
+    var g_selectedInstruction = null;
     $(document).ready(function () {
         $('#entitySelectField').select2();
         $('#paraTextViewer').richText({
@@ -22,6 +25,120 @@
         const currentYear = new Date().getFullYear();
         for (var i = 1970; i <= currentYear; i++) {
             $('#auditPara_Period').append('<option value="' + i + '">' + i + '</option>');
+        }
+
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/GetReferenceTypes",
+            type: "GET",
+            cache: false,
+            success: function (data) {
+                if (data && data.length > 0) {
+                    $.each(data, function (i, v) {
+                        $('#referenceTypeSelect').append(
+                            $('<option>', { value: v.id, text: v.name })
+                        );
+                    });
+                }
+            }
+        });
+
+        function tryLoadInstructions() {
+            var divId = $('#divisionSelect').val();
+            var refId = $('#referenceTypeSelect').val();
+            if (divId !== "0" && refId !== "0") {
+                $.ajax({
+                    url: g_asiBaseURL + "/ApiCalls/Ge_Merged_Annexure_Instructions",
+                    type: "GET",
+                    data: { divisionId: divId, referenceTypeId: refId },
+                    success: function (data) {
+                        g_instructionMap = data || [];
+                        $('#instructionsTitle').empty();
+                        $('#instructionsTitle').append('<option value="">--Select or Add Title/Chapter--</option>');
+                        if (g_instructionMap.length > 0) {
+                            $.each(g_instructionMap, function (i, v) {
+                                var opt = $('<option>', { value: v.instructionsTitle, text: v.instructionsTitle });
+                                opt.data('date', v.instructionsDate ? v.instructionsDate.split('T')[0] : '');
+                                opt.data('details', v.instructionsDetails);
+                                $('#instructionsTitle').append(opt);
+                            });
+                            $('#newInstructionsTitle').hide().val('');
+                        } else {
+                            $('#newInstructionsTitle').show();
+                            $('#instructionsDate').val('');
+                            $('#instructionsDetails').val('');
+                        }
+                        $('#instructionsTitle').append('<option value="add_new">+ Add New Title/Chapter</option>');
+                        $('#instructionsTitle').select2();
+                        $('#instructionsTitle').trigger('change');
+                    }
+                });
+            }
+        }
+
+        $('#referenceTypeSelect').on('change', function () {
+            if ($(this).val() !== "0") {
+                $('#instructionFields').show();
+                $('#divisionSelect').show();
+                loadDivisions();
+            } else {
+                $('#instructionFields').hide();
+                $('#divisionSelect').hide();
+                $('#instructionsTitle').empty();
+                $('#instructionsDate').val('');
+                $('#instructionsDetails').val('');
+                $('#divisionSelect').val('0');
+            }
+            tryLoadInstructions();
+        });
+
+        $('#instructionCount').hide();
+
+        $('#instructionsTitle').on('change', function () {
+            var selected = $(this).val();
+            $('#instructionCount').text('').hide();
+            g_selectedInstruction = null;
+            if (selected === 'add_new') {
+                $('#newInstructionsTitle').show().val('');
+                $('#instructionsDate').val('');
+                $('#instructionsDetails').val('');
+                g_annexureRefId = 0;
+            } else if (selected) {
+                $('#newInstructionsTitle').hide().val('');
+                const matches = (g_instructionMap || []).filter(x => x.instructionsTitle === selected);
+                if (matches.length > 0) {
+                    var match = matches[0];
+                    g_selectedInstruction = match;
+                    $('#instructionsDate').val(match.instructionsDate ? match.instructionsDate.split('T')[0] : '');
+                    $('#instructionsDetails').val(match.instructionsDetails || '');
+                    $('#instructionCount').text('Entries: ' + matches.length).show();
+                    g_annexureRefId = match.annexureRefId || g_annexureRefId;
+                }
+            } else {
+                $('#newInstructionsTitle').hide().val('');
+                $('#instructionsDate').val('');
+                $('#instructionsDetails').val('');
+                g_annexureRefId = 0;
+            }
+        });
+
+        function loadDivisions() {
+            $('#divisionSelect').empty();
+            $.ajax({
+                url: g_asiBaseURL + "/ApiCalls/getparentrel",
+                type: "POST",
+                data: {
+                    'ENTITY_REALTION_ID': 3
+                },
+                cache: false,
+                success: function (data) {
+                    $('#divisionSelect').append('<option value="0">--Select Division--</option>');
+                    $.each(data, function (i, v) {
+                        $('#divisionSelect').append('<option value="' + v.entitY_ID + '">' + v.description + '</option>');
+                    });
+                    $("#divisionSelect").off("change").on("change", tryLoadInstructions);
+                },
+                dataType: "json",
+            });
         }
 
     });
@@ -152,7 +269,7 @@
     }
 
 
-    function updateObservationStatus() {
+function updateObservationStatus() {
         if (g_ind != "N") {
             if ($('#auditPara_Period').val() == "") {
                 alert("Please enter Audit Period");
@@ -192,6 +309,7 @@
                 'ANNEX_ID': $('#auditPara_Annex').val(),
                 'AMOUNT_INV': $('#auditPara_AmountInv').val(),
                 'NO_INSTANCES': $('#auditPara_InstNO').val(),
+                'ANNEXURE_REF_ID': g_annexureRefId
             },
             cache: false,
             success: function (data) {
@@ -202,6 +320,72 @@
             dataType: "json",
         });
 
+    }
+
+    function updatePara(annRefId) {
+        g_annexureRefId = annRefId;
+        updateObservationStatus();
+    }
+
+    function updateObservationStatusWithReference() {
+        var referenceTypeId = $('#referenceTypeSelect').val();
+        var referenceTypeText = $('#referenceTypeSelect option:selected').text();
+        var divisionId = $('#divisionSelect').val();
+        var instructionsTitle = $('#instructionsTitle').val();
+        var isAddNew = false;
+        if (instructionsTitle === 'add_new') {
+            instructionsTitle = $('#newInstructionsTitle').val();
+            isAddNew = true;
+        }
+        var instructionsDate = $('#instructionsDate').val();
+        var instructionsDetails = $('#instructionsDetails').val();
+
+        if (divisionId === "0") {
+            alert("Select Division");
+            return;
+        }
+
+        if (referenceTypeId === "0") {
+            alert("Select Reference Type (Manual/Policy/Circular)");
+            return;
+        }
+        if (!instructionsTitle) {
+            alert("Enter Title/Chapter");
+            return;
+        }
+        if (!instructionsDate) {
+            alert("Select Instructions Date");
+            return;
+        }
+        if (!instructionsDetails) {
+            alert("Enter Instructions Details");
+            return;
+        }
+
+        if (isAddNew) {
+            g_annexureRefId = 0;
+        }
+
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/UpdateAnnexureInstructions",
+            type: "POST",
+            data: {
+                'ReferenceTypeId': referenceTypeId,
+                'ReferenceType': referenceTypeText,
+                'InstructionsTitle': instructionsTitle,
+                'InstructionsDate': instructionsDate,
+                'InstructionsDetails': instructionsDetails,
+                'AnnexureId': $('#auditPara_Annex').val(),
+                'ENTITY_ID': divisionId
+            },
+            success: function (resp) {
+                var annexId = resp && resp.annexureRefId ? resp.annexureRefId : 0;
+                updatePara(annexId);
+            },
+            error: function () {
+                alert("Error saving instructions. Please try again.");
+            }
+        });
     }
 
     function DeleteDuplicatePara(np_id, op_id, ind) {
@@ -536,6 +720,44 @@
                         <input id="auditPara_InstNO" class="form-control" type="number" />
                     </div>
 
+                    <!-- Reference Type and Instructions -->
+                    <div class="form-group mt-3">
+                        <label>Reference Type</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <select id="referenceTypeSelect" class="form-select form-control">
+                                    <option value="0">--Select Reference Type--</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <select id="divisionSelect" class="form-select form-control" style="display:none;">
+                                    <option value="0">--Select Division--</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="instructionFields" class="form-group mt-3" style="display:none;">
+                        <div class="row">
+                            <div class="col-md-4 mt-2">
+                                <label for="instructionsTitle">Title/Chapter</label>
+                                <select id="instructionsTitle" class="form-control">
+                                    <option value="">--Select or Add Title/Chapter--</option>
+                                </select>
+                                <input type="text" id="newInstructionsTitle" class="form-control mt-2" placeholder="Enter new title" style="display:none;" />
+                                <div id="instructionCount" class="text-info mt-1"></div>
+                            </div>
+                            <div class="col-md-4 mt-2">
+                                <label>Instructions Date</label>
+                                <input id="instructionsDate" type="date" class="form-control" />
+                            </div>
+                            <div class="col-md-4 mt-2">
+                                <label>Instructions Details</label>
+                                <textarea id="instructionsDetails" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Reference Type and Instructions -->
+
                     <hr />
                     <center><h3>Responsible Personals</h3></center>
                     <hr />
@@ -587,7 +809,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="updateParaStatus" onclick="updateObservationStatus();" type="button" class="btn btn-danger">Update</button>
+                <button id="updateParaStatus" onclick="updateObservationStatusWithReference();" type="button" class="btn btn-danger">Update</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>

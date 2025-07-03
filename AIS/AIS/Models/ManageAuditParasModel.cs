@@ -15,6 +15,7 @@ namespace AIS.Models
         public string AUDIT_PERIOD { get; set; }
         public string ANNEX { get; set; }
         public string ANNEX_ID { get; set; }
+        public string ANNEXURE_REF_ID { get; set; }
         public string AMOUNT_INV { get; set; }
         public string NO_INSTANCES { get; set; }
         public string UPDATED_BY { get; set; }
