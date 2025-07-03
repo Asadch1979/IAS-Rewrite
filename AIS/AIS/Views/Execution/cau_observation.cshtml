@@ -16,6 +16,7 @@
     var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
     var g_selectedRiskId = 0;
     var g_instructionMap = [];
+    var g_annexureRefId = 0;
     $('#document').ready(function () {
         var url_string = window.location;
         var url = new URL(url_string);
@@ -137,7 +138,7 @@
         }
     }
 
-    function submitObservationToAuditee(annRefId) {
+    function submitObservationToAuditee() {
         if ($('#updatedAnnexlist').val() == 0) {
             alert('Select Annexure');
             return;
@@ -212,7 +213,7 @@
                 'SUB_CHECKLISTID': $('#riskSubGroupSelectBox').val(),
                 'CHECKLIST_ID': $('#riskActivitiesSelectBox').val(),
                 'ANNEXURE_ID': $('#updatedAnnexlist').val(),
-                'ANNEXURE_REF_ID': annRefId
+                'ANNEXURE_REF_ID': g_annexureRefId
 
             },
             cache: false,
@@ -489,7 +490,7 @@
                     success: function (data) {
                         g_instructionMap = data || [];
                         $('#instructionsTitle').empty();
-                        $('#instructionsTitle').append('<option value="">--Select or Add Instruction Title--</option>');
+                        $('#instructionsTitle').append('<option value="">--Select or Add Title/Chapter--</option>');
                         if (g_instructionMap.length > 0) {
                             $.each(g_instructionMap, function (i, v) {
                                 var opt = $('<option>', { value: v.instructionsTitle, text: v.instructionsTitle });
@@ -503,7 +504,8 @@
                             $('#instructionsDate').val('');
                             $('#instructionsDetails').val('');
                         }
-                        $('#instructionsTitle').append('<option value="add_new">+ Add New Instruction Title</option>');
+                        $('#instructionsTitle').append('<option value="add_new">+ Add New Title/Chapter</option>');
+                        $('#instructionsTitle').select2();
                         $('#instructionsTitle').trigger('change');
                     }
                 });
@@ -528,16 +530,19 @@
 
         $('#instructionsTitle').on('change', function () {
             var selected = $(this).val();
+            $('#instructionCount').text('');
             if (selected === 'add_new') {
                 $('#newInstructionsTitle').show();
                 $('#instructionsDate').val('');
                 $('#instructionsDetails').val('');
             } else if (selected) {
                 $('#newInstructionsTitle').hide().val('');
-                const match = (g_instructionMap || []).find(x => x.instructionsTitle === selected);
-                if (match) {
+                const matches = (g_instructionMap || []).filter(x => x.instructionsTitle === selected);
+                if (matches.length > 0) {
+                    var match = matches[0];
                     $('#instructionsDate').val(match.instructionsDate ? match.instructionsDate.split('T')[0] : '');
                     $('#instructionsDetails').val(match.instructionsDetails || '');
+                    $('#instructionCount').text('Entries: ' + matches.length);
                 }
             } else {
                 $('#newInstructionsTitle').hide().val('');
@@ -568,7 +573,8 @@
     });
 
     function saveObservation(annRefId) {
-        submitObservationToAuditee(annRefId);
+        g_annexureRefId = annRefId;
+        submitObservationToAuditee();
     }
 
     function saveObservationWithReference() {
@@ -592,7 +598,7 @@
             return;
         }
         if (!instructionsTitle) {
-            alert("Enter Instructions Title");
+            alert("Enter Title/Chapter");
             return;
         }
         if (!instructionsDate) {
@@ -671,11 +677,12 @@
     <div id="instructionFields" class="col-md-12 mt-3" style="display:none;">
         <div class="row">
             <div class="col-md-4 mt-2">
-                <label for="instructionsTitle">Instructions Title</label>
+                <label for="instructionsTitle">Title/Chapter</label>
                 <select id="instructionsTitle" class="form-control">
-                    <option value="">--Select or Add Instruction Title--</option>
+                    <option value="">--Select or Add Title/Chapter--</option>
                 </select>
                 <input type="text" id="newInstructionsTitle" class="form-control mt-2" placeholder="Enter new title" style="display:none;" />
+                <div id="instructionCount" class="text-info mt-1"></div>
             </div>
             <div class="col-md-4 mt-2">
                 <label>Instructions Date</label>
@@ -689,17 +696,13 @@
     </div>
     <!-- /End new section -->
     </div>
-    <div class="col-md-12 mt-2">
-        <label for="viewMemo_risk_display">Risk will be assigned on the basis of Selected Annexure</label>
-        <input id="viewMemo_risk_display" class="form-control" readonly />
-    </div>
     <div class="col-md-12 mt-3">
         <div>
             <h5>Checklist</h5>
         </div>
         <select id="riskGroupSelectBox" onchange="div_risksubcategoryShowHide();" class="form-select form-control" aria-label="Default select example">
             <option value="0" id="0" selected="selected">--Select Voilation Category--</option>
-            @{
+            @{ 
                 if (ViewData["ProcessList"] != null)
                 {
                     foreach (var item in (dynamic)(ViewData["ProcessList"]))
@@ -709,6 +712,10 @@
                 }
             }
         </select>
+    </div>
+    <div class="col-md-12 mt-2">
+        <label for="viewMemo_risk_display">Risk will be assigned on the basis of Selected Annexure</label>
+        <input id="viewMemo_risk_display" class="form-control" readonly />
     </div>
     <div id="div_risksubcategory" style="display:none;" class="col-md-12 mt-3">
         <h5>Subchecklist</h5>
