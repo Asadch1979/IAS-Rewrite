@@ -5378,7 +5378,7 @@ namespace AIS.Controllers
             }
         public string SaveAuditObservation(ObservationModel ob, int annexureRefId)
             {
-            //105400
+           
             ob.ANNEXURE_REF_ID = annexureRefId;
 
             int addedObsId = 0;

@@ -230,7 +230,7 @@ namespace AIS.Controllers
                 ob.RESPONSIBLE_PPNO = m.RESPONSIBLE_PPNO;
                 ob.AMOUNT_INVOLVED = m.AMOUNT_INVOLVED;
                 ob.STATUS = 1;
-                responses += dBConnection.SaveAuditObservation(ob, annexureRefId);
+                responses += dBConnection.SaveAuditObservation(ob, m.ANNEXURE_REF_ID);
 
                 }
             return "{\"Status\":true,\"Message\":\"" + responses + "\"}";
