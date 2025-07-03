@@ -213,7 +213,7 @@
         }
         $('#viewMemo_risk_display').css('color', color);
     }
-    function saveMemoContent() {
+    function saveMemoContent(annRefId = 0) {
         if ($('#updatedAnnexlist').val() == 0) {
             alert("Please select Annexure");
             return false;
@@ -291,7 +291,8 @@
             data: {
                 'LIST_OBS': [memo],
                 'ENG_ID': g_engId,
-                'S_ID': S_ID
+                'S_ID': S_ID,
+                'ANNEXURE_REF_ID': annRefId
             },
             cache: false,
             success: function (data) {
@@ -346,8 +347,9 @@
                 'ENTITY_ID': divisionId,
                 'CHECKLIST_DETAILS_ID': 0
             },
-            success: function () {
-                saveMemoContent();
+            success: function (resp) {
+                var annexId = resp && resp.annexureRefId ? resp.annexureRefId : 0;
+                saveMemoContent(annexId);
             },
             error: function () {
                 alert("Error saving instructions. Please try again.");
