@@ -260,6 +260,15 @@ namespace AIS.Controllers
             var result = dBConnection.UpdateAnnexureInstructions(AnnexureId, ReferenceTypeId, refTypeNumeric.ToString(), InstructionsTitle, InstructionsDate, InstructionsDetails, ENTITY_ID, ind); return Json(result);
             }
         [HttpPost]
+
+        public IActionResult GetCirculars(string text)
+            {
+            try
+                {
+                return dBConnection.GetCirculars(text);                
+                }
+             }
+       [HttpPost]
         public string save_observations_cau(List<ListObservationModel> LIST_OBS, int ENG_ID = 0, int BRANCH_ID = 0, int SUB_CHECKLISTID = 0, int CHECKLIST_ID = 0, string ANNEXURE_ID = "", int ANNEXURE_REF_ID = 0)
             {
             string responses = "";

@@ -23675,6 +23675,42 @@ namespace AIS.Controllers
                 }
             }
 
+        public List<CircularModel> GetCirculars(string text)
+
+            {
+            var result = new List<CircularModel>();
+            using (var con = this.DatabaseConnection())
+                {
+                con.Open();
+
+                using (var cmd = new OracleCommand("pkg_AR.P_GET_ENB_CIRCULARS", con))
+                    {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("p_text", OracleDbType.Varchar2, 200).Value = text ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                    con.Open();
+                    using (var reader = cmd.ExecuteReader())
+                        {
+                        while (reader.Read())
+                            {
+                            result.Add(new CircularModel
+                                {
+                                CircularId = reader["circularid"] == DBNull.Value ? 0 : Convert.ToInt32(reader["circularid"]),
+                                DisplayText = reader["display_text"]?.ToString(),
+                                Keywords = reader["keywords"]?.ToString(),
+                                RedirectedPage = reader["redirectedpage"]?.ToString(),
+                                Division = reader["division"] == DBNull.Value ? 0 : Convert.ToInt32(reader["division"]),
+                                ReferenceNo = reader["reference_no"]?.ToString(),
+                                IssueDate = reader["issuedate"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["issuedate"]),
+                                DocType = reader["doctype"]?.ToString(),
+                                EntId = reader["ent_id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["ent_id"])
+                                });
+                            }
+                        }
+                    }
+                return result;
+                }
+            }
         public int GetPageIdByPath(string pagePath)
             {
             int pageId = 0;
