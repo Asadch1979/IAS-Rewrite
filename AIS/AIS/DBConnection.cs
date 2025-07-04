@@ -6262,20 +6262,20 @@ namespace AIS.Controllers
                         var para = new ManageAuditParasModel
                             {
                             COM_ID = rdr["COM_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["COM_ID"]),
-                            OLD_PARA_ID = rdr["OLD_PARA_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["OLD_PARA_ID"]),
-                            NEW_PARA_ID = rdr["NEW_PARA_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["NEW_PARA_ID"]),
-                            PARA_NO = rdr["PARA_NO"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["PARA_NO"]),
-                            AUDIT_PERIOD = rdr["AUDIT_PERIOD"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(rdr["AUDIT_PERIOD"]),
+                            OLD_PARA_ID = rdr["OLD_PARA_ID"]?.ToString(),
+                            NEW_PARA_ID = rdr["NEW_PARA_ID"]?.ToString(),
+                            PARA_NO = rdr["PARA_NO"]?.ToString(),
+                            AUDIT_PERIOD = rdr["AUDIT_PERIOD"]?.ToString(),
                             OBS_GIST = rdr["GIST_OF_PARAS"]?.ToString(),
                             OBS_RISK = rdr["RISK"]?.ToString(),
-                            OBS_RISK_ID = rdr["RISK_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["RISK_ID"]),
+                            OBS_RISK_ID = rdr["RISK_ID"]?.ToString(),
                             P_TYPE_IND = rdr["IND"]?.ToString(),
-                            ANNEX = rdr["ANNEX"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["ANNEX"]),
-                            ANNEX_ID = rdr["ANNEX_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["ANNEX_ID"]),
+                            ANNEX = rdr["ANNEX"]?.ToString(),
+                            ANNEX_ID = rdr["ANNEX_ID"]?.ToString(),
                             PARA_TEXT = rdr["PARA_TEXT"]?.ToString(),
-                            AMOUNT_INV = rdr["AMOUNT"] == DBNull.Value ? 0 : Convert.ToDecimal(rdr["AMOUNT"]),
-                            NO_INSTANCES = rdr["NO_INSTANCES"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["NO_INSTANCES"]),
-                            ANNEXURE_REF_ID = rdr["ANNEX_REF_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["ANNEX_REF_ID"])
+                            AMOUNT_INV = rdr["AMOUNT"]?.ToString(),
+                            NO_INSTANCES = rdr["NO_INSTANCES"]?.ToString(),
+                            ANNEXURE_REF_ID = rdr["ANNEX_REF_ID"]?.ToString()
                             };
                         list.Add(para);
 
