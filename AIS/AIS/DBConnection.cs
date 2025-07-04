@@ -6238,53 +6238,63 @@ namespace AIS.Controllers
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
 
-            var con = this.DatabaseConnection();
-            con.Open();
-
-            var loggedInUser = sessionHandler.GetSessionUser();
             List<ManageAuditParasModel> list = new List<ManageAuditParasModel>();
-
-            using (OracleCommand cmd = con.CreateCommand())
+            try
                 {
-                cmd.CommandText = "pkg_ar.P_GetObservationsForManageAuditParas";
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Clear();
-                cmd.Parameters.Add("S_ENT_ID", OracleDbType.Int32).Value = ENTITY_ID;
-                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
-                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
-                cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-
-                using (OracleDataReader rdr = cmd.ExecuteReader())
+                using (var con = this.DatabaseConnection())
                     {
-                    while (rdr.Read())
-                        {
-                        var para = new ManageAuditParasModel
-                            {
-                            COM_ID = rdr["COM_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["COM_ID"]),
-                            OLD_PARA_ID = rdr["OLD_PARA_ID"]?.ToString(),
-                            NEW_PARA_ID = rdr["NEW_PARA_ID"]?.ToString(),
-                            PARA_NO = rdr["PARA_NO"]?.ToString(),
-                            AUDIT_PERIOD = rdr["AUDIT_PERIOD"]?.ToString(),
-                            OBS_GIST = rdr["GIST_OF_PARAS"]?.ToString(),
-                            OBS_RISK = rdr["RISK"]?.ToString(),
-                            OBS_RISK_ID = rdr["RISK_ID"]?.ToString(),
-                            P_TYPE_IND = rdr["IND"]?.ToString(),
-                            ANNEX = rdr["ANNEX"]?.ToString(),
-                            ANNEX_ID = rdr["ANNEX_ID"]?.ToString(),
-                            PARA_TEXT = rdr["PARA_TEXT"]?.ToString(),
-                            AMOUNT_INV = rdr["AMOUNT"]?.ToString(),
-                            NO_INSTANCES = rdr["NO_INSTANCES"]?.ToString(),
-                            ANNEXURE_REF_ID = rdr["ANNEX_REF_ID"]?.ToString()
-                            };
-                        list.Add(para);
+                    con.Open();
 
+                    var loggedInUser = sessionHandler.GetSessionUser();
+
+                    using (OracleCommand cmd = con.CreateCommand())
+                        {
+                        cmd.CommandText = "pkg_ar.P_GetObservationsForManageAuditParas";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.Add("S_ENT_ID", OracleDbType.Int32).Value = ENTITY_ID;
+                        cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                        cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                        cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                        cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+
+                        using (OracleDataReader rdr = cmd.ExecuteReader())
+                            {
+                            while (rdr.Read())
+                                {
+                                var para = new ManageAuditParasModel
+                                    {
+                                    COM_ID = rdr["COM_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["COM_ID"]),
+                                    OLD_PARA_ID = rdr["OLD_PARA_ID"]?.ToString(),
+                                    NEW_PARA_ID = rdr["NEW_PARA_ID"]?.ToString(),
+                                    PARA_NO = rdr["PARA_NO"]?.ToString(),
+                                    AUDIT_PERIOD = rdr["AUDIT_PERIOD"]?.ToString(),
+                                    OBS_GIST = rdr["GIST_OF_PARAS"]?.ToString(),
+                                    OBS_RISK = rdr["RISK"]?.ToString(),
+                                    OBS_RISK_ID = rdr["RISK_ID"]?.ToString(),
+                                    P_TYPE_IND = rdr["IND"]?.ToString(),
+                                    ANNEX = rdr["ANNEX"]?.ToString(),
+                                    ANNEX_ID = rdr["ANNEX_ID"]?.ToString(),
+                                    PARA_TEXT = rdr["PARA_TEXT"]?.ToString(),
+                                    AMOUNT_INV = rdr["AMOUNT"]?.ToString(),
+                                    NO_INSTANCES = rdr["NO_INSTANCES"]?.ToString(),
+                                    ANNEXURE_REF_ID = rdr["ANNEX_REF_ID"]?.ToString()
+                                    };
+                                list.Add(para);
+
+                                }
+                            }
                         }
                     }
                 }
-            con.Dispose();
+            catch (Exception ex)
+                {
+                Console.WriteLine($"Error fetching audit paras: {ex.Message}");
+                }
+
             return list;
             }
+
 
         public List<ManageAuditParasModel> GetObservationsForMangeAuditParasForAuthorization()
             {
