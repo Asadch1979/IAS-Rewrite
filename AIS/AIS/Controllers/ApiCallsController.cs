@@ -332,7 +332,7 @@ namespace AIS.Controllers
         [HttpPost]
         public List<ManageAuditParasModel> get_observations_for_manage_paras(int ENTITY_ID = 0, int OBS_ID = 0)
             {
-            return dBConnection.GetObservationsForMangeAuditParas(ENTITY_ID, OBS_ID);
+            return dBConnection.GetObservationsForManageAuditParas(ENTITY_ID, OBS_ID);
             }
         [HttpPost]
         public List<ManageAuditParasModel> get_observations_for_manage_paras_auth()

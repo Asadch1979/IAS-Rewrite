@@ -6231,7 +6231,7 @@ namespace AIS.Controllers
             con.Dispose();
             return list;
             }
-        public List<ManageAuditPara> GetObservationsForManageAuditParas(int entityId = 0, int obsId = 0)
+        public List<ManageAuditPara> GetObservationsForManageAuditParas(int ENTITY_ID = 0, int OBS_ID = 0)
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
@@ -6249,7 +6249,7 @@ namespace AIS.Controllers
                 cmd.CommandText = "pkg_ar.P_GetObservationsForManageAuditParas";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
-                cmd.Parameters.Add("S_ENT_ID", OracleDbType.Int32).Value = entityId;
+                cmd.Parameters.Add("S_ENT_ID", OracleDbType.Int32).Value = ENTITY_ID;
                 cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
                 cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
