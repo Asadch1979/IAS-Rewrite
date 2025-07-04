@@ -253,12 +253,18 @@
 
     function setSizeEnableForBranches() {
         var risk_check="N";
-        $.each($('#auditCriteriaEntityField option'), function (e, v) 
-        {
+    $.each($('#auditCriteriaEntityField option'), function (e, v)
+    {
             if ($(v).val() == $('#auditCriteriaEntityField option:selected').val())
                 {risk_check=$(v).attr("d-risk");}
         });
 
+        if ($('#auditCriteriaEntityField option:selected').val() == '25') {
+            $('#auditCriteriaFreqField').val('1');
+            $('#auditCriteriaFreqField').attr('disabled', true).hide();
+        } else {
+            $('#auditCriteriaFreqField').attr('disabled', false).show();
+        }
         if ($('#auditCriteriaEntityField option:selected').val() != 6 && $('#auditCriteriaEntityField option:selected').val() != 28) {
             $('#auditCriteriaSizeField').val('1');
             $('#auditCriteriaSizeField').attr('disabled', true);
