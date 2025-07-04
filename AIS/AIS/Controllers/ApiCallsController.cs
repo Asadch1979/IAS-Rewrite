@@ -263,12 +263,11 @@ namespace AIS.Controllers
 
         public IActionResult GetCirculars(string text)
             {
-            try
-                {
-                return dBConnection.GetCirculars(text);                
-                }
-             }
-       [HttpPost]
+            var result = dBConnection.Get_Circulars(text);
+            return Json(result);
+            }
+
+        [HttpPost]
         public string save_observations_cau(List<ListObservationModel> LIST_OBS, int ENG_ID = 0, int BRANCH_ID = 0, int SUB_CHECKLISTID = 0, int CHECKLIST_ID = 0, string ANNEXURE_ID = "", int ANNEXURE_REF_ID = 0)
             {
             string responses = "";
