@@ -209,3 +209,8 @@ table.dataTable thead th {
     border-radius: 0.75rem;
 }
 
+/* Ensure circular modal stays above other modals */
+#circularModal {
+    z-index: 1065;
+}
+
