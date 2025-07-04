@@ -316,6 +316,8 @@ function updateObservationWithReference() {
             g_annexureRefId = 0;
         }
 
+        var indicatorVal = isAddNew ? 'N' : 'Y';
+
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/UpdateAnnexureInstructions",
             type: "POST",
@@ -327,11 +329,12 @@ function updateObservationWithReference() {
                 'InstructionsDetails': instructionsDetails,
                 'AnnexureId': $('#auditPara_Annex').val(),
                 'ENTITY_ID': divisionId,
-                'ind': isAddNew ? 'N' : 'Y'
+                'ind': indicatorVal
             },
             success: function (resp) {
                 var annexId = resp && resp.annexureRefId ? resp.annexureRefId : 0;
                 g_annexureRefId = annexId;
+                g_ind = indicatorVal;
                 updateObservationStatus();
             },
             error: function () {
