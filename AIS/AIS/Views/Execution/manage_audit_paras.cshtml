@@ -14,6 +14,7 @@
     var g_instructionMap = [];
     var g_annexureRefId = 0;
     var g_selectedInstruction = null;
+    var g_selectedCircular = null; // store selected circular from popup
     $(document).ready(function () {
         $('#entitySelectField').select2();
         $('#paraTextViewer').richText({
@@ -43,6 +44,14 @@
         });
 
         $('#referenceTypeSelect').on('change', function () {
+            if ($(this).val() === "3") {
+                $('#circularModal').modal('show');
+            } else {
+                g_selectedCircular = null;
+                $('#divisionSelect').prop('disabled', false);
+                $('#instructionsTitle').prop('disabled', false).prop('readonly', false);
+                $('#instructionsDate').prop('readonly', false);
+            }
             if ($(this).val() !== "0") {
                 $('#instructionFields').show();
                 $('#divisionSelect').show();
@@ -269,6 +278,51 @@
         ObservationResponsibles(g_index);
     }
 
+    $('#btnSearchCircular').on('click', function () {
+        var text = $('#circularSearchText').val();
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/GetCirculars",
+            type: "POST",
+            data: { text: text },
+            success: function (data) {
+                var tbody = $('#circularResultsTable tbody');
+                tbody.empty();
+                $.each(data, function (i, v) {
+                    var issue = v.issueDate ? v.issueDate.split('T')[0] : '';
+                    var row = $('<tr>');
+                    row.append('<td><input type="radio" name="circularSelect"></td>');
+                    row.append('<td>' + v.referenceNo + '</td>');
+                    row.append('<td>' + issue + '</td>');
+                    row.append('<td>' + v.displayText + '</td>');
+                    row.append('<td>' + v.division + '</td>');
+                    row.find('input').data('circular', v);
+                    tbody.append(row);
+                });
+            }
+        });
+    });
+
+    $('#btnAddCircular').on('click', function () {
+        var selected = $('#circularResultsTable input[name=circularSelect]:checked');
+        if (selected.length === 0) {
+            alert('Please select a circular');
+            return;
+        }
+        g_selectedCircular = selected.data('circular');
+        $('#circularModal').modal('hide');
+        $('#divisionSelect').val(g_selectedCircular.entId).prop('disabled', true);
+        if ($('#instructionsTitle').is('select')) {
+            var ref = g_selectedCircular.referenceNo;
+            if ($('#instructionsTitle option[value="' + ref + '"]').length === 0) {
+                $('#instructionsTitle').append($('<option>', { value: ref, text: ref }));
+            }
+            $('#instructionsTitle').val(ref).prop('disabled', true);
+        } else {
+            $('#instructionsTitle').val(g_selectedCircular.referenceNo).prop('readonly', true);
+        }
+        $('#instructionsDate').val(g_selectedCircular.issueDate ? g_selectedCircular.issueDate.split('T')[0] : '').prop('readonly', true);
+    });
+
 
 function updateObservationStatus() {
         if (g_ind != "N") {
@@ -282,12 +336,17 @@ function updateObservationWithReference() {
         var referenceTypeText = $('#referenceTypeSelect option:selected').text();
         var divisionId = $('#divisionSelect').val();
         var instructionsTitle = $('#instructionsTitle').val();
+        var instructionsDate = $('#instructionsDate').val();
         var isAddNew = false;
-        if (instructionsTitle === 'add_new') {
+        if (g_selectedCircular) {
+            divisionId = g_selectedCircular.entId;
+            instructionsTitle = g_selectedCircular.referenceNo;
+            instructionsDate = g_selectedCircular.issueDate ? g_selectedCircular.issueDate.split('T')[0] : '';
+            isAddNew = false;
+        } else if (instructionsTitle === 'add_new') {
             instructionsTitle = $('#newInstructionsTitle').val();
             isAddNew = true;
         }
-        var instructionsDate = $('#instructionsDate').val();
         var instructionsDetails = $('#instructionsDetails').val();
 
         if (divisionId === "0") {
@@ -644,6 +703,43 @@ function updateObservationWithReference() {
     </div>
 
 </div>
+<!-- Circular Selection Modal -->
+<div class="modal fade" id="circularModal" tabindex="-1" aria-labelledby="circularModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="circularModalLabel">Select Circular</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Please enter any keyword to search the circular</label>
+                    <input type="text" id="circularSearchText" class="form-control" />
+                    <button type="button" id="btnSearchCircular" class="btn btn-primary mt-2">Search</button>
+                </div>
+                <div class="table-responsive">
+                    <table id="circularResultsTable" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>Circular Reference</th>
+                                <th>Date of Issuance</th>
+                                <th>Subject</th>
+                                <th>Division</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnAddCircular" class="btn btn-success">Add</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="viewMemoModel" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
