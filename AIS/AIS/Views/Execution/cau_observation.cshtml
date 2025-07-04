@@ -589,37 +589,21 @@
         }
     });
 
-    $('#btnSearchCircular').on('click', function () {
+    $(document).on('click', '#btnSearchCircular', function () {
         var text = $('#circularSearchText').val();
-        $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/GetCirculars",
-            type: "POST",
-            data: { text: text },
-            success: function (data) {
-                var tbody = $('#circularResultsTable tbody');
-                tbody.empty();
-                $.each(data, function (i, v) {
-                    var issue = v.issueDate ? v.issueDate.split('T')[0] : '';
-                    var row = $('<tr>');
-                    row.append('<td><input type="radio" name="circularSelect"></td>');
-                    row.append('<td>' + v.referenceNo + '</td>');
-                    row.append('<td>' + issue + '</td>');
-                    row.append('<td>' + v.displayText + '</td>');
-                    row.append('<td>' + v.division + '</td>');
-                    row.find('input').data('circular', v);
-                    tbody.append(row);
-                });
-            }
-        });
+        searchCirculars(text, '#circularResultsTable')
+            .fail(function () {
+                alert('Failed to retrieve circulars');
+            });
     });
 
-    $('#btnAddCircular').on('click', function () {
-        var selected = $('#circularResultsTable input[name=circularSelect]:checked');
-        if (selected.length === 0) {
+    $(document).on('click', '#btnAddCircular', function () {
+        var selected = getSelectedCircular('#circularResultsTable');
+        if (!selected) {
             alert('Please select a circular');
             return;
         }
-        g_selectedCircular = selected.data('circular');
+        g_selectedCircular = selected;
         $('#circularModal').modal('hide');
         $('#divisionSelect').val(g_selectedCircular.entId).prop('disabled', true);
         if ($('#instructionsTitle').is('select')) {
