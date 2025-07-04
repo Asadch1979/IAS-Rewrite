@@ -2,6 +2,7 @@ namespace AIS.Models
     {
     public class ManageAuditParasModel
         {
+        public int COM_ID { get; set; }
         public string OLD_PARA_ID { get; set; }
         public string NEW_PARA_ID { get; set; }
         public string PARA_NO { get; set; }
@@ -20,6 +21,7 @@ namespace AIS.Models
         public string UPDATED_BY { get; set; }
         public string UPDATED_ON { get; set; }
         public string ANNEXURE_REF_ID { get; set; }
+        
 
         }
     }

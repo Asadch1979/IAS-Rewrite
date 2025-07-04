@@ -3,6 +3,7 @@
     Layout = "_Layout";
 }
 <script type="text/javascript">
+    var g_com_id = 0;
     var g_np_id = 0;
     var g_op_id = 0;
     var g_p_id = 0;
@@ -178,6 +179,7 @@
         g_index = index;
         $('#viewMemoModel').modal('show');
         var v = g_allObs[index];
+        g_com_id = v.coM_ID;
         g_np_id = v.neW_PARA_ID;
         g_op_id = v.olD_PARA_ID;
         g_p_id = v.parA_ID;
@@ -268,6 +270,7 @@ function updateObservationStatus(type) {
             url: g_asiBaseURL + "/ApiCalls/authorize_para_for_manage_audit_paras",
             type: "POST",
             data: {
+                 'COM_ID' : g_com_id,
                 'NEW_PARA_ID': g_np_id,
                 'OLD_PARA_ID': g_op_id,
                 'PARA_ID': g_p_id,
@@ -297,6 +300,7 @@ function updateObservationStatus(type) {
             url: g_asiBaseURL + "/ApiCalls/referredback_para_for_manage_audit_paras",
             type: "POST",
             data: {
+                 'COM_ID' : g_com_id,
                 'NEW_PARA_ID': g_np_id,
                 'OLD_PARA_ID': g_op_id,
                 'PARA_ID': g_p_id,
@@ -364,11 +368,12 @@ function updateObservationStatus(type) {
             error: function () { alert("Error saving instructions. Please try again."); }
         });
     }
-    function DeleteDuplicatePara(np_id, op_id, ind) {
+    function DeleteDuplicatePara(np_id, op_id, ind,c_id) {
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/request_delete_duplicate_para",
             type: "POST",
             data: {
+                'COM_ID': c_id,
                 'NEW_PARA_ID': np_id,
                 'OLD_PARA_ID': op_id,
                 'INDICATOR': ind
