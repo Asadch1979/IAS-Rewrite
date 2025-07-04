@@ -6231,7 +6231,7 @@ namespace AIS.Controllers
             con.Dispose();
             return list;
             }
-        public List<ManageAuditPara> GetObservationsForManageAuditParas(int ENTITY_ID = 0, int OBS_ID = 0)
+        public List<ManageAuditParasModel> GetObservationsForManageAuditParas(int ENTITY_ID = 0, int OBS_ID = 0)
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
@@ -6242,7 +6242,7 @@ namespace AIS.Controllers
             con.Open();
 
             var loggedInUser = sessionHandler.GetSessionUser();
-            List<ManageAuditPara> list = new List<ManageAuditPara>();
+            List<ManageAuditParasModel> list = new List<ManageAuditParasModel>();
 
             using (OracleCommand cmd = con.CreateCommand())
                 {
@@ -6259,25 +6259,26 @@ namespace AIS.Controllers
                     {
                     while (rdr.Read())
                         {
-                        var para = new ManageAuditPara
+                        var para = new ManageAuditParasModel
                             {
-                            ComId = rdr["COM_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["COM_ID"]),
-                            OldParaId = rdr["OLD_PARA_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["OLD_PARA_ID"]),
-                            NewParaId = rdr["NEW_PARA_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["NEW_PARA_ID"]),
-                            ParaNo = rdr["PARA_NO"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["PARA_NO"]),
-                            AuditPeriod = rdr["AUDIT_PERIOD"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(rdr["AUDIT_PERIOD"]),
-                            GistOfParas = rdr["GIST_OF_PARAS"]?.ToString(),
-                            Risk = rdr["RISK"]?.ToString(),
-                            RiskId = rdr["RISK_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["RISK_ID"]),
-                            Ind = rdr["IND"]?.ToString(),
-                            Annex = rdr["ANNEX"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["ANNEX"]),
-                            AnnexId = rdr["ANNEX_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["ANNEX_ID"]),
-                            ParaText = rdr["PARA_TEXT"]?.ToString(),
-                            Amount = rdr["AMOUNT"] == DBNull.Value ? 0 : Convert.ToDecimal(rdr["AMOUNT"]),
-                            NoInstances = rdr["NO_INSTANCES"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["NO_INSTANCES"]),
-                            AnnexRefId = rdr["ANNEX_REF_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["ANNEX_REF_ID"])
+                            COM_ID = rdr["COM_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["COM_ID"]),
+                            OLD_PARA_ID = rdr["OLD_PARA_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["OLD_PARA_ID"]),
+                            NEW_PARA_ID = rdr["NEW_PARA_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["NEW_PARA_ID"]),
+                            PARA_NO = rdr["PARA_NO"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["PARA_NO"]),
+                            AUDIT_PERIOD = rdr["AUDIT_PERIOD"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(rdr["AUDIT_PERIOD"]),
+                            OBS_GIST = rdr["GIST_OF_PARAS"]?.ToString(),
+                            OBS_RISK = rdr["RISK"]?.ToString(),
+                            OBS_RISK_ID = rdr["RISK_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["RISK_ID"]),
+                            P_TYPE_IND = rdr["IND"]?.ToString(),
+                            ANNEX = rdr["ANNEX"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["ANNEX"]),
+                            ANNEX_ID = rdr["ANNEX_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["ANNEX_ID"]),
+                            PARA_TEXT = rdr["PARA_TEXT"]?.ToString(),
+                            AMOUNT_INV = rdr["AMOUNT"] == DBNull.Value ? 0 : Convert.ToDecimal(rdr["AMOUNT"]),
+                            NO_INSTANCES = rdr["NO_INSTANCES"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["NO_INSTANCES"]),
+                            ANNEXURE_REF_ID = rdr["ANNEX_REF_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["ANNEX_REF_ID"])
                             };
                         list.Add(para);
+
                         }
                     }
                 }
