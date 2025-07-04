@@ -23675,7 +23675,7 @@ namespace AIS.Controllers
                 }
             }
 
-        public List<CircularModel> GetCirculars(string text)
+        public List<CircularModel> Get_Circulars(string text)
 
             {
             var result = new List<CircularModel>();
