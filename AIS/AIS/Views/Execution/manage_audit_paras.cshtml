@@ -114,7 +114,7 @@
                             $('#instructionsDetails').val('');
                         }
                         $('#instructionsTitle').append('<option value="add_new">+ Add New Title/Chapter</option>');
-                        $('#instructionsTitle').select2();
+                        $('#instructionsTitle').select2({ dropdownParent: $('#viewMemoModel') });
                         $('#instructionsTitle').trigger('change');
                     }
                 });
@@ -135,7 +135,7 @@
                     $.each(data, function (i, v) {
                         $('#divisionSelect').append('<option value="' + v.entitY_ID + '\">' + v.description + '</option>');
                     });
-                    $("#divisionSelect").off("change", tryLoadInstructions).on("change", tryLoadInstructions);
+                    $("#divisionSelect").off("change").on("change", tryLoadInstructions);
                 },
                 dataType: "json",
             });
