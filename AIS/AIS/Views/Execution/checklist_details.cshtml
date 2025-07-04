@@ -73,7 +73,7 @@
 
         $('#referenceTypeSelect').on('change', function () {
             if ($(this).val() === "3") {
-                $('#circularModal').modal('show');
+                $('#circularModal').appendTo('body').modal('show');
             } else {
                 g_selectedCircular = null;
                 $('#divisionSelect').prop('disabled', false);
