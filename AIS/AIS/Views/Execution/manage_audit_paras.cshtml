@@ -533,7 +533,28 @@ function updateObservationWithReference() {
             dataType: "json",
         });
     }
-
+          function updateRiskDisplay() {
+            var annexId = $('#updatedAnnexlist').val();
+            var riskName = '';
+            g_selectedRiskId = 0;
+            $.each(g_annexList, function (i, v) {
+                var id = v.ID || v.id;
+                if (id == annexId) {
+                    riskName = v.RISK || v.risk;
+                    g_selectedRiskId = v.RISK_ID || v.risK_ID;
+                }
+            });
+            $('#viewMemo_risk_display').val(riskName);
+            var color = '';
+            if (riskName.toLowerCase() === 'high') {
+                color = 'red';
+            } else if (riskName.toLowerCase() === 'medium') {
+                color = 'gold';
+            } else if (riskName.toLowerCase() === 'low') {
+                color = 'green';
+            }
+            $('#viewMemo_risk_display').css('color', color);
+        }
     function addResponsibilityToMainTable(action) {
         if (g_respUser[0].ppNumber > 0) {
             var lc = $('#resp_loan_case').val();
@@ -726,22 +747,45 @@ function updateObservationWithReference() {
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label for="auditPara_Risk" class="font-weight-bold">Risk</label>
-                        <select id="auditPara_Risk" class="form-control">
-                            <option value="0" id="0" selected>--Select Risk Category--</option>
-                            @{
-                                if (ViewData["RiskList"] != null)
-                                {
-
-                                    foreach (var risk in (dynamic)(ViewData["RiskList"]))
-                                    {
-                                        <option id="@risk.R_ID" value="@risk.R_ID">@risk.DESCRIPTION</option>
-                                    }
-
-                                }
-                            }
-                        </select>
+                    <div class="form-group mt-2">
+                        <label for="viewMemo_risk_display">Risk will be assigned on the basis of Selected Annexure</label>
+                        <input id="viewMemo_risk_display" class="form-control" readonly />
+                    </div>
+                    <!-- Reference Type and Instructions -->
+                    <div class="form-group mt-3">
+                        <label>Reference Type</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <select id="referenceTypeSelect" class="form-select form-control">
+                                    <option value="0">--Select Reference Type--</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <select id="divisionSelect" class="form-select form-control" style="display:none;">
+                                    <option value="0">--Select Division--</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="instructionFields" class="form-group mt-3" style="display:none;">
+                        <div class="row">
+                            <div class="col-md-4 mt-2">
+                                <label for="instructionsTitle">Title/Chapter</label>
+                                <select id="instructionsTitle" class="form-control">
+                                    <option value="">--Select or Add Title/Chapter--</option>
+                                </select>
+                                <input type="text" id="newInstructionsTitle" class="form-control mt-2" placeholder="Enter new title" style="display:none;" />
+                                <div id="instructionCount" class="text-info mt-1"></div>
+                            </div>
+                            <div class="col-md-4 mt-2">
+                                <label>Instructions Date</label>
+                                <input id="instructionsDate" type="date" class="form-control" />
+                            </div>
+                            <div class="col-md-4 mt-2">
+                                <label>Instructions Details</label>
+                                <textarea id="instructionsDetails" class="form-control"></textarea>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal fade" id="circularModal" tabindex="-1" aria-labelledby="circularModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
@@ -794,45 +838,7 @@ function updateObservationWithReference() {
                     <div class="form-group">
                         <label for="auditPara_InstNO" class="font-weight-bold">No. of Instances </label>
                         <input id="auditPara_InstNO" class="form-control" type="number" />
-                    </div>
-
-                    <!-- Reference Type and Instructions -->
-                    <div class="form-group mt-3">
-                        <label>Reference Type</label>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <select id="referenceTypeSelect" class="form-select form-control">
-                                    <option value="0">--Select Reference Type--</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <select id="divisionSelect" class="form-select form-control" style="display:none;">
-                                    <option value="0">--Select Division--</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="instructionFields" class="form-group mt-3" style="display:none;">
-                        <div class="row">
-                            <div class="col-md-4 mt-2">
-                                <label for="instructionsTitle">Title/Chapter</label>
-                                <select id="instructionsTitle" class="form-control">
-                                    <option value="">--Select or Add Title/Chapter--</option>
-                                </select>
-                                <input type="text" id="newInstructionsTitle" class="form-control mt-2" placeholder="Enter new title" style="display:none;" />
-                                <div id="instructionCount" class="text-info mt-1"></div>
-                            </div>
-                            <div class="col-md-4 mt-2">
-                                <label>Instructions Date</label>
-                                <input id="instructionsDate" type="date" class="form-control" />
-                            </div>
-                            <div class="col-md-4 mt-2">
-                                <label>Instructions Details</label>
-                                <textarea id="instructionsDetails" class="form-control"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /Reference Type and Instructions -->
+                    </div>                  
 
                     <hr />
                     <center><h3>Responsible Personals</h3></center>

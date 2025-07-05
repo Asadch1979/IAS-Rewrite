@@ -23,7 +23,7 @@
             cache: false,
             success: function (data) {
                 $.each(data, function (i, v) {
-                    $('#fadDeskOfficerTable tbody').append('<tr><td>' + v.auditPeriod + '</td><td>' + v.childCode + '</td><td>' + v.cName + '</td><td>' + v.aZ + '</td><td>' + v.pName + '</td><td>' + v.annex + '</td><td>' + v.gistOfParas + '</td><td>' + v.paraNo + '</td><td>' + v.noOfInstances + '</td><td>' + v.risk + '</td><td>' + v.amount + '</td></tr>');
+                    $('#fadDeskOfficerTable tbody').append('<tr><td>' + v.auditperiod + '</td><td>' + v.childcode + '</td><td>' + v.cname + '</td><td>' + v.az + '</td><td>' + v.pname + '</td><td>' + v.annex + '</td><td>' + v.gistOfParas + '</td><td>' + v.paraNo + '</td><td>' + v.noOfInstances + '</td><td>' + v.risk + '</td><td>' + v.amount + '</td></tr>');
                 });
                 initializeDataTable('fadDeskOfficerTable');
             },
@@ -36,9 +36,9 @@
     <h3 style="color: #45c545;">FAD Desk Officer Report</h3>
 </div>
 <div class="row col-md-12 mt-2">
-    <label>Select Audit Period</label>
+    <label>Select Audit Year</label>
     <select id="auditPeriodSelect" class="form-select form-control">
-        <option value="">--Select Period--</option>
+        <option value="">--Select Year--</option>
         @foreach (var p in auditPeriods)
         {
             <option value="@p">@p</option>
@@ -49,15 +49,15 @@
     <table id="fadDeskOfficerTable" class="table table-hover table-bordered table-striped">
         <thead style="background-color: #19875478;">
             <tr>
-                <th>Audit Period</th>
-                <th>Child Code</th>
+                <th>Year</th>
+                <th>Br Code</th>
                 <th>Branch</th>
-                <th>AZ</th>
-                <th>Parent</th>
+                <th>Audit</th>
+                <th>Region</th>
                 <th>Annex</th>
                 <th>Gist Of Paras</th>
                 <th>Para No</th>
-                <th>No Of Instances</th>
+                <th>Instances</th>
                 <th>Risk</th>
                 <th>Amount</th>
             </tr>

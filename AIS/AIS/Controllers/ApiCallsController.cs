@@ -348,9 +348,9 @@ namespace AIS.Controllers
             return dBConnection.GetObservationsForMangeAuditParasForAuthorization();
             }
         [HttpPost]
-        public List<ManageAuditParasModel> get_proposed_changes_in_manage_paras_auth(int PARA_ID)
+        public List<ManageAuditParasModel> get_proposed_changes_in_manage_paras_auth(int C_ID)
             {
-            return dBConnection.GetProposedChangesInManageParasAuth(PARA_ID);
+            return dBConnection.GetProposedChangesInManageParasAuth(C_ID);
             }
         [HttpPost]
         public string update_para_for_manage_audit_paras(ManageAuditParasModel pm, int ANNEXURE_REF_ID = 0)

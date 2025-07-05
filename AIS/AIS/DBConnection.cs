@@ -6343,7 +6343,7 @@ namespace AIS.Controllers
             con.Dispose();
             return list;
             }
-        public List<ManageAuditParasModel> GetProposedChangesInManageParasAuth(int PARA_ID)
+        public List<ManageAuditParasModel> GetProposedChangesInManageParasAuth(int C_ID)
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
@@ -6358,7 +6358,7 @@ namespace AIS.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
 
-                cmd.Parameters.Add("PARA_ID", OracleDbType.Int32).Value = PARA_ID;
+                cmd.Parameters.Add("C_ID", OracleDbType.Int32).Value = C_ID;
                 //cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
                 //cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 //cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
@@ -6382,6 +6382,11 @@ namespace AIS.Controllers
                     //chk.UPDATED_BY = rdr["UPDATED_BY"].ToString();
                     chk.P_TYPE_IND = rdr["P_TYPE_IND"].ToString();
                     chk.PARA_TEXT = rdr["PARA_TEXT"].ToString();
+                    chk.ANNEXURE_REF_ID = rdr["annex_ref_id"].ToString();
+                    chk.REFERENCE_TYPE = rdr["REFERENCE_TYPE"].ToString();
+                    chk.INSTRUCTIONS_TITLE  = rdr["INSTRUCTIONS_TITLE"].ToString();
+                    chk.INSTRUCTIONS_DATE = rdr["INSTRUCTIONS_DATE"] == DBNull.Value ? null : Convert.ToDateTime(rdr["INSTRUCTIONS_DATE"]);
+
                     list.Add(chk);
                     }
                 }
