@@ -1,0 +1,55 @@
+﻿@model List<FadDeskOfficerRptModel>
+@{
+    ViewBag.Title = "FAD Desk Officer RPT";
+    var auditPeriods = ViewBag.AuditPeriods as List<string>;
+    var selectedPeriod = Request.Query["auditPeriod"].ToString();
+}
+
+<h2>FAD Desk Officer RPT</h2>
+
+<form method="get">
+    <label>Select Audit Period:</label>
+    <select name="auditPeriod" onchange="this.form.submit()">
+        <option value="">All</option>
+        @foreach(var p in auditPeriods)
+        {
+            <option value="@p" @(p == selectedPeriod ? "selected" : "")>@p</option>
+        }
+    </select>
+</form>
+
+<table class="table table-bordered table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Audit Period</th>
+            <th>Child Code</th>
+            <th>Branch</th>
+            <th>AZ</th>
+            <th>Parent</th>
+            <th>Annex</th>
+            <th>Gist Of Paras</th>
+            <th>Para No</th>
+            <th>No Of Instances</th>
+            <th>Risk</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.AuditPeriod</td>
+                <td>@item.ChildCode</td>
+                <td>@item.CName</td>
+                <td>@item.AZ</td>
+                <td>@item.PName</td>
+                <td>@item.Annex</td>
+                <td>@item.GistOfParas</td>
+                <td>@item.ParaNo</td>
+                <td>@item.NoOfInstances</td>
+                <td>@item.Risk</td>
+                <td>@item.Amount</td>
+            </tr>
+        }
+    </tbody>
+</table>

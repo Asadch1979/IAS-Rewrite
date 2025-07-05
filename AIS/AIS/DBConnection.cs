@@ -23687,8 +23687,7 @@ namespace AIS.Controllers
                     {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("p_text", OracleDbType.Varchar2, 200).Value = text ?? (object)DBNull.Value;
-                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-                    con.Open();
+                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;                  
                     using (var reader = cmd.ExecuteReader())
                         {
                         while (reader.Read())
@@ -23699,7 +23698,7 @@ namespace AIS.Controllers
                                 DisplayText = reader["display_text"]?.ToString(),
                                 Keywords = reader["keywords"]?.ToString(),
                                 RedirectedPage = reader["redirectedpage"]?.ToString(),
-                                Division = reader["division"] == DBNull.Value ? 0 : Convert.ToInt32(reader["division"]),
+                                Division = reader["division"].ToString(),
                                 ReferenceNo = reader["reference_no"]?.ToString(),
                                 IssueDate = reader["issuedate"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["issuedate"]),
                                 DocType = reader["doctype"]?.ToString(),
@@ -23711,6 +23710,69 @@ namespace AIS.Controllers
                 return result;
                 }
             }
+
+        public List<string> GetDistinctFadDeskOfficerAuditPeriods()
+            {
+            var periods = new List<string>();
+            using (var con = this.DatabaseConnection())
+                {
+                con.Open();
+                using (var cmd = new OracleCommand("PKG_RPT.P_GET_FAD_DESK_OFFICER_AUDIT_PERIODS", con))
+                    {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = cmd.ExecuteReader())
+                        {
+                        while (reader.Read())
+                            {
+                            periods.Add(reader["AUDIT_PERIOD"].ToString());
+                            }
+                        }
+                    }
+                }
+            return periods;
+            }
+
+
+        public List<FadDeskOfficerRptModel> GetFadDeskOfficerRptByPeriod(string auditPeriod)
+            {
+            var results = new List<FadDeskOfficerRptModel>();
+            using (var con = this.DatabaseConnection())
+                {
+                con.Open();
+                using (var cmd = new OracleCommand("PKG_RPT.P_GET_FAD_DESK_OFFICER_RPT_BY_PERIOD", con))
+                    {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("p_audit_period", OracleDbType.Varchar2, auditPeriod ?? (object)DBNull.Value, ParameterDirection.Input);
+                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = cmd.ExecuteReader())
+                        {
+                        while (reader.Read())
+                            {
+                            results.Add(new FadDeskOfficerRptModel
+                                {
+                                AuditPeriod = reader["AUDIT_PERIOD"]?.ToString(),
+                                ChildCode = reader["CHILD_CODE"]?.ToString(),
+                                CName = reader["C_NAME"]?.ToString(),
+                                AZ = reader["AZ"]?.ToString(),
+                                PName = reader["P_NAME"]?.ToString(),
+                                Annex = reader["ANNEX"]?.ToString(),
+                                GistOfParas = reader["GIST_OF_PARAS"]?.ToString(),
+                                ParaNo = reader["PARA_NO"]?.ToString(),
+                                NoOfInstances = reader["NO_OF_INSTANCES"] == DBNull.Value ? 0 : Convert.ToInt32(reader["NO_OF_INSTANCES"]),
+                                Risk = reader["RISK"]?.ToString(),
+                                Amount = reader["AMOUNT"]?.ToString(),
+                                });
+                            }
+                        }
+                    }
+                }
+            return results;
+            }
+
+
         public int GetPageIdByPath(string pagePath)
             {
             int pageId = 0;
