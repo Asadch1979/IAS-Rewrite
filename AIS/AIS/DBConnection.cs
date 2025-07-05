@@ -6385,8 +6385,10 @@ namespace AIS.Controllers
                     chk.ANNEXURE_REF_ID = rdr["annex_ref_id"].ToString();
                     chk.REFERENCE_TYPE = rdr["REFERENCE_TYPE"].ToString();
                     chk.INSTRUCTIONS_TITLE  = rdr["INSTRUCTIONS_TITLE"].ToString();
-                    chk.INSTRUCTIONS_DATE = rdr["INSTRUCTIONS_DATE"] == DBNull.Value ? null : Convert.ToDateTime(rdr["INSTRUCTIONS_DATE"]);
-
+                    int dateOrdinal = rdr.GetOrdinal("INSTRUCTIONS_DATE");
+                    chk.INSTRUCTIONS_DATE = rdr.IsDBNull(dateOrdinal)
+                        ? (DateTime?)null
+                        : rdr.GetDateTime(dateOrdinal);
                     list.Add(chk);
                     }
                 }

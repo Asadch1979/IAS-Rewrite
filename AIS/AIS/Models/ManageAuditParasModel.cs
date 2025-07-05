@@ -1,4 +1,5 @@
 using Microsoft.VisualBasic;
+using System;
 
 namespace AIS.Models
     {
@@ -24,8 +25,8 @@ namespace AIS.Models
         public string UPDATED_ON { get; set; }
         public string ANNEXURE_REF_ID { get; set; }
         public string REFERENCE_TYPE { get; set; }
-        public string INSTRUCTIONS_TITLE { get; set; }   
-        public DateFormat INSTRUCTIONS_DATE { get; set; }
+        public string INSTRUCTIONS_TITLE { get; set; }
+        public DateTime? INSTRUCTIONS_DATE { get; set; }
 
         }
     }
