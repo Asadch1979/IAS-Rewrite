@@ -1,55 +1,68 @@
-﻿@model List<FadDeskOfficerRptModel>
 @{
-    ViewBag.Title = "FAD Desk Officer RPT";
+    ViewData["Title"] = "FAD Desk Officer Report";
+    Layout = "_Layout";
     var auditPeriods = ViewBag.AuditPeriods as List<string>;
-    var selectedPeriod = Request.Query["auditPeriod"].ToString();
 }
 
-<h2>FAD Desk Officer RPT</h2>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#auditPeriodSelect').change(function () {
+            loadDeskReport();
+        });
+    });
 
-<form method="get">
-    <label>Select Audit Period:</label>
-    <select name="auditPeriod" onchange="this.form.submit()">
-        <option value="">All</option>
-        @foreach(var p in auditPeriods)
+    function loadDeskReport() {
+        destroyDatatable('fadDeskOfficerTable');
+        $('#fadDeskOfficerTable tbody').empty();
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/get_fad_desk_officer_rpt_by_period",
+            type: "POST",
+            data: {
+                "auditPeriod": $('#auditPeriodSelect').val()
+            },
+            cache: false,
+            success: function (data) {
+                $.each(data, function (i, v) {
+                    $('#fadDeskOfficerTable tbody').append('<tr><td>' + v.auditPeriod + '</td><td>' + v.childCode + '</td><td>' + v.cName + '</td><td>' + v.aZ + '</td><td>' + v.pName + '</td><td>' + v.annex + '</td><td>' + v.gistOfParas + '</td><td>' + v.paraNo + '</td><td>' + v.noOfInstances + '</td><td>' + v.risk + '</td><td>' + v.amount + '</td></tr>');
+                });
+                initializeDataTable('fadDeskOfficerTable');
+            },
+            dataType: "json"
+        });
+    }
+</script>
+
+<div class="row col-md-12 mt-3">
+    <h3 style="color: #45c545;">FAD Desk Officer Report</h3>
+</div>
+<div class="row col-md-12 mt-2">
+    <label>Select Audit Period</label>
+    <select id="auditPeriodSelect" class="form-select form-control">
+        <option value="">--Select Period--</option>
+        @foreach (var p in auditPeriods)
         {
-            <option value="@p" @(p == selectedPeriod ? "selected" : "")>@p</option>
+            <option value="@p">@p</option>
         }
     </select>
-</form>
-
-<table class="table table-bordered table-striped mt-3">
-    <thead>
-        <tr>
-            <th>Audit Period</th>
-            <th>Child Code</th>
-            <th>Branch</th>
-            <th>AZ</th>
-            <th>Parent</th>
-            <th>Annex</th>
-            <th>Gist Of Paras</th>
-            <th>Para No</th>
-            <th>No Of Instances</th>
-            <th>Risk</th>
-            <th>Amount</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var item in Model)
-        {
+</div>
+<div class="row col-md-12 mt-3">
+    <table id="fadDeskOfficerTable" class="table table-hover table-bordered table-striped">
+        <thead style="background-color: #19875478;">
             <tr>
-                <td>@item.AuditPeriod</td>
-                <td>@item.ChildCode</td>
-                <td>@item.CName</td>
-                <td>@item.AZ</td>
-                <td>@item.PName</td>
-                <td>@item.Annex</td>
-                <td>@item.GistOfParas</td>
-                <td>@item.ParaNo</td>
-                <td>@item.NoOfInstances</td>
-                <td>@item.Risk</td>
-                <td>@item.Amount</td>
+                <th>Audit Period</th>
+                <th>Child Code</th>
+                <th>Branch</th>
+                <th>AZ</th>
+                <th>Parent</th>
+                <th>Annex</th>
+                <th>Gist Of Paras</th>
+                <th>Para No</th>
+                <th>No Of Instances</th>
+                <th>Risk</th>
+                <th>Amount</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>

@@ -3293,6 +3293,18 @@ namespace AIS.Controllers
             return Ok(list);
             }
 
+        [HttpPost]
+        public List<string> get_fad_desk_officer_audit_periods()
+            {
+            return dBConnection.GetDistinctFadDeskOfficerAuditPeriods();
+            }
+
+        [HttpPost]
+        public List<FadDeskOfficerRptModel> get_fad_desk_officer_rpt_by_period(string auditPeriod)
+            {
+            return dBConnection.GetFadDeskOfficerRptByPeriod(auditPeriod);
+            }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
             {
