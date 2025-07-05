@@ -3,6 +3,7 @@
     Layout = "_Layout";
 }
 <script type="text/javascript">
+    var g_com_id = 0;
     var g_np_id = 0;
     var g_op_id = 0;
     var g_ind = "";
@@ -262,6 +263,7 @@
         g_index = index;
         $('#viewMemoModel').modal('show');
         var v = g_allObs[index];
+        g_com_id = v.coM_ID;
         g_np_id = v.neW_PARA_ID;
         g_op_id = v.olD_PARA_ID;
         g_ind = v.indicator;
@@ -339,6 +341,7 @@ function updateObservationStatus() {
             url: g_asiBaseURL + "/ApiCalls/update_para_for_manage_audit_paras",
             type: "POST",
             data: {
+                'COM_ID': g_com_id,
                 'NEW_PARA_ID': g_np_id,
                 'OLD_PARA_ID': g_op_id,
                 'INDICATOR': g_ind,
@@ -445,6 +448,7 @@ function updateObservationWithReference() {
             url: g_asiBaseURL + "/ApiCalls/request_delete_duplicate_para",
             type: "POST",
             data: {
+                'COM_ID': g_com_id,
                 'NEW_PARA_ID': g_np_id,
                 'OLD_PARA_ID': g_op_id,
                 'INDICATOR': g_ind,
@@ -474,7 +478,8 @@ function updateObservationWithReference() {
             type: "POST",
             data: {
                 'PARA_ID': g_np_id != "" ? g_np_id : g_op_id,
-                'INDICATOR': g_ind
+                'INDICATOR': g_ind,
+                'COM_ID': g_com_id
             },
             cache: false,
             success: function (data) {
@@ -588,6 +593,7 @@ function updateObservationWithReference() {
                     'NEW_PARA_ID': g_np_id,
                     'OLD_PARA_ID': g_op_id,
                     'INDICATOR': g_ind,
+                    'COM_ID': g_com_id,
                     'ACTION': action
                 },
                 cache: false,
