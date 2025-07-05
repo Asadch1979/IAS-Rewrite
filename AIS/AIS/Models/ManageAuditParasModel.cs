@@ -26,9 +26,6 @@ namespace AIS.Models
         public string REFERENCE_TYPE { get; set; }
         public string INSTRUCTIONS_TITLE { get; set; }   
         public DateFormat INSTRUCTIONS_DATE { get; set; }
-        
-
-
 
         }
     }
