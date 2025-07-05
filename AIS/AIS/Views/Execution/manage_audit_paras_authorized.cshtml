@@ -216,6 +216,14 @@
                     $('#p_auditPara_AmountInv').val(v.amounT_INV);
                     $('#p_auditPara_InstNO').val(v.nO_INSTANCES);
                     $('#p_paraTextViewer').val(v.parA_TEXT).trigger('change');
+                    if (v.referenceTypeId) {
+                        $('#referenceTypeSelect').val(v.referenceTypeId).trigger('change');
+                        $('#divisionSelect').val(v.entityId);
+                        $('#instructionsTitle').val(v.instructionsTitle);
+                        $('#instructionsDate').val(v.instructionsDate ? v.instructionsDate.split('T')[0] : '');
+                        $('#instructionsDetails').val(v.instructionsDetails);
+                        g_annexureRefId = v.annexureRefId || 0;
+                    }
 
                 }
             },

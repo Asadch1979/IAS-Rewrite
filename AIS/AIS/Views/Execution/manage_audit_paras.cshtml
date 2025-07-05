@@ -15,6 +15,8 @@
     var g_annexureRefId = 0;
     var g_selectedInstruction = null;
     var g_selectedCircular = null; // store selected circular from popup
+    var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
+    var g_selectedRiskId = 0;
     $(document).ready(function () {
         $('#entitySelectField').select2();
         $('#paraTextViewer').richText({
@@ -23,6 +25,7 @@
             videoEmbed: false,
             urls: false
         });
+        $('#auditPara_Annex').on('change', updateRiskDisplay);
         const currentYear = new Date().getFullYear();
         for (var i = 1970; i <= currentYear; i++) {
             $('#auditPara_Period').append('<option value="' + i + '">' + i + '</option>');
@@ -266,6 +269,7 @@
         $('#auditPara_Period').val(v.audiT_PERIOD);
         $('#auditPara_ParaNO').val(v.parA_NO);
         $('#auditPara_Annex').val(v.anneX_ID);
+        updateRiskDisplay();
         $('#auditPara_Gist').val(v.obS_GIST);
         $('#auditPara_Risk').val(v.obS_RISK_ID);
         $('#paraTextViewer').val(v.parA_TEXT).trigger('change');
@@ -311,7 +315,53 @@ function updateObservationStatus() {
             if ($('#auditPara_Period').val() == "") {
                 alert("Please enter Audit Period");
                 return false;
-}
+            }
+        }
+
+        if ($('#auditPara_Risk').val() == "0") {
+            alert("Please select Audit Risk");
+            return false;
+        }
+        if ($('#auditPara_Annex').val() == "") {
+            alert("Please select Annexure");
+            return false;
+        }
+        if ($('#auditPara_ParaNO').val() == "") {
+            alert("Please enter Para No");
+            return false;
+        }
+        if ($('#auditPara_Gist').val() == "") {
+            alert("Please enter Para Gist");
+            return false;
+        }
+
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/update_para_for_manage_audit_paras",
+            type: "POST",
+            data: {
+                'NEW_PARA_ID': g_np_id,
+                'OLD_PARA_ID': g_op_id,
+                'INDICATOR': g_ind,
+                'AUDIT_PERIOD': $('#auditPara_Period').val(),
+                'OBS_GIST': $('#auditPara_Gist').val(),
+                'PARA_TEXT': $('#paraTextViewer').val(),
+                'OBS_RISK_ID': $('#auditPara_Risk').val(),
+                'PARA_NO': $('#auditPara_ParaNO').val(),
+                'ANNEX_ID': $('#auditPara_Annex').val(),
+                'AMOUNT_INV': $('#auditPara_AmountInv').val(),
+                'NO_INSTANCES': $('#auditPara_InstNO').val(),
+                'ANNEXURE_REF_ID': g_annexureRefId
+            },
+            cache: false,
+            success: function (data) {
+                $('#viewMemoModel').modal('hide');
+                alert(data.Message);
+                onAlertCallback(getEntityObservation);
+            },
+            dataType: "json",
+        });
+
+    }
 
 function updateObservationWithReference() {
         var referenceTypeId = $('#referenceTypeSelect').val();
@@ -379,52 +429,6 @@ function updateObservationWithReference() {
                 alert("Error saving instructions. Please try again.");
             }
         });
-    }
-        }
-
-        if ($('#auditPara_Risk').val() == "0") {
-            alert("Please select Audit Risk");
-            return false;
-        }
-        if ($('#auditPara_Annex').val() == "") {
-            alert("Please select Annexure");
-            return false;
-        }
-        if ($('#auditPara_ParaNO').val() == "") {
-            alert("Please enter Para No");
-            return false;
-        }
-        if ($('#auditPara_Gist').val() == "") {
-            alert("Please enter Para Gist");
-            return false;
-        }
-
-        $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/update_para_for_manage_audit_paras",
-            type: "POST",
-            data: {
-                'NEW_PARA_ID': g_np_id,
-                'OLD_PARA_ID': g_op_id,
-                'INDICATOR': g_ind,
-                'AUDIT_PERIOD': $('#auditPara_Period').val(),
-                'OBS_GIST': $('#auditPara_Gist').val(),
-                'PARA_TEXT': $('#paraTextViewer').val(),
-                'OBS_RISK_ID': $('#auditPara_Risk').val(),
-                'PARA_NO': $('#auditPara_ParaNO').val(),
-                'ANNEX_ID': $('#auditPara_Annex').val(),
-                'AMOUNT_INV': $('#auditPara_AmountInv').val(),
-                'NO_INSTANCES': $('#auditPara_InstNO').val(),
-                'ANNEXURE_REF_ID': g_annexureRefId
-            },
-            cache: false,
-            success: function (data) {
-                $('#viewMemoModel').modal('hide');
-                alert(data.Message);
-                onAlertCallback(getEntityObservation);
-            },
-            dataType: "json",
-        });
-
     }
 
     function DeleteDuplicatePara(np_id, op_id, ind) {
@@ -534,7 +538,7 @@ function updateObservationWithReference() {
         });
     }
           function updateRiskDisplay() {
-            var annexId = $('#updatedAnnexlist').val();
+            var annexId = $('#auditPara_Annex').val();
             var riskName = '';
             g_selectedRiskId = 0;
             $.each(g_annexList, function (i, v) {
