@@ -616,7 +616,7 @@
             cache: false,
             success: function (data) {
                 $.each(data, function (i, v) {
-                    if (v.status == 'Y' || v.status == 1 || v.status == '1' || v.status === true) {
+                    if (v.status == 'Y' || v.status == 'YES' || v.status == 'Yes' || v.status == 1 || v.status == '1' || v.status === true) {                        
                         $('#checklistaction_' + v.cD_ID).val(1);
                         $('#checklistaction_' + v.cD_ID).attr('disabled', true);
                         $('#actionTd_'+v.cD_ID).empty();

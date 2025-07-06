@@ -251,13 +251,8 @@ namespace AIS.Controllers
         [HttpPost]
         public IActionResult UpdateAnnexureInstructions(int ReferenceTypeId, string ReferenceType, string InstructionsTitle, DateTime InstructionsDate, string InstructionsDetails, int AnnexureId, int ENTITY_ID, string ind)
             {
-            var refTypeNumeric = ReferenceTypeId;
-            if (int.TryParse(ReferenceType, out var parsed))
-                {
-                refTypeNumeric = parsed;
-                }
-
-            var result = dBConnection.UpdateAnnexureInstructions(AnnexureId, ReferenceTypeId, refTypeNumeric.ToString(), InstructionsTitle, InstructionsDate, InstructionsDetails, ENTITY_ID, ind); return Json(result);
+            var result = dBConnection.UpdateAnnexureInstructions(AnnexureId, ReferenceTypeId, ReferenceType, InstructionsTitle, InstructionsDate, InstructionsDetails, ENTITY_ID, ind);
+            return Json(result);
             }
         [HttpPost]
 

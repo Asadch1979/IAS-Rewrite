@@ -23668,14 +23668,15 @@ namespace AIS.Controllers
                     cmd.ExecuteNonQuery();
 
                     var outId = cmd.Parameters["o_annexure_id"].Value;
-
+                    var status = cmd.Parameters["o_status"].Value;
                     return new AnnexureInstructionModel
                         {
                         InstructionsTitle = instructionTitle,
                         InstructionsDate = instructionDate,
                         InstructionsDetails = instructionDetails,
                         AnnexureRefId = outId == DBNull.Value ? 0 : ((OracleDecimal)outId).ToInt32(),
-                        IND = ind
+                        IND = ind,
+                        Status = status == DBNull.Value ? string.Empty : status.ToString()
                         };
 
                     }
