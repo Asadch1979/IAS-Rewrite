@@ -148,6 +148,9 @@
                     $.each(data, function (i, v) {
                         $('#divisionSelect').append('<option value="' + v.entitY_ID + '\">' + v.description + '</option>');
                     });
+                    if (g_selectedCircular) {
+                        $('#divisionSelect').val(g_selectedCircular.entId);
+                    }
                     $("#divisionSelect").off("change").on("change", tryLoadInstructions);
                 },
                 dataType: "json",
