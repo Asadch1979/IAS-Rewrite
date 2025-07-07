@@ -13,84 +13,109 @@
     var g_zoneId = 0;
     var g_entityId = 0;
     var g_entityName = '';
-    var g_public_days = ['05-02','23-03', '01-05', '14-08', '25-12']; //dd-mm
-    ////'16th July and 17th July' are ashura (9th & 10th Muharram) days
- 
-    $(document).ready(function () {
-        var url_string = window.location;
-        var url = new URL(url_string);
-        var periodName = url.searchParams.get("period");
-        var risk = url.searchParams.get("risk");
-        var size = url.searchParams.get("size");
-        var entityName = url.searchParams.get("name");
-        g_entityName = entityName;
-        var freq = url.searchParams.get("freq");
-        var days = url.searchParams.get("days");
-        g_planId = url.searchParams.get("planId");
-        g_code = url.searchParams.get("code");
-        g_periodId = url.searchParams.get("periodId");
-        g_entityType = url.searchParams.get("entityType");
-        g_zoneId = url.searchParams.get("zoneId");
-        g_entityId = url.searchParams.get("entityId");
+    var g_public_days = []; // Will be filled from DB as MM-DD
 
-        if(g_entityType==25 || g_entityType==6){
-            $('#travellingDayWrapper').removeClass('d-none');
-            $('#revenueCollWrapper').removeClass('d-none');
-            $('#discussionDayWrapper').removeClass('d-none');
-        }else{
-            $('#travellingDayWrapper').addClass('d-none');
-            $('#revenueCollWrapper').addClass('d-none');
-            $('#discussionDayWrapper').addClass('d-none');
-        }
-        
-        $('#auditperiod_label').text(periodName);
-        $('#auditentity_label').text(entityName);
-        $('#risk_label').text(risk);
-        $('#size_label').text(size);
-        $('#frequency_label').text(freq);
-        $('#days_label').text(days);      
-    });
+
+     function loadPublicDays(year, cb) {
+        $.ajax({
+            url: '/ApiCalls/get_all_public_holidays',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ year: year }),
+            success: function (data) {
+                g_public_days = [];
+                data.forEach(function (item) {
+                    var dateObj = new Date(item.holiday_DATE);
+                    // Convert to MM-DD for comparison
+                    var mmdd = ("0" + (dateObj.getMonth() + 1)).slice(-2) + '-' + ("0" + dateObj.getDate()).slice(-2);
+                    g_public_days.push(mmdd);
+                });
+                if (cb) cb();
+            }
+        });
+    }
+
+        // Helper: Check if a date is a public day (from DB)
+    function isPublicDay(dateObj) {
+        var mmdd = ("0" + (dateObj.getMonth() + 1)).slice(-2) + '-' + ("0" + dateObj.getDate()).slice(-2);
+        return g_public_days.indexOf(mmdd) !== -1;
+    }
+
+
+
+    $(document).ready(function () {
+         var url_string = window.location;
+         var url = new URL(url_string);
+         var periodName = url.searchParams.get("period");
+         var risk = url.searchParams.get("risk");
+         var size = url.searchParams.get("size");
+         var entityName = url.searchParams.get("name");
+         g_entityName = entityName;
+         var freq = url.searchParams.get("freq");
+         var days = url.searchParams.get("days");
+         g_planId = url.searchParams.get("planId");
+         g_code = url.searchParams.get("code");
+         g_periodId = url.searchParams.get("periodId");
+         g_entityType = url.searchParams.get("entityType");
+         g_zoneId = url.searchParams.get("zoneId");
+         g_entityId = url.searchParams.get("entityId");
+
+         // Load public days for current year and continue with rest of UI
+         var currentYear = new Date().getFullYear();
+         loadPublicDays(currentYear);
+
+         if (g_entityType == 25 || g_entityType == 6) {
+             $('#travellingDayWrapper').removeClass('d-none');
+             $('#revenueCollWrapper').removeClass('d-none');
+             $('#discussionDayWrapper').removeClass('d-none');
+         } else {
+             $('#travellingDayWrapper').addClass('d-none');
+             $('#revenueCollWrapper').addClass('d-none');
+             $('#discussionDayWrapper').addClass('d-none');
+         }
+
+         $('#auditperiod_label').text(periodName);
+         $('#auditentity_label').text(entityName);
+         $('#risk_label').text(risk);
+         $('#size_label').text(size);
+         $('#frequency_label').text(freq);
+         $('#days_label').text(days);
+     });
+
     function getAutoEndDate() {
         var numAdd = parseInt($('#days_label').text());
 
-
         if (g_entityType == 25 || g_entityType == 6) {
             var addDays = parseInt($('#discussionDaysSelectField').val()) + parseInt($('#revenueDaysSelectField').val()) + parseInt($('#travellingDaysSelectField').val());
-            numAdd= parseInt(numAdd)+addDays;
+            numAdd = parseInt(numAdd) + addDays;
         }
 
         var dataAvui = new Date($('#startplan_date').val());
+        if (isNaN(dataAvui)) return;
+
         for (var i = 1; i < numAdd; i++) {
+            var dataTemp = new Date(dataAvui.getTime());
+            dataTemp.setDate(dataTemp.getDate() + 1);
 
-            var dataTemp = dataAvui;
-            dataTemp.setDate(dataTemp.getDate() + 1)
-           
-            if (g_entityType == 25 || g_entityType == 6  )
-            {
-                if (dataTemp.getDay() == 0) {
-                    dataTemp.setDate(dataTemp.getDate() + 1)
-                }
+            // Skip weekends
+            if (g_entityType == 25 || g_entityType == 6) {
+                if (dataTemp.getDay() == 0) // Sunday
+                    dataTemp.setDate(dataTemp.getDate() + 1);
+            } else {
+                if (dataTemp.getDay() == 6) // Saturday
+                    dataTemp.setDate(dataTemp.getDate() + 2);
+                if (dataTemp.getDay() == 0) // Sunday
+                    dataTemp.setDate(dataTemp.getDate() + 1);
+            }
+            // Skip DB holidays/weekends
+            while (isPublicDay(dataTemp)) {
+                dataTemp.setDate(dataTemp.getDate() + 1);
+            }
 
-            }
-            else
-            {
-                if (dataTemp.getDay() == 6)
-                {
-                    dataTemp.setDate(dataTemp.getDate() + 2)
-                }               
-                if (dataTemp.getDay() == 0)
-                {
-                dataTemp.setDate(dataTemp.getDate() + 1)
-                }               
-            }
-            var datemonth = ("0" + dataTemp.getDate()).slice(-2) + '-' + ("0" + (dataTemp.getMonth()+1)).slice(-2);
-            if (g_public_days.indexOf(datemonth) !== -1) {
-                dataTemp.setDate(dataTemp.getDate() + 1)
-            }
-            
             dataAvui = dataTemp;
-        }      
+        }
 
+        // Set End Date field
         var month = (dataAvui.getMonth() + 1);
         var day = dataAvui.getDate();
         if (month < 10)
@@ -100,18 +125,21 @@
         var today = dataAvui.getFullYear() + '-' + month + '-' + day;
         $('#endplan_date').val(today);
 
-
-        var date = new Date($('#startplan_date').val());
+        // Set operational period end date (last day of previous month)
+        var startVal = $('#startplan_date').val();
+        if (!startVal) return;
+        var date = new Date(startVal);
         const lastDayPrevMonth = new Date(date.getFullYear(), date.getMonth(), 0);
-        var month = (lastDayPrevMonth.getMonth() + 1);
-        var day = lastDayPrevMonth.getDate();
-        if (month < 10)
-            month = "0" + month;
-        if (day < 10)
-            day = "0" + day;
+        var month2 = (lastDayPrevMonth.getMonth() + 1);
+        var day2 = lastDayPrevMonth.getDate();
+        if (month2 < 10)
+            month2 = "0" + month2;
+        if (day2 < 10)
+            day2 = "0" + day2;
+        var prevMonthDay = lastDayPrevMonth.getFullYear() + '-' + month2 + '-' + day2;
+        $('#endop_date').val(prevMonthDay);
 
-        var today = lastDayPrevMonth.getFullYear() + '-' + month + '-' + day;
-        $('#endop_date').val(today);
+        // Fetch operational start date from server as before
         $.ajax({
             url: g_asiBaseURL + "/Planning/get_operational_start_date",
             type: "POST",
@@ -121,24 +149,20 @@
             },
             cache: false,
             success: function (data) {
-
                 if (data != "" && data.length > 0) {
                     var date = new Date(data);
                     date.setDate(date.getDate() + 1)
-                    var month = (date.getMonth()+1);
+                    var month = (date.getMonth() + 1);
                     var day = date.getDate();
                     if (month < 10)
                         month = "0" + month;
                     if (day < 10)
                         day = "0" + day;
-
                     var today = date.getFullYear() + '-' + month + '-' + day;
                     $('#startop_date').val(today);
                 }
             }
         });
-
-        
     }
    
     function previewAuditPlan() {

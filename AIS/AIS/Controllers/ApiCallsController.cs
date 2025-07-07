@@ -3305,6 +3305,20 @@ namespace AIS.Controllers
             {
             return dBConnection.GetAllPublicHolidays(year);
             }
+        [HttpPost]
+        public IActionResult check_public_holiday_day([FromBody] DateTime date)
+            {
+            var result = dBConnection.CheckIfHolidayOrWeekend(date);
+            return Json(new { isHoliday = result.IsHoliday, isWeekend = result.IsWeekend });
+            }
+
+        [HttpPost]
+        public IActionResult check_public_holiday_day([FromBody] string date)
+            {
+            var dt = DateTime.Parse(date);
+            var result = dBConnection.CheckIfHolidayOrWeekend(dt);
+            return Json(new { isHoliday = result.IsHoliday, isWeekend = result.IsWeekend });
+            }
 
 
         [HttpPost]

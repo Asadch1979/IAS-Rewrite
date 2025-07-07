@@ -23815,14 +23815,14 @@ namespace AIS.Controllers
             {
             var list = new List<PublicHolidayModel>();
 
-            using (var cmd = new OracleCommand("P_GET_PUBLIC_HOLIDAYS", conn))
+            using (var cmd = new OracleCommand("P_GET_PUBLIC_HOLIDAYS", con))
                 {
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.Add("p_year", OracleDbType.Int32).Value = year == 0 ? (object)DBNull.Value : year;
                 cmd.Parameters.Add("o_holidays", OracleDbType.RefCursor, ParameterDirection.Output);
 
-                conn.Open();
+                con.Open();
                 using (var rdr = cmd.ExecuteReader())
                     {
                     while (rdr.Read())
@@ -23841,6 +23841,30 @@ namespace AIS.Controllers
                 }
             return list;
             }
+
+        public (bool IsHoliday, bool IsWeekend) CheckIfHolidayOrWeekend(DateTime date)
+            {
+
+            using (var cmd = new OracleCommand("pkg_ad.P_GET_PUBLIC_HOLIDAY_DAY", conn))
+                {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("p_day", OracleDbType.Date).Value = date;
+                cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                conn.Open();
+
+                using (var rdr = cmd.ExecuteReader())
+                    {
+                    if (rdr.Read())
+                        {
+                        string holiday = rdr["holiday"].ToString();
+                        string weekend = rdr["weekend"].ToString();
+                        return (holiday == "Y", weekend == "Y");
+                        }
+                    }
+                }
+            return (false, false);
+            }
+
         public int GetPageIdByPath(string pagePath)
             {
             int pageId = 0;
