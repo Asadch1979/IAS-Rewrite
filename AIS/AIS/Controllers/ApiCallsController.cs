@@ -72,11 +72,6 @@ namespace AIS.Controllers
             dBConnection.TerminateIdleSession();
             return true;
             }
-        [HttpPost]
-        public List<AuditPlanEngagementModel> getauditplanengagement(int b_id)
-            {
-            return dBConnection.GetAuditPlanEngagement(b_id);
-            }
 
         [HttpPost]
         public BranchModel branch_add(BranchModel br)
