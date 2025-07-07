@@ -683,7 +683,7 @@ function updateObservationStatus(type) {
                             </div>
                             <div class="form-group">
                                 <label for="p_auditPara_Annex" class="font-weight-bold">Annexure</label>
-                                <select id="p_auditPara_Annex" class="form-select form-control">
+                                <select id="p_auditPara_Annex" class="form-select form-control" disabled>
                                     <option selected="selected" value="" id="">--Select Annexure--</option>
                                     @{
                                         if (ViewData["AnnexList"] != null)
@@ -702,7 +702,7 @@ function updateObservationStatus(type) {
 
                             <div class="form-group">
                                 <label for="p_auditPara_Risk" class="font-weight-bold">Risk</label>
-                                <select id="p_auditPara_Risk" class="form-control">
+                                <select id="p_auditPara_Risk" class="form-control" disabled>
                                     <option value="0" id="0" selected>--Select Risk Category--</option>
                                     @{
                                         if (ViewData["RiskList"] != null)
@@ -740,12 +740,12 @@ function updateObservationStatus(type) {
                                 <label>Reference Type</label>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <select id="referenceTypeSelect" class="form-select form-control">
+                                        <select id="referenceTypeSelect" class="form-select form-control" disabled>
                                             <option value="0">--Select Reference Type--</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6">
-                                        <select id="divisionSelect" class="form-select form-control" style="display:none;">
+                                        <select id="divisionSelect" class="form-select form-control" style="display:none;" disabled>
                                             <option value="0">--Select Division--</option>
                                         </select>
                                     </div>
@@ -755,19 +755,19 @@ function updateObservationStatus(type) {
                                 <div class="row">
                                     <div class="col-md-4 mt-2">
                                         <label for="instructionsTitle">Title/Chapter</label>
-                                        <select id="instructionsTitle" class="form-control">
+                                        <select id="instructionsTitle" class="form-control" disabled>
                                             <option value="">--Select or Add Title/Chapter--</option>
                                         </select>
-                                        <input type="text" id="newInstructionsTitle" class="form-control mt-2" placeholder="Enter new title" style="display:none;" />
+                                        <input type="text" id="newInstructionsTitle" class="form-control mt-2" placeholder="Enter new title" style="display:none;" disabled />
                                         <div id="instructionCount" class="text-info mt-1"></div>
                                     </div>
                                     <div class="col-md-4 mt-2">
                                         <label>Instructions Date</label>
-                                        <input id="instructionsDate" type="date" class="form-control" />
+                                        <input id="instructionsDate" type="date" class="form-control" disabled />
                                     </div>
                                     <div class="col-md-4 mt-2">
                                         <label>Instructions Details</label>
-                                        <textarea id="instructionsDetails" class="form-control"></textarea>
+                                        <textarea id="instructionsDetails" class="form-control" disabled></textarea>
                                     </div>
                                 </div>
                             </div>
