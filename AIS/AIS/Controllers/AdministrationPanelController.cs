@@ -827,7 +827,7 @@ namespace AIS.Controllers
                 }
             }
 
-        public IActionResult manage_public_holidays()
+        public IActionResult ManagePublicHolidays()
             {
             ViewData["TopMenu"] = tm.GetTopMenus();
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();

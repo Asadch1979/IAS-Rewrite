@@ -3295,6 +3295,19 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
+        public PublicHolidayModel add_public_holiday(PublicHolidayModel model)
+            {
+            return dBConnection.AddPublicHoliday(model);
+            }
+
+        [HttpPost]
+        public List<PublicHolidayModel> get_all_public_holidays(int year = 0)
+            {
+            return dBConnection.GetAllPublicHolidays(year);
+            }
+
+
+        [HttpPost]
         public List<FadDeskOfficerRptModel> get_fad_desk_officer_rpt_by_period(string auditPeriod)
             {
             return dBConnection.GetFadDeskOfficerRptByPeriod(auditPeriod);

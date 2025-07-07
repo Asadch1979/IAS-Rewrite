@@ -23742,8 +23742,7 @@ namespace AIS.Controllers
             return periods;
             }
 
-
-        public List<FadDeskOfficerRptModel> GetFadDeskOfficerRptByPeriod(string auditPeriod)
+       public List<FadDeskOfficerRptModel> GetFadDeskOfficerRptByPeriod(string auditPeriod)
             {
             var results = new List<FadDeskOfficerRptModel>();
             using (var con = this.DatabaseConnection())
@@ -23780,7 +23779,68 @@ namespace AIS.Controllers
             return results;
             }
 
+        public List<PublicHolidayModel> GetAllPublicHolidays(int year = 0)
+            {
+            var list = new List<PublicHolidayModel>();
+            using (var conn = this.DatabaseConnection())
+                {
+                conn.Open();
+                using (var cmd = new OracleCommand("P_GET_PUBLIC_HOLIDAYS", conn))
+                {
+                cmd.CommandType = CommandType.StoredProcedure;
 
+                cmd.Parameters.Add("p_year", OracleDbType.Int32).Value = year == 0 ? (object)DBNull.Value : year;
+                cmd.Parameters.Add("o_holidays", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                 using (var rdr = cmd.ExecuteReader())
+                    {
+                    while (rdr.Read())
+                        {
+                        list.Add(new PublicHolidayModel
+                            {
+                            ID = Convert.ToInt32(rdr["ID"]),
+                            HOLIDAY_DATE = Convert.ToDateTime(rdr["HOLIDAY_DATE"]),
+                            HOLIDAY_YEAR = Convert.ToInt32(rdr["HOLIDAY_YEAR"]),
+                            IS_WEEKEND = rdr["IS_WEEKEND"].ToString(),
+                            IS_HOLIDAY = rdr["IS_HOLIDAY"].ToString(),
+                            HOLIDAY_NAME = rdr["HOLIDAY_NAME"]?.ToString()
+                            });
+                        }
+                    }
+                }
+            return list;
+            }
+
+        public List<PublicHolidayModel> GetAllPublicHolidays(int year = 0)
+            {
+            var list = new List<PublicHolidayModel>();
+
+            using (var cmd = new OracleCommand("P_GET_PUBLIC_HOLIDAYS", conn))
+                {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("p_year", OracleDbType.Int32).Value = year == 0 ? (object)DBNull.Value : year;
+                cmd.Parameters.Add("o_holidays", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                conn.Open();
+                using (var rdr = cmd.ExecuteReader())
+                    {
+                    while (rdr.Read())
+                        {
+                        list.Add(new PublicHolidayModel
+                            {
+                            ID = Convert.ToInt32(rdr["ID"]),
+                            HOLIDAY_DATE = Convert.ToDateTime(rdr["HOLIDAY_DATE"]),
+                            HOLIDAY_YEAR = Convert.ToInt32(rdr["HOLIDAY_YEAR"]),
+                            IS_WEEKEND = rdr["IS_WEEKEND"].ToString(),
+                            IS_HOLIDAY = rdr["IS_HOLIDAY"].ToString(),
+                            HOLIDAY_NAME = rdr["HOLIDAY_NAME"]?.ToString()
+                            });
+                        }
+                    }
+                }
+            return list;
+            }
         public int GetPageIdByPath(string pagePath)
             {
             int pageId = 0;
