@@ -343,9 +343,9 @@ namespace AIS.Controllers
             return dBConnection.GetObservationsForMangeAuditParasForAuthorization();
             }
         [HttpPost]
-        public List<ManageAuditParasModel> get_proposed_changes_in_manage_paras_auth(int C_ID)
+        public List<ManageAuditParasModel> get_proposed_changes_in_manage_paras_auth(int COM_ID)
             {
-            return dBConnection.GetProposedChangesInManageParasAuth(C_ID);
+            return dBConnection.GetProposedChangesInManageParasAuth(COM_ID);
             }
         [HttpPost]
         public string update_para_for_manage_audit_paras(ManageAuditParasModel pm, int ANNEXURE_REF_ID = 0)
@@ -3306,21 +3306,11 @@ namespace AIS.Controllers
             return dBConnection.GetAllPublicHolidays(year);
             }
         [HttpPost]
-        public IActionResult check_public_holiday_day([FromBody] DateTime date)
+        public string check_public_holiday_day(String dat)
             {
-            var result = dBConnection.CheckIfHolidayOrWeekend(date);
-            return Json(new { isHoliday = result.IsHoliday, isWeekend = result.IsWeekend });
+            return "{\"Status\":true,\"Message\":\"" + dBConnection.CheckIfHolidayOrWeekend(dat) + "\"}";
             }
-
-        [HttpPost]
-        public IActionResult check_public_holiday_day([FromBody] string date)
-            {
-            var dt = DateTime.Parse(date);
-            var result = dBConnection.CheckIfHolidayOrWeekend(dt);
-            return Json(new { isHoliday = result.IsHoliday, isWeekend = result.IsWeekend });
-            }
-
-
+      
         [HttpPost]
         public List<FadDeskOfficerRptModel> get_fad_desk_officer_rpt_by_period(string auditPeriod)
             {

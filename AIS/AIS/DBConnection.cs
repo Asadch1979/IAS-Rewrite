@@ -6319,7 +6319,7 @@ namespace AIS.Controllers
                 while (rdr.Read())
                     {
                     ManageAuditParasModel chk = new ManageAuditParasModel();
-                    chk.PARA_ID = rdr["com_id"].ToString();
+                    chk.COM_ID = rdr["com_id"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["COM_ID"]);
                     chk.NEW_PARA_ID = rdr["new_para_id"].ToString();
                     chk.OLD_PARA_ID = rdr["old_para_id"].ToString();                  
                     chk.OBS_RISK = rdr["risk"].ToString();
@@ -6343,7 +6343,7 @@ namespace AIS.Controllers
             con.Dispose();
             return list;
             }
-        public List<ManageAuditParasModel> GetProposedChangesInManageParasAuth(int C_ID)
+        public List<ManageAuditParasModel> GetProposedChangesInManageParasAuth(int COM_ID)
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
@@ -6358,7 +6358,7 @@ namespace AIS.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
 
-                cmd.Parameters.Add("C_ID", OracleDbType.Int32).Value = C_ID;
+                cmd.Parameters.Add("C_ID", OracleDbType.Int32).Value = COM_ID;
                 //cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
                 //cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 //cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
@@ -6367,8 +6367,9 @@ namespace AIS.Controllers
                 while (rdr.Read())
                     {
                     ManageAuditParasModel chk = new ManageAuditParasModel();
-                    chk.NEW_PARA_ID = rdr["new_paraid"].ToString();
-                    chk.OLD_PARA_ID = rdr["old_para_id"].ToString();
+                    chk.COM_ID = rdr["com_id"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["COM_ID"]);
+                    chk.NEW_PARA_ID = rdr["NEW_PARA_ID"].ToString();
+                    chk.OLD_PARA_ID = rdr["OLD_PARA_ID"].ToString();
                     chk.OBS_RISK = rdr["risk"].ToString();
                     chk.OBS_RISK_ID = rdr["risk"].ToString();
                     chk.OBS_GIST = rdr["gist_of_para"].ToString();
@@ -23742,127 +23743,140 @@ namespace AIS.Controllers
             return periods;
             }
 
-       public List<FadDeskOfficerRptModel> GetFadDeskOfficerRptByPeriod(string auditPeriod)
+        public List<FadDeskOfficerRptModel> GetFadDeskOfficerRptByPeriod(string auditPeriod)
             {
-            var results = new List<FadDeskOfficerRptModel>();
-            using (var con = this.DatabaseConnection())
-                {
-                con.Open();
-                using (var cmd = new OracleCommand("PKG_RPT.P_GET_FAD_DESK_OFFICER_RPT_BY_PERIOD", con))
-                    {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("p_audit_period", OracleDbType.Varchar2, auditPeriod ?? (object)DBNull.Value, ParameterDirection.Input);
-                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor, ParameterDirection.Output);
+            // Session pattern for logged-in user (if required by package)
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
 
-                    using (var reader = cmd.ExecuteReader())
+            var con = this.DatabaseConnection();
+            con.Open();
+
+            List<FadDeskOfficerRptModel> results = new List<FadDeskOfficerRptModel>();
+
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "PKG_RPT.P_GET_FAD_DESK_OFFICER_RPT_BY_PERIOD";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("p_audit_period", OracleDbType.Varchar2).Value = auditPeriod ?? (object)DBNull.Value;
+                cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+
+                using (OracleDataReader reader = cmd.ExecuteReader())
+                    {
+                    while (reader.Read())
                         {
-                        while (reader.Read())
+                        FadDeskOfficerRptModel rpt = new FadDeskOfficerRptModel
                             {
-                            results.Add(new FadDeskOfficerRptModel
-                                {
-                                AuditPeriod = reader["AUDIT_PERIOD"]?.ToString(),
-                                ChildCode = reader["CHILD_CODE"]?.ToString(),
-                                CName = reader["C_NAME"]?.ToString(),
-                                AZ = reader["AZ"]?.ToString(),
-                                PName = reader["P_NAME"]?.ToString(),
-                                Annex = reader["ANNEX"]?.ToString(),
-                                GistOfParas = reader["GIST_OF_PARAS"]?.ToString(),
-                                ParaNo = reader["PARA_NO"]?.ToString(),
-                                NoOfInstances = reader["NO_OF_INSTANCES"] == DBNull.Value ? 0 : Convert.ToInt32(reader["NO_OF_INSTANCES"]),
-                                Risk = reader["RISK"]?.ToString(),
-                                Amount = reader["AMOUNT"]?.ToString(),
-                                });
-                            }
+                            AuditPeriod = reader["AUDIT_PERIOD"]?.ToString(),
+                            ChildCode = reader["CHILD_CODE"]?.ToString(),
+                            CName = reader["C_NAME"]?.ToString(),
+                            AZ = reader["AZ"]?.ToString(),
+                            PName = reader["P_NAME"]?.ToString(),
+                            Annex = reader["ANNEX"]?.ToString(),
+                            GistOfParas = reader["GIST_OF_PARAS"]?.ToString(),
+                            ParaNo = reader["PARA_NO"]?.ToString(),
+                            NoOfInstances = reader["NO_OF_INSTANCES"] == DBNull.Value ? 0 : Convert.ToInt32(reader["NO_OF_INSTANCES"]),
+                            Risk = reader["RISK"]?.ToString(),
+                            Amount = reader["AMOUNT"]?.ToString(),
+                            };
+                        results.Add(rpt);
                         }
                     }
                 }
+            con.Dispose();
             return results;
             }
 
-        public List<PublicHolidayModel> GetAllPublicHolidays(int year = 0)
+        public PublicHolidayModel AddPublicHoliday(PublicHolidayModel model)
             {
-            var list = new List<PublicHolidayModel>();
-            using (var conn = this.DatabaseConnection())
+            // Session pattern (if needed for auditing/logged-in info)
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+
+            var con = this.DatabaseConnection();
+            con.Open();
+
+            using (OracleCommand cmd = con.CreateCommand())
                 {
-                conn.Open();
-                using (var cmd = new OracleCommand("P_GET_PUBLIC_HOLIDAYS", conn))
-                {
+                cmd.CommandText = "PKG_AD.P_INSERT_PUBLIC_HOLIDAY";
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
 
-                cmd.Parameters.Add("p_year", OracleDbType.Int32).Value = year == 0 ? (object)DBNull.Value : year;
-                cmd.Parameters.Add("o_holidays", OracleDbType.RefCursor, ParameterDirection.Output);
+                cmd.Parameters.Add("p_holiday_date", OracleDbType.Date).Value = model.HOLIDAY_DATE;
+                cmd.Parameters.Add("p_is_weekend", OracleDbType.Char).Value = model.IS_WEEKEND;
+                cmd.Parameters.Add("p_is_holiday", OracleDbType.Char).Value = model.IS_HOLIDAY;
+                cmd.Parameters.Add("p_holiday_name", OracleDbType.Varchar2).Value = string.IsNullOrEmpty(model.HOLIDAY_NAME) ? (object)DBNull.Value : model.HOLIDAY_NAME;
 
-                 using (var rdr = cmd.ExecuteReader())
-                    {
-                    while (rdr.Read())
-                        {
-                        list.Add(new PublicHolidayModel
-                            {
-                            ID = Convert.ToInt32(rdr["ID"]),
-                            HOLIDAY_DATE = Convert.ToDateTime(rdr["HOLIDAY_DATE"]),
-                            HOLIDAY_YEAR = Convert.ToInt32(rdr["HOLIDAY_YEAR"]),
-                            IS_WEEKEND = rdr["IS_WEEKEND"].ToString(),
-                            IS_HOLIDAY = rdr["IS_HOLIDAY"].ToString(),
-                            HOLIDAY_NAME = rdr["HOLIDAY_NAME"]?.ToString()
-                            });
-                        }
-                    }
+                cmd.ExecuteNonQuery();
                 }
-            return list;
+
+            con.Dispose();
+            return model;
             }
 
         public List<PublicHolidayModel> GetAllPublicHolidays(int year = 0)
             {
-            var list = new List<PublicHolidayModel>();
-
-            using (var cmd = new OracleCommand("P_GET_PUBLIC_HOLIDAYS", con))
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var con = this.DatabaseConnection(); con.Open();
+            var loggedInUser = sessionHandler.GetSessionUser();
+            List<PublicHolidayModel> list = new List<PublicHolidayModel>();
+            using (OracleCommand cmd = con.CreateCommand())
                 {
+                cmd.CommandText = "pkg_ad.P_GET_PUBLIC_HOLIDAYS";
                 cmd.CommandType = CommandType.StoredProcedure;
-
+                cmd.Parameters.Clear();
                 cmd.Parameters.Add("p_year", OracleDbType.Int32).Value = year == 0 ? (object)DBNull.Value : year;
-                cmd.Parameters.Add("o_holidays", OracleDbType.RefCursor, ParameterDirection.Output);
-
-                con.Open();
-                using (var rdr = cmd.ExecuteReader())
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor, ParameterDirection.Output);
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
                     {
-                    while (rdr.Read())
-                        {
-                        list.Add(new PublicHolidayModel
-                            {
-                            ID = Convert.ToInt32(rdr["ID"]),
-                            HOLIDAY_DATE = Convert.ToDateTime(rdr["HOLIDAY_DATE"]),
-                            HOLIDAY_YEAR = Convert.ToInt32(rdr["HOLIDAY_YEAR"]),
-                            IS_WEEKEND = rdr["IS_WEEKEND"].ToString(),
-                            IS_HOLIDAY = rdr["IS_HOLIDAY"].ToString(),
-                            HOLIDAY_NAME = rdr["HOLIDAY_NAME"]?.ToString()
-                            });
-                        }
+                    PublicHolidayModel ad = new PublicHolidayModel();
+                    ad.ID = Convert.ToInt32(rdr["ID"]);
+                    ad.HOLIDAY_DATE = Convert.ToDateTime(rdr["HOLIDAY_DATE"]);
+                    ad.HOLIDAY_YEAR = Convert.ToInt32(rdr["HOLIDAY_YEAR"]);
+                    ad.IS_WEEKEND = rdr["IS_WEEKEND"].ToString();
+                    ad.IS_HOLIDAY = rdr["IS_HOLIDAY"].ToString();
+                    ad.HOLIDAY_NAME = rdr["HOLIDAY_NAME"]?.ToString();
+                    list.Add(ad);                    
                     }
                 }
+            con.Dispose();
             return list;
             }
 
-        public (bool IsHoliday, bool IsWeekend) CheckIfHolidayOrWeekend(DateTime date)
+        public List<PublicHolidayModel> CheckIfHolidayOrWeekend(String dat)
             {
-
-            using (var cmd = new OracleCommand("pkg_ad.P_GET_PUBLIC_HOLIDAY_DAY", conn))
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var con = this.DatabaseConnection(); con.Open();
+            var loggedInUser = sessionHandler.GetSessionUser();
+            List<PublicHolidayModel> list = new List<PublicHolidayModel>();
+            using (OracleCommand cmd = con.CreateCommand())
                 {
+                cmd.CommandText = "pkg_ad.P_GET_PUBLIC_HOLIDAY_DAY";
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("p_day", OracleDbType.Date).Value = date;
-                cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-                conn.Open();
-
-                using (var rdr = cmd.ExecuteReader())
-                    {
-                    if (rdr.Read())
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("p_day", OracleDbType.Single).Value = dat;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
                         {
-                        string holiday = rdr["holiday"].ToString();
-                        string weekend = rdr["weekend"].ToString();
-                        return (holiday == "Y", weekend == "Y");
-                        }
+                    PublicHolidayModel ad = new PublicHolidayModel();
+                    ad.IS_HOLIDAY = rdr["holiday"].ToString();
+                    ad.IS_WEEKEND = rdr["weekend"].ToString();
+                    list.Add(ad);
                     }
                 }
-            return (false, false);
+            con.Dispose();
+            return list;
             }
 
         public int GetPageIdByPath(string pagePath)
