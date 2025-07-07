@@ -382,19 +382,45 @@
         g_observationId = id;
         var value = $($(e).parent().parent().find('.checklistaction').eq(0)).val();
 
+        var tempobj = {
+            ID: '0',
+            'MEMO': '',
+            'ANNEXURE_ID': '0',
+            'HEADING': '',
+            'RISK': '',
+            'DAYS': '',
+            'LOANCASE': '',
+            'NO_OF_INSTANCES': '0',
+            'AMOUNT_INVOLVED': '0',
+            'ATTACHMENTS': '',
+            'RESPONSIBLE_PPNO': [],
+            'RESP_TABLE_ROWS': [],
+        };
         if (value == 1) {
+            $.each(g_memoObj, function (i, v) {
+                if (v.ID == id) {
+                    tempobj = v;
+                }
+            });
+        }
+        if (tempobj.ID != 0) {
             $('#viewMemoModel').modal('show');
-            $('.richText-editor').html('');
-            $('#viewMemo_heading').val('');
-            $('#updatedAnnexlist').val('0');
-            g_selectedRiskId = 0;
-            updateRiskDisplay();
-            $('#viewMemo_replydays').val(1);
-            $('#viewMemo_loancase').val('');
-            $('#viewMemo_noinstances').val('');
-            $('#viewMemo_amountInv').val('');
-            $('#viewMemo_attachments').val('');
-            $('#listofRespPersons tbody').empty();
+            $('.richText-editor').html(tempobj.MEMO);
+            $('#viewMemo_heading').val(tempobj.HEADING);
+            $('#viewMemo_risk').val(tempobj.RISK);
+            $('#updatedAnnexlist').val(tempobj.ANNEXURE_ID);
+            $('#viewMemo_replydays').val(tempobj.DAYS);
+            $('#viewMemo_loancase').val(tempobj.LOANCASE);
+            $('#viewMemo_noinstances').val(tempobj.NO_OF_INSTANCES);
+            $('#viewMemo_amountInv').val(tempobj.AMOUNT_INVOLVED);
+            $('#viewMemo_attachments').val(tempobj.ATTACHMENTS);
+            if (tempobj.RESPONSIBLE_PPNO.length > 0) {
+                $.each(tempobj.RESPONSIBLE_PPNO, function (j, pp) {
+                    var srNo = $('#listofRespPersons tbody tr').length;
+                    srNo++;
+                    $('#listofRespPersons tbody').append('<tr id="tr_' + pp.PP_NO + '"><td>' + srNo + '</td><td>' + pp.PP_NO + '</td><td>' + pp.EMP_NAME + '</td><td>' + pp.LOAN_CASE + '</td><td>' + pp.LC_AMOUNT + '</td><td>' + pp.ACCOUNT_NUMBER + '</td><td>' + pp.ACC_AMOUNT + '</td><td class="text-center"><a href="#" onclick="event.preventDefault();deleteRespRow(this);">Delete</a></td></tr>');
+                });
+            }
         } else {
             alert("Please select Yes to create Observation");
             return;
