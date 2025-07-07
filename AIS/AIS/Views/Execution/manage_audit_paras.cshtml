@@ -720,6 +720,42 @@ function updateObservationWithReference() {
 
 </div>
 
+<!-- Circular Selection Modal -->
+<div class="modal fade" id="circularModal" tabindex="-1" aria-labelledby="circularModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="circularModalLabel">Select Circular</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Please enter any keyword to search the circular</label>
+                    <input type="text" id="circularSearchText" class="form-control" />
+                    <button type="button" id="btnSearchCircular" class="btn btn-primary mt-2">Search</button>
+                </div>
+                <div class="table-responsive">
+                    <table id="circularResultsTable" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>Circular Reference</th>
+                                <th>Date of Issuance</th>
+                                <th>Subject</th>
+                                <th>Division</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnAddCircular" class="btn btn-success">Add</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div id="viewMemoModel" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-xl" role="document">
@@ -797,41 +833,6 @@ function updateObservationWithReference() {
                             <div class="col-md-4 mt-2">
                                 <label>Instructions Details</label>
                                 <textarea id="instructionsDetails" class="form-control"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal fade" id="circularModal" tabindex="-1" aria-labelledby="circularModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="circularModalLabel">Select Circular</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label class="form-label">Please enter any keyword to search the circular</label>
-                                        <input type="text" id="circularSearchText" class="form-control" />
-                                        <button type="button" id="btnSearchCircular" class="btn btn-primary mt-2">Search</button>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table id="circularResultsTable" class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>Select</th>
-                                                    <th>Circular Reference</th>
-                                                    <th>Date of Issuance</th>
-                                                    <th>Subject</th>
-                                                    <th>Division</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" id="btnAddCircular" class="btn btn-success">Add</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
                             </div>
                         </div>
                     </div>
