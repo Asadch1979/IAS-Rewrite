@@ -667,6 +667,26 @@ function updateObservationStatus(type) {
                                 <input id="auditPara_InstNO" class="form-control" type="number" />
                             </div>
 
+                            <!-- Reference Type and Instructions -->
+                            <div class="form-group">
+                                <label for="p_auditPara_RefTy" class="font-weight-bold">Reference Type </label>
+                                <input id="p_auditPara_RefTy" class="form-control" type="text" readonly />
+
+                                <div class="form-group">
+                                    <label for="p_auditPara_Div" class="font-weight-bold">Division </label>
+                                    <input id="p_auditPara_Div" class="form-control" type="text" readonly />
+                                </div>
+                                <div id="instructionFields" class="form-group mt-3" style="display:none;">
+                                    <div class="form-group">
+                                        <label for="p_auditPara_Chap" class="font-weight-bold">Title/Chapter </label>
+                                        <input id="p_auditPara_Chap" class="form-control" type="text" readonly />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="p_auditPara_InsDate" class="font-weight-bold">Instructions Date </label>
+                                        <input id="p_auditPara_InsDate" class="form-control" type="date" readonly />
+                                    </div>
+                                </div>
+                            </div>
                             <hr />
                             <center><h3>Responsible Personals</h3></center>
                             <hr />
@@ -768,7 +788,7 @@ function updateObservationStatus(type) {
                                     <input id="p_auditPara_InsDate" class="form-control" type="date" readonly />
                                 </div>
                                 </div>
-                            <!-- /Reference Type and Instructions -->
+                            </div>
                             <hr />
                             <center><h3>Responsible Personals</h3></center>
                             <hr />

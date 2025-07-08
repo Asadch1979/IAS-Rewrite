@@ -52,9 +52,9 @@
                 var rows = '';
                 data.forEach(function (item) {
                     rows += `<tr>
-                        <td>${item.holiday_DATE.substring(0,10)}</td>
-                        <td>${item.is_HOLIDAY === "Y" ? "Holiday" : item.is_WEEKEND === "Y" ? "Weekend" : ""}</td>
-                        <td>${item.holiday_NAME || ''}</td>
+                        <td>${item.holidaY_DATE.substring(0,10)}</td>
+                        <td>${item.iS_HOLIDAY === "Y" ? "Holiday" : item.iS_WEEKEND === "Y" ? "Weekend" : ""}</td>
+                        <td>${item.holidaY_NAME || ''}</td>
                     </tr>`;
                 });
                 $('#holidaysTable tbody').html(rows);
