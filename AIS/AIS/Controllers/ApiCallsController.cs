@@ -3318,6 +3318,14 @@ namespace AIS.Controllers
             return dBConnection.GetFadDeskOfficerRptByPeriod(auditPeriod);
             }
 
+        [HttpPost]
+        public List<FadDeskOfficerRptModel> get_fad_desk_officer_rpt_by_date_range(string startDate, string endDate)
+            {
+            DateTime sDate = DateTime.Parse(startDate);
+            DateTime eDate = DateTime.Parse(endDate);
+            return dBConnection.GetFadDeskOfficerRptByDateRange(sDate, eDate);
+            }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
             {

@@ -36,6 +36,12 @@
             $('#p_auditPara_Period').append('<option value="' + i + '">' + i + '</option>');
         }
 
+        $('#p_auditPara_Annex').on('change', function(){
+            $('#updatedAnnexlist').val($(this).val());
+            updateRiskDisplay();
+        });
+        $('#updatedAnnexlist').on('change', updateRiskDisplay);
+
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/GetReferenceTypes",
             type: "GET",

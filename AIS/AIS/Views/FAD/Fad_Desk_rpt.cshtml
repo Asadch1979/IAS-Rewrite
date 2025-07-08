@@ -1,13 +1,14 @@
 @{
     ViewData["Title"] = "FAD Desk Officer Report";
     Layout = "_Layout";
-    var auditPeriods = ViewBag.AuditPeriods as List<string>;
 }
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#auditPeriodSelect').change(function () {
-            loadDeskReport();
+        $('#startDate,#endDate').change(function () {
+            if ($('#startDate').val() && $('#endDate').val()) {
+                loadDeskReport();
+            }
         });
     });
 
@@ -15,10 +16,11 @@
         destroyDatatable('fadDeskOfficerTable');
         $('#fadDeskOfficerTable tbody').empty();
         $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/get_fad_desk_officer_rpt_by_period",
+            url: g_asiBaseURL + "/ApiCalls/get_fad_desk_officer_rpt_by_date_range",
             type: "POST",
             data: {
-                "auditPeriod": $('#auditPeriodSelect').val()
+                "startDate": $('#startDate').val(),
+                "endDate": $('#endDate').val()
             },
             cache: false,
             success: function (data) {
@@ -35,14 +37,12 @@
     <h3 style="color: #45c545;">FAD Desk Officer Report</h3>
 </div>
 <div class="row col-md-12 mt-2">
-    <label>Select Audit Year</label>
-    <select id="auditPeriodSelect" class="form-select form-control">
-        <option value="">--Select Year--</option>
-        @foreach (var p in auditPeriods)
-        {
-            <option value="@p">@p</option>
-        }
-    </select>
+    <label>Start Date</label>
+    <input id="startDate" type="date" class="form-control" />
+</div>
+<div class="row col-md-12 mt-2">
+    <label>End Date</label>
+    <input id="endDate" type="date" class="form-control" />
 </div>
 <div class="row col-md-12 mt-3">
     <table id="fadDeskOfficerTable" class="table table-hover table-bordered table-striped">

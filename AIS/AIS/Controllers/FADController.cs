@@ -377,7 +377,6 @@ namespace AIS.Controllers
         {
             ViewData["TopMenu"] = tm.GetTopMenus();
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();
-            ViewBag.AuditPeriods = dBConnection.GetDistinctFadDeskOfficerAuditPeriods();
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
