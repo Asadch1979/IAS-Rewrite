@@ -24,7 +24,8 @@ function populateCircularResults(data, tableSelector) {
         row.append('<td>' + v.referenceNo + '</td>');
         row.append('<td>' + issue + '</td>');
         row.append('<td>' + v.displayText + '</td>');
-        row.append('<td>' + v.division + '</td>');
+        var division = v.division || v.Division || v.DIVISION || '';
+        row.append('<td>' + division + '</td>');
         row.find('input').data('circular', v);
         tbody.append(row);
     });
