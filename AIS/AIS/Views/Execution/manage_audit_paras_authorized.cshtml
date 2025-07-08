@@ -148,21 +148,18 @@
                         $('#divisionSelect').append('<option value="' + v.entitY_ID + '\">' + v.description + '</option>');
                     });
                     $("#divisionSelect").off("change").on("change", function () { tryLoadInstructions(); });
-                    if (selectedIdOrName) {
-                        var val = selectedIdOrName;
-                        if (isNaN(val)) {
-                            var match = $('#divisionSelect option').filter(function () {
-                                return $(this).text().trim().toLowerCase() === (selectedIdOrName + '').toLowerCase();
-                            }).val();
-                            if (match) val = match;
+                              if (selectedId) {
+                            $('#divisionSelect').val(selectedId);
+                        } else if (g_dataV && g_dataV.DIVISION) {
+                            $('#divisionSelect option').filter(function () {
+                                return $(this).text().toLowerCase() === g_dataV.DIVISION.toLowerCase();
+                            }).prop('selected', true);
                         }
-                        $('#divisionSelect').val(val);
-                    }
-                    tryLoadInstructions(title, date, details, refId);
-                },
-                dataType: "json",
-            });
-        }
+                        tryLoadInstructions(title, date, details, refId);
+                    },
+                    dataType: "json",
+                });
+            }
 
         getEntityObservation();
 
@@ -232,20 +229,10 @@
                     $('#p_auditPara_AmountInv').val(v.amounT_INV);
                     $('#p_auditPara_InstNO').val(v.nO_INSTANCES);
                     $('#p_paraTextViewer').val(v.parA_TEXT).trigger('change');
-                    var refName = v.referencE_TYPE;
-                    if (refName) {
-                        var refId = $('#referenceTypeSelect option').filter(function () {
-                            return $(this).text().toLowerCase() === (refName + '').toLowerCase();
-                        }).val();
-                        if (refId) { $('#referenceTypeSelect').val(refId); }
-                        $('#instructionFields').show();
-                        $('#divisionSelect').show();
-                        loadDivisions(v.division, v.instructionS_TITLE,
-                            v.instructionS_DATE ? v.instructionS_DATE.split('T')[0] : '',
-                            v.instructionsDetails || v.instructionS_DETAILS,
-                            refId);
-                        g_annexureRefId = v.annexurE_REF_ID ? parseInt(v.annexurE_REF_ID) : 0;
-                    }
+                    $('#p_auditPara_RefTy').val(v.referencE_TYPE);
+                    $('#p_auditPara_Div').val(v.division);
+                                   $('#p_auditPara_Chap').val(v.instructionS_TITLE);
+                                        $('#p_auditPara_InsDate').val(v.instructionS_DATE);
 
                 }
             },
@@ -398,6 +385,30 @@ function updateObservationStatus(type) {
             error: function () { alert("Error saving instructions. Please try again."); }
         });
     }
+
+         function updateRiskDisplay() {
+            var annexId = $('#updatedAnnexlist').val();
+            var riskName = '';
+            g_selectedRiskId = 0;
+            $.each(g_annexList, function (i, v) {
+                var id = v.ID || v.id;
+                if (id == annexId) {
+                    riskName = v.RISK || v.risk;
+                    g_selectedRiskId = v.RISK_ID || v.risK_ID;
+                }
+            });
+            $('#viewMemo_risk_display').val(riskName);
+            var color = '';
+            if (riskName.toLowerCase() === 'high') {
+                color = 'red';
+            } else if (riskName.toLowerCase() === 'medium') {
+                color = 'gold';
+            } else if (riskName.toLowerCase() === 'low') {
+                color = 'green';
+            }
+            $('#viewMemo_risk_display').css('color', color);
+        }
+
     function DeleteDuplicatePara(np_id, op_id, ind,c_id) {
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/request_delete_duplicate_para",
@@ -630,20 +641,7 @@ function updateObservationStatus(type) {
 
                             <div class="form-group">
                                 <label for="auditPara_Risk" class="font-weight-bold">Risk</label>
-                                <select id="auditPara_Risk" class="form-control">
-                                    <option value="0" id="0" selected>--Select Risk Category--</option>
-                                    @{
-                                        if (ViewData["RiskList"] != null)
-                                            {
-
-                                            foreach (var risk in (dynamic)(ViewData["RiskList"]))
-                                                {
-                                                <option id="@risk.R_ID" value="@risk.R_ID">@risk.DESCRIPTION</option>
-                                                }
-
-                                            }
-                                    }
-                                </select>
+                                <textarea id="auditPara_Risk" class="form-control"></textarea>
                             </div>
 
                             <div class="form-group">
@@ -725,20 +723,7 @@ function updateObservationStatus(type) {
 
                             <div class="form-group">
                                 <label for="p_auditPara_Risk" class="font-weight-bold">Risk</label>
-                                <select id="p_auditPara_Risk" class="form-control">
-                                    <option value="0" id="0" selected>--Select Risk Category--</option>
-                                    @{
-                                        if (ViewData["RiskList"] != null)
-                                            {
-
-                                            foreach (var risk in (dynamic)(ViewData["RiskList"]))
-                                                {
-                                                <option id="@risk.R_ID" value="@risk.R_ID">@risk.DESCRIPTION</option>
-                                                }
-
-                                            }
-                                    }
-                                </select>
+                                <textarea id="p_auditPara_Risk" class="form-control"></textarea>
                             </div>
 
                             <div class="form-group">
@@ -759,41 +744,24 @@ function updateObservationStatus(type) {
                             </div>
 
                             <!-- Reference Type and Instructions -->
-                            <div class="form-group mt-3">
-                                <label>Reference Type</label>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <select id="referenceTypeSelect" class="form-select form-control">
-                                            <option value="0">--Select Reference Type--</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <select id="divisionSelect" class="form-select form-control" style="display:none;">
-                                            <option value="0">--Select Division--</option>
-                                        </select>
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <label for="p_auditPara_RefTy" class="font-weight-bold">Reference Type </label>
+                                <input id="p_auditPara_RefTy" class="form-control" type="number" />
+                            
+                            <div class="form-group">
+                                <label for="p_auditPara_Div" class="font-weight-bold">Division </label>
+                                <input id="p_auditPara_Div" class="form-control" type="number" />
                             </div>
                             <div id="instructionFields" class="form-group mt-3" style="display:none;">
-                                <div class="row">
-                                    <div class="col-md-4 mt-2">
-                                        <label for="instructionsTitle">Title/Chapter</label>
-                                        <select id="instructionsTitle" class="form-control">
-                                            <option value="">--Select or Add Title/Chapter--</option>
-                                        </select>
-                                        <input type="text" id="newInstructionsTitle" class="form-control mt-2" placeholder="Enter new title" style="display:none;" />
-                                        <div id="instructionCount" class="text-info mt-1"></div>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <label>Instructions Date</label>
-                                        <input id="instructionsDate" type="date" class="form-control" />
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <label>Instructions Details</label>
-                                        <textarea id="instructionsDetails" class="form-control"></textarea>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="p_auditPara_Chap" class="font-weight-bold">Title/Chapter </label>
+                                    <input id="p_auditPara_Chap" class="form-control" type="number" />
                                 </div>
-                            </div>
+                                <div class="form-group">
+                                    <label for="p_auditPara_InsDate" class="font-weight-bold">Instructions Date </label>
+                                    <input id="p_auditPara_InsDate" class="form-control" type="number" />
+                                </div>
+                                </div>
                             <!-- /Reference Type and Instructions -->
                             <hr />
                             <center><h3>Responsible Personals</h3></center>
