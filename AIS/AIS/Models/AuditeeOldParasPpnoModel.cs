@@ -1,20 +1,21 @@
 namespace AIS.Models
     {
-    public class AuditeeOldParasPpnoModel
+    namespace AIS.Models
         {
-        public int? ID { get; set; }
-        public string REF_P { get; set; }
-        public string OBS_ID { get; set; }
-        public string ENTITY_NAME { get; set; }
-        public string AUDIT_PERIOD { get; set; }
-        public string PARA_NO { get; set; }
-        public string GIST_OF_PARAS { get; set; }
-        public string VOL_I_II { get; set; }
-        public string AMOUNT_INVOLVED { get; set; }
-        public string PARA_STATUS { get; set; }
-        public string ANNEXURE { get; set; }
-        public string PARA_CATEGORY { get; set; }
-
-
+        public class AuditeeOldParasPpnoModel
+            {
+            public int? ComId { get; set; }
+            public int? OldParaId { get; set; }
+            public int? NewParaId { get; set; }
+            public string EntityName { get; set; }
+            public string AuditPeriod { get; set; }
+            public decimal? Amount { get; set; }
+            public string Annex { get; set; }
+            public string ParaStatus { get; set; }    // Always 'Un-Settled' per query
+            public string Ind { get; set; }
+            public string ParaNo { get; set; }
+            public string GistOfParas { get; set; }
+            }
         }
+
     }

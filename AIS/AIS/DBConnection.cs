@@ -1,6 +1,7 @@
 
 using AIS;
 using AIS.Models;
+using AIS.Models.AIS.Models;
 using AIS.Models.IID;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12503,13 +12504,16 @@ namespace AIS.Controllers
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
-            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
-            var con = this.DatabaseConnection(); con.Open();
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+
+            var con = this.DatabaseConnection();
+            con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<AuditeeOldParasPpnoModel> list = new List<AuditeeOldParasPpnoModel>();
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "pkg_hd.p_ppno_para";
+                cmd.CommandText = "pkg_hd.p_ppno_para"; 
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
@@ -12520,26 +12524,27 @@ namespace AIS.Controllers
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                     {
-                    AuditeeOldParasPpnoModel chk = new AuditeeOldParasPpnoModel();
-                    if (rdr["ID"].ToString() != null && rdr["ID"].ToString() != "")
-                        chk.ID = Convert.ToInt32(rdr["ID"]);
-                    chk.REF_P = rdr["REF_P"].ToString();
-                    chk.OBS_ID = rdr["AU_OBS_ID"].ToString();
-                    chk.ENTITY_NAME = rdr["ENTITY_NAME"].ToString();
-                    chk.AUDIT_PERIOD = rdr["AUDIT_PERIOD"].ToString();
-                    chk.PARA_NO = rdr["PARA_NO"].ToString();
-                    chk.GIST_OF_PARAS = rdr["GIST_OF_PARAS"].ToString();
-                    chk.VOL_I_II = rdr["VOL_I_II"].ToString();
-                    chk.AMOUNT_INVOLVED = rdr["AMOUNT_INVOLVED"].ToString();
-                    chk.PARA_STATUS = rdr["PARA_STATUS"].ToString();
-                    chk.ANNEXURE = rdr["ANNEX"].ToString();
-                    chk.PARA_CATEGORY = rdr["PARA_CATEGORY"].ToString();
-                    list.Add(chk);
+                    AuditeeOldParasPpnoModel model = new AuditeeOldParasPpnoModel();
+
+                    model.ComId = rdr["COM_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["COM_ID"]);
+                    model.OldParaId = rdr["OLD_PARA_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["OLD_PARA_ID"]);
+                    model.NewParaId = rdr["NEW_PARA_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["NEW_PARA_ID"]);
+                    model.EntityName = rdr["NAME"]?.ToString();
+                    model.AuditPeriod = rdr["AUDIT_PERIOD"]?.ToString();
+                    model.Amount = rdr["AMOUNT"] == DBNull.Value ? (decimal?)null : Convert.ToDecimal(rdr["AMOUNT"]);
+                    model.Annex = rdr["CODE"]?.ToString();
+                    model.ParaStatus = rdr["PARA_STATUS"]?.ToString();
+                    model.Ind = rdr["IND"]?.ToString();
+                    model.ParaNo = rdr["PARA_NO"]?.ToString();
+                    model.GistOfParas = rdr["GIST_OF_PARAS"]?.ToString();
+
+                    list.Add(model);
                     }
                 }
             con.Dispose();
             return list;
             }
+
 
         public string AddChangeStatusRequestForSettledPara(string REFID, string OBS_ID, string INDICATOR, int NEW_STATUS, string REMARKS)
             {
