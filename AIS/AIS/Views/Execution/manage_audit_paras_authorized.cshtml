@@ -133,7 +133,7 @@
             }
         }
 
-        function loadDivisions(selectedId, title, date, details, refId) {
+        function loadDivisions(selectedIdOrName, title, date, details, refId) {
             $('#divisionSelect').empty();
             $.ajax({
                 url: g_asiBaseURL + "/ApiCalls/getparentrel",
@@ -148,8 +148,15 @@
                         $('#divisionSelect').append('<option value="' + v.entitY_ID + '\">' + v.description + '</option>');
                     });
                     $("#divisionSelect").off("change").on("change", function () { tryLoadInstructions(); });
-                    if (selectedId) {
-                        $('#divisionSelect').val(selectedId);
+                    if (selectedIdOrName) {
+                        var val = selectedIdOrName;
+                        if (isNaN(val)) {
+                            var match = $('#divisionSelect option').filter(function () {
+                                return $(this).text().trim().toLowerCase() === (selectedIdOrName + '').toLowerCase();
+                            }).val();
+                            if (match) val = match;
+                        }
+                        $('#divisionSelect').val(val);
                     }
                     tryLoadInstructions(title, date, details, refId);
                 },
@@ -219,21 +226,25 @@
                     g_dataV = v;
                     $('#p_auditPara_Period').val(v.audiT_PERIOD);
                     $('#p_auditPara_ParaNO').val(v.parA_NO);
-                    $('#p_auditPara_Annex').val(v.annex);
+                    $('#p_auditPara_Annex').val(v.anneX_ID || v.annex);
                     $('#p_auditPara_Gist').val(v.obS_GIST);
-                    $('#p_auditPara_Risk').val(v.obS_RISK);
+                    $('#p_auditPara_Risk').val(v.obS_RISK_ID || v.obS_RISK);
                     $('#p_auditPara_AmountInv').val(v.amounT_INV);
                     $('#p_auditPara_InstNO').val(v.nO_INSTANCES);
                     $('#p_paraTextViewer').val(v.parA_TEXT).trigger('change');
-                    if (v.referenceTypeId) {
-                        $('#referenceTypeSelect').val(v.referenceTypeId);
+                    var refName = v.referencE_TYPE;
+                    if (refName) {
+                        var refId = $('#referenceTypeSelect option').filter(function () {
+                            return $(this).text().toLowerCase() === (refName + '').toLowerCase();
+                        }).val();
+                        if (refId) { $('#referenceTypeSelect').val(refId); }
                         $('#instructionFields').show();
                         $('#divisionSelect').show();
-                        loadDivisions(v.entityId, v.instructionsTitle,
-                            v.instructionsDate ? v.instructionsDate.split('T')[0] : '',
-                            v.instructionsDetails,
-                            v.referenceTypeId);
-                        g_annexureRefId = v.annexureRefId || 0;
+                        loadDivisions(v.division, v.instructionS_TITLE,
+                            v.instructionS_DATE ? v.instructionS_DATE.split('T')[0] : '',
+                            v.instructionsDetails || v.instructionS_DETAILS,
+                            refId);
+                        g_annexureRefId = v.annexurE_REF_ID ? parseInt(v.annexurE_REF_ID) : 0;
                     }
 
                 }
