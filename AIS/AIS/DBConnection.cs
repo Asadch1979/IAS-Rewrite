@@ -23749,7 +23749,7 @@ namespace AIS.Controllers
             return periods;
             }
 
-        public List<FadDeskOfficerRptModel> GetFadDeskOfficerRptByPeriod(string auditPeriod)
+        public List<FadDeskOfficerRptModel> GetFadDeskOfficerRptByDateRange(DateTime startDate, DateTime endDate)
             {
             // Session pattern for logged-in user (if required by package)
             sessionHandler = new SessionHandler();
@@ -23767,7 +23767,8 @@ namespace AIS.Controllers
                 cmd.CommandText = "PKG_RPT.P_GET_FAD_DESK_OFFICER_RPT_BY_PERIOD";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
-                cmd.Parameters.Add("p_audit_period", OracleDbType.Varchar2).Value = auditPeriod ?? (object)DBNull.Value;
+                cmd.Parameters.Add("p_start_date", OracleDbType.Date).Value = startDate;
+                cmd.Parameters.Add("p_end_date", OracleDbType.Date).Value = endDate;
                 cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
 
                 using (OracleDataReader reader = cmd.ExecuteReader())

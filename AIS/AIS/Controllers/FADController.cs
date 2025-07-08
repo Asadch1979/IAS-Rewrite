@@ -384,7 +384,7 @@ namespace AIS.Controllers
                 if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
                     return RedirectToAction("Index", "PageNotFound");
                 else
-                    return View("~/Views/Reports/Fad_Desk_rpt.cshtml");
+                    return View("~/Views/Fad/Fad_Desk_rpt.cshtml");
             }
         }
 

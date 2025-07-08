@@ -3313,12 +3313,7 @@ namespace AIS.Controllers
             }
       
         [HttpPost]
-        public List<FadDeskOfficerRptModel> get_fad_desk_officer_rpt_by_period(string auditPeriod)
-            {
-            return dBConnection.GetFadDeskOfficerRptByPeriod(auditPeriod);
-            }
 
-        [HttpPost]
         public List<FadDeskOfficerRptModel> get_fad_desk_officer_rpt_by_date_range(string startDate, string endDate)
             {
             DateTime sDate = DateTime.Parse(startDate);
