@@ -301,7 +301,7 @@
         }
         g_selectedCircular = selected;
         $('#circularModal').modal('hide');
-        $('#divisionSelect').val(g_selectedCircular.entId).prop('disabled', true);
+            $('#divisionSelect').val(g_selectedCircular.entId).prop('readonly', true);
         if ($('#instructionsTitle').is('select')) {
             var ref = g_selectedCircular.referenceNo;
             if ($('#instructionsTitle option[value="' + ref + '"]').length === 0) {

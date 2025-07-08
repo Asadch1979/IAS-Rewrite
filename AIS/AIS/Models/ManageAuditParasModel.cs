@@ -26,6 +26,7 @@ namespace AIS.Models
         public string ANNEXURE_REF_ID { get; set; }
         public string REFERENCE_TYPE { get; set; }
         public string INSTRUCTIONS_TITLE { get; set; }
+        public string DIVISION { get; set; }
         public DateTime? INSTRUCTIONS_DATE { get; set; }
 
         }
