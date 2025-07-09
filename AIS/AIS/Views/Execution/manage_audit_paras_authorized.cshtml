@@ -13,10 +13,9 @@
     var g_respUsersArr = [];
     var g_index = 0;
     var g_ele = null;
-    var g_dataV = null;
-    var g_instructionMap = [];
+    var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
     var g_annexureRefId = 0;
-    var g_selectedInstruction = null;
+    var g_selectedRiskId = 0;
     $(document).ready(function () {
         $('#paraTextViewer').richText({
             imageUpload: false,
@@ -36,136 +35,8 @@
             $('#p_auditPara_Period').append('<option value="' + i + '">' + i + '</option>');
         }
 
-        $('#p_auditPara_Annex').on('change', function(){
-            $('#updatedAnnexlist').val($(this).val());
-            updateRiskDisplay();
-        });
-        $('#updatedAnnexlist').on('change', updateRiskDisplay);
 
-        $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/GetReferenceTypes",
-            type: "GET",
-            cache: false,
-            success: function (data) {
-                if (data && data.length > 0) {
-                    $.each(data, function (i, v) {
-                        $('#referenceTypeSelect').append($('<option>', { value: v.id, text: v.name }));
-                    });
-                }
-            }
-        });
-
-        $('#referenceTypeSelect').on('change', function () {
-            if ($(this).val() !== "0") {
-                $('#instructionFields').show();
-                $('#divisionSelect').show();
-                loadDivisions();
-            } else {
-                $('#instructionFields').hide();
-                $('#divisionSelect').hide();
-                $('#instructionsTitle').empty();
-                $('#instructionsDate').val('');
-                $('#instructionsDetails').val('');
-                $('#divisionSelect').val('0');
-            }
-            tryLoadInstructions();
-        });
-
-        $('#instructionCount').hide();
-
-        $('#instructionsTitle').on('change', function () {
-            var selected = $(this).val();
-            $('#instructionCount').text('').hide();
-            g_selectedInstruction = null;
-            if (selected === 'add_new') {
-                $('#newInstructionsTitle').show().val('');
-                $('#instructionsDate').val('');
-                $('#instructionsDetails').val('');
-                g_annexureRefId = 0;
-            } else if (selected) {
-                $('#newInstructionsTitle').hide().val('');
-                const matches = (g_instructionMap || []).filter(x => x.instructionsTitle === selected);
-                if (matches.length > 0) {
-                    var match = matches[0];
-                    g_selectedInstruction = match;
-                    $('#instructionsDate').val(match.instructionsDate ? match.instructionsDate.split('T')[0] : '');
-                    $('#instructionsDetails').val(match.instructionsDetails || '');
-                    $('#instructionCount').text('Entries: ' + matches.length).show();
-                    g_annexureRefId = match.annexureRefId || g_annexureRefId;
-                }
-            } else {
-                $('#newInstructionsTitle').hide().val('');
-                $('#instructionsDate').val('');
-                $('#instructionsDetails').val('');
-                g_annexureRefId = 0;
-            }
-        });
-
-        function tryLoadInstructions(selectedTitle, selectedDate, selectedDetails, refIdOverride) {
-            var divId = $('#divisionSelect').val();
-            var refId = refIdOverride || $('#referenceTypeSelect').val();
-            if (divId !== "0" && refId !== "0") {
-                $.ajax({
-                    url: g_asiBaseURL + "/ApiCalls/Ge_Merged_Annexure_Instructions",
-                    type: "GET",
-                    data: { divisionId: divId, referenceTypeId: refId },
-                    success: function (data) {
-                        g_instructionMap = data || [];
-                        $('#instructionsTitle').empty();
-                        $('#instructionsTitle').append('<option value="">--Select or Add Title/Chapter--</option>');
-                        if (g_instructionMap.length > 0) {
-                            $.each(g_instructionMap, function (i, v) {
-                                var opt = $('<option>', { value: v.instructionsTitle, text: v.instructionsTitle });
-                                opt.data('date', v.instructionsDate ? v.instructionsDate.split('T')[0] : '');
-                                opt.data('details', v.instructionsDetails);
-                                $('#instructionsTitle').append(opt);
-                            });
-                            $('#newInstructionsTitle').hide().val('');
-                        } else {
-                            $('#newInstructionsTitle').show();
-                            $('#instructionsDate').val('');
-                            $('#instructionsDetails').val('');
-                        }
-                        $('#instructionsTitle').append('<option value="add_new">+ Add New Title/Chapter</option>');
-                        $('#instructionsTitle').select2({ dropdownParent: $('#viewMemoModel') });
-                        if (selectedTitle) {
-                            $('#instructionsTitle').val(selectedTitle);
-                        }
-                        $('#instructionsTitle').trigger('change');
-                        if (selectedDate) { $('#instructionsDate').val(selectedDate); }
-                        if (selectedDetails) { $('#instructionsDetails').val(selectedDetails); }
-                    }
-                });
-            }
-        }
-
-        function loadDivisions(selectedIdOrName, title, date, details, refId) {
-            $('#divisionSelect').empty();
-            $.ajax({
-                url: g_asiBaseURL + "/ApiCalls/getparentrel",
-                type: "POST",
-                data: {
-                    'ENTITY_REALTION_ID': 3
-                },
-                cache: false,
-                success: function (data) {
-                    $('#divisionSelect').append('<option value="0">--Select Division--</option>');
-                    $.each(data, function (i, v) {
-                        $('#divisionSelect').append('<option value="' + v.entitY_ID + '\">' + v.description + '</option>');
-                    });
-                    $("#divisionSelect").off("change").on("change", function () { tryLoadInstructions(); });
-                              if (selectedId) {
-                            $('#divisionSelect').val(selectedId);
-                        } else if (g_dataV && g_dataV.DIVISION) {
-                            $('#divisionSelect option').filter(function () {
-                                return $(this).text().toLowerCase() === g_dataV.DIVISION.toLowerCase();
-                            }).prop('selected', true);
-                        }
-                        tryLoadInstructions(title, date, details, refId);
-                    },
-                    dataType: "json",
-                });
-            }
+        $('#p_auditPara_Annex').on('change', updateRiskDisplay);
 
         getEntityObservation();
 
@@ -230,10 +101,10 @@
             success: function (data) {
                 if (data.length > 0) {
                     var v = data[0];
-                    g_dataV = v;
                     $('#p_auditPara_Period').val(v.audiT_PERIOD);
                     $('#p_auditPara_ParaNO').val(v.parA_NO);
                     $('#p_auditPara_Annex').val(v.anneX_ID || v.annex);
+                    updateRiskDisplay();
                     $('#p_auditPara_Gist').val(v.obS_GIST);
                     $('#p_auditPara_Risk').val(v.obS_RISK).prop('readonly', true);
                     $('#p_auditPara_AmountInv').val(v.amounT_INV);
@@ -355,49 +226,9 @@ function updateObservationStatus(type) {
 
     }
 
-    function updateObservationStatusWithReference(type) {
-        var referenceTypeId = $('#referenceTypeSelect').val();
-        var referenceTypeText = $('#referenceTypeSelect option:selected').text();
-        var divisionId = $('#divisionSelect').val();
-        var instructionsTitle = $('#instructionsTitle').val();
-        var isAddNew = false;
-        if (instructionsTitle === 'add_new') {
-            instructionsTitle = $('#newInstructionsTitle').val();
-            isAddNew = true;
-        }
-        var instructionsDate = $('#instructionsDate').val();
-        var instructionsDetails = $('#instructionsDetails').val();
-        if (divisionId === "0") {
-            alert("Select Division"); return; }
-        if (referenceTypeId === "0") { alert("Select Reference Type (Manual/Policy/Circular)"); return; }
-        if (!instructionsTitle) { alert("Enter Title/Chapter"); return; }
-        if (!instructionsDate) { alert("Select Instructions Date"); return; }
-        if (!instructionsDetails) { alert("Enter Instructions Details"); return; }
-        if (isAddNew) { g_annexureRefId = 0; }
-        $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/UpdateAnnexureInstructions",
-            type: "POST",
-            data: {
-                'ReferenceTypeId': referenceTypeId,
-                'ReferenceType': referenceTypeText,
-                'InstructionsTitle': instructionsTitle,
-                'InstructionsDate': instructionsDate,
-                'InstructionsDetails': instructionsDetails,
-                'AnnexureId': $('#p_auditPara_Annex').val(),
-                'ENTITY_ID': divisionId,
-                'ind': isAddNew ? 'N' : 'Y'
-            },
-            success: function (resp) {
-                var annexId = resp && resp.annexureRefId ? resp.annexureRefId : 0;
-                g_annexureRefId = annexId;
-                updateObservationStatus(type);
-            },
-            error: function () { alert("Error saving instructions. Please try again."); }
-        });
-    }
 
          function updateRiskDisplay() {
-            var annexId = $('#updatedAnnexlist').val();
+            var annexId = $('#p_auditPara_Annex').val();
             var riskName = '';
             g_selectedRiskId = 0;
             $.each(g_annexList, function (i, v) {
@@ -407,7 +238,7 @@ function updateObservationStatus(type) {
                     g_selectedRiskId = v.RISK_ID || v.risK_ID;
                 }
             });
-            $('#viewMemo_risk_display').val(riskName);
+            $('#p_auditPara_Risk').val(riskName);
             var color = '';
             if (riskName.toLowerCase() === 'high') {
                 color = 'red';
@@ -416,7 +247,7 @@ function updateObservationStatus(type) {
             } else if (riskName.toLowerCase() === 'low') {
                 color = 'green';
             }
-            $('#viewMemo_risk_display').css('color', color);
+            $('#p_auditPara_Risk').css('color', color);
         }
 
     function DeleteDuplicatePara(np_id, op_id, ind,c_id) {
@@ -824,8 +655,8 @@ function updateObservationStatus(type) {
 
             </div>
             <div class="modal-footer">
-                <button id="updateParaStatus" onclick="updateObservationStatusWithReference('R');" type="button" class="btn btn-danger">Reffered Back</button>
-                <button id="updateParaStatus" onclick="updateObservationStatusWithReference('A');" type="button" class="btn btn-success">Authorized</button>
+                <button id="updateParaStatus" onclick="updateObservationStatus('R');" type="button" class="btn btn-danger">Reffered Back</button>
+                <button id="updateParaStatus" onclick="updateObservationStatus('A');" type="button" class="btn btn-success">Authorized</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
