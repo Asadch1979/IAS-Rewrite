@@ -6370,7 +6370,7 @@ namespace AIS.Controllers
                     chk.NEW_PARA_ID = rdr["NEW_PARA_ID"].ToString();
                     chk.OLD_PARA_ID = rdr["OLD_PARA_ID"].ToString();
                     chk.OBS_RISK = rdr["risk"].ToString();
-                    chk.OBS_RISK_ID = rdr["risk"].ToString();
+                    chk.OBS_RISK_ID = rdr["risk_id"].ToString();
                     chk.OBS_GIST = rdr["gist_of_para"].ToString();
                     chk.AUDIT_PERIOD = rdr["audit_period"].ToString();
                     chk.PARA_NO = rdr["para_no"].ToString();
@@ -6386,10 +6386,7 @@ namespace AIS.Controllers
                     chk.REFERENCE_TYPE = rdr["REFERENCE_TYPE"].ToString();
                     chk.INSTRUCTIONS_TITLE = rdr["INSTRUCTIONS_TITLE"].ToString();
                     chk.DIVISION = rdr["DIVISION"].ToString();
-                    int dateOrdinal = rdr.GetOrdinal("INSTRUCTIONS_DATE");
-                    chk.INSTRUCTIONS_DATE = rdr.IsDBNull(dateOrdinal)
-                        ? (DateTime?)null
-                        : rdr.GetDateTime(dateOrdinal);
+                    chk.INSTRUCTIONS_DATE = rdr["INSTRUCTIONS_DATE"].ToString();
                     list.Add(chk);
                     }
                 }

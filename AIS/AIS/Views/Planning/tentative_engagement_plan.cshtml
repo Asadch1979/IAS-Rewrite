@@ -25,7 +25,7 @@
             success: function (data) {
                 g_public_days = [];
                 data.forEach(function (item) {
-                    var dateObj = new Date(item.holiday_DATE);
+                    var dateObj = new Date(item.holidaY_DATE);
                     // Convert to MM-DD for comparison
                     var mmdd = ("0" + (dateObj.getMonth() + 1)).slice(-2) + '-' + ("0" + dateObj.getDate()).slice(-2);
                     g_public_days.push(mmdd);
