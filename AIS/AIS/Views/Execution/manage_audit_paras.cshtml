@@ -280,11 +280,10 @@
         $('#paraTextViewer').val(v.parA_TEXT).trigger('change');
         $('#auditPara_AmountInv').val(v.amounT_INV);
         $('#auditPara_InstNO').val(v.nO_INSTANCES);
-        $('#referencE_Type').val(v.ReferenceType).trigger('change');
-        $('#referenceTypeSelect').val(v.INSTRUCTIONS_TITLE).trigger('change');
-        $('#divisionSelect').val(v.division).trigger('change'));
-        $('#INSTRUCTIONS_DATE').val(v.INSTRUCTIONS_DATE).trigger('change');
-
+            $('#referenceTypeSelect').val(v.referencE_TYPE || v.REFERENCE_TYPE).trigger('change');
+            $('#divisionSelect').val(v.division || v.DIVISION).trigger('change');
+            $('#instructionsTitle').val(v.instructionS_TITLE || v.INSTRUCTIONS_TITLE).trigger('change');
+            $('#instructionsDate').val(v.instructionS_DATE || v.INSTRUCTIONS_DATE).trigger('change');
         ObservationResponsibles(index);
     }
     function responsibleCallback() {
