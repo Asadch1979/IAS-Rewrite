@@ -18,6 +18,24 @@
     var g_selectedCircular = null; // store selected circular from popup
     var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
     var g_selectedRiskId = 0;
+
+    function loadReferenceTypes(callback) {
+        $('#referenceTypeSelect').empty();
+        $('#referenceTypeSelect').append('<option value="0">--Select Reference Type--</option>');
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/GetReferenceTypes",
+            type: "GET",
+            cache: false,
+            success: function (data) {
+                if (data && data.length > 0) {
+                    $.each(data, function (i, v) {
+                        $('#referenceTypeSelect').append($('<option>', { value: v.id, text: v.name }));
+                    });
+                }
+                if (callback) callback();
+            }
+        });
+    }
     $(document).ready(function () {
         $('#entitySelectField').select2();
         $('#paraTextViewer').richText({
@@ -32,20 +50,7 @@
             $('#auditPara_Period').append('<option value="' + i + '">' + i + '</option>');
         }
 
-        $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/GetReferenceTypes",
-            type: "GET",
-            cache: false,
-            success: function (data) {
-                if (data && data.length > 0) {
-                    $.each(data, function (i, v) {
-                        $('#referenceTypeSelect').append(
-                            $('<option>', { value: v.id, text: v.name })
-                        );
-                    });
-                }
-            }
-        });
+        loadReferenceTypes();
 
         $('#referenceTypeSelect').on('change', function () {
             if ($(this).val() === "3") {
@@ -284,14 +289,24 @@
         $('#paraTextViewer').val(v.parA_TEXT).trigger('change');
         $('#auditPara_AmountInv').val(v.amounT_INV);
         $('#auditPara_InstNO').val(v.nO_INSTANCES);
-        $('#referenceTypeSelect').val(v.referencE_TYPE || v.REFERENCE_TYPE);
-        loadDivisions(function () {
-            $('#divisionSelect').val(v.division || v.DIVISION);
-            tryLoadInstructions(function () {
-                $('#instructionsTitle').val(v.instructionS_TITLE || v.INSTRUCTIONS_TITLE);
-                $('#instructionsDate').val(v.instructionS_DATE || v.INSTRUCTIONS_DATE);
-                $('#instructionsTitle').trigger('change');
-            });
+        loadReferenceTypes(function () {
+            $('#referenceTypeSelect').val(v.referencE_TYPE || v.REFERENCE_TYPE);
+            if ($('#referenceTypeSelect').val() !== "0") {
+                $('#instructionFields').show();
+                $('#divisionSelect').show();
+                loadDivisions(function () {
+                    $('#divisionSelect').val(v.division || v.DIVISION);
+                    tryLoadInstructions(function () {
+                        $('#instructionsTitle').val(v.instructionS_TITLE || v.INSTRUCTIONS_TITLE);
+                        $('#instructionsDetails').val(v.instructionsDetails || v.INSTRUCTIONS_DETAILS);
+                        $('#instructionsDate').val(v.instructionS_DATE || v.INSTRUCTIONS_DATE);
+                        $('#instructionsTitle').trigger('change');
+                    });
+                });
+            } else {
+                $('#instructionFields').hide();
+                $('#divisionSelect').hide();
+            }
         });
         ObservationResponsibles(index);
     }
