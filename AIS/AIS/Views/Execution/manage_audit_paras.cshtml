@@ -73,37 +73,8 @@
             // removed call to tryLoadInstructions
         });
 
-        $('#instructionCount').hide();
-
-        $('#instructionsTitle').on('change', function () {
-            var selected = $(this).val();
-            $('#instructionCount').text('').hide();
-            g_selectedInstruction = null;
-            if (selected === 'add_new') {
-                $('#newInstructionsTitle').show().val('');
-                $('#instructionsDate').val('');
-                $('#instructionsDetails').val('');
-                g_annexureRefId = 0;
-            } else if (selected) {
-                $('#newInstructionsTitle').hide().val('');
-                const matches = (g_instructionMap || []).filter(x => x.instructionsTitle === selected);
-                if (matches.length > 0) {
-                    var match = matches[0];
-                    g_selectedInstruction = match;
-                    $('#instructionsDate').val(match.instructionsDate ? match.instructionsDate.split('T')[0] : '');
-                    $('#instructionsDetails').val(match.instructionsDetails || '');
-                    $('#instructionCount').text('Entries: ' + matches.length).show();
-                    g_annexureRefId = match.annexureRefId || g_annexureRefId;
-                }
-            } else {
-                $('#newInstructionsTitle').hide().val('');
-                $('#instructionsDate').val('');
-                $('#instructionsDetails').val('');
-                g_annexureRefId = 0;
-            }
-        });
-
-
+       
+       
         function loadDivisions(callback) {
             $('#divisionSelect').empty();
             $.ajax({
@@ -250,22 +221,14 @@
         $('#auditPara_Gist').val(v.obS_GIST);
         $('#paraTextViewer').val(v.parA_TEXT).trigger('change');
         $('#auditPara_AmountInv').val(v.amounT_INV);
-        $('#auditPara_InstNO').val(v.nO_INSTANCES);
-        loadReferenceTypes(function () {
-            $('#referenceTypeSelect').val(v.referencE_TYPE || v.REFERENCE_TYPE);
-            if ($('#referenceTypeSelect').val() !== "0") {
-                $('#instructionFields').show();
-                $('#divisionSelect').show();
-                loadDivisions(function () {
-                    $('#divisionSelect').val(v.division || v.DIVISION);
-                    $('#instructionsTitle').val(v.instructionS_TITLE || v.INSTRUCTIONS_TITLE);
-                    $('#instructionsDetails').val(v.instructionsDetails || v.INSTRUCTIONS_DETAILS);
-                    $('#instructionsDate').val(v.instructionS_DATE || v.INSTRUCTIONS_DATE);
-                });
-            } else {
-                $('#instructionFields').hide();
-                $('#divisionSelect').hide();
-            }
+        $('#auditPara_InstNO').val(v.nO_INSTANCES);        
+        $('#referenceTypeSelect').val(v.referencE_TYPE || v.REFERENCE_TYPE);            
+        $('#divisionSelect').val(v.division || v.DIVISION);
+        $('#instructionsTitle').val(v.instructionS_TITLE || v.INSTRUCTIONS_TITLE);
+        $('#instructionsDetails').val(v.instructionsDetails || v.INSTRUCTIONS_DETAILS);
+        $('#instructionsDate').val(v.instructionS_DATE || v.INSTRUCTIONS_DATE);
+               
+            
         });
         ObservationResponsibles(index);
     }
@@ -289,16 +252,10 @@
         g_selectedCircular = selected;
         $('#circularModal').modal('hide');
             $('#divisionSelect').val(g_selectedCircular.entId).prop('readonly', true);
-        if ($('#instructionsTitle').is('select')) {
-            var ref = g_selectedCircular.referenceNo;
-            if ($('#instructionsTitle option[value="' + ref + '"]').length === 0) {
-                $('#instructionsTitle').append($('<option>', { value: ref, text: ref }));
-            }
             $('#instructionsTitle').val(ref).prop('disabled', true);
-        } else {
-            $('#instructionsTitle').val(g_selectedCircular.referenceNo).prop('readonly', true);
-        }
-        $('#instructionsDate').val(g_selectedCircular.issueDate ? g_selectedCircular.issueDate.split('T')[0] : '').prop('readonly', true);
+             $('#instructionsTitle').val(g_selectedCircular.referenceNo).prop('readonly', true);
+              $('#instructionsDate').val(g_selectedCircular.issueDate ? g_selectedCircular.issueDate.split('T')[0] : '').prop('readonly', true);
+               
     });
 
 
