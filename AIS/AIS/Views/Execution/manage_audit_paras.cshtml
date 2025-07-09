@@ -101,7 +101,7 @@
             }
         });
 
-        function tryLoadInstructions() {
+        function tryLoadInstructions(callback) {
             var divId = $('#divisionSelect').val();
             var refId = $('#referenceTypeSelect').val();
             if (divId !== "0" && refId !== "0") {
@@ -128,13 +128,16 @@
                         }
                         $('#instructionsTitle').append('<option value="add_new">+ Add New Title/Chapter</option>');
                         $('#instructionsTitle').select2({ dropdownParent: $('#viewMemoModel') });
+                        if (callback) callback();
                         $('#instructionsTitle').trigger('change');
                     }
                 });
+            } else if (callback) {
+                callback();
             }
         }
 
-        function loadDivisions() {
+        function loadDivisions(callback) {
             $('#divisionSelect').empty();
             $.ajax({
                 url: g_asiBaseURL + "/ApiCalls/getparentrel",
@@ -151,7 +154,8 @@
                     if (g_selectedCircular) {
                         $('#divisionSelect').val(g_selectedCircular.entId);
                     }
-                    $("#divisionSelect").off("change").on("change", tryLoadInstructions);
+                    $("#divisionSelect").off("change").on("change", function () { tryLoadInstructions(); });
+                    if (callback) callback();
                 },
                 dataType: "json",
             });
@@ -270,20 +274,25 @@
         g_np_id = v.neW_PARA_ID;
         g_op_id = v.olD_PARA_ID;
         g_ind = v.indicator;
+        g_annexureRefId = parseInt(v.annexurE_REF_ID || v.ANNEXURE_REF_ID || 0);
 
         $('#auditPara_Period').val(v.audiT_PERIOD);
         $('#auditPara_ParaNO').val(v.parA_NO);
         $('#auditPara_Annex').val(v.anneX_ID);
         updateRiskDisplay();
         $('#auditPara_Gist').val(v.obS_GIST);
-        $('#auditPara_Risk').val(v.obS_RISK_ID);
         $('#paraTextViewer').val(v.parA_TEXT).trigger('change');
         $('#auditPara_AmountInv').val(v.amounT_INV);
         $('#auditPara_InstNO').val(v.nO_INSTANCES);
-            $('#referenceTypeSelect').val(v.referencE_TYPE || v.REFERENCE_TYPE).trigger('change');
-            $('#divisionSelect').val(v.division || v.DIVISION).trigger('change');
-            $('#instructionsTitle').val(v.instructionS_TITLE || v.INSTRUCTIONS_TITLE).trigger('change');
-            $('#instructionsDate').val(v.instructionS_DATE || v.INSTRUCTIONS_DATE).trigger('change');
+        $('#referenceTypeSelect').val(v.referencE_TYPE || v.REFERENCE_TYPE);
+        loadDivisions(function () {
+            $('#divisionSelect').val(v.division || v.DIVISION);
+            tryLoadInstructions(function () {
+                $('#instructionsTitle').val(v.instructionS_TITLE || v.INSTRUCTIONS_TITLE);
+                $('#instructionsDate').val(v.instructionS_DATE || v.INSTRUCTIONS_DATE);
+                $('#instructionsTitle').trigger('change');
+            });
+        });
         ObservationResponsibles(index);
     }
     function responsibleCallback() {
@@ -327,7 +336,7 @@ function updateObservationStatus() {
             }
         }
 
-        if ($('#auditPara_Risk').val() == "0") {
+        if (!g_selectedRiskId || g_selectedRiskId == 0) {
             alert("Please select Audit Risk");
             return false;
         }
@@ -355,7 +364,7 @@ function updateObservationStatus() {
                 'AUDIT_PERIOD': $('#auditPara_Period').val(),
                 'OBS_GIST': $('#auditPara_Gist').val(),
                 'PARA_TEXT': $('#paraTextViewer').val(),
-                'OBS_RISK_ID': $('#auditPara_Risk').val(),
+                'OBS_RISK_ID': g_selectedRiskId,
                 'PARA_NO': $('#auditPara_ParaNO').val(),
                 'ANNEX_ID': $('#auditPara_Annex').val(),
                 'AMOUNT_INV': $('#auditPara_AmountInv').val(),
