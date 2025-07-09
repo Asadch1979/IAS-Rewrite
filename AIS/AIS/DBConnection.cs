@@ -6320,7 +6320,7 @@ namespace AIS.Controllers
                     chk.COM_ID = rdr["com_id"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["COM_ID"]);
                     chk.NEW_PARA_ID = rdr["new_para_id"].ToString();
                     chk.OLD_PARA_ID = rdr["old_para_id"].ToString();
-                    chk.AUDITEE = rdr["name"].ToString();
+                    chk.AUDITEE = rdr["AUDITEE"].ToString();
                     chk.OBS_RISK = rdr["risk"].ToString();
                     chk.OBS_RISK_ID = rdr["risk_id"].ToString();
                     chk.OBS_GIST = rdr["gist_of_paras"].ToString();
