@@ -6,7 +6,9 @@ namespace AIS.Models.IID
         public string PolicyGaps { get; set; }
         public string ControlGaps { get; set; }
         public string ProceduralViolations { get; set; }
+        public string ForwardTo { get; set; }
         public string Comments { get; set; }
-        public bool ReferBack { get; set; }
+        public int AnalyzedBy { get; set; }
         }
+
     }

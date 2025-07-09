@@ -4,6 +4,8 @@ namespace AIS.Models.IID
         {
         public int ReportId { get; set; }
         public string Comments { get; set; }
-        public bool ReferBack { get; set; }
+        public string Approved { get; set; }
+        public int ApprovedBy { get; set; }
         }
+
     }

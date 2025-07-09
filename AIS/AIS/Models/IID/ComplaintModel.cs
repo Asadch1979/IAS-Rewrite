@@ -6,9 +6,11 @@ namespace AIS.Models.IID
         {
         public string Nature { get; set; }
         public string Contents { get; set; }
-        public IFormFile ComplaintFile { get; set; }
-        public IFormFile FfrFile { get; set; }
-        public List<IFormFile> OtherEvidence { get; set; }
+        public string UploadedComplaint { get; set; }
+        public string UploadedFFR { get; set; }
+        public string UploadedEvidence { get; set; }
         public string ActionRequired { get; set; }
+        public int SubmittedBy { get; set; }
         }
+
     }
