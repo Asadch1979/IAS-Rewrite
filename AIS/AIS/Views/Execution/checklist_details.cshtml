@@ -38,47 +38,12 @@
             }
         });
 
-        function tryLoadInstructions() {
-            var divId = $('#divisionSelect').val();
-            var refId = $('#referenceTypeSelect').val();
-            if (divId !== "0" && refId !== "0") {
-                $.ajax({
-                    url: g_asiBaseURL + "/ApiCalls/Ge_Merged_Annexure_Instructions",
-                    type: "GET",
-                    data: { divisionId: divId, referenceTypeId: refId },
-                    success: function (data) {
-                        g_instructionMap = data || [];
-                        $('#instructionsTitle').empty();
-                        $('#instructionsTitle').append('<option value="">--Select or Add Title/Chapter--</option>');
-                        if (g_instructionMap.length > 0) {
-                            $.each(g_instructionMap, function (i, v) {
-                                var opt = $('<option>', { value: v.instructionsTitle, text: v.instructionsTitle });
-                                opt.data('date', v.instructionsDate ? v.instructionsDate.split('T')[0] : '');
-                                opt.data('details', v.instructionsDetails);
-                                $('#instructionsTitle').append(opt);
-                            });
-                            $('#newInstructionsTitle').hide().val('');
-                        } else {
-                            $('#newInstructionsTitle').show();
-                            $('#instructionsDate').val('');
-                            $('#instructionsDetails').val('');
-                        }
-                        $('#instructionsTitle').append('<option value="add_new">+ Add New Title/Chapter</option>');
-                        $('#instructionsTitle').select2({ dropdownParent: $('#viewMemoModel') });
-                        $('#instructionsTitle').trigger('change');
-                    }
-                });
-            }
-        }
 
         $('#referenceTypeSelect').on('change', function () {
             if ($(this).val() === "3") {
                 $('#circularModal').modal('show');
             } else {
                 g_selectedCircular = null;
-                $('#divisionSelect').prop('disabled', false);
-                $('#instructionsTitle').prop('disabled', false).prop('readonly', false);
-                $('#instructionsDate').prop('readonly', false);
             }
             if ($(this).val() !== "0") {
                 $('#instructionFields').show();
@@ -92,7 +57,6 @@
                 $('#instructionsDetails').val('');
                 $('#divisionSelect').val('0');
             }
-            tryLoadInstructions();
         });
 
         $('#instructionCount').hide();
@@ -139,7 +103,7 @@
                     $.each(data, function (i, v) {
                         $('#divisionSelect').append('<option value="' + v.entitY_ID + '">' + v.description + '</option>');
                     });
-                    $("#divisionSelect").off("change").on("change", tryLoadInstructions);
+                    // no instruction loading on division change
                 },
                 dataType: "json",
             });
@@ -313,71 +277,6 @@
         });
     }
 
-    function saveMemoContentWithReference() {
-        var referenceTypeId = $('#referenceTypeSelect').val();
-        if (referenceTypeId === "0") {
-            alert("Select Reference Type (Manual/Policy/Circular)");
-            return;
-        }
-        var referenceTypeText = $('#referenceTypeSelect option:selected').text();
-        var divisionId = $('#divisionSelect').val();
-        var instructionsTitle = $('#instructionsTitle').val();
-        var instructionsDate = $('#instructionsDate').val();
-        var isAddNew = false;
-        if (g_selectedCircular) {
-            divisionId = g_selectedCircular.entId;
-            instructionsTitle = g_selectedCircular.referenceNo;
-            instructionsDate = g_selectedCircular.issueDate ? g_selectedCircular.issueDate.split('T')[0] : '';
-            isAddNew = false;
-        } else if (instructionsTitle === 'add_new') {
-            instructionsTitle = $('#newInstructionsTitle').val();
-            isAddNew = true;
-        }
-        var instructionsDetails = $('#instructionsDetails').val();
-        if (divisionId === "0") {
-            alert("Select Division");
-            return;
-        }
-        if (!instructionsTitle) {
-            alert("Enter Title/Chapter");
-            return;
-        }
-        if (!instructionsDate) {
-            alert("Select Instructions Date");
-            return;
-        }
-        if (!instructionsDetails) {
-            alert("Enter Instructions Details");
-            return;
-        }
-
-        if (isAddNew) {
-            g_annexureRefId = 0;
-        }
-
-        $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/UpdateAnnexureInstructions",
-            type: "POST",
-            data: {
-                'ReferenceTypeId': referenceTypeId,
-                'ReferenceType': referenceTypeText,
-                'InstructionsTitle': instructionsTitle,
-                'InstructionsDate': instructionsDate,
-                'InstructionsDetails': instructionsDetails,
-                'AnnexureId': $('#updatedAnnexlist').val(),
-                'ENTITY_ID': divisionId,
-                'CHECKLIST_DETAILS_ID': 0,
-                'ind': isAddNew ? 'N' : 'Y'
-            },
-            success: function (resp) {
-                g_annexureRefId = resp && resp.annexureRefId ? resp.annexureRefId : 0;
-                saveMemoContent();
-            },
-            error: function () {
-                alert("Error saving instructions. Please try again.");
-            }
-        });
-    }
     function viewCreatedMemo(e, id) {
         g_observationId = id;
         var value = $($(e).parent().parent().find('.checklistaction').eq(0)).val();
@@ -806,7 +705,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <select id="divisionSelect" class="form-select form-control" style="display:none;">
+                                <select id="divisionSelect" class="form-select form-control" style="display:none;" disabled>
                                     <option value="0">--Select Division--</option>
                                 </select>
                             </div>
@@ -816,7 +715,7 @@
                         <div class="row">
                             <div class="col-md-4 mt-2">
                                 <label for="instructionsTitle">Title/Chapter</label>
-                                <select id="instructionsTitle" class="form-control">
+                                <select id="instructionsTitle" class="form-control" disabled>
                                     <option value="">--Select or Add Title/Chapter--</option>
                                 </select>
                                 <input type="text" id="newInstructionsTitle" class="form-control mt-2" placeholder="Enter new title" style="display:none;" />
@@ -824,7 +723,7 @@
                             </div>
                             <div class="col-md-4 mt-2">
                                 <label>Instructions Date</label>
-                                <input id="instructionsDate" type="date" class="form-control" />
+                                <input id="instructionsDate" type="date" class="form-control" readonly />
                             </div>
                             <div class="col-md-4 mt-2">
                                 <label>Instructions Details</label>
@@ -898,7 +797,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button onclick="saveMemoContentWithReference();" type="button" class="btn btn-danger">Save Memo</button>
+                <button onclick="saveMemoContent();" type="button" class="btn btn-danger">Save Memo</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>

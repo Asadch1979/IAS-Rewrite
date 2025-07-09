@@ -249,13 +249,6 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
-        public IActionResult UpdateAnnexureInstructions(int ReferenceTypeId, string ReferenceType, string InstructionsTitle, DateTime InstructionsDate, string InstructionsDetails, int AnnexureId, int ENTITY_ID, string ind)
-            {
-            var result = dBConnection.UpdateAnnexureInstructions(AnnexureId, ReferenceTypeId, ReferenceType, InstructionsTitle, InstructionsDate, InstructionsDetails, ENTITY_ID, ind);
-            return Json(result);
-            }
-        [HttpPost]
-
         public IActionResult GetCirculars(string text)
             {
             var result = dBConnection.Get_Circulars(text);
@@ -3274,12 +3267,6 @@ namespace AIS.Controllers
             return Ok(list);
             }
 
-        [HttpGet]
-        public IActionResult Ge_Merged_Annexure_Instructions(int divisionId, int referenceTypeId)
-            {
-            var result = dBConnection.GetMergedAnnexureInstructions(divisionId, referenceTypeId);
-            return Json(result);
-            }
 
         [HttpPost]
         public IActionResult GetComplaintsByUser(int userId)
