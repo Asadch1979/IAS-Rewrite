@@ -6419,7 +6419,7 @@ namespace AIS.Controllers
                 cmd.Parameters.Add("D_PARA_NO", OracleDbType.Varchar2).Value = pm.PARA_NO;
                 cmd.Parameters.Add("D_AUDIT_PERIOD", OracleDbType.Varchar2).Value = pm.AUDIT_PERIOD;
                 cmd.Parameters.Add("D_GIST", OracleDbType.Varchar2).Value = pm.OBS_GIST;
-                cmd.Parameters.Add("D_RISK", OracleDbType.Varchar2).Value = pm.OBS_RISK_ID;
+                cmd.Parameters.Add("D_RISK", OracleDbType.Int32).Value = pm.OBS_RISK_ID;
                 cmd.Parameters.Add("D_ANNEX", OracleDbType.Varchar2).Value = pm.ANNEX_ID;
                 cmd.Parameters.Add("D_IND", OracleDbType.Varchar2).Value = pm.INDICATOR;
                 cmd.Parameters.Add("D_PARA_TEXT", OracleDbType.Clob).Value = pm.PARA_TEXT;
