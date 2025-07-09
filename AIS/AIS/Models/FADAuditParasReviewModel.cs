@@ -18,7 +18,7 @@ namespace AIS.Models
         public string NO_INSTANCES { get; set; }
         public string PPNO { get; set; }
         public string RESP_ROLE { get; set; }
-        public string RESP_AMOUNT { get; set; }        
+        public string RESP_AMOUNT { get; set; }
         public string LOAN_CASE { get; set; }
         public string REPORT_ID { get; set; }
         public string REPORT_NAME { get; set; }

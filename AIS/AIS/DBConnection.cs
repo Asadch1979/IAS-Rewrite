@@ -1,8 +1,5 @@
-
-using AIS;
 using AIS.Models;
 using AIS.Models.AIS.Models;
-using AIS.Models.IID;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -5379,7 +5376,7 @@ namespace AIS.Controllers
             }
         public string SaveAuditObservation(ObservationModel ob, int ANNEXURE_REF_ID)
             {
-           
+
             ob.ANNEXURE_REF_ID = ANNEXURE_REF_ID;
 
             int addedObsId = 0;
@@ -6322,7 +6319,7 @@ namespace AIS.Controllers
                     ManageAuditParasModel chk = new ManageAuditParasModel();
                     chk.COM_ID = rdr["com_id"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["COM_ID"]);
                     chk.NEW_PARA_ID = rdr["new_para_id"].ToString();
-                    chk.OLD_PARA_ID = rdr["old_para_id"].ToString();                  
+                    chk.OLD_PARA_ID = rdr["old_para_id"].ToString();
                     chk.OBS_RISK = rdr["risk"].ToString();
                     chk.OBS_RISK_ID = rdr["risk_id"].ToString();
                     chk.OBS_GIST = rdr["gist_of_paras"].ToString();
@@ -6386,7 +6383,7 @@ namespace AIS.Controllers
                     chk.PARA_TEXT = rdr["PARA_TEXT"].ToString();
                     chk.ANNEXURE_REF_ID = rdr["annex_ref_id"].ToString();
                     chk.REFERENCE_TYPE = rdr["REFERENCE_TYPE"].ToString();
-                    chk.INSTRUCTIONS_TITLE  = rdr["INSTRUCTIONS_TITLE"].ToString();
+                    chk.INSTRUCTIONS_TITLE = rdr["INSTRUCTIONS_TITLE"].ToString();
                     chk.DIVISION = rdr["DIVISION"].ToString();
                     int dateOrdinal = rdr.GetOrdinal("INSTRUCTIONS_DATE");
                     chk.INSTRUCTIONS_DATE = rdr.IsDBNull(dateOrdinal)
@@ -12514,7 +12511,7 @@ namespace AIS.Controllers
             List<AuditeeOldParasPpnoModel> list = new List<AuditeeOldParasPpnoModel>();
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "pkg_hd.p_ppno_para"; 
+                cmd.CommandText = "pkg_hd.p_ppno_para";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
@@ -21771,7 +21768,7 @@ namespace AIS.Controllers
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
-            sessionHandler._session = this._session; 
+            sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
@@ -21821,7 +21818,7 @@ namespace AIS.Controllers
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
-            sessionHandler._session = this._session; 
+            sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
@@ -21863,7 +21860,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
-            sessionHandler._session = this._session; 
+            sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
             List<AuditeeEntitiesModel> entitiesList = new List<AuditeeEntitiesModel>();
@@ -21896,7 +21893,7 @@ namespace AIS.Controllers
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
-            sessionHandler._session = this._session; 
+            sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
@@ -21972,7 +21969,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
-            sessionHandler._session = this._session; 
+            sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
             List<CDMSMasterTransactionModel> list = new List<CDMSMasterTransactionModel>();
@@ -22027,7 +22024,7 @@ namespace AIS.Controllers
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
-            sessionHandler._session = this._session; 
+            sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
@@ -22064,7 +22061,7 @@ namespace AIS.Controllers
             string resp = "";
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
-            sessionHandler._session = this._session; 
+            sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
@@ -23494,9 +23491,9 @@ namespace AIS.Controllers
                     ParaStatusChangeModel chk = new ParaStatusChangeModel();
                     chk.COM_ID = rdr["COM_ID"].ToString();
                     chk.OLD_PARA_ID = rdr["OLD_PARA_ID"].ToString();
-                    chk.NEW_PARA_ID = rdr["NEW_PARA_ID"].ToString();                    
+                    chk.NEW_PARA_ID = rdr["NEW_PARA_ID"].ToString();
                     chk.AUDIT_PERIOD = rdr["AUDIT_PERIOD"].ToString();
-                    chk.PARA_NO = rdr["PARA_NO"].ToString();                    
+                    chk.PARA_NO = rdr["PARA_NO"].ToString();
                     chk.GIST_OF_PARAS = rdr["gist_of_paras"].ToString();
                     chk.RISK = rdr["RISK"].ToString();
                     chk.IND = rdr["IND"].ToString();
@@ -23702,7 +23699,7 @@ namespace AIS.Controllers
                     {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("p_text", OracleDbType.Varchar2, 200).Value = text ?? (object)DBNull.Value;
-                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;                  
+                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                     using (var reader = cmd.ExecuteReader())
                         {
                         while (reader.Read())
@@ -23851,7 +23848,7 @@ namespace AIS.Controllers
                     ad.IS_WEEKEND = rdr["IS_WEEKEND"].ToString();
                     ad.IS_HOLIDAY = rdr["IS_HOLIDAY"].ToString();
                     ad.HOLIDAY_NAME = rdr["HOLIDAY_NAME"]?.ToString();
-                    list.Add(ad);                    
+                    list.Add(ad);
                     }
                 }
             con.Dispose();
@@ -23875,7 +23872,7 @@ namespace AIS.Controllers
                 cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
-                        {
+                    {
                     PublicHolidayModel ad = new PublicHolidayModel();
                     ad.IS_HOLIDAY = rdr["holiday"].ToString();
                     ad.IS_WEEKEND = rdr["weekend"].ToString();

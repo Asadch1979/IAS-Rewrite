@@ -1,7 +1,7 @@
 namespace AIS.Models.IID
-{
-    public class CaseStudyModel
     {
+    public class CaseStudyModel
+        {
         public int ComplaintId { get; set; }
         public string OriginatingProcessOwner { get; set; }
         public string Name { get; set; }
@@ -13,5 +13,5 @@ namespace AIS.Models.IID
         public string RootCause { get; set; }
         public string ActionsRecommended { get; set; }
         public string Status { get; set; }
+        }
     }
-}

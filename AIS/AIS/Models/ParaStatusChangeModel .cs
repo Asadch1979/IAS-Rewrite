@@ -11,7 +11,7 @@ namespace AIS.Models
         public string NEW_PARA_STATUS { get; set; }
         public string GIST_OF_PARAS { get; set; }
         public string RISK { get; set; }
-        public string IND { get;set; }
+        public string IND { get; set; }
         public string ENTITY_ID { get; set; }
 
         }

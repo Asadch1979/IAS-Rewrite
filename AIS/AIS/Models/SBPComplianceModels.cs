@@ -1,9 +1,9 @@
 using System;
 
 namespace AIS.Models
-{
-    public class SBPObservation
     {
+    public class SBPObservation
+        {
         public int OBSERVATION_ID { get; set; }
         public string OBSERVATION_TEXT { get; set; }
         public int DIVISION_ID { get; set; }
@@ -12,10 +12,10 @@ namespace AIS.Models
         public DateTime CREATED_ON { get; set; }
         public string ATTACHMENT_PATH { get; set; }
         public DateTime DATE_RECEIVED { get; set; }
-    }
+        }
 
     public class SBPAssignment
-    {
+        {
         public int ASSIGNMENT_ID { get; set; }
         public int OBSERVATION_ID { get; set; }
         public string ASSIGNED_TO_ROLE { get; set; }
@@ -24,10 +24,10 @@ namespace AIS.Models
         public int ASSIGNED_BY { get; set; }
         public DateTime ASSIGNED_ON { get; set; }
         public string STATUS { get; set; }
-    }
+        }
 
     public class SBPResponse
-    {
+        {
         public int RESPONSE_ID { get; set; }
         public int OBSERVATION_ID { get; set; }
         public int DEPARTMENT_ID { get; set; }
@@ -36,15 +36,15 @@ namespace AIS.Models
         public DateTime SUBMITTED_ON { get; set; }
         public string STATUS { get; set; }
         public string ATTACHMENT_PATH { get; set; }
-    }
+        }
 
     public class SBPReviewHistory
-    {
+        {
         public int OBSERVATION_ID { get; set; }
         public string REVIEWER_ROLE { get; set; }
         public int REVIEWER_ID { get; set; }
         public string COMMENTS { get; set; }
         public string ACTION { get; set; }
         public DateTime REVIEWED_ON { get; set; }
+        }
     }
-}

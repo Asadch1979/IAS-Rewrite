@@ -1,7 +1,7 @@
 namespace AIS.Models
-{
-    public class FADAuditEmpModel
     {
+    public class FADAuditEmpModel
+        {
         public int ID { get; set; }
         public string PPNO { get; set; }
         public string NAME { get; set; }
@@ -13,5 +13,5 @@ namespace AIS.Models
         public string CERTIFICATION { get; set; }
         public string TOTAL_EXPERIENCE { get; set; }
         public string AUDIT_EXPERIENCE { get; set; }
+        }
     }
-}

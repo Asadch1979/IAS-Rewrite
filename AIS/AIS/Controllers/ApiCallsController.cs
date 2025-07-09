@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -983,7 +982,7 @@ namespace AIS.Controllers
             }
         [HttpPost]
 
-          public GetOldParasBranchComplianceTextModel get_para_compliance_text(int OLD_PARA_ID = 0, int NEW_PARA_ID = 0, string INDICATOR = "")
+        public GetOldParasBranchComplianceTextModel get_para_compliance_text(int OLD_PARA_ID = 0, int NEW_PARA_ID = 0, string INDICATOR = "")
             {
             return dBConnection.GetParaComplianceText(OLD_PARA_ID, NEW_PARA_ID, INDICATOR);
             }
@@ -1616,7 +1615,7 @@ namespace AIS.Controllers
 
         public List<AuditReportModel> get_audit_report_for_fad_review(int RPT_ID = 0, int ENG_ID = 0)
             {
-            return dBConnection.GetAuditReportForFadReview(RPT_ID,ENG_ID);
+            return dBConnection.GetAuditReportForFadReview(RPT_ID, ENG_ID);
 
             }
         [HttpPost]
@@ -1633,13 +1632,13 @@ namespace AIS.Controllers
             }
         [HttpPost]
 
-        public List<EngagementObservationsForStatusReversalModel> get_observation_details_for_report (int ENG_ID = 0)
+        public List<EngagementObservationsForStatusReversalModel> get_observation_details_for_report(int ENG_ID = 0)
             {
             return dBConnection.GetAuditDetailsFAD(ENG_ID);
 
             }
         [HttpPost]
-        public List<FADAuditParasReviewModel> get_observation_details_for_fad (int OBS_ID = 0)
+        public List<FADAuditParasReviewModel> get_observation_details_for_fad(int OBS_ID = 0)
             {
             return dBConnection.GetObservationDetailsForReport(OBS_ID);
 
@@ -2862,7 +2861,7 @@ namespace AIS.Controllers
         //    }
         //[HttpPost]
 
-        public List<AccountExceptionsModel> get_exception_account_report(int ENG_ID,  int RPT_ID)
+        public List<AccountExceptionsModel> get_exception_account_report(int ENG_ID, int RPT_ID)
             {
             return dBConnection.GetAccountExceptions(ENG_ID, RPT_ID);
             }
@@ -3311,7 +3310,7 @@ namespace AIS.Controllers
             {
             return "{\"Status\":true,\"Message\":\"" + dBConnection.CheckIfHolidayOrWeekend(dat) + "\"}";
             }
-      
+
         [HttpPost]
 
         public List<FadDeskOfficerRptModel> get_fad_desk_officer_rpt_by_date_range(string startDate, string endDate)

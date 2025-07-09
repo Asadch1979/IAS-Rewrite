@@ -56,9 +56,9 @@ namespace AIS
             {
             var baseUrl = Configuration["BaseURL"];
             if (!string.IsNullOrEmpty(baseUrl))
-            {
+                {
                 app.UsePathBase(baseUrl);
-            }
+                }
             if (env.IsDevelopment() || env.IsProduction())
                 {
                 app.UseDeveloperExceptionPage();

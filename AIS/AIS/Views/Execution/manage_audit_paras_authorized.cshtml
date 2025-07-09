@@ -211,6 +211,10 @@
         $('#auditPara_Risk').val(v.obS_RISK);
         $('#auditPara_AmountInv').val(v.amounT_INV);
         $('#auditPara_InstNO').val(v.nO_INSTANCES);
+        $('#auditPara_RefTy').val(v.referencE_TYPE || v.REFERENCE_TYPE).prop('readonly', true);
+        $('#auditPara_Div').val(v.division || v.DIVISION).prop('readonly', true);
+        $('#auditPara_Chap').val(v.instructionS_TITLE || v.INSTRUCTIONS_TITLE).prop('readonly', true);
+        $('#auditPara_InsDate').val(v.instructionS_DATE || v.INSTRUCTIONS_DATE).prop('readonly', true);
         $('#paraTextViewer').val(v.parA_TEXT).trigger('change');
         ObservationResponsibles(g_index);
 

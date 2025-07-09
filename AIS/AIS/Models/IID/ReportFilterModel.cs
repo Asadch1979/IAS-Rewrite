@@ -1,7 +1,7 @@
 namespace AIS.Models.IID
-{
-    public class ReportFilterModel
     {
+    public class ReportFilterModel
+        {
         public string Nature { get; set; }
         public string Complaint { get; set; }
         public string Accused { get; set; }
@@ -9,5 +9,5 @@ namespace AIS.Models.IID
         public string Region { get; set; }
         public string Unit { get; set; }
         public string Status { get; set; }
+        }
     }
-}

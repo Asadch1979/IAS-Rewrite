@@ -1,7 +1,7 @@
 namespace AIS.Models
-{
-    public class SBPComplianceObservationModel
     {
+    public class SBPComplianceObservationModel
+        {
         public int Id { get; set; }
         public string Observation { get; set; }
         public string AssignedDivision { get; set; }
@@ -11,5 +11,5 @@ namespace AIS.Models
         public string GroupHeadComment { get; set; }
         public string COOComment { get; set; }
         public string Status { get; set; }
+        }
     }
-}

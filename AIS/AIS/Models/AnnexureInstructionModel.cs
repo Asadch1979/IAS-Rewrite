@@ -1,9 +1,9 @@
 using System;
 
 namespace AIS.Models
-{
-    public class AnnexureInstructionModel
     {
+    public class AnnexureInstructionModel
+        {
         public string InstructionsTitle { get; set; }
         public string annexureId { get; set; }
         public string referenceTypeId { get; set; }
@@ -14,4 +14,4 @@ namespace AIS.Models
         public string IND { get; set; }
         public string Status { get; set; }
         }
-}
+    }

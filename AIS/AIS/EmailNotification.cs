@@ -25,7 +25,7 @@ Internal Audit System (IAS)
             EmailConfiguration econ = new EmailConfiguration();
             await econ.ConfigEmailAsync(toEmail, ccEmail, emailSubject, emailBody);
             }
-        
+
         public static void SendPasswordResetSuccess(string userFullName, string ppNumber, string pass, string userEmail, string userCCEmail)
             {
             string subject = "IAS~ Password Reset Successful";

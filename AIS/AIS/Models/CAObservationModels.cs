@@ -1,9 +1,9 @@
 using System;
 
 namespace AIS.Models
-{
-    public class CAObservation
     {
+    public class CAObservation
+        {
         public int ObservationID { get; set; }
         public string ObservationText { get; set; }
         public DateTime DateEntered { get; set; }
@@ -14,10 +14,10 @@ namespace AIS.Models
         public string LegacyFlag { get; set; }
         public int LegacyYear { get; set; }
         public string SupportingDocuments { get; set; }
-    }
+        }
 
     public class CAObservationResponse
-    {
+        {
         public int ResponseID { get; set; }
         public int ObservationID { get; set; }
         public string ResponseText { get; set; }
@@ -26,15 +26,15 @@ namespace AIS.Models
         public string ForwardedToRole { get; set; }
         public string Status { get; set; }
         public string SupportingDocuments { get; set; }
-    }
+        }
 
     public class CAObservationAuditTrail
-    {
+        {
         public int AuditTrailID { get; set; }
         public int ObservationID { get; set; }
         public string Action { get; set; }
         public int ActionBy { get; set; }
         public DateTime ActionDate { get; set; }
         public string Remarks { get; set; }
+        }
     }
-}
