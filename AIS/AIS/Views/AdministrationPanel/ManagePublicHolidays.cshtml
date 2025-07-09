@@ -44,7 +44,7 @@
 <script>
     function loadHolidays() {
         $.ajax({
-            url: '/ApiCalls/get_all_public_holidays',
+            url: g_asiBaseURL + '/ApiCalls/get_all_public_holidays',
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({ year: new Date().getFullYear() }),
@@ -80,7 +80,7 @@
             };
 
             $.ajax({
-                url: '/ApiCalls/add_public_holiday',
+                url: g_asiBaseURL + '/ApiCalls/add_public_holiday',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(model),
