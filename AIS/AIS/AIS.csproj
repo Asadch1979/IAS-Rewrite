@@ -127,20 +127,20 @@
     <None Include="Views\Reports\master_cdms.cshtml" />
   </ItemGroup>
 
-  <ItemGroup>
-    <!-- Publish all Razor views individually so that they can be replaced
-         without redeploying the entire application -->
+  <!--<ItemGroup>
+    --><!-- Publish all Razor views individually so that they can be replaced
+         without redeploying the entire application --><!--
     <Content Include="Views\**\*.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
 
-    <!-- Copy DB connection partial classes to the publish folder so that
-         minor updates can be deployed separately -->
+    --><!-- Copy DB connection partial classes to the publish folder so that
+         minor updates can be deployed separately --><!--
     <Content Include="DBConnection*.cs">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-  </ItemGroup>
+  </ItemGroup>-->
 
 </Project>

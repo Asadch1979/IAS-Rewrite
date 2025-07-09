@@ -6276,7 +6276,12 @@ namespace AIS.Controllers
                                     PARA_TEXT = rdr["PARA_TEXT"]?.ToString(),
                                     AMOUNT_INV = rdr["AMOUNT"]?.ToString(),
                                     NO_INSTANCES = rdr["NO_INSTANCES"]?.ToString(),
-                                    ANNEXURE_REF_ID = rdr["ANNEX_REF_ID"]?.ToString()
+                                    ANNEXURE_REF_ID = rdr["ANNEX_REF_ID"]?.ToString(),                                   
+                                    REFERENCE_TYPE = rdr["REFERENCE_TYPE"].ToString(),
+                                    INSTRUCTIONS_TITLE = rdr["INSTRUCTIONS_TITLE"].ToString(),
+                                    DIVISION = rdr["DIVISION"].ToString(),
+                                    INSTRUCTIONS_DATE = rdr["INSTRUCTIONS_DATE"].ToString(),
+
                                     };
                                 list.Add(para);
 
