@@ -6320,6 +6320,7 @@ namespace AIS.Controllers
                     chk.COM_ID = rdr["com_id"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["COM_ID"]);
                     chk.NEW_PARA_ID = rdr["new_para_id"].ToString();
                     chk.OLD_PARA_ID = rdr["old_para_id"].ToString();
+                    chk.AUDITEE = rdr["name"].ToString();
                     chk.OBS_RISK = rdr["risk"].ToString();
                     chk.OBS_RISK_ID = rdr["risk_id"].ToString();
                     chk.OBS_GIST = rdr["gist_of_paras"].ToString();
@@ -6502,8 +6503,8 @@ namespace AIS.Controllers
                 cmd.Parameters.Add("D_PARA_NO", OracleDbType.Varchar2).Value = pm.PARA_NO;
                 cmd.Parameters.Add("D_AUDIT_PERIOD", OracleDbType.Varchar2).Value = pm.AUDIT_PERIOD;
                 cmd.Parameters.Add("D_GIST", OracleDbType.Varchar2).Value = pm.OBS_GIST;
-                cmd.Parameters.Add("D_RISK", OracleDbType.Varchar2).Value = pm.OBS_RISK_ID;
-                cmd.Parameters.Add("D_ANNEX", OracleDbType.Varchar2).Value = pm.ANNEX_ID;
+                cmd.Parameters.Add("D_RISK", OracleDbType.Int32).Value = pm.OBS_RISK_ID;
+                cmd.Parameters.Add("D_ANNEX", OracleDbType.Int32).Value = pm.ANNEX_ID;
                 cmd.Parameters.Add("D_IND", OracleDbType.Varchar2).Value = pm.INDICATOR;
                 cmd.Parameters.Add("D_PARA_TEXT", OracleDbType.Clob).Value = pm.PARA_TEXT;
                 cmd.Parameters.Add("D_AMOUNT", OracleDbType.Decimal).Value = pm.AMOUNT_INV;

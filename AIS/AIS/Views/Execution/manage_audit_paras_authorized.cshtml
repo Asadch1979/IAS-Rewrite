@@ -56,7 +56,7 @@
                 success: function (data) {
                     g_allObs = data;
                     $.each(data, function (i, v) {
-                            $('#manageObsPanel tbody').append('<tr><td class="text-center">' + (i + 1) + '</td><td class="text-center">' + v.coM_ID + '</td><td class="text-center">' + v.audiT_PERIOD + '</td><td>' + v.parA_NO + '</td><td>' + v.annex + '</td><td>' + v.obS_RISK + '</td><td>' + v.obS_GIST + '</td><td>' + v.updateD_BY + '</td><td>' + v.updateD_ON + '</td><td class="text-center"><a onclick="event.preventDefault();ObservationViewerPanel(\'' + i + '\')" href="#" class="text-hover">View Para Details</a></td></tr>');
+                            $('#manageObsPanel tbody').append('<tr><td class="text-center">' + (i + 1) + '</td><td class="text-center">' + v.name + '</td><td class="text-center">' + v.audiT_PERIOD + '</td><td>' + v.parA_NO + '</td><td>' + v.annex + '</td><td>' + v.obS_RISK + '</td><td>' + v.obS_GIST + '</td><td>' + v.updateD_BY + '</td><td>' + v.updateD_ON + '</td><td class="text-center"><a onclick="event.preventDefault();ObservationViewerPanel(\'' + i + '\')" href="#" class="text-hover">View Para Details</a></td></tr>');
                     });
                     initializeDataTable('manageObsPanel');
                 },
@@ -106,7 +106,7 @@
                     $('#p_auditPara_Annex').val(v.anneX_ID || v.annex);
                     updateRiskDisplay();
                     $('#p_auditPara_Gist').val(v.obS_GIST);
-                    $('#p_auditPara_Risk').val(v.obS_RISK).prop('readonly', true);
+                    $('#p_auditPara_Risk').val(v.obS_RISK || v.obS_RISK_ID).prop('readonly', true);
                     $('#p_auditPara_AmountInv').val(v.amounT_INV);
                     $('#p_auditPara_InstNO').val(v.nO_INSTANCES);
                     $('#p_paraTextViewer').val(v.parA_TEXT).trigger('change');
@@ -175,7 +175,7 @@ function updateObservationStatus(type) {
                 'INDICATOR': g_ind,
                 'AUDIT_PERIOD': $('#p_auditPara_Period').val(),
                 'OBS_GIST': $('#p_auditPara_Gist').val(),
-                'OBS_RISK_ID': $('#p_auditPara_Risk').val(),
+                    'OBS_RISK_ID': $('#v.RISK_ID').val(),
                 'PARA_NO': $('#p_auditPara_ParaNO').val(),
                 'PARA_TEXT': $('#p_paraTextViewer').val(),
                 'ANNEX_ID': $('#p_auditPara_Annex').val(),
@@ -205,7 +205,7 @@ function updateObservationStatus(type) {
                 'INDICATOR': g_ind,
                 'AUDIT_PERIOD': $('#p_auditPara_Period').val(),
                 'OBS_GIST': $('#p_auditPara_Gist').val(),
-                'OBS_RISK_ID': $('#p_auditPara_Risk').val(),
+                    'OBS_RISK_ID': $('#v.RISK_ID').val(),
                 'PARA_NO': $('#p_auditPara_ParaNO').val(),
                 'PARA_TEXT': $('#p_paraTextViewer').val(),
                 'ANNEX_ID': $('#p_auditPara_Annex').val(),
@@ -419,7 +419,7 @@ function updateObservationStatus(type) {
             <thead style="background-color: #19875478 !important; ">
                 <tr>
                     <th class="col-md-auto">Sr. No.</th>
-                    <th class="col-md-auto">Com ID</th>
+                    <th class="col-md-auto">Auditee</th>
                     <th class="col-md-auto">Audit Period</th>
                     <th class="col-md-auto">Para No.</th>
                     <th class="col-md-auto">Annexure</th>
