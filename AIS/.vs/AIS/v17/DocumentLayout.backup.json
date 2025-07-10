@@ -1,7 +1,20 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|c:\\users\\asad\\documents\\github\\asad\\ias-rewrite\\ais\\ais\\dbconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|solutionrelative:ais\\dbconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|c:\\users\\asad\\documents\\github\\asad\\ias-rewrite\\ais\\ais\\views\\execution\\manage_audit_paras.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|solutionrelative:ais\\views\\execution\\manage_audit_paras.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|c:\\users\\asad\\documents\\github\\asad\\ias-rewrite\\ais\\ais\\views\\execution\\cau_observation.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{72EF75F1-0BBC-4A96-8514-1C6E7E854FCB}|AIS\\AIS.csproj|solutionrelative:ais\\views\\execution\\cau_observation.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +22,49 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DBConnection.cs",
+              "DocumentMoniker": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\DBConnection.cs",
+              "RelativeDocumentMoniker": "AIS\\DBConnection.cs",
+              "ToolTip": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\DBConnection.cs",
+              "RelativeToolTip": "AIS\\DBConnection.cs",
+              "ViewState": "AgIAAOgnAAAAAAAAAAASwPInAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T23:46:46.323Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "cau_observation.cshtml",
+              "DocumentMoniker": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Views\\Execution\\cau_observation.cshtml",
+              "RelativeDocumentMoniker": "AIS\\Views\\Execution\\cau_observation.cshtml",
+              "ToolTip": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Views\\Execution\\cau_observation.cshtml",
+              "RelativeToolTip": "AIS\\Views\\Execution\\cau_observation.cshtml",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-09T23:45:22.049Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "manage_audit_paras.cshtml",
+              "DocumentMoniker": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Views\\Execution\\manage_audit_paras.cshtml",
+              "RelativeDocumentMoniker": "AIS\\Views\\Execution\\manage_audit_paras.cshtml",
+              "ToolTip": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\Views\\Execution\\manage_audit_paras.cshtml",
+              "RelativeToolTip": "AIS\\Views\\Execution\\manage_audit_paras.cshtml",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAvwG0AAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-09T18:54:52.587Z",
+              "EditorCaption": ""
             }
           ]
         }
