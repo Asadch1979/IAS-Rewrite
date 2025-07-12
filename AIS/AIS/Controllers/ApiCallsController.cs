@@ -3335,7 +3335,7 @@ namespace AIS.Controllers
         public string AllocateEntitiesToAuditor(int azId, int entId, int auditorPPNO)
             {
             var user = sessionHandler.GetSessionUser();
-            return dBConnection.AllocateEntityToAuditor(azId, entId, auditorPPNO, user.PPNumber);
+            return dBConnection.AllocateEntityToAuditor(azId, entId, auditorPPNO);
             }
 
         [HttpPost]
@@ -3348,7 +3348,7 @@ namespace AIS.Controllers
         public string UpdateParaReference(int comId, int newRef)
             {
             var user = sessionHandler.GetSessionUser();
-            return dBConnection.UpdateParaReference(comId, newRef, user.PPNumber);
+            return dBConnection.UpdateParaReference(comId, newRef);
             }
 
         [HttpPost]

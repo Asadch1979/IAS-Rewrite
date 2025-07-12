@@ -8,7 +8,7 @@ namespace AIS.Controllers
 {
     public partial class DBConnection
     {
-        public List<AuditEmployeeModel> GetAuditEmployees(int entityId)
+        public List<AuditEmployeeModel> GetFadAuditEmployees(int entityId)
         {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
@@ -21,7 +21,7 @@ namespace AIS.Controllers
                 con.Open();
                 using (var cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = "P_GetAuditEmployees";
+                    cmd.CommandText = "PKG_FAD.P_GetAuditEmployees";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("p_entity_id", OracleDbType.Int32).Value = entityId;
                     cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
@@ -56,7 +56,7 @@ namespace AIS.Controllers
                 con.Open();
                 using (var cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = "P_GetRelationTypes";
+                    cmd.CommandText = "PKG_FAD.P_GetRelationTypes";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                     using (var rdr = cmd.ExecuteReader())
@@ -83,7 +83,7 @@ namespace AIS.Controllers
                 con.Open();
                 using (var cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = "P_GetReportingOffices";
+                    cmd.CommandText = "PKG_FAD.P_GetReportingOffices";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("p_relation_id", OracleDbType.Int32).Value = relationTypeId;
                     cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
@@ -111,7 +111,7 @@ namespace AIS.Controllers
                 con.Open();
                 using (var cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = "P_GetEntitiesForOffice";
+                    cmd.CommandText = "PKG_FAD.P_GetEntitiesForOffice";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("p_office_id", OracleDbType.Int32).Value = reportingOfficeId;
                     cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
@@ -133,7 +133,7 @@ namespace AIS.Controllers
             return list;
         }
 
-        public string AllocateEntityToAuditor(int azId, int entId, int auditorPPNO, int assignedBy)
+        public string AllocateEntityToAuditor(int azId, int entId, int auditorPPNO)
         {
             string resp = string.Empty;
             using (var con = this.DatabaseConnection())
@@ -141,12 +141,12 @@ namespace AIS.Controllers
                 con.Open();
                 using (var cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = "P_allocate_entity_to_auditor";
+                    cmd.CommandText = "PKG_FAD.P_allocate_entity_to_auditor";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("p_az_id", OracleDbType.Int32).Value = azId;
                     cmd.Parameters.Add("p_ent_id", OracleDbType.Int32).Value = entId;
                     cmd.Parameters.Add("p_auditor_ppno", OracleDbType.Int32).Value = auditorPPNO;
-                    cmd.Parameters.Add("p_assigned_by", OracleDbType.Int32).Value = assignedBy;
+                    //cmd.Parameters.Add("p_assigned_by", OracleDbType.Int32).Value = assignedBy;
                     cmd.Parameters.Add("io_msg", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
                     cmd.ExecuteNonQuery();
                     resp = cmd.Parameters["io_msg"].Value?.ToString();
@@ -163,7 +163,7 @@ namespace AIS.Controllers
                 con.Open();
                 using (var cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = "P_GetObservationsForReferenceUpdate";
+                    cmd.CommandText = "PKG_FAD.P_GetObservationsForReferenceUpdate";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("p_ent_id", OracleDbType.Int32).Value = entId ?? (object)DBNull.Value;
                     cmd.Parameters.Add("p_auditor", OracleDbType.Int32).Value = assignedAuditorId ?? (object)DBNull.Value;
@@ -190,7 +190,7 @@ namespace AIS.Controllers
             return list;
         }
 
-        public string UpdateParaReference(int comId, int newRef, int updatedBy)
+        public string UpdateParaReference(int comId, int newRef)
         {
             string resp = string.Empty;
             using (var con = this.DatabaseConnection())
@@ -198,11 +198,11 @@ namespace AIS.Controllers
                 con.Open();
                 using (var cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = "P_update_para_reference";
+                    cmd.CommandText = "PKG_FAD.P_update_para_reference";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("p_com_id", OracleDbType.Int32).Value = comId;
                     cmd.Parameters.Add("p_new_ref", OracleDbType.Int32).Value = newRef;
-                    cmd.Parameters.Add("p_updated_by", OracleDbType.Int32).Value = updatedBy;
+                    //cmd.Parameters.Add("p_updated_by", OracleDbType.Int32).Value = updatedBy;
                     cmd.Parameters.Add("io_msg", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
                     cmd.ExecuteNonQuery();
                     resp = cmd.Parameters["io_msg"].Value?.ToString();
@@ -219,7 +219,7 @@ namespace AIS.Controllers
                 con.Open();
                 using (var cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = "P_get_update_log";
+                    cmd.CommandText = "PKG_FAD.P_get_update_log";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("p_com_id", OracleDbType.Int32).Value = comId;
                     cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
@@ -251,7 +251,7 @@ namespace AIS.Controllers
                 con.Open();
                 using (var cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = "P_SearchReferences";
+                    cmd.CommandText = "PKG_FAD.P_SearchReferences";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("p_ref_type", OracleDbType.Varchar2).Value = referenceType;
                     cmd.Parameters.Add("p_keyword", OracleDbType.Varchar2).Value = keyword;
