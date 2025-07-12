@@ -45,7 +45,6 @@ namespace AIS.Controllers
                     }
                 }
             con.Close();
-            }
             return list;
         }
 
@@ -78,7 +77,6 @@ namespace AIS.Controllers
                     }
                 }
             con.Close();
-            }
             return list;
         }
 
@@ -112,7 +110,6 @@ namespace AIS.Controllers
                     }
                 }
             con.Close();
-            }
             return list;
         }
 
@@ -148,7 +145,6 @@ namespace AIS.Controllers
                     }
                 }
             con.Close();
-            }
             return list;
         }
 
@@ -175,7 +171,6 @@ namespace AIS.Controllers
                     resp = cmd.Parameters["io_msg"].Value?.ToString();
                 }
             con.Close();
-            }
             return resp;
         }
 
@@ -216,7 +211,6 @@ namespace AIS.Controllers
                     }
                 }
             con.Close();
-            }
             return list;
         }
 
@@ -242,7 +236,6 @@ namespace AIS.Controllers
                     resp = cmd.Parameters["io_msg"].Value?.ToString();
                 }
             con.Close();
-            }
             return resp;
         }
 
@@ -280,7 +273,6 @@ namespace AIS.Controllers
                     }
                 }
             con.Close();
-            }
             return list;
         }
 
@@ -316,7 +308,6 @@ namespace AIS.Controllers
                     }
                 }
             con.Close();
-            }
             return list;
         }
     }
