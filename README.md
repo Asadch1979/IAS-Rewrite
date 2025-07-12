@@ -71,3 +71,7 @@ The Commercial Audit (CA) menu provides a basic ARPSE PARA workflow.  Screens ex
 `ApiCallsController` now contains stubbed endpoints such as `ca_submit_to_headfad`, `ca_assign_division`, `ca_department_response` and others.  These call corresponding placeholder methods in `DBConnection` which will later persist Commercial Audit data.
 
 The `LegacyEntry` page allows authorized users to capture historical observations with fields for year, text, division, department, status and supporting documents.  Submitted data is posted to the `ca_enter_legacy_observation` endpoint.
+
+## FAD Reference Update & Allocation
+
+New views under `Views/FAD` allow FAD incharges to allocate entities to auditors and manage reference updates on observations.  The API endpoints exposed through `ApiCallsController` use new `DBConnection` methods to fetch employees, reporting offices, search references and maintain an update log.

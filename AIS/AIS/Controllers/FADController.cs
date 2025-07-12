@@ -358,6 +358,66 @@ namespace AIS.Controllers
             return View("~/Views/FAD/ViewHistory.cshtml", history);
             }
 
+        public IActionResult AllocateEntityToAuditor()
+            {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                {
+                if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
+                    return RedirectToAction("Index", "PageNotFound");
+                else
+                    return View("~/Views/FAD/AllocateEntityToAuditor.cshtml");
+                }
+            }
+
+        public IActionResult ReferenceUpdateList()
+            {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                {
+                if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
+                    return RedirectToAction("Index", "PageNotFound");
+                else
+                    return View("~/Views/FAD/ReferenceUpdateList.cshtml");
+                }
+            }
+
+        public IActionResult ReferenceUpdateEdit(int comId)
+            {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                {
+                if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
+                    return RedirectToAction("Index", "PageNotFound");
+                else
+                    return View("~/Views/FAD/ReferenceUpdateEdit.cshtml", comId);
+                }
+            }
+
+        public IActionResult ReferenceUpdateLog(int comId)
+            {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                {
+                if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
+                    return RedirectToAction("Index", "PageNotFound");
+                else
+                    return View("~/Views/FAD/ReferenceUpdateLog.cshtml", comId);
+                }
+            }
+
         public IActionResult financial_budget()
             {
             ViewData["TopMenu"] = tm.GetTopMenus();

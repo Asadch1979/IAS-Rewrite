@@ -3307,6 +3307,62 @@ namespace AIS.Controllers
             return dBConnection.GetFadDeskOfficerRptByDateRange(sDate, eDate);
             }
 
+        [HttpPost]
+        public List<AuditEmployeeModel> GetAuditEmployees(int entityId)
+            {
+            return dBConnection.GetAuditEmployees(entityId);
+            }
+
+        [HttpPost]
+        public List<IdNameModel> GetRelationTypes()
+            {
+            return dBConnection.GetRelationTypes();
+            }
+
+        [HttpPost]
+        public List<IdNameModel> GetReportingOffices(int relationTypeId)
+            {
+            return dBConnection.GetReportingOffices(relationTypeId);
+            }
+
+        [HttpPost]
+        public List<EntityModel> GetEntitiesForOffice(int reportingOfficeId)
+            {
+            return dBConnection.GetEntitiesForOffice(reportingOfficeId);
+            }
+
+        [HttpPost]
+        public string AllocateEntitiesToAuditor(int azId, int entId, int auditorPPNO)
+            {
+            var user = sessionHandler.GetSessionUser();
+            return dBConnection.AllocateEntityToAuditor(azId, entId, auditorPPNO, user.PPNumber);
+            }
+
+        [HttpPost]
+        public List<ObservationReferenceModel> GetObservationsForReferenceUpdate(int? entId, int? assignedAuditorId, int? referenceId)
+            {
+            return dBConnection.GetObservationsForReferenceUpdate(entId, assignedAuditorId, referenceId);
+            }
+
+        [HttpPost]
+        public string UpdateParaReference(int comId, int newRef)
+            {
+            var user = sessionHandler.GetSessionUser();
+            return dBConnection.UpdateParaReference(comId, newRef, user.PPNumber);
+            }
+
+        [HttpPost]
+        public List<UpdateLogModel> GetUpdateLog(int comId)
+            {
+            return dBConnection.GetUpdateLog(comId);
+            }
+
+        [HttpPost]
+        public List<ReferenceSearchResultModel> SearchReferences(string referenceType, string keyword)
+            {
+            return dBConnection.SearchReferences(referenceType, keyword);
+            }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
             {

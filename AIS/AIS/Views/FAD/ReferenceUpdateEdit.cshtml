@@ -1,0 +1,39 @@
+@model int
+@{
+    ViewData["Title"] = "Update Reference";
+    Layout = "_Layout";
+}
+<h4>Update Reference</h4>
+<div id="refInfo"></div>
+<div id="searchSection">
+    <select id="refType" class="form-select mb-2">
+        <option value="Manual">Manual</option>
+        <option value="Policy">Policy</option>
+        <option value="Circular">Circular</option>
+    </select>
+    <input id="keyword" class="form-control mb-2" placeholder="keyword" />
+    <button class="btn btn-primary" id="searchBtn">Search</button>
+</div>
+<table class="table" id="resultTbl">
+    <thead><tr><th>Title</th><th>Action</th></tr></thead>
+    <tbody></tbody>
+</table>
+<script>
+$(function(){
+    var comId=@Model;
+    $('#searchBtn').click(function(){
+        $.post(g_asiBaseURL+'/ApiCalls/SearchReferences',{referenceType:$('#refType').val(),keyword:$('#keyword').val()},function(d){
+            var body=$('#resultTbl tbody');body.empty();
+            $.each(d,function(i,it){
+                body.append('<tr><td>'+it.title+'</td><td><button class="attach btn btn-sm btn-primary" data-id="'+it.referenceId+'">Attach</button></td></tr>');
+            });
+        });
+    });
+    $(document).on('click','.attach',function(){
+        var ref=$(this).data('id');
+        $.post(g_asiBaseURL+'/ApiCalls/UpdateParaReference',{comId:comId,newRef:ref},function(){
+            window.location.href=g_asiBaseURL+'/FAD/ReferenceUpdateList';
+        });
+    });
+});
+</script>
