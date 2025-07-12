@@ -13,6 +13,7 @@ namespace AIS.Controllers
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
@@ -40,6 +41,7 @@ namespace AIS.Controllers
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
@@ -64,6 +66,7 @@ namespace AIS.Controllers
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
@@ -88,6 +91,7 @@ namespace AIS.Controllers
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
@@ -115,6 +119,7 @@ namespace AIS.Controllers
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
@@ -139,6 +144,7 @@ namespace AIS.Controllers
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
@@ -164,6 +170,7 @@ namespace AIS.Controllers
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
@@ -195,6 +202,7 @@ namespace AIS.Controllers
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
@@ -222,6 +230,7 @@ namespace AIS.Controllers
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
@@ -246,6 +255,7 @@ namespace AIS.Controllers
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
@@ -277,6 +287,7 @@ namespace AIS.Controllers
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
