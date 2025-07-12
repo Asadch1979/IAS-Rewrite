@@ -15,7 +15,7 @@ namespace AIS.Controllers
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
-
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
 
@@ -61,9 +61,9 @@ namespace AIS.Controllers
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            var loggedInUser = sessionHandler.GetSessionUser();
             int observationId = 0;
             using (OracleCommand cmd = con.CreateCommand())
                 {
@@ -84,6 +84,11 @@ namespace AIS.Controllers
 
         public void CASubmitToHeadFAD(int observationId)
             {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
@@ -98,6 +103,11 @@ namespace AIS.Controllers
 
         public void CAAssignToDivision(int observationId, int divisionId)
             {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
@@ -113,6 +123,11 @@ namespace AIS.Controllers
 
         public void CAAssignToDepartment(int observationId, int departmentId)
             {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
@@ -132,9 +147,9 @@ namespace AIS.Controllers
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            var loggedInUser = sessionHandler.GetSessionUser();
             using (OracleCommand cmd = con.CreateCommand())
                 {
                 cmd.CommandText = "PKG_CA.DEPARTMENT_RESPONSE";
@@ -150,6 +165,11 @@ namespace AIS.Controllers
 
         public void CAReviewAndForward(int observationId, string action, string remarks)
             {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
@@ -166,6 +186,11 @@ namespace AIS.Controllers
 
         public void CARejectOrReferBack(int observationId, string remarks)
             {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
@@ -181,6 +206,11 @@ namespace AIS.Controllers
 
         public void CAFinalizeObservation(int observationId)
             {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
             using (OracleCommand cmd = con.CreateCommand())
@@ -195,6 +225,11 @@ namespace AIS.Controllers
 
         public void CAEnterLegacyObservation(HttpRequest request)
             {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var form = request.Form;
             var con = this.DatabaseConnection();
             con.Open();

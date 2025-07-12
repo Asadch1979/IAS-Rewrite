@@ -14,12 +14,12 @@ namespace AIS.Controllers
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection();
+            con.Open();
 
             var list = new List<AuditEmployeeModel>();
-            using (var con = this.DatabaseConnection())
-            {
-                con.Open();
-                using (var cmd = con.CreateCommand())
+            using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = "PKG_FAD.P_GetAuditEmployees";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -44,17 +44,23 @@ namespace AIS.Controllers
                         }
                     }
                 }
+            con.Close();
             }
             return list;
         }
 
         public List<IdNameModel> GetRelationTypes()
         {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection();
+            con.Open();
+
             var list = new List<IdNameModel>();
-            using (var con = this.DatabaseConnection())
-            {
-                con.Open();
-                using (var cmd = con.CreateCommand())
+            using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = "PKG_FAD.P_GetRelationTypes";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -71,17 +77,23 @@ namespace AIS.Controllers
                         }
                     }
                 }
+            con.Close();
             }
             return list;
         }
 
         public List<IdNameModel> GetReportingOffices(int relationTypeId)
         {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection();
+            con.Open();
+
             var list = new List<IdNameModel>();
-            using (var con = this.DatabaseConnection())
-            {
-                con.Open();
-                using (var cmd = con.CreateCommand())
+            using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = "PKG_FAD.P_GetReportingOffices";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -99,17 +111,23 @@ namespace AIS.Controllers
                         }
                     }
                 }
+            con.Close();
             }
             return list;
         }
 
         public List<EntityModel> GetEntitiesForOffice(int reportingOfficeId)
         {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection();
+            con.Open();
+
             var list = new List<EntityModel>();
-            using (var con = this.DatabaseConnection())
-            {
-                con.Open();
-                using (var cmd = con.CreateCommand())
+            using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = "PKG_FAD.P_GetEntitiesForOffice";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -129,17 +147,22 @@ namespace AIS.Controllers
                         }
                     }
                 }
+            con.Close();
             }
             return list;
         }
 
         public string AllocateEntityToAuditor(int azId, int entId, int auditorPPNO)
         {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection();
+            con.Open();
             string resp = string.Empty;
-            using (var con = this.DatabaseConnection())
-            {
-                con.Open();
-                using (var cmd = con.CreateCommand())
+            using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = "PKG_FAD.P_allocate_entity_to_auditor";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -151,17 +174,23 @@ namespace AIS.Controllers
                     cmd.ExecuteNonQuery();
                     resp = cmd.Parameters["io_msg"].Value?.ToString();
                 }
+            con.Close();
             }
             return resp;
         }
 
         public List<ObservationReferenceModel> GetObservationsForReferenceUpdate(int? entId, int? assignedAuditorId, int? referenceId)
         {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection();
+            con.Open();
+
             var list = new List<ObservationReferenceModel>();
-            using (var con = this.DatabaseConnection())
-            {
-                con.Open();
-                using (var cmd = con.CreateCommand())
+            using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = "PKG_FAD.P_GetObservationsForReferenceUpdate";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -186,17 +215,22 @@ namespace AIS.Controllers
                         }
                     }
                 }
+            con.Close();
             }
             return list;
         }
 
         public string UpdateParaReference(int comId, int newRef)
         {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection();
+            con.Open();
             string resp = string.Empty;
-            using (var con = this.DatabaseConnection())
-            {
-                con.Open();
-                using (var cmd = con.CreateCommand())
+            using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = "PKG_FAD.P_update_para_reference";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -207,17 +241,23 @@ namespace AIS.Controllers
                     cmd.ExecuteNonQuery();
                     resp = cmd.Parameters["io_msg"].Value?.ToString();
                 }
+            con.Close();
             }
             return resp;
         }
 
         public List<UpdateLogModel> GetUpdateLog(int comId)
         {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection();
+            con.Open();
+
             var list = new List<UpdateLogModel>();
-            using (var con = this.DatabaseConnection())
-            {
-                con.Open();
-                using (var cmd = con.CreateCommand())
+            using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = "PKG_FAD.P_get_update_log";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -239,17 +279,23 @@ namespace AIS.Controllers
                         }
                     }
                 }
+            con.Close();
             }
             return list;
         }
 
         public List<ReferenceSearchResultModel> SearchReferences(string referenceType, string keyword)
         {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection();
+            con.Open();
+
             var list = new List<ReferenceSearchResultModel>();
-            using (var con = this.DatabaseConnection())
-            {
-                con.Open();
-                using (var cmd = con.CreateCommand())
+            using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = "PKG_FAD.P_SearchReferences";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -269,6 +315,7 @@ namespace AIS.Controllers
                         }
                     }
                 }
+            con.Close();
             }
             return list;
         }
