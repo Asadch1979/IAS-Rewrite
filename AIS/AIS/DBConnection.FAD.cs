@@ -165,8 +165,8 @@ namespace AIS.Controllers
                     cmd.Parameters.Add("p_az_id", OracleDbType.Int32).Value = azId;
                     cmd.Parameters.Add("p_ent_id", OracleDbType.Int32).Value = entId;
                     cmd.Parameters.Add("p_auditor_ppno", OracleDbType.Int32).Value = auditorPPNO;
-                    //cmd.Parameters.Add("p_assigned_by", OracleDbType.Int32).Value = assignedBy;
-                    cmd.Parameters.Add("io_msg", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("p_assigned_by", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("io_msg", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
                     cmd.ExecuteNonQuery();
                     resp = cmd.Parameters["io_msg"].Value?.ToString();
                 }
@@ -230,7 +230,7 @@ namespace AIS.Controllers
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("p_com_id", OracleDbType.Int32).Value = comId;
                     cmd.Parameters.Add("p_new_ref", OracleDbType.Int32).Value = newRef;
-                    //cmd.Parameters.Add("p_updated_by", OracleDbType.Int32).Value = updatedBy;
+                    cmd.Parameters.Add("p_updated_by", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                     cmd.Parameters.Add("io_msg", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
                     cmd.ExecuteNonQuery();
                     resp = cmd.Parameters["io_msg"].Value?.ToString();
