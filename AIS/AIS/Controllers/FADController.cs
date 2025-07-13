@@ -40,7 +40,7 @@ namespace AIS.Controllers
                     return RedirectToAction("Index", "PageNotFound");
                     }
                 else
-                    return View("~/Views/FAD/observation_review.cshtml");
+                    return View("~/Views/FAD/FAD_TASK/observation_review.cshtml");
                 }
             }
         public IActionResult review_gist_recommendation()
@@ -80,7 +80,7 @@ namespace AIS.Controllers
                     return RedirectToAction("Index", "PageNotFound");
                     }
                 else
-                    return View("~/Views/FAD/para_shifting.cshtml");
+                    return View("~/Views/FAD/FAD_TASK/para_shifting.cshtml");
                 }
             }
 
@@ -95,7 +95,7 @@ namespace AIS.Controllers
                 if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
                     return RedirectToAction("Index", "PageNotFound");
                 else
-                    return View("~/Views/FAD/staff_position.cshtml");
+                    return View("~/Views/FAD/Manpower/staff_position.cshtml");
                 }
             }
 
@@ -140,7 +140,7 @@ namespace AIS.Controllers
                 if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
                     return RedirectToAction("Index", "PageNotFound");
                 else
-                    return View("~/Views/FAD/manpower_position.cshtml");
+                    return View("~/Views/FAD/Manpower/manpower_position.cshtml");
                 }
             }
         public IActionResult StaffPositionIndex()
@@ -151,7 +151,7 @@ namespace AIS.Controllers
                 return RedirectToAction("Index", "Login");
             var zone = sessionHandler.GetSessionUser().UserPostingAuditZone ?? 0;
             var list = dBConnection.GetStaffPositions(zone);
-            return View("~/Views/FAD/StaffPositionIndex.cshtml", list);
+            return View("~/Views/FAD/Manpower/StaffPositionIndex.cshtml", list);
             }
 
         public IActionResult StaffPositionCreate()
@@ -160,7 +160,7 @@ namespace AIS.Controllers
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
-            return View("~/Views/FAD/StaffPositionCreate.cshtml");
+            return View("~/Views/FAD/Manpower/StaffPositionCreate.cshtml");
             }
 
         [HttpPost]
@@ -179,7 +179,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             var list = dBConnection.GetDemandSummary("ZTBL");
-            return View("~/Views/FAD/ManpowerDemandIndex.cshtml", list);
+            return View("~/Views/FAD/Manpower/ManpowerDemandIndex.cshtml", list);
             }
 
         public IActionResult ManpowerDemandCreate()
@@ -188,7 +188,7 @@ namespace AIS.Controllers
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
-            return View("~/Views/FAD/ManpowerDemandCreate.cshtml");
+            return View("~/Views/FAD/Manpower/ManpowerDemandCreate.cshtml");
             }
 
         [HttpPost]
@@ -207,7 +207,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             var dem = dBConnection.GetDemandSummary("ZTBL").FirstOrDefault(x => x.Id == id);
-            return View("~/Views/FAD/ManpowerDemandReview.cshtml", dem);
+            return View("~/Views/FAD/Manpower/ManpowerDemandReview.cshtml", dem);
             }
 
         [HttpPost]
@@ -242,7 +242,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("~/Views/FAD/Index.cshtml");
+                return View("~/Views/FAD/SBP/Index.cshtml");
             }
 
 
@@ -254,7 +254,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("~/Views/FAD/AddObservation.cshtml");
+                return View("~/Views/FAD/SBP/AddObservation.cshtml");
             }
 
 
@@ -266,7 +266,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("~/Views/FAD/AssignDivision.cshtml");
+                return View("~/Views/FAD/SBP/AssignDivision.cshtml");
             }
 
 
@@ -277,7 +277,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("~/Views/FAD/AssignDepartment.cshtml");
+                return View("~/Views/FAD/SBP/AssignDepartment.cshtml");
             }
 
 
@@ -288,7 +288,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("~/Views/FAD/EnterResponse.cshtml");
+                return View("~/Views/FAD/SBP/EnterResponse.cshtml");
             }
 
 
@@ -299,7 +299,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("~/Views/FAD/ReviewResponse.cshtml");
+                return View("~/Views/FAD/SBP/ReviewResponse.cshtml");
             }
 
 
@@ -310,7 +310,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("~/Views/FAD/ForwardToCompliance.cshtml");
+                return View("~/Views/FAD/SBP/ForwardToCompliance.cshtml");
             }
 
 
@@ -321,7 +321,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("~/Views/FAD/ReviewHistory.cshtml");
+                return View("~/Views/FAD/SBP/ReviewHistory.cshtml");
             }
 
 
@@ -332,7 +332,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             else
-                return View("~/Views/FAD/AuditValidation.cshtml", new AuditValidationModel { ObservationId = observationId });
+                return View("~/Views/FAD/SBP/AuditValidation.cshtml", new AuditValidationModel { ObservationId = observationId });
             }
 
 
@@ -355,7 +355,7 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             var history = dBConnection.GetSBPReviewHistory(observationId);
-            return View("~/Views/FAD/ViewHistory.cshtml", history);
+            return View("~/Views/FAD/SBP/ViewHistory.cshtml", history);
             }
 
         public IActionResult AllocateEntityToAuditor()
@@ -429,7 +429,7 @@ namespace AIS.Controllers
                 if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
                     return RedirectToAction("Index", "PageNotFound");
                 else
-                    return View("~/Views/FAD/financial_budget.cshtml");
+                    return View("~/Views/FAD/Budget/financial_budget.cshtml");
                 }
             }
 
@@ -444,7 +444,7 @@ namespace AIS.Controllers
                 if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
                     return RedirectToAction("Index", "PageNotFound");
                 else
-                    return View("~/Views/Fad/Fad_Desk_rpt.cshtml");
+                    return View("~/Views/FAD/FAD_TASK/Fad_Desk_rpt.cshtml");
                 }
             }
 
