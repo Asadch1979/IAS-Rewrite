@@ -9,6 +9,7 @@
             <th>PPNO</th>
             <th>Name</th>
             <th>Position</th>
+            <th>Task Allocated</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -48,7 +49,7 @@ $(function(){
             var body=$('#auditorsTable tbody');
             body.empty();
             $.each(data,function(i,v){
-                body.append('<tr><td>'+v.ppno+'</td><td>'+v.name+'</td><td>'+v.designation+'</td>'+
+                    body.append('<tr><td>'+v.ppno+'</td><td>'+v.name+'</td><td>'+v.fuN_DESIGNATION+'</td>'+
                     '<td><button type="button" class="btn btn-sm btn-primary assign-btn" data-ppno="'+v.ppno+'">Assign Entity</button></td></tr>');
             });
             initializeDataTable('auditorsTable');

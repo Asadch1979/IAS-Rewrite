@@ -2949,9 +2949,9 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
-        public List<FADAuditEmpModel> get_audit_emp()
+        public List<AuditEmployeeModel> get_audit_emp()
             {
-            return dBConnection.GetAuditEmployees();
+            return dBConnection.GetFadAuditEmployees();
             }
 
         [HttpPost]
@@ -3328,7 +3328,7 @@ namespace AIS.Controllers
         [HttpPost]
         public List<EntityModel> GetEntitiesForOffice(int reportingOfficeId)
             {
-            return dBConnection.GetEntitiesForOffice(reportingOfficeId);
+            return dBConnection.Get_Entities_For_Office(reportingOfficeId);
             }
 
         [HttpPost]

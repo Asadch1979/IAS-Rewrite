@@ -12,5 +12,6 @@ namespace AIS.Models
         public int DESIGNATIONCODE { get; set; }
         public string FUN_DESIGNATION { get; set; }
         public string TYPE { get; set; }
+        public string TASK_ALLOCATED { get; set; }
         }
     }

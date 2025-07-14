@@ -8,7 +8,7 @@ namespace AIS.Controllers
 {
     public partial class DBConnection
     {
-        public List<AuditEmployeeModel> GetFadAuditEmployees(int entityId)
+        public List<AuditEmployeeModel> GetFadAuditEmployees()
         {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
@@ -23,7 +23,9 @@ namespace AIS.Controllers
                 {
                     cmd.CommandText = "PKG_FAD.P_GetAuditEmployees";
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("p_entity_id", OracleDbType.Int32).Value = entityId;
+                    cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                    cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                    cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
                     cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                     using (var rdr = cmd.ExecuteReader())
                     {
@@ -38,9 +40,10 @@ namespace AIS.Controllers
                             m.EMPLOYEEFIRSTNAME = rdr["EMPLOYEEFIRSTNAME"].ToString();
                             m.EMPLOYEELASTNAME = rdr["EMPLOYEELASTNAME"].ToString();
                             m.CURRENT_RANK = rdr["CURRENT_RANK"].ToString();
-                            m.FUN_DESIGNATION = rdr["FUN_DESIGNATION"].ToString();
+                            m.FUN_DESIGNATION = rdr["FUN_DESIGNATION"].ToString();                            
                             m.TYPE = rdr["TYPE"].ToString();
-                            list.Add(m);
+                            m.TASK_ALLOCATED = rdr["TASK_ALLOCATED"] == DBNull.Value ? string.Empty : rdr["TASK_ALLOCATED"].ToString();
+                        list.Add(m);
                         }
                     }
                 }
@@ -63,6 +66,7 @@ namespace AIS.Controllers
                 {
                     cmd.CommandText = "PKG_FAD.P_GetRelationTypes";
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
                     cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                     using (var rdr = cmd.ExecuteReader())
                     {
@@ -96,6 +100,8 @@ namespace AIS.Controllers
                     cmd.CommandText = "PKG_FAD.P_GetReportingOffices";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("p_relation_id", OracleDbType.Int32).Value = relationTypeId;
+                    cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                    cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
                     cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                     using (var rdr = cmd.ExecuteReader())
                     {
@@ -113,7 +119,7 @@ namespace AIS.Controllers
             return list;
         }
 
-        public List<EntityModel> GetEntitiesForOffice(int reportingOfficeId)
+        public List<EntityModel> Get_Entities_For_Office(int reportingOfficeId)
         {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
@@ -166,9 +172,9 @@ namespace AIS.Controllers
                     cmd.Parameters.Add("p_ent_id", OracleDbType.Int32).Value = entId;
                     cmd.Parameters.Add("p_auditor_ppno", OracleDbType.Int32).Value = auditorPPNO;
                     cmd.Parameters.Add("p_assigned_by", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                cmd.Parameters.Add("io_msg", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("io_cursor", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
                     cmd.ExecuteNonQuery();
-                    resp = cmd.Parameters["io_msg"].Value?.ToString();
+                    resp = cmd.Parameters["io_cursor"].Value?.ToString();
                 }
             con.Close();
             return resp;
@@ -231,9 +237,9 @@ namespace AIS.Controllers
                     cmd.Parameters.Add("p_com_id", OracleDbType.Int32).Value = comId;
                     cmd.Parameters.Add("p_new_ref", OracleDbType.Int32).Value = newRef;
                     cmd.Parameters.Add("p_updated_by", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                    cmd.Parameters.Add("io_msg", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("io_cursor", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
                     cmd.ExecuteNonQuery();
-                    resp = cmd.Parameters["io_msg"].Value?.ToString();
+                    resp = cmd.Parameters["io_cursor"].Value?.ToString();
                 }
             con.Close();
             return resp;
