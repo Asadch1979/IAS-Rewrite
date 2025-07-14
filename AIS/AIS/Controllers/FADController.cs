@@ -1,5 +1,6 @@
 ﻿using AIS.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Linq;
@@ -446,6 +447,16 @@ namespace AIS.Controllers
                 else
                     return View("~/Views/FAD/FAD_TASK/Fad_Desk_rpt.cshtml");
                 }
+            }
+
+        public IActionResult Upload_Circular_Document()
+            {
+            var db = new DBConnection();
+            var circulars = db.GetAuditChecklistAnnexureCirculars();
+            ViewBag.Circulars = circulars
+                .Select(c => new SelectListItem { Value = c.ID.ToString(), Text = c.InstructionsTitle })
+                .ToList();
+            return View();
             }
 
         public IActionResult Error()

@@ -3332,6 +3332,32 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
+        public IActionResult UploadCircularFile(int circularId, IFormFile file)
+            {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            var uploadedBy = User.Identity?.Name ?? "anonymous";
+            using (var ms = new MemoryStream())
+                {
+                file.CopyTo(ms);
+                var model = new CircularDocumentModel
+                    {
+                    CircularId = circularId,
+                    FileName = file.FileName,
+                    FileType = file.ContentType,
+                    FileSize = file.Length,
+                    FileBlob = ms.ToArray(),
+                    UploadedBy = uploadedBy
+                    };
+                var db = new DBConnection();
+                db.SaveCircularDocument(model);
+                }
+            return Ok("File uploaded successfully!");
+            }
+
+
+        [HttpPost]
         public string AllocateEntitiesToAuditor(int azId, int entId, int auditorPPNO)
             {
             var user = sessionHandler.GetSessionUser();
