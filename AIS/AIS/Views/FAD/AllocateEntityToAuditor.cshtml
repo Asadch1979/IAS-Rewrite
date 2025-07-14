@@ -3,9 +3,21 @@
     Layout = "_Layout";
 }
 <h4>Allocate Entity To Auditor</h4>
-<button id="openAllocateModal" class="btn btn-primary mb-3">Assign Entity</button>
+<table id="auditorsTable" class="table table-bordered table-striped">
+    <thead class="table-success">
+        <tr>
+            <th>PPNO</th>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<!-- Allocation Modal -->
 <div class="modal fade" id="allocateModal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Allocate Entity</h5>
@@ -27,7 +39,24 @@
 </div>
 <script>
 $(function(){
-    $('#openAllocateModal').click(function(){
+    var selectedAuditor = 0;
+
+    loadAuditors();
+
+    function loadAuditors(){
+        $.post(g_asiBaseURL+'/ApiCalls/get_audit_emp',function(data){
+            var body=$('#auditorsTable tbody');
+            body.empty();
+            $.each(data,function(i,v){
+                body.append('<tr><td>'+v.ppno+'</td><td>'+v.name+'</td><td>'+v.designation+'</td>'+
+                    '<td><button type="button" class="btn btn-sm btn-primary assign-btn" data-ppno="'+v.ppno+'">Assign Entity</button></td></tr>');
+            });
+            initializeDataTable('auditorsTable');
+        });
+    }
+
+    $(document).on('click','.assign-btn',function(){
+        selectedAuditor=$(this).data('ppno');
         $('#allocateModal').modal('show');
         $.post(g_asiBaseURL+'/ApiCalls/GetRelationTypes',function(d){
             var sel=$('#relationType'); sel.empty().append('<option value="">Relation Type</option>');
@@ -59,9 +88,8 @@ $(function(){
     });
     $('#allocateBtn').click(function(){
         var ent=$('.entChk:checked').first().val();
-        if(!ent) return;
-        var auditorPPNO=@(Context.Session.GetInt32("PPNumber") ?? 0);
-        $.post(g_asiBaseURL+'/ApiCalls/AllocateEntitiesToAuditor',{azId:0,entId:ent,auditorPPNO:auditorPPNO},function(){
+        if(!ent || !selectedAuditor) return;
+        $.post(g_asiBaseURL+'/ApiCalls/AllocateEntitiesToAuditor',{azId:0,entId:ent,auditorPPNO:selectedAuditor},function(){
             $('#allocateModal').modal('hide');
         });
     });
