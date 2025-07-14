@@ -23245,231 +23245,6 @@ namespace AIS.Controllers
             return list;
             }
 
-        // Inquiry Module 
-        //public int SubmitComplaint(ComplaintModel model)
-        //    {
-        //    var conn = this.DatabaseConnection(); conn.Open();
-        //    using (OracleCommand cmd = conn.CreateCommand()) ;
-        //    using (var cmd = new OracleCommand("PKG_INQ.ADD_COMPLAINT", conn))
-        //        {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.Add("p_nature", OracleDbType.Varchar2).Value = model.Nature;
-        //        cmd.Parameters.Add("p_contents", OracleDbType.Clob).Value = model.Contents;
-        //        cmd.Parameters.Add("p_uploaded_complaint", OracleDbType.Varchar2).Value = model.UploadedComplaint;
-        //        cmd.Parameters.Add("p_uploaded_ffr", OracleDbType.Varchar2).Value = model.UploadedFFR;
-        //        cmd.Parameters.Add("p_uploaded_evidence", OracleDbType.Varchar2).Value = model.UploadedEvidence;
-        //        cmd.Parameters.Add("p_action_required", OracleDbType.Varchar2).Value = model.ActionRequired;
-        //        cmd.Parameters.Add("p_submitted_by", OracleDbType.Int32).Value = model.SubmittedBy;
-        //        cmd.Parameters.Add("o_complaint_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
-
-        //        conn.Open();
-        //        cmd.ExecuteNonQuery();
-        //        return Convert.ToInt32(cmd.Parameters["o_complaint_id"].Value.ToString());
-        //        }
-        //    }
-        //public int AddAssessment(AssessmentModel model)
-        //    {
-        //    var conn = this.DatabaseConnection(); conn.Open();
-        //    using (OracleCommand cmd = conn.CreateCommand()) ;
-        //    using (var cmd = new OracleCommand("PKG_INQ.ADD_ASSESSMENT", conn))
-        //        {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.Add("p_complaint_id", OracleDbType.Int32).Value = model.ComplaintId;
-        //        cmd.Parameters.Add("p_received_by", OracleDbType.Int32).Value = model.ReceivedBy;
-        //        cmd.Parameters.Add("p_assessment", OracleDbType.Clob).Value = model.Assessment;
-        //        cmd.Parameters.Add("p_recommendation", OracleDbType.Varchar2).Value = model.Recommendation;
-        //        cmd.Parameters.Add("o_assessment_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
-
-        //        conn.Open();
-        //        cmd.ExecuteNonQuery();
-        //        return Convert.ToInt32(cmd.Parameters["o_assessment_id"].Value.ToString());
-        //        }
-        //    }
-        //public int AddHeadReview(HeadReviewModel model)
-        //    {
-        //    var conn = this.DatabaseConnection(); conn.Open();
-        //    using (OracleCommand cmd = conn.CreateCommand()) ;
-        //    using (var cmd = new OracleCommand("PKG_INQ.ADD_HEAD_REVIEW", conn))
-        //        {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.Add("p_complaint_id", OracleDbType.Int32).Value = model.ComplaintId;
-        //        cmd.Parameters.Add("p_assessment_id", OracleDbType.Int32).Value = model.AssessmentId;
-        //        cmd.Parameters.Add("p_reviewed_by", OracleDbType.Int32).Value = model.ReviewedBy;
-        //        cmd.Parameters.Add("p_directions", OracleDbType.Clob).Value = model.Directions;
-        //        cmd.Parameters.Add("p_assigned_to_unit", OracleDbType.Int32).Value = model.AssignedToUnit;
-        //        cmd.Parameters.Add("p_referred_back_comments", OracleDbType.Clob).Value = model.ReferredBackComments ?? "";
-        //        cmd.Parameters.Add("p_action", OracleDbType.Varchar2).Value = model.Action;
-        //        cmd.Parameters.Add("o_review_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
-
-        //        conn.Open();
-        //        cmd.ExecuteNonQuery();
-        //        return Convert.ToInt32(cmd.Parameters["o_review_id"].Value.ToString());
-        //        }
-        //    }
-        //public int AddInvestigationPlan(InvestigationPlanModel model)
-        //    {
-        //    var conn = this.DatabaseConnection(); conn.Open();
-        //    using (OracleCommand cmd = conn.CreateCommand()) ;
-        //    using (var cmd = new OracleCommand("PKG_INQ.ADD_INV_PLAN", conn))
-        //        {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.Add("p_complaint_id", OracleDbType.Int32).Value = model.ComplaintId;
-        //        cmd.Parameters.Add("p_plan_details", OracleDbType.Clob).Value = model.PlanDetails;
-        //        cmd.Parameters.Add("p_submitted_by", OracleDbType.Int32).Value = model.SubmittedBy;
-        //        cmd.Parameters.Add("p_status", OracleDbType.Varchar2).Value = model.Status;
-        //        cmd.Parameters.Add("o_plan_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
-
-        //        conn.Open();
-        //        cmd.ExecuteNonQuery();
-        //        return Convert.ToInt32(cmd.Parameters["o_plan_id"].Value.ToString());
-        //        }
-        //    }
-        //public int AddPlanApproval(PlanApprovalModel model)
-        //    {
-        //    var conn = this.DatabaseConnection(); conn.Open();
-        //    using (OracleCommand cmd = conn.CreateCommand()) ;
-        //    using (var cmd = new OracleCommand("PKG_INQ.ADD_PLAN_APPROVAL", conn))
-        //        {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.Add("p_plan_id", OracleDbType.Int32).Value = model.PlanId;
-        //        cmd.Parameters.Add("p_approved_by", OracleDbType.Int32).Value = model.ApprovedBy;
-        //        cmd.Parameters.Add("p_is_approved", OracleDbType.Varchar2).Value = model.IsApproved;
-        //        cmd.Parameters.Add("p_edited_plan", OracleDbType.Clob).Value = model.EditedPlan ?? "";
-        //        cmd.Parameters.Add("p_further_actions", OracleDbType.Clob).Value = model.FurtherActions ?? "";
-        //        cmd.Parameters.Add("o_approval_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
-
-        //        conn.Open();
-        //        cmd.ExecuteNonQuery();
-        //        return Convert.ToInt32(cmd.Parameters["o_approval_id"].Value.ToString());
-        //        }
-        //    }
-        //public int AddInquiryReport(InquiryReportModel model)
-        //    {
-        //    var conn = this.DatabaseConnection(); conn.Open();
-        //    using (OracleCommand cmd = conn.CreateCommand()) ;
-        //    using (var cmd = new OracleCommand("PKG_INQ.ADD_INQUIRY_REPORT", conn))
-        //        {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.Add("p_complaint_id", OracleDbType.Int32).Value = model.ComplaintId;
-        //        cmd.Parameters.Add("p_name_complainant", OracleDbType.Varchar2).Value = model.NameComplainant;
-        //        cmd.Parameters.Add("p_name_accused", OracleDbType.Varchar2).Value = model.NameAccused;
-        //        cmd.Parameters.Add("p_gist", OracleDbType.Clob).Value = model.Gist;
-        //        cmd.Parameters.Add("p_proceedings", OracleDbType.Clob).Value = model.Proceedings;
-        //        cmd.Parameters.Add("p_findings", OracleDbType.Clob).Value = model.Findings;
-        //        cmd.Parameters.Add("p_recommendation", OracleDbType.Clob).Value = model.Recommendation;
-        //        cmd.Parameters.Add("p_uploaded_report", OracleDbType.Varchar2).Value = model.UploadedReport;
-        //        cmd.Parameters.Add("p_uploaded_evidence", OracleDbType.Varchar2).Value = model.UploadedEvidence;
-        //        cmd.Parameters.Add("p_submitted_on", OracleDbType.Date).Value = model.SubmittedOn;
-        //        cmd.Parameters.Add("p_submitted_by", OracleDbType.Int32).Value = model.SubmittedBy;
-        //        cmd.Parameters.Add("o_report_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
-
-        //        conn.Open();
-        //        cmd.ExecuteNonQuery();
-        //        return Convert.ToInt32(cmd.Parameters["o_report_id"].Value.ToString());
-        //        }
-        //    }
-        //public int AddAnalysis(AnalysisModel model)
-        //    {
-        //    var conn = this.DatabaseConnection(); conn.Open();
-        //    using (OracleCommand cmd = conn.CreateCommand()) ;
-        //    using (var cmd = new OracleCommand("PKG_INQ.ADD_ANALYSIS", conn))
-        //        {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.Add("p_report_id", OracleDbType.Int32).Value = model.ReportId;
-        //        cmd.Parameters.Add("p_policy_gaps", OracleDbType.Clob).Value = model.PolicyGaps ?? "";
-        //        cmd.Parameters.Add("p_control_gaps", OracleDbType.Clob).Value = model.ControlGaps ?? "";
-        //        cmd.Parameters.Add("p_procedural_violations", OracleDbType.Clob).Value = model.ProceduralViolations ?? "";
-        //        cmd.Parameters.Add("p_forward_to", OracleDbType.Varchar2).Value = model.ForwardTo;
-        //        cmd.Parameters.Add("p_comments", OracleDbType.Clob).Value = model.Comments ?? "";
-        //        cmd.Parameters.Add("p_analyzed_by", OracleDbType.Int32).Value = model.AnalyzedBy;
-        //        cmd.Parameters.Add("o_analysis_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
-
-        //        conn.Open();
-        //        cmd.ExecuteNonQuery();
-        //        return Convert.ToInt32(cmd.Parameters["o_analysis_id"].Value.ToString());
-        //        }
-        //    }
-        //public int AddFinalApproval(FinalApprovalModel model)
-        //    {
-        //    var conn = this.DatabaseConnection(); conn.Open();
-        //    using (OracleCommand cmd = conn.CreateCommand()) ;
-        //    using (var cmd = new OracleCommand("PKG_INQ.ADD_FINAL_APPROVAL", conn))
-        //        {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.Add("p_report_id", OracleDbType.Int32).Value = model.ReportId;
-        //        cmd.Parameters.Add("p_comments", OracleDbType.Clob).Value = model.Comments ?? "";
-        //        cmd.Parameters.Add("p_approved", OracleDbType.Varchar2).Value = model.Approved;
-        //        cmd.Parameters.Add("p_approved_by", OracleDbType.Int32).Value = model.ApprovedBy;
-        //        cmd.Parameters.Add("o_final_approval_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
-
-        //        conn.Open();
-        //        cmd.ExecuteNonQuery();
-        //        return Convert.ToInt32(cmd.Parameters["o_final_approval_id"].Value.ToString());
-        //        }
-        //    }
-        //public int AddCaseStudy(CaseStudyModel model)
-        //    {
-        //    var conn = this.DatabaseConnection(); conn.Open();
-        //    using (OracleCommand cmd = conn.CreateCommand()) ;
-        //    using (var cmd = new OracleCommand("PKG_INQ.ADD_CASE_STUDY", conn))
-        //        {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.Add("p_complaint_id", OracleDbType.Int32).Value = model.ComplaintId;
-        //        cmd.Parameters.Add("p_origin_process_owner", OracleDbType.Varchar2).Value = model.OriginProcessOwner;
-        //        cmd.Parameters.Add("p_name_complainant", OracleDbType.Varchar2).Value = model.NameComplainant;
-        //        cmd.Parameters.Add("p_branch", OracleDbType.Varchar2).Value = model.Branch;
-        //        cmd.Parameters.Add("p_gist", OracleDbType.Clob).Value = model.Gist ?? "";
-        //        cmd.Parameters.Add("p_outcome", OracleDbType.Clob).Value = model.Outcome ?? "";
-        //        cmd.Parameters.Add("p_modus_operandi", OracleDbType.Clob).Value = model.ModusOperandi ?? "";
-        //        cmd.Parameters.Add("p_gaps", OracleDbType.Clob).Value = model.Gaps ?? "";
-        //        cmd.Parameters.Add("p_root_cause", OracleDbType.Clob).Value = model.RootCause ?? "";
-        //        cmd.Parameters.Add("p_actions_rec", OracleDbType.Clob).Value = model.ActionsRec ?? "";
-        //        cmd.Parameters.Add("p_status", OracleDbType.Varchar2).Value = model.Status;
-        //        cmd.Parameters.Add("o_case_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
-
-        //        conn.Open();
-        //        cmd.ExecuteNonQuery();
-        //        return Convert.ToInt32(cmd.Parameters["o_case_id"].Value.ToString());
-        //        }
-        //    }
-        //public DataTable GetReports(string filter)
-        //    {
-        //    var conn = this.DatabaseConnection(); conn.Open();
-        //    using (OracleCommand cmd = conn.CreateCommand()) ;
-        //    using (var cmd = new OracleCommand("PKG_INQ.GET_REPORTS", conn))
-        //        {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.Add("p_filter", OracleDbType.Varchar2).Value = filter;
-        //        cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-
-        //        var dt = new DataTable();
-        //        conn.Open();
-        //        using (var reader = cmd.ExecuteReader())
-        //            {
-        //            dt.Load(reader);
-        //            }
-        //        return dt;
-        //        }
-        //    }
-        //public DataTable GetComplaintsByUser(int userId)
-        //    {
-        //    var conn = this.DatabaseConnection(); conn.Open();
-        //    using (OracleCommand cmd = conn.CreateCommand()) ;
-        //    using (var cmd = new OracleCommand("PKG_INQ.GET_COMPLAINTS", conn))
-        //        {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.Add("p_user_id", OracleDbType.Int32).Value = userId;
-        //        cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-
-        //        var dt = new DataTable();
-        //        conn.Open();
-        //        using (var reader = cmd.ExecuteReader())
-        //            {
-        //            dt.Load(reader);
-        //            }
-        //        return dt;
-        //        }
-        //    }
 
         public List<ParaStatusChangeModel> GetParasForStatusChange(int ENTITY_ID = 0)
             {
@@ -23612,10 +23387,9 @@ namespace AIS.Controllers
             }
 
      
-        public List<CircularModel> Get_Circulars(string text)
-
+     public List<AuditChecklistAnnexureCircularModel> Get_Circulars(string text)
             {
-            var result = new List<CircularModel>();
+            var result = new List<AuditChecklistAnnexureCircularModel>();
             using (var con = this.DatabaseConnection())
                 {
                 con.Open();
@@ -23625,28 +23399,32 @@ namespace AIS.Controllers
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("p_text", OracleDbType.Varchar2, 200).Value = text ?? (object)DBNull.Value;
                     cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+
                     using (var reader = cmd.ExecuteReader())
                         {
                         while (reader.Read())
                             {
-                            result.Add(new CircularModel
+                            result.Add(new AuditChecklistAnnexureCircularModel
                                 {
-                                CircularId = reader["circularid"] == DBNull.Value ? 0 : Convert.ToInt32(reader["circularid"]),
-                                DisplayText = reader["display_text"]?.ToString(),
-                                Keywords = reader["keywords"]?.ToString(),
-                                RedirectedPage = reader["redirectedpage"]?.ToString(),
-                                Division = reader["division"].ToString(),
-                                ReferenceNo = reader["reference_no"]?.ToString(),
-                                IssueDate = reader["issuedate"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["issuedate"]),
-                                DocType = reader["doctype"]?.ToString(),
-                                EntId = reader["ent_id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["ent_id"])
+                                ID = reader["ID"] == DBNull.Value ? 0 : Convert.ToInt32(reader["ID"]),
+                                DivisionEntId = reader["DIVISION_ENT_ID"] == DBNull.Value ? 0 : Convert.ToInt32(reader["DIVISION_ENT_ID"]),
+                                ReferenceTypeId = reader["REFERENCE_TYPE_ID"] == DBNull.Value ? 0 : Convert.ToInt32(reader["REFERENCE_TYPE_ID"]),
+                                ReferenceType = reader["REFERENCE_TYPE"]?.ToString(),
+                                InstructionsDetails = reader["INSTRUCTIONSDETAILS"]?.ToString(),
+                                Keywords = reader["KEYWORDS"]?.ToString(),
+                                RedirectedPage = reader["REDIRECTEDPAGE"]?.ToString(),
+                                Division = reader["DIVISION"]?.ToString(),
+                                InstructionsTitle = reader["INSTRUCTIONSTITLE"]?.ToString(),
+                                InstructionsDate = reader["INSTRUCTIONSDATE"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["INSTRUCTIONSDATE"]),
+                                DocType = reader["DOCTYPE"]?.ToString()
                                 });
                             }
                         }
                     }
-                return result;
                 }
+            return result;
             }
+
 
         public List<string> GetDistinctFadDeskOfficerAuditPeriods()
             {
