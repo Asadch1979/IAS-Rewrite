@@ -3351,7 +3351,7 @@ namespace AIS.Controllers
                     UploadedBy = uploadedBy
                     };
                 var db = new DBConnection();
-                db.SaveCircularDocument(model);
+                var status = db.SaveCircularDocument(model);
                 }
             return Ok("File uploaded successfully!");
             }
