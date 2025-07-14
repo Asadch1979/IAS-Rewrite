@@ -18,7 +18,7 @@
 
 <!-- Allocation Modal -->
 <div class="modal fade" id="allocateModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Allocate Entity</h5>
@@ -27,7 +27,7 @@
             <div class="modal-body">
                 <select id="relationType" class="form-select mb-2"></select>
                 <select id="reportingOffice" class="form-select mb-2"></select>
-                <table class="table" id="entitiesTable">
+                <table class="table table-bordered table-striped w-100" id="entitiesTable">
                     <thead><tr><th></th><th>Entity</th></tr></thead>
                     <tbody></tbody>
                 </table>
@@ -75,12 +75,16 @@ $(function(){
     });
     $('#reportingOffice').change(function(){
         var id=$(this).val();
+        destroyDatatable('entitiesTable');
         $('#entitiesTable tbody').empty();
         if(id){
             $.post(g_asiBaseURL+'/ApiCalls/GetEntitiesForOffice',{reportingOfficeId:id},function(d){
+                var body = $('#entitiesTable tbody');
+                body.empty();
                 $.each(d,function(i,it){
-                    $('#entitiesTable tbody').append('<tr><td><input type="checkbox" class="entChk" value="'+it.entityId+'"/></td><td>'+it.name+'</td></tr>');
+                    body.append('<tr><td><input type="checkbox" class="entChk" value="'+it.entityId+'"/></td><td>'+it.name+'</td></tr>');
                 });
+                initializeDataTableWithoutExport('entitiesTable');
             });
         }
     });
