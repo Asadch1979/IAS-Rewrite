@@ -9,17 +9,19 @@ namespace AIS.Controllers
     public partial class DBConnection
     {
 
-        public void SaveCircularDocument(CircularDocumentModel model)
-            {
+        public string SaveCircularDocument(CircularDocumentModel model)
+        {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
-            var con = this.DatabaseConnection();
-            con.Open();
-            using (var cmd = con.CreateCommand())
-                    {
+
+            using (var con = this.DatabaseConnection())
+            {
+                con.Open();
+                using (var cmd = con.CreateCommand())
+                {
                     cmd.CommandText = "PKG_FAD.P_InsertCircularDoc";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("p_circular_id", OracleDbType.Int32).Value = model.CircularId;
@@ -30,10 +32,10 @@ namespace AIS.Controllers
                     cmd.Parameters.Add("p_uploaded_by", OracleDbType.Varchar2).Value = model.UploadedBy;
                     cmd.Parameters.Add("o_status", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
                     cmd.ExecuteNonQuery();
-                    var status = cmd.Parameters["o_status"].Value?.ToString();
-                    }
-
+                    return cmd.Parameters["o_status"].Value?.ToString();
                 }
+            }
+        }
             
 
 
