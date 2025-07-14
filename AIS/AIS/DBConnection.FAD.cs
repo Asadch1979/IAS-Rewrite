@@ -8,6 +8,78 @@ namespace AIS.Controllers
 {
     public partial class DBConnection
     {
+
+        public void SaveCircularDocument(CircularDocumentModel model)
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection();
+            con.Open();
+            using (var cmd = con.CreateCommand())
+                    {
+                    cmd.CommandText = "PKG_FAD.P_InsertCircularDoc";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("p_circular_id", OracleDbType.Int32).Value = model.CircularId;
+                    cmd.Parameters.Add("p_file_name", OracleDbType.Varchar2).Value = model.FileName;
+                    cmd.Parameters.Add("p_file_type", OracleDbType.Varchar2).Value = model.FileType;
+                    cmd.Parameters.Add("p_file_size", OracleDbType.Int32).Value = model.FileSize;
+                    cmd.Parameters.Add("p_file_blob", OracleDbType.Blob).Value = model.FileBlob;
+                    cmd.Parameters.Add("p_uploaded_by", OracleDbType.Varchar2).Value = model.UploadedBy;
+                    cmd.Parameters.Add("o_status", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
+                    cmd.ExecuteNonQuery();
+                    var status = cmd.Parameters["o_status"].Value?.ToString();
+                    }
+
+                }
+            
+
+
+        public List<AuditChecklistAnnexureCircularModel> GetAuditChecklistAnnexureCirculars()
+            {
+           
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var list = new List<AuditChecklistAnnexureCircularModel>();
+            var con = this.DatabaseConnection();
+            con.Open();
+                using (var cmd = con.CreateCommand())
+                    {
+                    cmd.CommandText = "PKG_FAD.P_GetAuditChecklistAnnexureCirculars";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+
+                    using (var rdr = cmd.ExecuteReader())
+                        {
+                        while (rdr.Read())
+                            {
+                            list.Add(new AuditChecklistAnnexureCircularModel
+                                {
+                                ID = rdr["ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["ID"]),
+                                DivisionEntId = rdr["DIVISION_ENT_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["DIVISION_ENT_ID"]),
+                                ReferenceTypeId = rdr["REFERENCE_TYPE_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["REFERENCE_TYPE_ID"]),
+                                ReferenceType = rdr["REFERENCE_TYPE"]?.ToString(),
+                                InstructionsDetails = rdr["INSTRUCTIONSDETAILS"]?.ToString(),
+                                Keywords = rdr["KEYWORDS"]?.ToString(),
+                                RedirectedPage = rdr["REDIRECTEDPAGE"]?.ToString(),
+                                Division = rdr["DIVISION"]?.ToString(),
+                                InstructionsTitle = rdr["INSTRUCTIONSTITLE"]?.ToString(),
+                                InstructionsDate = rdr["INSTRUCTIONSDATE"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(rdr["INSTRUCTIONSDATE"]),
+                                DocType = rdr["DOCTYPE"]?.ToString()
+                                });
+                            }
+                        }
+                    
+                }
+            return list;
+            }
+
+
         public List<AuditEmployeeModel> GetFadAuditEmployees()
         {
             sessionHandler = new SessionHandler();
