@@ -100,9 +100,13 @@ $(function(){
     $('#allocateBtn').click(function(){
         var ent=$('.entChk:checked').first().val();
         if(!ent || !selectedAuditor) return;
-        $.post(g_asiBaseURL+'/ApiCalls/AllocateEntitiesToAuditor',{azId:0,entId:ent,auditorPPNO:selectedAuditor},function(){
-            $('#allocateModal').modal('hide');
-        });
+        $.post(g_asiBaseURL+'/ApiCalls/AllocateEntitiesToAuditor',
+            { azId: 0, entId: ent, auditorPPNO: selectedAuditor },
+            function (data) {
+                alert(data);
+                $('#allocateModal').modal('hide');
+                loadAuditors();
+            });
     });
 });
 </script>
