@@ -1,5 +1,6 @@
 using AIS.Models;
 using Oracle.ManagedDataAccess.Client;
+using Oracle.ManagedDataAccess.Types;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -35,6 +36,69 @@ namespace AIS.Controllers
                     return cmd.Parameters["o_status"].Value?.ToString();
                 }
             }
+        }
+
+        public void InsertCircularDoc(
+            int circularId,
+            string fileName,
+            string fileType,
+            long fileSize,
+            byte[] fileBlob,
+            string uploadedBy,
+            out string status)
+        {
+            using (var con = this.DatabaseConnection())
+            {
+                con.Open();
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "PKG_FAD.P_InsertCircularDoc";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("p_circular_id", OracleDbType.Int32).Value = circularId;
+                    cmd.Parameters.Add("p_file_name", OracleDbType.Varchar2).Value = fileName;
+                    cmd.Parameters.Add("p_file_type", OracleDbType.Varchar2).Value = fileType;
+                    cmd.Parameters.Add("p_file_size", OracleDbType.Int32).Value = fileSize;
+                    cmd.Parameters.Add("p_file_blob", OracleDbType.Blob).Value = fileBlob;
+                    cmd.Parameters.Add("p_uploaded_by", OracleDbType.Varchar2).Value = uploadedBy;
+                    cmd.Parameters.Add("o_status", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
+                    cmd.ExecuteNonQuery();
+                    status = cmd.Parameters["o_status"].Value?.ToString();
+                }
+            }
+        }
+
+        public CircularDocumentModel GetCircularDocument(int docId)
+        {
+            using (var con = this.DatabaseConnection())
+            {
+                con.Open();
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "PKG_FAD.P_GetCircularDoc";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("p_doc_id", OracleDbType.Int32).Value = docId;
+                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        if (rdr.Read())
+                        {
+                            return new CircularDocumentModel
+                            {
+                                DocId = docId,
+                                CircularId = rdr["CIRCULAR_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["CIRCULAR_ID"]),
+                                FileName = rdr["FILE_NAME"].ToString(),
+                                FileType = rdr["FILE_TYPE"].ToString(),
+                                FileSize = rdr["FILE_SIZE"] == DBNull.Value ? 0 : Convert.ToInt64(rdr["FILE_SIZE"]),
+                                FileBlob = rdr["FILE_BLOB"] == DBNull.Value ? null : ((OracleBlob)rdr.GetOracleBlob(rdr.GetOrdinal("FILE_BLOB"))).Value,
+                                UploadedBy = rdr["UPLOADED_BY"].ToString(),
+                                UploadedOn = rdr["UPLOADED_ON"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(rdr["UPLOADED_ON"])
+                            };
+                        }
+                    }
+                }
+            }
+            return null;
         }
             
 

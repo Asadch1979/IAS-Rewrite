@@ -3356,6 +3356,45 @@ namespace AIS.Controllers
             return Ok("File uploaded successfully!");
             }
 
+        [HttpPost]
+        public IActionResult UploadCircularFiles(int circularId, List<IFormFile> files)
+            {
+            if (files == null || files.Count == 0)
+                return BadRequest("No files uploaded.");
+            var db = new DBConnection();
+            var uploadedBy = User.Identity?.Name ?? "anonymous";
+            int successCount = 0;
+            foreach (var file in files)
+                {
+                using (var ms = new MemoryStream())
+                    {
+                    file.CopyTo(ms);
+                    string status;
+                    db.InsertCircularDoc(
+                        circularId,
+                        file.FileName,
+                        file.ContentType,
+                        file.Length,
+                        ms.ToArray(),
+                        uploadedBy,
+                        out status
+                    );
+                    if (status != null && status.StartsWith("Success"))
+                        successCount++;
+                    }
+                }
+            return Ok($"{successCount} file(s) uploaded successfully.");
+            }
+
+        [HttpGet]
+        public IActionResult DownloadCircularFileFromDb(int docId)
+            {
+            var db = new DBConnection();
+            var doc = db.GetCircularDocument(docId);
+            if (doc == null || doc.FileBlob == null) return NotFound();
+            return File(doc.FileBlob, doc.FileType ?? "application/octet-stream", doc.FileName);
+            }
+
 
         [HttpPost]
         public string AllocateEntitiesToAuditor(int azId, int entId, int auditorPPNO)
