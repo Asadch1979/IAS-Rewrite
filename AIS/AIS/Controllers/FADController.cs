@@ -452,6 +452,9 @@ namespace AIS.Controllers
         public IActionResult Upload_Circular_Document()
             {
             var db = new DBConnection();
+            db._httpCon = sessionHandler._httpCon;
+            db._session = sessionHandler._session;
+            db._configuration = sessionHandler._configuration;
             var circulars = db.GetAuditChecklistAnnexureCirculars();
             ViewBag.Circulars = circulars
                 .Select(c => new SelectListItem { Value = c.ID.ToString(), Text = c.InstructionsTitle })
