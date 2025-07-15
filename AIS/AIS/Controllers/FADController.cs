@@ -451,12 +451,23 @@ namespace AIS.Controllers
 
         public IActionResult Upload_Circular_Document()
             {
-            var db = new DBConnection();
-            var circulars = db.GetAuditChecklistAnnexureCirculars();
-            ViewBag.Circulars = circulars
-                .Select(c => new SelectListItem { Value = c.ID.ToString(), Text = c.InstructionsTitle })
-                .ToList();
-            return View();
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                {
+                if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
+                    return RedirectToAction("Index", "PageNotFound");
+                else
+                    {
+                    var circulars = dBConnection.GetAuditChecklistAnnexureCirculars();
+                    ViewBag.Circulars = circulars
+                        .Select(c => new SelectListItem { Value = c.ID.ToString(), Text = c.InstructionsTitle })
+                        .ToList();
+                    return View();
+                    }
+                }
             }
 
         public IActionResult Error()
