@@ -3439,7 +3439,7 @@ namespace AIS.Controllers
         public JsonResult GetEntityTaskSummary()
             {
             var user = sessionHandler.GetSessionUser();
-            var list = dBConnection.GetEntityTaskSummary(user.PPNumber);
+            var list = dBConnection.GetEntityTaskSummary();
             return Json(list);
             }
 

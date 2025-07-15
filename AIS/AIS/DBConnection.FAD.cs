@@ -293,31 +293,36 @@ namespace AIS.Controllers
             return list;
         }
 
-        public string AllocateEntityToAuditor(int azId, int entId, int auditorPPNO)
-        {
+        public string AllocateEntityToAuditor(int azId, int entId, int auditorPPNO, int assignedBy)
+            {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
-            var loggedInUser = sessionHandler.GetSessionUser();
-            var con = this.DatabaseConnection();
-            con.Open();
-            string resp = string.Empty;
-            using (var cmd = con.CreateCommand())
+            var con = this.DatabaseConnection(); con.Open();
+            string result = "";
+            using (OracleCommand cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = "PKG_FAD.P_allocate_entity_to_auditor";
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("p_az_id", OracleDbType.Int32).Value = azId;
-                    cmd.Parameters.Add("p_ent_id", OracleDbType.Int32).Value = entId;
-                    cmd.Parameters.Add("p_auditor_ppno", OracleDbType.Int32).Value = auditorPPNO;
-                    cmd.Parameters.Add("p_assigned_by", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                    cmd.Parameters.Add("io_cursor", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
-                    cmd.ExecuteNonQuery();
-                    resp = cmd.Parameters["io_cursor"].Value?.ToString();
+                cmd.CommandText = "pkg_ar.P_allocate_entity_to_auditor";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("p_az_id", OracleDbType.Int32).Value = azId;
+                cmd.Parameters.Add("p_ent_id", OracleDbType.Int32).Value = entId;
+                cmd.Parameters.Add("p_auditor_ppno", OracleDbType.Int32).Value = auditorPPNO;
+                cmd.Parameters.Add("p_assigned_by", OracleDbType.Int32).Value = assignedBy;
+                cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                using (OracleDataReader rdr = cmd.ExecuteReader())
+                    {
+                    if (rdr.Read())
+                        {
+                        result = rdr["remarks"].ToString();
+                        }
+                    }
                 }
-            con.Close();
-            return resp;
-        }
+            con.Dispose();
+            return result;
+            }
+
 
         public List<ObservationReferenceModel> GetObservationsForReferenceUpdate(int? entId, int? assignedAuditorId, int? referenceId)
         {
@@ -488,8 +493,13 @@ namespace AIS.Controllers
             return list;
         }
 
-        public List<EntityTaskSummaryModel> GetEntityTaskSummary(int auditorPpno)
+        public List<EntityTaskSummaryModel> GetEntityTaskSummary()
         {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var list = new List<EntityTaskSummaryModel>();
             using (var con = this.DatabaseConnection())
             {
@@ -498,7 +508,7 @@ namespace AIS.Controllers
                 {
                     cmd.CommandText = "PKG_FAD.P_GetEntityTaskSummary";
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("p_auditor_ppno", OracleDbType.Int32).Value = auditorPpno;
+                    cmd.Parameters.Add("p_auditor_ppno", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                     cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                     using (var rdr = cmd.ExecuteReader())
                     {
