@@ -3428,6 +3428,21 @@ namespace AIS.Controllers
             return dBConnection.SearchReferences(referenceType, keyword);
             }
 
+        [HttpGet]
+        public JsonResult GetPendingParas(int entityId, int auditYear)
+            {
+            var list = dBConnection.GetPendingParas(entityId, auditYear);
+            return Json(list);
+            }
+
+        [HttpGet]
+        public JsonResult GetEntityTaskSummary()
+            {
+            var user = sessionHandler.GetSessionUser();
+            var list = dBConnection.GetEntityTaskSummary(user.PPNumber);
+            return Json(list);
+            }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
             {

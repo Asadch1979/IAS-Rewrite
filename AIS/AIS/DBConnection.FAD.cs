@@ -455,5 +455,69 @@ namespace AIS.Controllers
             con.Close();
             return list;
         }
+
+        public List<PendingParaModel> GetPendingParas(int entityId, int auditYear)
+        {
+            var list = new List<PendingParaModel>();
+            using (var con = this.DatabaseConnection())
+            {
+                con.Open();
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "PKG_FAD.P_GetPendingParas";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("p_entity_id", OracleDbType.Int32).Value = entityId;
+                    cmd.Parameters.Add("p_audit_year", OracleDbType.Int32).Value = auditYear;
+                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            list.Add(new PendingParaModel
+                            {
+                                ParaId = Convert.ToInt32(rdr["PARA_ID"]),
+                                AuditYear = Convert.ToInt32(rdr["AUDIT_YEAR"]),
+                                ParaNo = rdr["PARA_NO"].ToString(),
+                                Gist = rdr["GIST"].ToString(),
+                                Risk = rdr["RISK"].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+            return list;
+        }
+
+        public List<EntityTaskSummaryModel> GetEntityTaskSummary(int auditorPpno)
+        {
+            var list = new List<EntityTaskSummaryModel>();
+            using (var con = this.DatabaseConnection())
+            {
+                con.Open();
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "PKG_FAD.P_GetEntityTaskSummary";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("p_auditor_ppno", OracleDbType.Int32).Value = auditorPpno;
+                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            list.Add(new EntityTaskSummaryModel
+                            {
+                                EntityId = Convert.ToInt32(rdr["ENTITY_ID"]),
+                                EntityCode = rdr["ENTITY_CODE"].ToString(),
+                                EntityName = rdr["ENTITY_NAME"].ToString(),
+                                AuditYear = Convert.ToInt32(rdr["AUDIT_YEAR"]),
+                                TotalParas = Convert.ToInt32(rdr["TOTAL_PARAS"]),
+                                ParasUpdated = Convert.ToInt32(rdr["PARAS_UPDATED"])
+                            });
+                        }
+                    }
+                }
+            }
+            return list;
+        }
     }
 }
