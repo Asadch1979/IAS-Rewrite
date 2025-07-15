@@ -4,6 +4,9 @@ namespace AIS.Models
     {
         public int ReferenceId { get; set; }
         public string Title { get; set; }
+        public string INSTRUCTIONSDETAILS { get; set; }
+        public string KEYWORDS { get; set; }
         public string ReferenceType { get; set; }
+
     }
 }

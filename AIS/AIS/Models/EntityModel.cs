@@ -6,6 +6,7 @@ namespace AIS.Models
         public string EntityCode { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
+        public string Allocatedto { get; set; }
         public int TotalParas { get; set; }
 
     }

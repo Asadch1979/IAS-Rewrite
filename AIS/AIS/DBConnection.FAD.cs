@@ -284,6 +284,7 @@ namespace AIS.Controllers
                                 EntityCode = rdr["ENTITY_CODE"]?.ToString(),
                                 Name = rdr["NAME"].ToString(),
                                 Type = rdr["TYPE"]?.ToString(),
+                                Allocatedto = rdr["ALLOCATEDTO"]?.ToString(),
                                 TotalParas = rdr["TOTAL_PARAS"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["TOTAL_PARAS"])
                             });
                         }
@@ -293,23 +294,24 @@ namespace AIS.Controllers
             return list;
         }
 
-        public string AllocateEntityToAuditor(int azId, int entId, int auditorPPNO, int assignedBy)
+        public string AllocateEntityToAuditor(int azId, int entId, int auditorPPNO)
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             string result = "";
             using (OracleCommand cmd = con.CreateCommand())
                 {
-                cmd.CommandText = "pkg_ar.P_allocate_entity_to_auditor";
+                cmd.CommandText = "pkg_fad.P_allocate_entity_to_auditor";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("p_az_id", OracleDbType.Int32).Value = azId;
                 cmd.Parameters.Add("p_ent_id", OracleDbType.Int32).Value = entId;
                 cmd.Parameters.Add("p_auditor_ppno", OracleDbType.Int32).Value = auditorPPNO;
-                cmd.Parameters.Add("p_assigned_by", OracleDbType.Int32).Value = assignedBy;
+                cmd.Parameters.Add("p_assigned_by", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                 using (OracleDataReader rdr = cmd.ExecuteReader())
                     {
@@ -322,6 +324,7 @@ namespace AIS.Controllers
             con.Dispose();
             return result;
             }
+
 
 
         public List<ObservationReferenceModel> GetObservationsForReferenceUpdate(int? entId, int? assignedAuditorId, int? referenceId)
@@ -365,7 +368,7 @@ namespace AIS.Controllers
         }
 
         public string UpdateParaReference(int comId, int newRef)
-        {
+            {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
@@ -376,14 +379,19 @@ namespace AIS.Controllers
             string resp = string.Empty;
             using (var cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = "PKG_FAD.P_update_para_reference";
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("p_com_id", OracleDbType.Int32).Value = comId;
-                    cmd.Parameters.Add("p_new_ref", OracleDbType.Int32).Value = newRef;
-                    cmd.Parameters.Add("p_updated_by", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                    cmd.Parameters.Add("io_cursor", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
-                    cmd.ExecuteNonQuery();
-                    resp = cmd.Parameters["io_cursor"].Value?.ToString();
+                cmd.CommandText = "PKG_FAD.P_update_para_reference";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("p_com_id", OracleDbType.Int32).Value = comId;
+                cmd.Parameters.Add("p_new_ref", OracleDbType.Int32).Value = newRef;
+                cmd.Parameters.Add("p_updated_by", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                using (var rdr = cmd.ExecuteReader())
+                    {
+                    while (rdr.Read())
+                        {
+                        resp = rdr["remarks"]?.ToString();
+                        }
+                    }
                 }
             con.Close();
             return resp;
@@ -427,7 +435,7 @@ namespace AIS.Controllers
         }
 
         public List<ReferenceSearchResultModel> SearchReferences(string referenceType, string keyword)
-        {
+            {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
@@ -439,27 +447,30 @@ namespace AIS.Controllers
             var list = new List<ReferenceSearchResultModel>();
             using (var cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = "PKG_FAD.P_SearchReferences";
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("p_ref_type", OracleDbType.Varchar2).Value = referenceType;
-                    cmd.Parameters.Add("p_keyword", OracleDbType.Varchar2).Value = keyword;
-                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-                    using (var rdr = cmd.ExecuteReader())
+                cmd.CommandText = "PKG_FAD.P_SearchReferences";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("p_ref_type", OracleDbType.Varchar2).Value = referenceType ?? (object)DBNull.Value;
+                cmd.Parameters.Add("p_keyword", OracleDbType.Varchar2).Value = keyword ?? (object)DBNull.Value;
+                cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                using (var rdr = cmd.ExecuteReader())
                     {
-                        while (rdr.Read())
+                    while (rdr.Read())
                         {
-                            list.Add(new ReferenceSearchResultModel
+                        list.Add(new ReferenceSearchResultModel
                             {
-                                ReferenceId = rdr["REFERENCE_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["REFERENCE_ID"]),
-                                Title = rdr["TITLE"].ToString(),
-                                ReferenceType = rdr["REFERENCE_TYPE"].ToString()
+                            ReferenceId = rdr["REFERENCE_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["REFERENCE_ID"]),
+                            Title = rdr["TITLE"] == DBNull.Value ? "" : rdr["TITLE"].ToString(),
+                            ReferenceType = rdr["REFERENCE_TYPE"] == DBNull.Value ? "" : rdr["REFERENCE_TYPE"].ToString(),
+                            INSTRUCTIONSDETAILS = rdr["INSTRUCTIONSDETAILS"] == DBNull.Value ? "" : rdr["INSTRUCTIONSDETAILS"].ToString(),
+                            KEYWORDS = rdr["KEYWORDS"] == DBNull.Value ? "" : rdr["KEYWORDS"].ToString()
                             });
                         }
                     }
                 }
             con.Close();
             return list;
-        }
+            }
+
 
         public List<PendingParaModel> GetPendingParas(int entityId, int auditYear)
         {
@@ -479,13 +490,13 @@ namespace AIS.Controllers
                         while (rdr.Read())
                         {
                             list.Add(new PendingParaModel
-                            {
+                                {
                                 ParaId = Convert.ToInt32(rdr["PARA_ID"]),
-                                AuditYear = Convert.ToInt32(rdr["AUDIT_YEAR"]),
+                                AuditYear = rdr["AUDIT_YEAR"].ToString(),
                                 ParaNo = rdr["PARA_NO"].ToString(),
                                 Gist = rdr["GIST"].ToString(),
                                 Risk = rdr["RISK"].ToString()
-                            });
+                                });
                         }
                     }
                 }
@@ -519,7 +530,7 @@ namespace AIS.Controllers
                                 EntityId = Convert.ToInt32(rdr["ENTITY_ID"]),
                                 EntityCode = rdr["ENTITY_CODE"].ToString(),
                                 EntityName = rdr["ENTITY_NAME"].ToString(),
-                                AuditYear = Convert.ToInt32(rdr["AUDIT_YEAR"]),
+                                AuditYear = rdr["AUDIT_YEAR"].ToString(),
                                 TotalParas = Convert.ToInt32(rdr["TOTAL_PARAS"]),
                                 ParasUpdated = Convert.ToInt32(rdr["PARAS_UPDATED"])
                             });
