@@ -281,6 +281,7 @@ namespace AIS.Controllers
                             list.Add(new EntityModel
                             {
                                 EntityId = rdr["ENTITY_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["ENTITY_ID"]),
+                                EntityCode = rdr["ENTITY_CODE"]?.ToString(),
                                 Name = rdr["NAME"].ToString(),
                                 Type = rdr["TYPE"]?.ToString(),
                                 TotalParas = rdr["TOTAL_PARAS"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["TOTAL_PARAS"])
