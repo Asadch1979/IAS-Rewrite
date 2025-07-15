@@ -7,7 +7,8 @@
     <thead class="table-success">
         <tr>
             <th>PPNO</th>
-            <th>Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
             <th>Position</th>
             <th>Task Allocated</th>
             <th>Action</th>
@@ -18,7 +19,7 @@
 
 <!-- Allocation Modal -->
 <div class="modal fade" id="allocateModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl" style="min-width:95% !important;">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Allocate Entity</h5>
@@ -28,7 +29,15 @@
                 <select id="relationType" class="form-select mb-2"></select>
                 <select id="reportingOffice" class="form-select mb-2"></select>
                 <table class="table" id="entitiesTable">
-                    <thead><tr><th></th><th>Entity</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Entity Code</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Total Paras</th>
+                        </tr>
+                    </thead>
                     <tbody></tbody>
                 </table>
             </div>
@@ -49,7 +58,7 @@ $(function(){
             var body=$('#auditorsTable tbody');
             body.empty();
             $.each(data,function(i,v){
-                    body.append('<tr><td>'+v.ppno+'</td><td>'+v.name+'</td><td>'+v.fuN_DESIGNATION+'</td>'+
+                    body.append('<tr><td>'+v.ppno+'</td><td>'+v.employeefirstname+'</td><td>'+v.employeelastname+'</td><td>'+v.fuN_DESIGNATION+'</td><td>'+v.tASK_ALLOCATED+'</td>'+
                     '<td><button type="button" class="btn btn-sm btn-primary assign-btn" data-ppno="'+v.ppno+'">Assign Entity</button></td></tr>');
             });
             initializeDataTable('auditorsTable');
@@ -79,7 +88,7 @@ $(function(){
         if(id){
             $.post(g_asiBaseURL+'/ApiCalls/GetEntitiesForOffice',{reportingOfficeId:id},function(d){
                 $.each(d,function(i,it){
-                    $('#entitiesTable tbody').append('<tr><td><input type="checkbox" class="entChk" value="'+it.entityId+'"/></td><td>'+it.name+'</td></tr>');
+                    $('#entitiesTable tbody').append('<tr><td><input type="checkbox" class="entChk" value="'+it.entityId+'"/></td><td>'+it.entityId+'</td><td>'+it.name+'</td><td>'+it.type+'</td><td>'+it.totalParas+'</td></tr>');
                 });
             });
         }
