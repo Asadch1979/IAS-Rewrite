@@ -177,6 +177,10 @@
                 contentType:false,
                 success: function(d){
                     alert('Complaint submitted');
+                    location.reload();
+                },
+                error: function(){
+                    alert('Error submitting complaint');
                 }
             });
         });

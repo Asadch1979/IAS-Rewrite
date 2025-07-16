@@ -92,6 +92,8 @@ namespace AIS.Controllers
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             ViewData["ReportId"] = reportId;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            ViewData["UserId"] = loggedInUser.ID;
             return View("../IID/Analysis");
             }
 
