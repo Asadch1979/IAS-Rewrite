@@ -42,24 +42,32 @@
         <input type="text" class="form-control" name="ReceivedFrom" required />
     </div>
     <div class="mb-2">
-        <label class="form-label">Branch</label>
-        <select class="form-select" name="Branch" required>
-            <option value="">--Select Branch--</option>
+        <label class="form-label">Location Type</label>
+        <select class="form-select" id="LocationTypeId" name="LocationTypeId" required>
+            <option value="">--Select--</option>
+            <option value="21">GM Office</option>
+            <option value="5">Region</option>
+            <option value="6">Branch</option>
+        </select>
+    </div>
+    <div class="mb-2 d-none" id="gmOfficeDiv">
+        <label class="form-label">GM Office</label>
+        <select class="form-select" id="GMOfficeId" name="GMOfficeId">
+            <option value="">--Select GM Office--</option>
             @{
-                if (ViewData["BranchList"] != null)
+                if (ViewData["GMOfficeList"] != null)
                 {
-                    foreach (var item in (dynamic)(ViewData["BranchList"]))
+                    foreach (var item in (dynamic)(ViewData["GMOfficeList"]))
                     {
-                        <option value="@item.BRANCHID">@item.BRANCHNAME</option>
+                        <option value="@item.ENTITY_ID">@item.NAME</option>
                     }
                 }
             }
-            <option value="Others">Others</option>
         </select>
     </div>
-    <div class="mb-2">
+    <div class="mb-2 d-none" id="regionDiv">
         <label class="form-label">Region</label>
-        <select class="form-select" name="Region" required>
+        <select class="form-select" id="RegionId" name="RegionId">
             <option value="">--Select Region--</option>
             @{
                 if (ViewData["RegionList"] != null)
@@ -70,7 +78,12 @@
                     }
                 }
             }
-            <option value="Others">Others</option>
+        </select>
+    </div>
+    <div class="mb-2 d-none" id="branchDiv">
+        <label class="form-label">Branch</label>
+        <select class="form-select" id="BranchId" name="BranchId">
+            <option value="">--Select Branch--</option>
         </select>
     </div>
     <div class="mb-2">
@@ -122,6 +135,37 @@
 @section Scripts{
 <script>
     $(function(){
+        function toggleLocation(){
+            var val = $('#LocationTypeId').val();
+            $('#gmOfficeDiv,#regionDiv,#branchDiv').addClass('d-none');
+            $('#GMOfficeId,#RegionId,#BranchId').prop('disabled', true);
+            if(val === '21'){
+                $('#gmOfficeDiv').removeClass('d-none');
+                $('#GMOfficeId').prop('disabled', false);
+            } else if(val === '5'){
+                $('#regionDiv').removeClass('d-none');
+                $('#RegionId').prop('disabled', false);
+            } else if(val === '6'){
+                $('#regionDiv,#branchDiv').removeClass('d-none');
+                $('#RegionId,#BranchId').prop('disabled', false);
+            }
+        }
+
+        $('#LocationTypeId').on('change', toggleLocation);
+
+        $('#RegionId').on('change', function(){
+            if($('#LocationTypeId').val() === '6' && $(this).val()){
+                $('#BranchId').empty().append('<option value="">--Select Branch--</option>');
+                $.post(g_asiBaseURL + '/ApiCalls/get_zone_Branches', { ZONEID: $(this).val() }, function(d){
+                    $.each(d, function(i,v){
+                        $('#BranchId').append('<option value="'+v.branchid+'">'+v.branchname+'</option>');
+                    });
+                });
+            }
+        });
+
+        toggleLocation();
+
         $('#complaintForm').on('submit', function(e){
             e.preventDefault();
             var fd = new FormData(this);

@@ -26,6 +26,10 @@ namespace AIS.Controllers
                 cmd.Parameters.Add("p_uploaded_ffr", OracleDbType.Varchar2).Value = model.UploadedFFR ?? string.Empty;
                 cmd.Parameters.Add("p_uploaded_evidence", OracleDbType.Varchar2).Value = model.UploadedEvidence ?? string.Empty;
                 cmd.Parameters.Add("p_action_required", OracleDbType.Varchar2).Value = model.ActionRequired ?? string.Empty;
+                cmd.Parameters.Add("p_location_type_id", OracleDbType.Int32).Value = model.LocationTypeId;
+                cmd.Parameters.Add("p_gm_office_id", OracleDbType.Int32).Value = (object?)model.GMOfficeId ?? DBNull.Value;
+                cmd.Parameters.Add("p_region_id", OracleDbType.Int32).Value = (object?)model.RegionId ?? DBNull.Value;
+                cmd.Parameters.Add("p_branch_id", OracleDbType.Int32).Value = (object?)model.BranchId ?? DBNull.Value;
                 cmd.Parameters.Add("p_submitted_by", OracleDbType.Int32).Value = model.SubmittedBy;
                 cmd.Parameters.Add("o_complaint_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
                 cmd.ExecuteNonQuery();
