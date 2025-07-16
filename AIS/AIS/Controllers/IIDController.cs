@@ -30,7 +30,7 @@ namespace AIS.Controllers
             }
 
         [HttpGet, HttpPost]
-        public IActionResult Assessment(int complaintId)
+        public IActionResult InitialAssessment(int complaintId)
             {
             ViewData["TopMenu"] = tm.GetTopMenus();
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();
