@@ -21,30 +21,32 @@
             <th>REFERENCE ID</th>
             <th>INSTRUCTIONS DETAILS</th>
             <th>KEYWORDS</th>
-               <th>Action</th>
-               
-           </tr></thead>
+            <th>View Circular</th>
+            <th>Action</th>
+
+        </tr>
+    </thead>
     <tbody></tbody>
 </table>
 <script>
-$(function(){
-    var comId=@Model;
-    $('#searchBtn').click(function(){
-        $.post(g_asiBaseURL+'/ApiCalls/SearchReferences',{referenceType:$('#refType').val(),keyword:$('#keyword').val()},function(d){
-            var body=$('#resultTbl tbody');body.empty();
-            $.each(d,function(i,it){
-                                    body.append('<tr><td>'+it.title+'</td><td>'+it.referenceId+'</td><td>'+it.instructionsdetails+'</td><td>'+it.keywords+'</td><td><button class="attach btn btn-sm btn-primary" data-id="'+it.referenceId+'">Attach</button></td></tr>');
+    $(function(){
+        var comId=@Model;
+        $('#searchBtn').click(function(){
+            $.post(g_asiBaseURL+'/ApiCalls/SearchReferences',{referenceType:$('#refType').val(),keyword:$('#keyword').val()},function(d){
+                var body=$('#resultTbl tbody');body.empty();
+                $.each(d,function(i,it){
+                                                    body.append('<tr><td>'+it.title+'</td><td>'+it.referenceId+'</td><td>'+it.instructionsdetails+'</td><td>'+it.keywords+'</td><td>'+it.referenceurl+'</td><td><button class="attach btn btn-sm btn-primary" data-id="'+it.referenceId+'">Attach</button></td></tr>');
+                });
             });
         });
+        $(document).on('click','.attach',function(){
+            var ref=$(this).data('id');
+            $.post(g_asiBaseURL+'/ApiCalls/UpdateParaReference',
+                { comId: comId, newRef: ref },
+                function (data) {
+                    alert(data);
+                    window.location.href = g_asiBaseURL + '/FAD/ReferenceUpdateList';
+                });
+        });
     });
-    $(document).on('click','.attach',function(){
-        var ref=$(this).data('id');
-        $.post(g_asiBaseURL+'/ApiCalls/UpdateParaReference',
-            { comId: comId, newRef: ref },
-            function (data) {
-                alert(data);
-                window.location.href = g_asiBaseURL + '/FAD/ReferenceUpdateList';
-            });
-    });
-});
 </script>

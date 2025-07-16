@@ -462,7 +462,8 @@ namespace AIS.Controllers
                             Title = rdr["TITLE"] == DBNull.Value ? "" : rdr["TITLE"].ToString(),
                             ReferenceType = rdr["REFERENCE_TYPE"] == DBNull.Value ? "" : rdr["REFERENCE_TYPE"].ToString(),
                             INSTRUCTIONSDETAILS = rdr["INSTRUCTIONSDETAILS"] == DBNull.Value ? "" : rdr["INSTRUCTIONSDETAILS"].ToString(),
-                            KEYWORDS = rdr["KEYWORDS"] == DBNull.Value ? "" : rdr["KEYWORDS"].ToString()
+                            KEYWORDS = rdr["KEYWORDS"] == DBNull.Value ? "" : rdr["KEYWORDS"].ToString(),
+                            REFERENCEURL = rdr["REFERENCEURL"] == DBNull.Value ? "" : rdr["REFERENCEURL"].ToString()
                             });
                         }
                     }
