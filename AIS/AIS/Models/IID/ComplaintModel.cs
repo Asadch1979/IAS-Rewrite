@@ -5,6 +5,16 @@ namespace AIS.Models.IID
     public class ComplaintModel
         {
         public string Nature { get; set; }
+        public string Category { get; set; }
+        public string ReceivedFrom { get; set; }
+        public string Branch { get; set; }
+        public string Region { get; set; }
+        public string ComplainantName { get; set; }
+        public string CNIC { get; set; }
+        public string CellularNumber { get; set; }
+        public string MailingAddress { get; set; }
+        public string Gender { get; set; }
+        public string ComplaintNo { get; set; }
         public string Contents { get; set; }
         public string UploadedComplaint { get; set; }
         public string UploadedFFR { get; set; }

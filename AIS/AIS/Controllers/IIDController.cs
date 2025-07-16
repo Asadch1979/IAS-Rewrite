@@ -22,6 +22,8 @@ namespace AIS.Controllers
             {
             ViewData["TopMenu"] = tm.GetTopMenus();
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            ViewData["BranchList"] = dBConnection.GetBranches();
+            ViewData["RegionList"] = dBConnection.GetGMsList();
             if (!sessionHandler.IsUserLoggedIn())
                 return RedirectToAction("Index", "Login");
             return View("../IID/SubmitComplaint");
