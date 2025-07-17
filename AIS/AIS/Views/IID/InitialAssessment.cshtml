@@ -1,32 +1,89 @@
 @{
     ViewData["Title"] = "Initial Assessment";
     Layout = "_Layout";
-    var complaintId = ViewData["ComplaintId"];
+    var userId = ViewData["UserId"];
 }
 <h4>Initial Assessment</h4>
-<form id="assessmentForm">
-    <input type="hidden" name="ComplaintId" value="@complaintId" />
-    <div class="mb-2">
-        <label class="form-label">Initial Assessment</label>
-        <textarea class="form-control" name="Assessment"></textarea>
+
+<table id="complaintsTable" class="table table-bordered table-striped">
+    <thead class="table-success">
+        <tr>
+            <th>Complaint No</th>
+            <th>Nature</th>
+            <th>Complainant</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<!-- Assessment Modal -->
+<div class="modal fade" id="assessmentModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Initial Assessment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="assessmentForm">
+                    <input type="hidden" name="ComplaintId" id="modalComplaintId" />
+                    <div class="mb-2">
+                        <label class="form-label">Initial Assessment</label>
+                        <textarea class="form-control" name="Assessment"></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Recommendation</label>
+                        <select class="form-select" name="Recommendation">
+                            <option>Qualify</option>
+                            <option>Not Qualify</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="saveAssessment" type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
     </div>
-    <div class="mb-2">
-        <label class="form-label">Recommendation</label>
-        <select class="form-select" name="Recommendation">
-            <option>Qualify</option>
-            <option>Not Qualify</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Forward</button>
-</form>
+</div>
+
 @section Scripts{
 <script>
     $(function(){
-        $('#assessmentForm').on('submit', function(e){
-            e.preventDefault();
-            var data = $(this).serialize();
+        loadComplaints();
+
+        function loadComplaints(){
+            $.post(g_asiBaseURL + '/ApiCalls/GetComplaintsByUser',{ userId: @userId },function(d){
+                destroyDatatable('complaintsTable');
+                var body = $('#complaintsTable tbody');
+                body.empty();
+                $.each(d,function(i,v){
+                    if(!v.ASSESSMENT_ID || v.ASSESSMENT_ID == 0){
+                        var row = '<tr>'+
+                            '<td>'+ (v.COMPLAINT_NO || '') +'</td>'+
+                            '<td>'+ (v.NATURE || '') +'</td>'+
+                            '<td>'+ (v.COMPLAINANT || '') +'</td>'+
+                            '<td><button type="button" class="btn btn-sm btn-primary assess-btn" data-id="'+v.COMPLAINT_ID+'">Assess</button></td>'+
+                            '</tr>';
+                        body.append(row);
+                    }
+                });
+                initializeDataTable('complaintsTable');
+            });
+        }
+
+        $(document).on('click','.assess-btn',function(){
+            $('#modalComplaintId').val($(this).data('id'));
+            $('#assessmentModal').modal('show');
+        });
+
+        $('#saveAssessment').click(function(){
+            var data = $('#assessmentForm').serialize();
             $.post(g_asiBaseURL + '/ApiCalls/AddAssessment', data, function(){
-                alert('Assessment submitted');
+                $('#assessmentModal').modal('hide');
+                loadComplaints();
             });
         });
     });
