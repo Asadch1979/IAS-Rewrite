@@ -39,7 +39,7 @@ namespace AIS.Controllers
                 }
             }
 
-        public DataTable GetComplaintsByUser(int userId)
+        public DataTable GetComplaintsByUser()
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
@@ -52,7 +52,7 @@ namespace AIS.Controllers
                 {
                 cmd.CommandText = "PKG_INQ.GET_COMPLAINTS";
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("p_user_id", OracleDbType.Int32).Value = userId;
+                cmd.Parameters.Add("p_user_id", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                 var dt = new DataTable();
                 using (var rdr = cmd.ExecuteReader())

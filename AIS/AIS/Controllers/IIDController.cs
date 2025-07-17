@@ -35,9 +35,8 @@ namespace AIS.Controllers
             ViewData["TopMenu"] = tm.GetTopMenus();
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();
             if (!sessionHandler.IsUserLoggedIn())
-                return RedirectToAction("Index", "Login");
-            var loggedInUser = sessionHandler.GetSessionUser();
-            ViewData["UserId"] = loggedInUser.ID;
+                return RedirectToAction("Index", "Login");        
+           
             ViewData["ComplaintId"] = complaintId;
             return View("../IID/InitialAssessment");
             }

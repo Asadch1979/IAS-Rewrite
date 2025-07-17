@@ -55,7 +55,7 @@
         loadComplaints();
 
         function loadComplaints(){
-            $.post(g_asiBaseURL + '/ApiCalls/GetComplaintsByUser',{ userId: @userId },function(d){
+            $.post(g_asiBaseURL + '/ApiCalls/GetComplaintsByUser',{  },function(d){
                 destroyDatatable('complaintsTable');
                 var body = $('#complaintsTable tbody');
                 body.empty();

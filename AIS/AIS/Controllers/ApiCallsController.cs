@@ -3269,9 +3269,9 @@ namespace AIS.Controllers
 
 
         [HttpPost]
-        public IActionResult GetComplaintsByUser(int userId)
+        public IActionResult GetComplaintsByUser()
             {
-            var list = dBConnection.GetComplaintsByUser(userId);
+            var list = dBConnection.GetComplaintsByUser();
             return Ok(list);
             }
 
