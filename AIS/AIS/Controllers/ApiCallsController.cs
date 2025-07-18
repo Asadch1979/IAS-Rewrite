@@ -3276,6 +3276,13 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
+        public IActionResult GetComplaintsWithoutAssessment()
+            {
+            var list = dBConnection.GetComplaintsWithoutAssessment();
+            return Ok(list);
+            }
+
+        [HttpPost]
         public List<string> get_fad_desk_officer_audit_periods()
             {
             return dBConnection.GetDistinctFadDeskOfficerAuditPeriods();

@@ -64,6 +64,25 @@ namespace AIS.Controllers
                 }
             }
 
+        public DataTable GetComplaintsWithoutAssessment()
+            {
+            var con = this.DatabaseConnection();
+            con.Open();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "PKG_INQ.GET_COMPLAINTS_WITHOUT_ASSESSMENT";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                var dt = new DataTable();
+                using (var rdr = cmd.ExecuteReader())
+                    {
+                    dt.Load(rdr);
+                    }
+                con.Dispose();
+                return dt;
+                }
+            }
+
         public int AddAssessment(AssessmentModel model)
             {
             sessionHandler = new SessionHandler();

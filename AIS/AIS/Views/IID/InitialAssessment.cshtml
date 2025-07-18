@@ -8,9 +8,9 @@
 <table id="complaintsTable" class="table table-bordered table-striped">
     <thead class="table-success">
         <tr>
-            <th>Complaint No</th>
+            <th>Complaint ID</th>
             <th>Nature</th>
-            <th>Complainant</th>
+            <th>Submitted On</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -55,20 +55,18 @@
         loadComplaints();
 
         function loadComplaints(){
-            $.post(g_asiBaseURL + '/ApiCalls/GetComplaintsByUser',{  },function(d){
+            $.post(g_asiBaseURL + '/ApiCalls/GetComplaintsWithoutAssessment',{  },function(d){
                 destroyDatatable('complaintsTable');
                 var body = $('#complaintsTable tbody');
                 body.empty();
                 $.each(d,function(i,v){
-                    if(!v.ASSESSMENT_ID || v.ASSESSMENT_ID == 0){
-                        var row = '<tr>'+
-                            '<td>'+ (v.COMPLAINT_NO || '') +'</td>'+
-                            '<td>'+ (v.NATURE || '') +'</td>'+
-                            '<td>'+ (v.COMPLAINANT || '') +'</td>'+
-                            '<td><button type="button" class="btn btn-sm btn-primary assess-btn" data-id="'+v.COMPLAINT_ID+'">Assess</button></td>'+
-                            '</tr>';
-                        body.append(row);
-                    }
+                    var row = '<tr>'+
+                        '<td>'+ (v.COMPLAINT_ID || '') +'</td>'+
+                        '<td>'+ (v.NATURE || '') +'</td>'+
+                        '<td>'+ (v.SUBMITTED_ON || '') +'</td>'+
+                        '<td><button type="button" class="btn btn-sm btn-primary assess-btn" data-id="'+v.COMPLAINT_ID+'">Assess</button></td>'+
+                        '</tr>';
+                    body.append(row);
                 });
                 initializeDataTable('complaintsTable');
             });
