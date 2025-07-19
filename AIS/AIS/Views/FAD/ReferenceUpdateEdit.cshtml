@@ -155,7 +155,8 @@
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(payload),
-                success: function(){
+                success: function(resp){
+                    alert(resp);
                     window.location.href = g_asiBaseURL + '/FAD/ReferenceEntitySummary';
                 }
             });

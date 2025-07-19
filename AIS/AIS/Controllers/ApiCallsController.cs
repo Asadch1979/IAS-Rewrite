@@ -3440,8 +3440,8 @@ namespace AIS.Controllers
         [HttpPost]
         public IActionResult SaveParaReferences([FromBody] SaveParaReferencesRequestModel model)
             {
-            dBConnection.SaveParaReferences(model.ComId, model.References);
-            return Ok();
+            var message = dBConnection.SaveParaReferences(model.ComId, model.References);
+            return Json(message);
             }
 
         [HttpPost]
