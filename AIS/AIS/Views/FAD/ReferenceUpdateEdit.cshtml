@@ -44,12 +44,14 @@
         var comId = @Model;
         var refs = [];
         var refDetails = [];
+        var refLinks = [];
         var manualCounter = -1;
 
         $.get(g_asiBaseURL + '/ApiCalls/GetParaReferenceData', { comId: comId }, function(d){
             $('#paraText').html(d.paraText);
             refs = d.references || [];
             refDetails = d.referenceDetails || [];
+            refLinks = d.referenceLinks || [];
             renderRefs();
         });
 
@@ -79,7 +81,8 @@
                 instructionsDate: null,
                 referenceType: $('#refType').val(),
                 division: chap,
-                divisionEntId: 0
+                divisionEntId: 0,
+                linkId: null
             });
             $('#manualName').val('');
             $('#chapterSection').val('');
@@ -111,8 +114,10 @@
             if($.inArray(ref, refs) === -1){
                 refs.push(ref);
                 $.get(g_asiBaseURL + '/ApiCalls/GetReferenceDetail', { refId: ref }, function(d){
-                    if(d)
+                    if(d){
+                        d.linkId = null;
                         refDetails.push(d);
+                    }
                     renderRefs();
                 });
             }

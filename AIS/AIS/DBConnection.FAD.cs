@@ -602,15 +602,71 @@ namespace AIS.Controllers
 
         public ParaReferenceDataModel GetParaReferenceData(int comId)
             {
-            var model = new ParaReferenceDataModel { References = new List<int>(), ReferenceDetails = new List<AuditChecklistAnnexureCircularModel>() };
+            var model = new ParaReferenceDataModel
+                {
+                References = new List<int>(),
+                ReferenceDetails = new List<AuditChecklistAnnexureCircularModel>(),
+                ReferenceLinks = new List<ParaReferenceLinkModel>()
+                };
+
             model.ParaText = GetParaText(comId);
-            model.References = GetParaReferences(comId);
+
+            var links = GetParaReferenceLinks(comId);
+            model.ReferenceLinks = links;
+            model.References = links.Select(l => l.ReferenceId).ToList();
 
             var allRefs = GetAuditChecklistAnnexureCirculars();
             if (model.References != null && model.References.Count > 0)
+                {
                 model.ReferenceDetails = allRefs.Where(r => model.References.Contains(r.ID)).ToList();
+                foreach (var det in model.ReferenceDetails)
+                    {
+                    var lnk = links.FirstOrDefault(l => l.ReferenceId == det.ID);
+                    if (lnk != null)
+                        det.LinkId = lnk.LinkId;
+                    }
+                }
 
             return model;
+            }
+
+        public List<ParaReferenceLinkModel> GetParaReferenceLinks(int comId)
+            {
+            var list = new List<ParaReferenceLinkModel>();
+            using (var con = this.DatabaseConnection())
+                {
+                con.Open();
+                using (var cmd = con.CreateCommand())
+                    {
+                    cmd.CommandText = "PKG_FAD.P_GetParaReferences";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("p_com_id", OracleDbType.Int32).Value = comId;
+                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                    using (var rdr = cmd.ExecuteReader())
+                        {
+                        while (rdr.Read())
+                            {
+                            list.Add(new ParaReferenceLinkModel
+                                {
+                                LinkId = rdr["LINK_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["LINK_ID"]),
+                                EntityId = rdr["ENTITY_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["ENTITY_ID"]),
+                                OldParaId = rdr["OLD_PARA_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["OLD_PARA_ID"]),
+                                NewParaId = rdr["NEW_PARA_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["NEW_PARA_ID"]),
+                                ParaId = rdr["PARA_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["PARA_ID"]),
+                                ReferenceId = rdr["REFERENCE_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["REFERENCE_ID"]),
+                                ReferenceTitle = rdr["REFERENCE_TITLE"].ToString(),
+                                CreditManualId = rdr["CREDIT_MANUAL_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["CREDIT_MANUAL_ID"]),
+                                OpManualId = rdr["OP_MANUAL_ID"] == DBNull.Value ? (int?)null : Convert.ToInt32(rdr["OP_MANUAL_ID"]),
+                                ManualType = rdr["MANUAL_TYPE"].ToString(),
+                                Chapter = rdr["CHAPTER"].ToString(),
+                                MatchedText = rdr["MATCHED_TEXT"].ToString(),
+                                LinkType = rdr["LINK_TYPE"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+            return list;
             }
 
         public List<int> GetParaReferences(int comId)
@@ -771,24 +827,26 @@ namespace AIS.Controllers
             sessionHandler._configuration = this._configuration;
             var user = sessionHandler.GetSessionUser();
 
-            var existing = GetParaReferences(comId);
+            var existing = GetParaReferenceLinks(comId);
             string result = string.Empty;
 
             foreach (var oldRef in existing)
                 {
-                if (!references.Any(r => r.ReferenceId == oldRef))
+                if (!references.Any(r => r.ReferenceId == oldRef.ReferenceId))
                     {
-                    result = DeleteReference(comId, oldRef, user.PPNumber);
+                    result = DeleteReference(comId, oldRef.ReferenceId, user.PPNumber);
                     }
                 }
 
             foreach (var r in references)
                 {
-                if (!existing.Contains(r.ReferenceId))
-                    {
-                    r.ParaId = comId;
+                var match = existing.FirstOrDefault(x => x.ReferenceId == r.ReferenceId);
+                r.ParaId = comId;
+                if (match != null)
+                    r.LinkId = match.LinkId;
+
+                if (match == null)
                     result = AddReference(r, user.PPNumber);
-                    }
                 }
 
             return string.IsNullOrEmpty(result) ? "Saved" : result;
