@@ -134,7 +134,7 @@
             var payload = { comId: comId, references: [] };
             $.each(refDetails, function(i,r){
                 payload.references.push({
-                    linkId: null,
+                    linkId: r.linkId,
                     entityId: r.divisionEntId || 0,
                     oldParaId: 0,
                     newParaId: 0,
