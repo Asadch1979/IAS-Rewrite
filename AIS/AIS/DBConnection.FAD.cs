@@ -34,7 +34,8 @@ namespace AIS.Controllers
                     cmd.Parameters.Add("p_uploaded_by", OracleDbType.Varchar2).Value = model.UploadedBy;
                     cmd.Parameters.Add("o_status", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
                     cmd.ExecuteNonQuery();
-                    return cmd.Parameters["o_status"].Value?.ToString();
+                    var status = cmd.Parameters["o_status"].Value?.ToString();
+                    return status;
                     }
                 }
             }
@@ -707,7 +708,8 @@ namespace AIS.Controllers
                     cmd.Parameters.Add("p_user", OracleDbType.Varchar2).Value = ppno;
                     cmd.Parameters.Add("o_status", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
                     cmd.ExecuteNonQuery();
-                    return cmd.Parameters["o_status"].Value?.ToString();
+                    var status = cmd.Parameters["o_status"].Value?.ToString();
+                    return status;
                     }
                 }
             }
@@ -717,9 +719,9 @@ namespace AIS.Controllers
         /// <c>PKG_FAD.P_ManageReference</c> procedure with the <c>ADD</c> action
         /// instead of the legacy <c>P_AddReference</c> procedure.
         /// </summary>
-        private void AddReference(ParaReferenceLinkModel link, string ppno)
+        private string AddReference(ParaReferenceLinkModel link, string ppno)
             {
-            ManageReference(
+            return ManageReference(
                 "ADD",
                 link,
                 link?.ParaId,
@@ -732,9 +734,9 @@ namespace AIS.Controllers
         /// Removes a para reference using <c>P_ManageReference</c> with the
         /// <c>DELETE</c> action.
         /// </summary>
-        private void DeleteReference(int comId, int refId, string ppno)
+        private string DeleteReference(int comId, int refId, string ppno)
             {
-            ManageReference(
+            return ManageReference(
                 "DELETE",
                 null,
                 comId,
@@ -746,7 +748,7 @@ namespace AIS.Controllers
         // reference_reviewed flag is now updated inside P_ManageReference so
         // the standalone MarkParaAsReviewed method is no longer required.
 
-        public void SaveParaReferences(int comId, List<ParaReferenceLinkModel> references)
+        public string SaveParaReferences(int comId, List<ParaReferenceLinkModel> references)
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
@@ -755,12 +757,13 @@ namespace AIS.Controllers
             var user = sessionHandler.GetSessionUser();
 
             var existing = GetParaReferences(comId);
+            string result = string.Empty;
 
             foreach (var oldRef in existing)
                 {
                 if (!references.Any(r => r.ReferenceId == oldRef))
                     {
-                    DeleteReference(comId, oldRef, user.PPNumber);
+                    result = DeleteReference(comId, oldRef, user.PPNumber);
                     }
                 }
 
@@ -769,9 +772,11 @@ namespace AIS.Controllers
                 if (!existing.Contains(r.ReferenceId))
                     {
                     r.ParaId = comId;
-                    AddReference(r, user.PPNumber);
+                    result = AddReference(r, user.PPNumber);
                     }
                 }
+
+            return string.IsNullOrEmpty(result) ? "Saved" : result;
             }
         }
     }
