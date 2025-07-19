@@ -544,8 +544,13 @@ namespace AIS.Controllers
             return list;
         }
 
-        public List<ReferenceEntitySummaryModel> GetReferenceEntitySummary(String auditorPpno)
+        public List<ReferenceEntitySummaryModel> GetReferenceEntitySummary()
         {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
             var list = new List<ReferenceEntitySummaryModel>();
             using (var con = this.DatabaseConnection())
             {
@@ -553,18 +558,9 @@ namespace AIS.Controllers
                 using (var cmd = con.CreateCommand())
                 {
                     cmd.BindByName = true;
-                    cmd.CommandText = @"SELECT p.ent_id,
-                                                e.entity_code,
-                                                e.name AS entity_name,
-                                                p.audit_year,
-                                                COUNT(p.com_id) AS total_paras,
-                                                SUM(CASE WHEN p.reference_reviewed = 1 THEN 1 ELSE 0 END) AS updated_paras
-                                           FROM AIS_T_AU_POST_COMPLIANCE p
-                                           JOIN ENTITIES e ON p.ent_id = e.entity_id
-                                          WHERE p.assigned_auditor = :ppno
-                                          GROUP BY p.ent_id, e.entity_code, e.name, p.audit_year
-                                          ORDER BY e.entity_code, p.audit_year";
-                    cmd.Parameters.Add(":ppno", OracleDbType.Int32).Value = auditorPpno;
+                    cmd.CommandText = "P_GetEntityTaskSummary";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(":ppno", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                     using (var rdr = cmd.ExecuteReader())
                     {
                         while (rdr.Read())
