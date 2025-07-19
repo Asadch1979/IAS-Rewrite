@@ -14,8 +14,15 @@
         <option value="Policy">Policy</option>
         <option value="Circular">Circular</option>
     </select>
-    <input id="keyword" class="form-control mb-2" placeholder="keyword" />
-    <button class="btn btn-primary" id="searchBtn">Search</button>
+    <div id="searchInputs">
+        <input id="keyword" class="form-control mb-2" placeholder="keyword" />
+        <button class="btn btn-primary" id="searchBtn">Search</button>
+    </div>
+    <div id="manualInputs" style="display:none;">
+        <input id="manualName" class="form-control mb-2" placeholder="Manual/Policy Name" />
+        <input id="chapterSection" class="form-control mb-2" placeholder="Chapter No + Section" />
+        <button class="btn btn-primary" id="addManualBtn">Add</button>
+    </div>
 </div>
 <table class="table" id="resultTbl">
     <thead>
@@ -36,6 +43,7 @@
         var comId = @Model;
         var refs = [];
         var refDetails = [];
+        var manualCounter = -1;
 
         $.get(g_asiBaseURL + '/ApiCalls/GetParaReferenceData', { comId: comId }, function(d){
             $('#paraText').html(d.paraText);
@@ -59,6 +67,39 @@
                 });
             });
         });
+
+        $('#addManualBtn').click(function(){
+            var name = $('#manualName').val();
+            var chap = $('#chapterSection').val();
+            if(!name) return;
+            refDetails.push({
+                id: manualCounter--,
+                instructionsTitle: name,
+                instructionsDate: null,
+                referenceType: $('#refType').val(),
+                division: chap,
+                divisionEntId: 0
+            });
+            $('#manualName').val('');
+            $('#chapterSection').val('');
+            renderRefs();
+        });
+
+        $('#refType').change(toggleInputMode);
+        toggleInputMode();
+
+        function toggleInputMode(){
+            var t = $('#refType').val();
+            if(t === 'Circular'){
+                $('#searchInputs').show();
+                $('#resultTbl').show();
+                $('#manualInputs').hide();
+            }else{
+                $('#searchInputs').hide();
+                $('#resultTbl').hide();
+                $('#manualInputs').show();
+            }
+        }
 
         $(document).on('click','.attach',function(){
             var ref=$(this).data('id');
@@ -110,7 +151,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify(payload),
                 success: function(){
-                    window.location.href = g_asiBaseURL + '/FAD/ReferenceUpdateList';
+                    window.location.href = g_asiBaseURL + '/FAD/ReferenceEntitySummary';
                 }
             });
         });
