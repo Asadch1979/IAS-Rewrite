@@ -382,7 +382,6 @@ namespace AIS.Controllers
                 "UPDATE",
                 null,
                 comId,
-                null,
                 newRef,
                 loggedInUser.PPNumber);
             return result.remarks;
@@ -680,7 +679,6 @@ namespace AIS.Controllers
             ParaReferenceLinkModel link,
             int? paraId,
             int? refId,
-            int? newRef,
             string ppno)
             {
             using (var con = this.DatabaseConnection())
@@ -704,7 +702,6 @@ namespace AIS.Controllers
                     cmd.Parameters.Add("p_chapter", OracleDbType.Varchar2).Value = link?.Chapter ?? (object)DBNull.Value;
                     cmd.Parameters.Add("p_matched_text", OracleDbType.Varchar2).Value = link?.MatchedText ?? (object)DBNull.Value;
                     cmd.Parameters.Add("p_link_type", OracleDbType.Varchar2).Value = link?.LinkType ?? (object)DBNull.Value;
-                    cmd.Parameters.Add("p_new_ref", OracleDbType.Int32).Value = newRef ?? (object)DBNull.Value;
                     cmd.Parameters.Add("p_user", OracleDbType.Varchar2).Value = ppno;
                     cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
 
@@ -739,7 +736,6 @@ namespace AIS.Controllers
                 link,
                 link?.ParaId,
                 link?.ReferenceId,
-                null,
                 ppno);
             return resp.remarks;
             }
@@ -755,7 +751,6 @@ namespace AIS.Controllers
                 null,
                 comId,
                 refId,
-                null,
                 ppno);
             return resp.remarks;
             }
