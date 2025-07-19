@@ -704,7 +704,7 @@ namespace AIS.Controllers
             }
         }
 
-        private void DeleteReference(int comId, int refId, String ppno)
+        private void DeleteReference(int comId, int refId)
         {
             using (var con = this.DatabaseConnection())
             {
@@ -715,7 +715,6 @@ namespace AIS.Controllers
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("p_com_id", OracleDbType.Int32).Value = comId;
                     cmd.Parameters.Add("p_ref_id", OracleDbType.Int32).Value = refId;
-                    cmd.Parameters.Add("p_user", OracleDbType.Int32).Value = ppno;
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -751,7 +750,7 @@ namespace AIS.Controllers
             {
                 if (!references.Contains(oldRef))
                 {
-                    DeleteReference(comId, oldRef, user.PPNumber);
+                    DeleteReference(comId, oldRef);
                 }
             }
 
