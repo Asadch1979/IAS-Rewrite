@@ -3457,6 +3457,13 @@ namespace AIS.Controllers
             }
 
         [HttpGet]
+        public IActionResult GetReferenceDetail(int refId)
+            {
+            var detail = dBConnection.GetReferenceDetail(refId);
+            return Json(detail);
+            }
+
+        [HttpGet]
         public JsonResult GetPendingParas(int entityId, int auditYear)
             {
             var list = dBConnection.GetPendingParas(entityId, auditYear);

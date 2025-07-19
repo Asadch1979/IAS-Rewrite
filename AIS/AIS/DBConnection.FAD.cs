@@ -4,6 +4,7 @@ using Oracle.ManagedDataAccess.Types;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace AIS.Controllers
 {
@@ -574,9 +575,14 @@ namespace AIS.Controllers
 
         public ParaReferenceDataModel GetParaReferenceData(int comId)
         {
-            var model = new ParaReferenceDataModel { References = new List<int>() };
+            var model = new ParaReferenceDataModel { References = new List<int>(), ReferenceDetails = new List<AuditChecklistAnnexureCircularModel>() };
             model.ParaText = GetParaText(comId);
             model.References = GetParaReferences(comId);
+
+            var allRefs = GetAuditChecklistAnnexureCirculars();
+            if (model.References != null && model.References.Count > 0)
+                model.ReferenceDetails = allRefs.Where(r => model.References.Contains(r.ID)).ToList();
+
             return model;
         }
 
@@ -624,6 +630,17 @@ namespace AIS.Controllers
                 }
             }
             return text;
+        }
+
+        public AuditChecklistAnnexureCircularModel GetReferenceDetail(int refId)
+        {
+            return GetAuditChecklistAnnexureCirculars().FirstOrDefault(r => r.ID == refId);
+        }
+
+        public List<AuditChecklistAnnexureCircularModel> GetReferenceDetails(List<int> ids)
+        {
+            var all = GetAuditChecklistAnnexureCirculars();
+            return all.Where(r => ids.Contains(r.ID)).ToList();
         }
 
         private void AddReference(int comId, int refId, int ppno)
