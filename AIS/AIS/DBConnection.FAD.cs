@@ -557,10 +557,10 @@ namespace AIS.Controllers
                 con.Open();
                 using (var cmd = con.CreateCommand())
                 {
-                    cmd.BindByName = true;
-                    cmd.CommandText = "P_GetEntityTaskSummary";
+                    cmd.CommandText = "PKG_FAD.P_GetEntityTaskSummary";
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(":ppno", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                    cmd.Parameters.Add("p_auditor_ppno", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                     using (var rdr = cmd.ExecuteReader())
                     {
                         while (rdr.Read())
