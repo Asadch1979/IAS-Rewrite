@@ -11,7 +11,7 @@ namespace AIS.Models.IID
         public string ActionRequired { get; set; }
         public string Status { get; set; }
         public int SubmittedBy { get; set; }
-        public DateTime SubmittedOn { get; set; }
+        public string SubmittedOn { get; set; }
         public int LocationTypeId { get; set; }
         public int? GMOfficeId { get; set; }
         public int? RegionId { get; set; }
