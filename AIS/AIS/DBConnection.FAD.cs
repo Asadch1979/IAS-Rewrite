@@ -683,7 +683,7 @@ namespace AIS.Controllers
             return all.Where(r => ids.Contains(r.ID)).ToList();
         }
 
-        private void AddReference(int comId, int refId, String ppno)
+        private void AddReference(ParaReferenceLinkModel link, String ppno)
         {
             using (var con = this.DatabaseConnection())
             {
@@ -692,9 +692,20 @@ namespace AIS.Controllers
                 {
                     cmd.CommandText = "PKG_FAD.P_AddReference";
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("p_com_id", OracleDbType.Int32).Value = comId;
-                    cmd.Parameters.Add("p_ref_id", OracleDbType.Int32).Value = refId;
-                    cmd.Parameters.Add("p_user", OracleDbType.Int32).Value = ppno;
+                    cmd.Parameters.Add("p_link_id", OracleDbType.Int32).Value = link.LinkId ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_entity_id", OracleDbType.Int32).Value = link.EntityId;
+                    cmd.Parameters.Add("p_old_para_id", OracleDbType.Int32).Value = link.OldParaId;
+                    cmd.Parameters.Add("p_new_para_id", OracleDbType.Int32).Value = link.NewParaId;
+                    cmd.Parameters.Add("p_para_id", OracleDbType.Int32).Value = link.ParaId;
+                    cmd.Parameters.Add("p_ref_id", OracleDbType.Int32).Value = link.ReferenceId;
+                    cmd.Parameters.Add("p_ref_title", OracleDbType.Varchar2).Value = link.ReferenceTitle ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_credit_manual_id", OracleDbType.Int32).Value = link.CreditManualId ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_op_manual_id", OracleDbType.Int32).Value = link.OpManualId ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_manual_type", OracleDbType.Varchar2).Value = link.ManualType ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_chapter", OracleDbType.Varchar2).Value = link.Chapter ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_matched_text", OracleDbType.Varchar2).Value = link.MatchedText ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_link_type", OracleDbType.Varchar2).Value = link.LinkType;
+                    cmd.Parameters.Add("p_user", OracleDbType.Varchar2).Value = ppno;
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -732,7 +743,7 @@ namespace AIS.Controllers
             }
         }
 
-        public void SaveParaReferences(int comId, List<int> references)
+        public void SaveParaReferences(int comId, List<ParaReferenceLinkModel> references)
         {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
@@ -744,7 +755,7 @@ namespace AIS.Controllers
 
             foreach (var oldRef in existing)
             {
-                if (!references.Contains(oldRef))
+                if (!references.Any(r => r.ReferenceId == oldRef))
                 {
                     DeleteReference(comId, oldRef);
                 }
@@ -752,9 +763,10 @@ namespace AIS.Controllers
 
             foreach (var r in references)
             {
-                if (!existing.Contains(r))
+                if (!existing.Contains(r.ReferenceId))
                 {
-                    AddReference(comId, r, user.PPNumber);
+                    r.ParaId = comId;
+                    AddReference(r, user.PPNumber);
                 }
             }
 
