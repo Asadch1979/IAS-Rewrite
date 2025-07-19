@@ -295,7 +295,7 @@ namespace AIS.Controllers
             return list;
         }
 
-        public string AllocateEntityToAuditor(int azId, int entId, int auditorPPNO)
+        public string AllocateEntityToAuditor(int azId, int entId, int auditorPpno)
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
@@ -311,7 +311,7 @@ namespace AIS.Controllers
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add("p_az_id", OracleDbType.Int32).Value = azId;
                 cmd.Parameters.Add("p_ent_id", OracleDbType.Int32).Value = entId;
-                cmd.Parameters.Add("p_auditor_ppno", OracleDbType.Int32).Value = auditorPPNO;
+                cmd.Parameters.Add("p_auditor_ppno", OracleDbType.Int32).Value = auditorPpno;
                 cmd.Parameters.Add("p_assigned_by", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                 using (OracleDataReader rdr = cmd.ExecuteReader())
@@ -544,7 +544,7 @@ namespace AIS.Controllers
             return list;
         }
 
-        public List<ReferenceEntitySummaryModel> GetReferenceEntitySummary(int auditorPpno)
+        public List<ReferenceEntitySummaryModel> GetReferenceEntitySummary(String auditorPpno)
         {
             var list = new List<ReferenceEntitySummaryModel>();
             using (var con = this.DatabaseConnection())
@@ -687,7 +687,7 @@ namespace AIS.Controllers
             return all.Where(r => ids.Contains(r.ID)).ToList();
         }
 
-        private void AddReference(int comId, int refId, int ppno)
+        private void AddReference(int comId, int refId, String ppno)
         {
             using (var con = this.DatabaseConnection())
             {
@@ -704,7 +704,7 @@ namespace AIS.Controllers
             }
         }
 
-        private void DeleteReference(int comId, int refId, int ppno)
+        private void DeleteReference(int comId, int refId, String ppno)
         {
             using (var con = this.DatabaseConnection())
             {
@@ -721,7 +721,7 @@ namespace AIS.Controllers
             }
         }
 
-        private void MarkParaAsReviewed(int comId, int ppno)
+        private void MarkParaAsReviewed(int comId, String ppno)
         {
             using (var con = this.DatabaseConnection())
             {
