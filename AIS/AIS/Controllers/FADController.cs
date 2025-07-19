@@ -389,6 +389,21 @@ namespace AIS.Controllers
                 }
             }
 
+        public IActionResult ReferenceEntitySummary()
+            {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+            if (!sessionHandler.IsUserLoggedIn())
+                return RedirectToAction("Index", "Login");
+            else
+                {
+                if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
+                    return RedirectToAction("Index", "PageNotFound");
+                else
+                    return View("~/Views/FAD/ReferenceEntitySummary.cshtml");
+                }
+            }
+
         public IActionResult ReferenceUpdateEdit(int comId)
             {
             ViewData["TopMenu"] = tm.GetTopMenus();

@@ -3471,6 +3471,14 @@ namespace AIS.Controllers
             }
 
         [HttpGet]
+        public JsonResult GetReferenceEntitySummary()
+            {
+            var user = sessionHandler.GetSessionUser();
+            var list = dBConnection.GetReferenceEntitySummary(user.PPNumber);
+            return Json(list);
+            }
+
+        [HttpGet]
         public JsonResult GetEntityTaskSummary()
             {
             var user = sessionHandler.GetSessionUser();
