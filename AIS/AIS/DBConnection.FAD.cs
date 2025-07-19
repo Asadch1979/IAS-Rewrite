@@ -378,14 +378,14 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
 
             // Call the unified procedure with UPDATE action
-            var resp = ManageReference(
+            var result = ManageReference(
                 "UPDATE",
                 null,
                 comId,
                 null,
                 newRef,
                 loggedInUser.PPNumber);
-            return resp;
+            return result.remarks;
             }
 
         public List<UpdateLogModel> GetUpdateLog(int comId)
@@ -675,7 +675,7 @@ namespace AIS.Controllers
         /// accepts the action to perform and relevant parameters. Unused
         /// parameters for a given action may be <c>null</c>.
         /// </summary>
-        private string ManageReference(
+        private (string remarks, string action, int? paraId) ManageReference(
             string action,
             ParaReferenceLinkModel link,
             int? paraId,
@@ -706,10 +706,23 @@ namespace AIS.Controllers
                     cmd.Parameters.Add("p_link_type", OracleDbType.Varchar2).Value = link?.LinkType ?? (object)DBNull.Value;
                     cmd.Parameters.Add("p_new_ref", OracleDbType.Int32).Value = newRef ?? (object)DBNull.Value;
                     cmd.Parameters.Add("p_user", OracleDbType.Varchar2).Value = ppno;
-                    cmd.Parameters.Add("o_status", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
-                    cmd.ExecuteNonQuery();
-                    var status = cmd.Parameters["o_status"].Value?.ToString();
-                    return status;
+                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+
+                    using (var reader = cmd.ExecuteReader())
+                        {
+                        if (reader.Read())
+                            {
+                            var remarks = reader["remarks"]?.ToString();
+                            var returnedAction = reader["action"]?.ToString();
+                            int? returnedParaId = null;
+                            if (reader["para_id"] != DBNull.Value)
+                                returnedParaId = Convert.ToInt32(reader["para_id"]);
+
+                            return (remarks, returnedAction, returnedParaId);
+                            }
+                        }
+
+                    return (null, null, null);
                     }
                 }
             }
@@ -721,13 +734,14 @@ namespace AIS.Controllers
         /// </summary>
         private string AddReference(ParaReferenceLinkModel link, string ppno)
             {
-            return ManageReference(
+            var resp = ManageReference(
                 "ADD",
                 link,
                 link?.ParaId,
                 link?.ReferenceId,
                 null,
                 ppno);
+            return resp.remarks;
             }
 
         /// <summary>
@@ -736,13 +750,14 @@ namespace AIS.Controllers
         /// </summary>
         private string DeleteReference(int comId, int refId, string ppno)
             {
-            return ManageReference(
+            var resp = ManageReference(
                 "DELETE",
                 null,
                 comId,
                 refId,
                 null,
                 ppno);
+            return resp.remarks;
             }
 
         // reference_reviewed flag is now updated inside P_ManageReference so
