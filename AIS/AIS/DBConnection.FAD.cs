@@ -369,7 +369,7 @@ namespace AIS.Controllers
             return list;
             }
 
-        public string UpdateParaReference(int comId, int newRef)
+        public string UpdateParaReference(int comId, int? linkId, int newRef)
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
@@ -380,7 +380,7 @@ namespace AIS.Controllers
             // Call the unified procedure with UPDATE action
             var result = ManageReference(
                 "UPDATE",
-                null,
+                new ParaReferenceLinkModel { LinkId = linkId },
                 comId,
                 null,
                 newRef,
@@ -804,11 +804,11 @@ namespace AIS.Controllers
         /// Removes a para reference using <c>P_ManageReference</c> with the
         /// <c>DELETE</c> action.
         /// </summary>
-        private string DeleteReference(int comId, int refId, string ppno)
+        private string DeleteReference(int comId, int? linkId, int refId, string ppno)
             {
             var resp = ManageReference(
                 "DELETE",
-                null,
+                new ParaReferenceLinkModel { LinkId = linkId },
                 comId,
                 refId,
                 null,
@@ -832,21 +832,25 @@ namespace AIS.Controllers
 
             foreach (var oldRef in existing)
                 {
-                if (!references.Any(r => r.ReferenceId == oldRef.ReferenceId))
+                if (!references.Any(r => r.LinkId == oldRef.LinkId))
                     {
-                    result = DeleteReference(comId, oldRef.ReferenceId, user.PPNumber);
+                    result = DeleteReference(comId, oldRef.LinkId, oldRef.ReferenceId, user.PPNumber);
                     }
                 }
 
             foreach (var r in references)
                 {
-                var match = existing.FirstOrDefault(x => x.ReferenceId == r.ReferenceId);
+                var match = existing.FirstOrDefault(x => x.LinkId == r.LinkId);
                 r.ParaId = comId;
-                if (match != null)
-                    r.LinkId = match.LinkId;
 
                 if (match == null)
+                    {
                     result = AddReference(r, user.PPNumber);
+                    }
+                else if (match.ReferenceId != r.ReferenceId && r.LinkId.HasValue)
+                    {
+                    result = UpdateParaReference(comId, r.LinkId.Value, r.ReferenceId);
+                    }
                 }
 
             return string.IsNullOrEmpty(result) ? "Saved" : result;
