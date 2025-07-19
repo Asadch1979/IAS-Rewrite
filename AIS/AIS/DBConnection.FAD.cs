@@ -544,6 +544,50 @@ namespace AIS.Controllers
             return list;
         }
 
+        public List<ReferenceEntitySummaryModel> GetReferenceEntitySummary(int auditorPpno)
+        {
+            var list = new List<ReferenceEntitySummaryModel>();
+            using (var con = this.DatabaseConnection())
+            {
+                con.Open();
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.BindByName = true;
+                    cmd.CommandText = @"SELECT p.ent_id,
+                                                e.entity_code,
+                                                e.name AS entity_name,
+                                                p.audit_year,
+                                                COUNT(p.com_id) AS total_paras,
+                                                SUM(CASE WHEN p.reference_reviewed = 1 THEN 1 ELSE 0 END) AS updated_paras
+                                           FROM AIS_T_AU_POST_COMPLIANCE p
+                                           JOIN ENTITIES e ON p.ent_id = e.entity_id
+                                          WHERE p.assigned_auditor = :ppno
+                                          GROUP BY p.ent_id, e.entity_code, e.name, p.audit_year
+                                          ORDER BY e.entity_code, p.audit_year";
+                    cmd.Parameters.Add(":ppno", OracleDbType.Int32).Value = auditorPpno;
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            var total = Convert.ToInt32(rdr["TOTAL_PARAS"]);
+                            var updated = Convert.ToInt32(rdr["UPDATED_PARAS"]);
+                            list.Add(new ReferenceEntitySummaryModel
+                            {
+                                EntityId = Convert.ToInt32(rdr["ENT_ID"]),
+                                EntityCode = rdr["ENTITY_CODE"].ToString(),
+                                EntityName = rdr["ENTITY_NAME"].ToString(),
+                                AuditPeriod = rdr["AUDIT_YEAR"].ToString(),
+                                TotalParas = total,
+                                UpdatedParas = updated,
+                                Pendency = total - updated
+                            });
+                        }
+                    }
+                }
+            }
+            return list;
+        }
+
         public List<PendingReferenceParaModel> GetPendingReferenceParas()
         {
             var list = new List<PendingReferenceParaModel>();
