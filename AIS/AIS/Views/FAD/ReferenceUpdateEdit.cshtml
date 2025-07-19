@@ -35,10 +35,12 @@
     $(function(){
         var comId = @Model;
         var refs = [];
+        var refDetails = [];
 
         $.get(g_asiBaseURL + '/ApiCalls/GetParaReferenceData', { comId: comId }, function(d){
-            $('#paraText').text(d.paraText);
+            $('#paraText').html(d.paraText);
             refs = d.references || [];
+            refDetails = d.referenceDetails || [];
             renderRefs();
         });
 
@@ -62,13 +64,18 @@
             var ref=$(this).data('id');
             if($.inArray(ref, refs) === -1){
                 refs.push(ref);
-                renderRefs();
+                $.get(g_asiBaseURL + '/ApiCalls/GetReferenceDetail', { refId: ref }, function(d){
+                    if(d)
+                        refDetails.push(d);
+                    renderRefs();
+                });
             }
         });
 
         $(document).on('click','.remove-ref',function(){
             var id=$(this).data('id');
             refs = $.grep(refs,function(v){ return v!=id; });
+            refDetails = $.grep(refDetails,function(v){ return v.id!=id; });
             renderRefs();
         });
 
@@ -85,8 +92,14 @@
 
         function renderRefs(){
             var ul=$('#refList'); ul.empty();
-            $.each(refs,function(i,r){
-                ul.append('<li class="list-group-item">'+r+' <button type="button" class="btn btn-danger btn-sm float-end remove-ref" data-id="'+r+'">Delete</button></li>');
+            $.each(refDetails,function(i,r){
+                var dateTxt = r.instructionsDate ? r.instructionsDate.split('T')[0] : '';
+                ul.append('<li class="list-group-item">'
+                    +'<div><strong>'+r.instructionsTitle+'</strong></div>'
+                    +'<div>Issuance Date: '+dateTxt+'</div>'
+                    +'<div>Manual Type: '+r.referenceType+'</div>'
+                    +'<div>Chapter: '+r.division+'</div>'
+                    +' <button type="button" class="btn btn-danger btn-sm float-end remove-ref" data-id="'+r.id+'">Delete</button></li>');
             });
         }
     });

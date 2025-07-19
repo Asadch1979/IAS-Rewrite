@@ -6,5 +6,6 @@ namespace AIS.Models
     {
         public string ParaText { get; set; }
         public List<int> References { get; set; }
+        public List<AuditChecklistAnnexureCircularModel> ReferenceDetails { get; set; }
     }
 }
