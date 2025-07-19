@@ -138,8 +138,13 @@
         $('#saveBtn').click(function(){
             var payload = { comId: comId, references: [] };
             $.each(refDetails, function(i,r){
+                var lnk = r.linkId !== undefined && r.linkId !== null ? r.linkId : null;
+                if(lnk === null){
+                    var found = refLinks.find(function(fl){ return fl.referenceId === r.id; });
+                    if(found) lnk = found.linkId;
+                }
                 payload.references.push({
-                    linkId: r.linkId,
+                    linkId: lnk,
                     entityId: r.divisionEntId || 0,
                     oldParaId: 0,
                     newParaId: 0,

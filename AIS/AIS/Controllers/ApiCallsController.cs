@@ -3417,10 +3417,10 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
-        public string UpdateParaReference(int comId, int newRef)
+        public string UpdateParaReference(int comId, int? linkId, int newRef)
             {
             var user = sessionHandler.GetSessionUser();
-            return dBConnection.UpdateParaReference(comId, newRef);
+            return dBConnection.UpdateParaReference(comId, linkId, newRef);
             }
 
         [HttpGet]
