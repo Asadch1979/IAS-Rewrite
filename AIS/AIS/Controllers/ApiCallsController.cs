@@ -3423,6 +3423,27 @@ namespace AIS.Controllers
             return dBConnection.UpdateParaReference(comId, newRef);
             }
 
+        [HttpGet]
+        public IActionResult GetPendingReferenceParas()
+            {
+            var list = dBConnection.GetPendingReferenceParas();
+            return Json(list);
+            }
+
+        [HttpGet]
+        public IActionResult GetParaReferenceData(int comId)
+            {
+            var data = dBConnection.GetParaReferenceData(comId);
+            return Json(data);
+            }
+
+        [HttpPost]
+        public IActionResult SaveParaReferences(int comId, List<int> references)
+            {
+            dBConnection.SaveParaReferences(comId, references);
+            return Ok();
+            }
+
         [HttpPost]
         public List<UpdateLogModel> GetUpdateLog(int comId)
             {

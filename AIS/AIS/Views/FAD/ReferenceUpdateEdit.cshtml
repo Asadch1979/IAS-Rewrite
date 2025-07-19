@@ -4,7 +4,10 @@
     Layout = "_Layout";
 }
 <h4>Update Reference</h4>
-<div id="refInfo"></div>
+<div id="paraText" class="mb-3"></div>
+<ul id="refList" class="list-group mb-3"></ul>
+<button class="btn btn-success mb-3" id="saveBtn">Save</button>
+
 <div id="searchSection">
     <select id="refType" class="form-select mb-2">
         <option value="Manual">Manual</option>
@@ -30,7 +33,15 @@
 </table>
 <script>
     $(function(){
-        var comId=@Model;
+        var comId = @Model;
+        var refs = [];
+
+        $.get(g_asiBaseURL + '/ApiCalls/GetParaReferenceData', { comId: comId }, function(d){
+            $('#paraText').text(d.paraText);
+            refs = d.references || [];
+            renderRefs();
+        });
+
         $('#searchBtn').click(function(){
             $.post(g_asiBaseURL+'/ApiCalls/SearchReferences',{referenceType:$('#refType').val(),keyword:$('#keyword').val()},function(d){
                 var body=$('#resultTbl tbody');body.empty();
@@ -46,18 +57,37 @@
                 });
             });
         });
+
         $(document).on('click','.attach',function(){
             var ref=$(this).data('id');
-            $.post(g_asiBaseURL+'/ApiCalls/UpdateParaReference',
-                { comId: comId, newRef: ref },
-                function (data) {
-                    alert(data);
-                    window.location.href = g_asiBaseURL + '/FAD/ReferenceUpdateList';
-                });
+            if($.inArray(ref, refs) === -1){
+                refs.push(ref);
+                renderRefs();
+            }
         });
+
+        $(document).on('click','.remove-ref',function(){
+            var id=$(this).data('id');
+            refs = $.grep(refs,function(v){ return v!=id; });
+            renderRefs();
+        });
+
         $(document).on('click','.view',function(){
             var url=$(this).data('url');
             window.open(url,'_blank');
         });
+
+        $('#saveBtn').click(function(){
+            $.post(g_asiBaseURL + '/ApiCalls/SaveParaReferences', { comId: comId, references: refs }, function(){
+                window.location.href = g_asiBaseURL + '/FAD/ReferenceUpdateList';
+            });
+        });
+
+        function renderRefs(){
+            var ul=$('#refList'); ul.empty();
+            $.each(refs,function(i,r){
+                ul.append('<li class="list-group-item">'+r+' <button type="button" class="btn btn-danger btn-sm float-end remove-ref" data-id="'+r+'">Delete</button></li>');
+            });
+        }
     });
 </script>

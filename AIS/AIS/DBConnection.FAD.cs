@@ -368,7 +368,7 @@ namespace AIS.Controllers
         }
 
         public string UpdateParaReference(int comId, int newRef)
-            {
+        {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session;
@@ -393,6 +393,25 @@ namespace AIS.Controllers
                         }
                     }
                 }
+
+            // mark para as reviewed
+            using (var upd = con.CreateCommand())
+            {
+                upd.CommandText = "update AIS_T_AU_POST_COMPLIANCE set REFERENCE_REVIEWED = 1 where COM_ID = :cid";
+                upd.CommandType = CommandType.Text;
+                upd.Parameters.Add("cid", OracleDbType.Int32).Value = comId;
+                upd.ExecuteNonQuery();
+            }
+
+            // insert log entry
+            using (var log = con.CreateCommand())
+            {
+                log.CommandText = "insert into AIS_T_PARA_REFERENCE_LOG(PPNO, COM_ID, ACTION) values(:ppno, :cid, 'UPDATE')";
+                log.CommandType = CommandType.Text;
+                log.Parameters.Add("ppno", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                log.Parameters.Add("cid", OracleDbType.Int32).Value = comId;
+                log.ExecuteNonQuery();
+            }
             con.Close();
             return resp;
         }
@@ -540,6 +559,128 @@ namespace AIS.Controllers
                 }
             }
             return list;
+        }
+
+        public List<PendingReferenceParaModel> GetPendingReferenceParas()
+        {
+            var list = new List<PendingReferenceParaModel>();
+            using (var con = this.DatabaseConnection())
+            {
+                con.Open();
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "PKG_FAD.P_GetPendingReferenceParas";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            list.Add(new PendingReferenceParaModel
+                            {
+                                ComId = rdr["COM_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["COM_ID"]),
+                                AuditPeriod = rdr["AUDIT_PERIOD"]?.ToString(),
+                                ParaNo = rdr["PARA_NO"]?.ToString(),
+                                GistOfParas = rdr["GIST_OF_PARAS"]?.ToString()
+                            });
+                        }
+                    }
+                }
+            }
+            return list;
+        }
+
+        public ParaReferenceDataModel GetParaReferenceData(int comId)
+        {
+            var model = new ParaReferenceDataModel { References = new List<int>() };
+            using (var con = this.DatabaseConnection())
+            {
+                con.Open();
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "select PARA_TEXT from v_get_all_para_text_for_reference where com_id=:id";
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.Add("id", OracleDbType.Int32).Value = comId;
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        if (rdr.Read())
+                            model.ParaText = rdr["PARA_TEXT"]?.ToString();
+                    }
+                }
+
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "select REFERENCE_ID from TBL_PARA_REFERENCE_LINKS where PARA_ID=:id";
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.Add("id", OracleDbType.Int32).Value = comId;
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            model.References.Add(rdr["REFERENCE_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["REFERENCE_ID"]));
+                        }
+                    }
+                }
+            }
+            return model;
+        }
+
+        public void SaveParaReferences(int comId, List<int> references)
+        {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+            var user = sessionHandler.GetSessionUser();
+            using (var con = this.DatabaseConnection())
+            {
+                con.Open();
+                using (var tran = con.BeginTransaction())
+                {
+                    using (var del = con.CreateCommand())
+                    {
+                        del.Transaction = tran;
+                        del.CommandText = "delete from TBL_PARA_REFERENCE_LINKS where PARA_ID=:pid";
+                        del.CommandType = CommandType.Text;
+                        del.Parameters.Add("pid", OracleDbType.Int32).Value = comId;
+                        del.ExecuteNonQuery();
+                    }
+
+                    foreach (var r in references)
+                    {
+                        using (var ins = con.CreateCommand())
+                        {
+                            ins.Transaction = tran;
+                            ins.CommandText = "insert into TBL_PARA_REFERENCE_LINKS(PARA_ID,REFERENCE_ID) values(:pid,:rid)";
+                            ins.CommandType = CommandType.Text;
+                            ins.Parameters.Add("pid", OracleDbType.Int32).Value = comId;
+                            ins.Parameters.Add("rid", OracleDbType.Int32).Value = r;
+                            ins.ExecuteNonQuery();
+                        }
+                    }
+
+                    using (var upd = con.CreateCommand())
+                    {
+                        upd.Transaction = tran;
+                        upd.CommandText = "update AIS_T_AU_POST_COMPLIANCE set REFERENCE_REVIEWED = 1 where COM_ID = :cid";
+                        upd.CommandType = CommandType.Text;
+                        upd.Parameters.Add("cid", OracleDbType.Int32).Value = comId;
+                        upd.ExecuteNonQuery();
+                    }
+
+                    using (var log = con.CreateCommand())
+                    {
+                        log.Transaction = tran;
+                        log.CommandText = "insert into AIS_T_PARA_REFERENCE_LOG(PPNO, COM_ID, ACTION) values(:ppno,:cid,'REVIEW')";
+                        log.CommandType = CommandType.Text;
+                        log.Parameters.Add("ppno", OracleDbType.Int32).Value = user.PPNumber;
+                        log.Parameters.Add("cid", OracleDbType.Int32).Value = comId;
+                        log.ExecuteNonQuery();
+                    }
+
+                    tran.Commit();
+                }
+            }
         }
     }
 }
