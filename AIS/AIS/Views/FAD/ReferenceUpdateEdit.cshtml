@@ -4,7 +4,7 @@
     Layout = "_Layout";
 }
 <h4>Update Reference</h4>
-<div id="paraText" class="mb-3"></div>
+<div id="paraText" class="mb-3 border p-3"></div>
 <ul id="refList" class="list-group mb-3"></ul>
 <button class="btn btn-success mb-3" id="saveBtn">Save</button>
 
@@ -85,8 +85,33 @@
         });
 
         $('#saveBtn').click(function(){
-            $.post(g_asiBaseURL + '/ApiCalls/SaveParaReferences', { comId: comId, references: refs }, function(){
-                window.location.href = g_asiBaseURL + '/FAD/ReferenceUpdateList';
+            var payload = { comId: comId, references: [] };
+            $.each(refDetails, function(i,r){
+                payload.references.push({
+                    linkId: null,
+                    entityId: r.divisionEntId || 0,
+                    oldParaId: 0,
+                    newParaId: 0,
+                    paraId: comId,
+                    referenceId: r.id,
+                    referenceTitle: r.instructionsTitle,
+                    creditManualId: null,
+                    opManualId: null,
+                    manualType: r.referenceType,
+                    chapter: r.division,
+                    matchedText: null,
+                    linkType: r.referenceType
+                });
+            });
+
+            $.ajax({
+                url: g_asiBaseURL + '/ApiCalls/SaveParaReferences',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(payload),
+                success: function(){
+                    window.location.href = g_asiBaseURL + '/FAD/ReferenceUpdateList';
+                }
             });
         });
 
@@ -95,7 +120,8 @@
             $.each(refDetails,function(i,r){
                 var dateTxt = r.instructionsDate ? r.instructionsDate.split('T')[0] : '';
                 ul.append('<li class="list-group-item">'
-                    +'<div><strong>'+r.instructionsTitle+'</strong></div>'
+                    +'<div><strong>Reference No '+(i+1)+'</strong></div>'
+                    +'<div>'+r.instructionsTitle+'</div>'
                     +'<div>Issuance Date: '+dateTxt+'</div>'
                     +'<div>Manual Type: '+r.referenceType+'</div>'
                     +'<div>Chapter: '+r.division+'</div>'
