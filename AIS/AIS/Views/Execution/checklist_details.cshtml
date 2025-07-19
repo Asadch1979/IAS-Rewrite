@@ -10,10 +10,6 @@
     var g_respUsersArr = [];
     var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
     var g_selectedRiskId = 0;
-    var g_instructionMap = [];
-    var g_annexureRefId = 0;
-    var g_selectedInstruction = null; // currently chosen instruction object
-    var g_selectedCircular = null; // store selected circular from popup
     $(document).ready(function () {
         var url_string = window.location;
         var url = new URL(url_string);
@@ -23,91 +19,6 @@
         $('#updatedAnnexlist').select2({ dropdownParent: $('#viewMemoModel') });
         $('#updatedAnnexlist').on('change', updateRiskDisplay);
 
-        $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/GetReferenceTypes",
-            type: "GET",
-            cache: false,
-            success: function (data) {
-                if (data && data.length > 0) {
-                    $.each(data, function (i, v) {
-                        $('#referenceTypeSelect').append(
-                            $('<option>', { value: v.id, text: v.name })
-                        );
-                    });
-                }
-            }
-        });
-
-
-        $('#referenceTypeSelect').on('change', function () {
-            if ($(this).val() === "3") {
-                $('#circularModal').modal('show');
-            } else {
-                g_selectedCircular = null;
-            }
-            if ($(this).val() !== "0") {
-                $('#instructionFields').show();
-                $('#divisionSelect').show();
-                loadDivisions();
-            } else {
-                $('#instructionFields').hide();
-                $('#divisionSelect').hide();
-                $('#instructionsTitle').empty();
-                $('#instructionsDate').val('');
-                $('#instructionsDetails').val('');
-                $('#divisionSelect').val('0');
-            }
-        });
-
-        $('#instructionCount').hide();
-
-        $('#instructionsTitle').on('change', function () {
-            var selected = $(this).val();
-            $('#instructionCount').text('').hide();
-            g_selectedInstruction = null;
-            if (selected === 'add_new') {
-                $('#newInstructionsTitle').show();
-                $('#instructionsDate').val('');
-                $('#instructionsDetails').val('');
-                g_annexureRefId = 0;
-            } else if (selected) {
-                $('#newInstructionsTitle').hide().val('');
-                const matches = (g_instructionMap || []).filter(x => x.instructionsTitle === selected);
-                if (matches.length > 0) {
-                    var match = matches[0];
-                    g_selectedInstruction = match;
-                    $('#instructionsDate').val(match.instructionsDate ? match.instructionsDate.split('T')[0] : '');
-                    $('#instructionsDetails').val(match.instructionsDetails || '');
-                    $('#instructionCount').text('Entries: ' + matches.length).show();
-                    g_annexureRefId = match.annexureRefId || g_annexureRefId;
-                }
-            } else {
-                $('#newInstructionsTitle').hide().val('');
-                $('#instructionsDate').val('');
-                $('#instructionsDetails').val('');
-                g_annexureRefId = 0;
-            }
-        });
-
-        function loadDivisions() {
-            $('#divisionSelect').empty();
-            $.ajax({
-                url: g_asiBaseURL + "/ApiCalls/getparentrel",
-                type: "POST",
-                data: {
-                    'ENTITY_REALTION_ID': 3
-                },
-                cache: false,
-                success: function (data) {
-                    $('#divisionSelect').append('<option value="0">--Select Division--</option>');
-                    $.each(data, function (i, v) {
-                        $('#divisionSelect').append('<option value="' + v.entitY_ID + '">' + v.description + '</option>');
-                    });
-                    // no instruction loading on division change
-                },
-                dataType: "json",
-            });
-        }
 
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/checklist_details",
@@ -142,6 +53,7 @@
         g_observationId = id;
         if (value == 1) {
             $('#viewMemoModel').modal('show');
+            initReferenceComponent(S_ID);
             $('.richText-editor').html('');
             $('#viewMemo_heading').val('');
             $('#updatedAnnexlist').val('0');
@@ -154,32 +66,6 @@
         }
     }
 
-    $(document).on('click', '#btnSearchCircular', function () {
-        var text = $('#circularSearchText').val();
-        searchCirculars(text, '#circularResultsTable')
-            .fail(function () { alert('Failed to retrieve circulars'); });
-    });
-
-    $(document).on('click', '#btnAddCircular', function () {
-        var selected = getSelectedCircular('#circularResultsTable');
-        if (!selected) {
-            alert('Please select a circular');
-            return;
-        }
-        g_selectedCircular = selected;
-        $('#circularModal').modal('hide');
-        $('#divisionSelect').val(g_selectedCircular.entId).prop('disabled', true);
-        if ($('#instructionsTitle').is('select')) {
-            var ref = g_selectedCircular.referenceNo;
-            if ($('#instructionsTitle option[value="' + ref + '"]').length === 0) {
-                $('#instructionsTitle').append($('<option>', { value: ref, text: ref }));
-            }
-            $('#instructionsTitle').val(ref).prop('disabled', true);
-        } else {
-            $('#instructionsTitle').val(g_selectedCircular.referenceNo).prop('readonly', true);
-        }
-        $('#instructionsDate').val(g_selectedCircular.issueDate ? g_selectedCircular.issueDate.split('T')[0] : '').prop('readonly', true);
-    });
 
     function reloadLocation() {
         window.location.reload();
@@ -266,7 +152,6 @@
                 'LIST_OBS': [memo],
                 'ENG_ID': g_engId,
                 'S_ID': S_ID,
-                'ANNEXURE_REF_ID': g_annexureRefId
             },
             cache: false,
             success: function (data) {
@@ -304,6 +189,7 @@
         }
         if (tempobj.ID != 0) {
             $('#viewMemoModel').modal('show');
+            initReferenceComponent(S_ID);
             $('.richText-editor').html(tempobj.MEMO);
             $('#viewMemo_heading').val(tempobj.HEADING);
             $('#viewMemo_risk').val(tempobj.RISK);
@@ -622,38 +508,6 @@
 </div>
 
 
-<!-- Circular Selection Modal -->
-<div class="modal fade" id="circularModal" tabindex="-1" aria-labelledby="circularModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="circularModalLabel">Select Circular</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label">Please enter any keyword to search the circular</label>
-                    <input type="text" id="circularSearchText" class="form-control" />
-                    <button type="button" id="btnSearchCircular" class="btn btn-primary mt-2">Search</button>
-                </div>
-                <div class="table-responsive">
-                    <table id="circularResultsTable" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Select</th>
-                                <th>Circular Reference</th>
-                                <th>Date of Issuance</th>
-                                <th>Subject</th>
-                                <th>Division</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="btnAddCircular" class="btn btn-success">Add</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -693,45 +547,9 @@
                     <div class="form-group mt-2">
                         <label for="viewMemo_risk_display">Risk will be assigned on the basis of Selected Annexure</label>
                         <input id="viewMemo_risk_display" class="form-control" readonly />
+                        @Html.Partial("~/Views/Shared/_ReferenceManager.cshtml")
                     </div>
 
-                    <!-- Reference Type and Instructions -->
-                    <div class="form-group mt-3">
-                        <label>Reference Type</label>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <select id="referenceTypeSelect" class="form-select form-control">
-                                    <option value="0">--Select Reference Type--</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <select id="divisionSelect" class="form-select form-control" style="display:none;" disabled>
-                                    <option value="0">--Select Division--</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="instructionFields" class="form-group mt-3" style="display:none;">
-                        <div class="row">
-                            <div class="col-md-4 mt-2">
-                                <label for="instructionsTitle">Title/Chapter</label>
-                                <select id="instructionsTitle" class="form-control" disabled>
-                                    <option value="">--Select or Add Title/Chapter--</option>
-                                </select>
-                                <input type="text" id="newInstructionsTitle" class="form-control mt-2" placeholder="Enter new title" style="display:none;" />
-                                <div id="instructionCount" class="text-info mt-1"></div>
-                            </div>
-                            <div class="col-md-4 mt-2">
-                                <label>Instructions Date</label>
-                                <input id="instructionsDate" type="date" class="form-control" readonly />
-                            </div>
-                            <div class="col-md-4 mt-2">
-                                <label>Instructions Details</label>
-                                <textarea id="instructionsDetails" class="form-control"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /Reference Type and Instructions -->
                     <div class="form-group">
                         <label for="viewMemo_memo">Heading/Title of Para</label>
                         <input id="viewMemo_heading" class="form-control" />
