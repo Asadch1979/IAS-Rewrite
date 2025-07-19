@@ -375,27 +375,15 @@ namespace AIS.Controllers
             sessionHandler._session = this._session;
             sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
-            string resp = string.Empty;
-            using (var con = this.DatabaseConnection())
-                {
-                con.Open();
-                using (var cmd = con.CreateCommand())
-                    {
-                    cmd.CommandText = "PKG_FAD.P_UpdateReference";
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("p_com_id", OracleDbType.Int32).Value = comId;
-                    cmd.Parameters.Add("p_new_ref", OracleDbType.Int32).Value = newRef;
-                    cmd.Parameters.Add("p_user", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                    cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-                    using (var rdr = cmd.ExecuteReader())
-                        {
-                        if (rdr.Read())
-                            resp = rdr["remarks"]?.ToString();
-                        }
-                    }
 
-                MarkParaAsReviewed(comId, loggedInUser.PPNumber);
-                }
+            // Call the unified procedure with UPDATE action
+            var resp = ManageReference(
+                "UPDATE",
+                null,
+                comId,
+                null,
+                newRef,
+                loggedInUser.PPNumber);
             return resp;
             }
 
@@ -681,65 +669,82 @@ namespace AIS.Controllers
             return all.Where(r => ids.Contains(r.ID)).ToList();
             }
 
-        private void AddReference(ParaReferenceLinkModel link, String ppno)
+        /// <summary>
+        /// Centralized method to execute <c>PKG_FAD.P_ManageReference</c>. It
+        /// accepts the action to perform and relevant parameters. Unused
+        /// parameters for a given action may be <c>null</c>.
+        /// </summary>
+        private string ManageReference(
+            string action,
+            ParaReferenceLinkModel link,
+            int? paraId,
+            int? refId,
+            int? newRef,
+            string ppno)
             {
             using (var con = this.DatabaseConnection())
                 {
                 con.Open();
                 using (var cmd = con.CreateCommand())
                     {
-                    cmd.CommandText = "PKG_FAD.P_AddReference";
+                    cmd.CommandText = "PKG_FAD.P_ManageReference";
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("p_link_id", OracleDbType.Int32).Value = link.LinkId ?? (object)DBNull.Value;
-                    cmd.Parameters.Add("p_entity_id", OracleDbType.Int32).Value = link.EntityId;
-                    cmd.Parameters.Add("p_old_para_id", OracleDbType.Int32).Value = link.OldParaId;
-                    cmd.Parameters.Add("p_new_para_id", OracleDbType.Int32).Value = link.NewParaId;
-                    cmd.Parameters.Add("p_para_id", OracleDbType.Int32).Value = link.ParaId;
-                    cmd.Parameters.Add("p_ref_id", OracleDbType.Int32).Value = link.ReferenceId;
-                    cmd.Parameters.Add("p_ref_title", OracleDbType.Varchar2).Value = link.ReferenceTitle ?? (object)DBNull.Value;
-                    cmd.Parameters.Add("p_credit_manual_id", OracleDbType.Int32).Value = link.CreditManualId ?? (object)DBNull.Value;
-                    cmd.Parameters.Add("p_op_manual_id", OracleDbType.Int32).Value = link.OpManualId ?? (object)DBNull.Value;
-                    cmd.Parameters.Add("p_manual_type", OracleDbType.Varchar2).Value = link.ManualType ?? (object)DBNull.Value;
-                    cmd.Parameters.Add("p_chapter", OracleDbType.Varchar2).Value = link.Chapter ?? (object)DBNull.Value;
-                    cmd.Parameters.Add("p_matched_text", OracleDbType.Varchar2).Value = link.MatchedText ?? (object)DBNull.Value;
-                    cmd.Parameters.Add("p_link_type", OracleDbType.Varchar2).Value = link.LinkType;
+                    cmd.Parameters.Add("p_action", OracleDbType.Varchar2).Value = action;
+                    cmd.Parameters.Add("p_link_id", OracleDbType.Int32).Value = link?.LinkId ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_entity_id", OracleDbType.Int32).Value = link?.EntityId ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_old_para_id", OracleDbType.Int32).Value = link?.OldParaId ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_new_para_id", OracleDbType.Int32).Value = link?.NewParaId ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_para_id", OracleDbType.Int32).Value = paraId ?? link?.ParaId ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_ref_id", OracleDbType.Int32).Value = refId ?? link?.ReferenceId ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_ref_title", OracleDbType.Varchar2).Value = link?.ReferenceTitle ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_credit_manual_id", OracleDbType.Int32).Value = link?.CreditManualId ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_op_manual_id", OracleDbType.Int32).Value = link?.OpManualId ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_manual_type", OracleDbType.Varchar2).Value = link?.ManualType ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_chapter", OracleDbType.Varchar2).Value = link?.Chapter ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_matched_text", OracleDbType.Varchar2).Value = link?.MatchedText ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_link_type", OracleDbType.Varchar2).Value = link?.LinkType ?? (object)DBNull.Value;
+                    cmd.Parameters.Add("p_new_ref", OracleDbType.Int32).Value = newRef ?? (object)DBNull.Value;
                     cmd.Parameters.Add("p_user", OracleDbType.Varchar2).Value = ppno;
+                    cmd.Parameters.Add("o_status", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
                     cmd.ExecuteNonQuery();
+                    return cmd.Parameters["o_status"].Value?.ToString();
                     }
                 }
             }
 
-        private void DeleteReference(int comId, int refId)
+        /// <summary>
+        /// Wrapper for managing para references. This now calls the unified
+        /// <c>PKG_FAD.P_ManageReference</c> procedure with the <c>ADD</c> action
+        /// instead of the legacy <c>P_AddReference</c> procedure.
+        /// </summary>
+        private void AddReference(ParaReferenceLinkModel link, string ppno)
             {
-            using (var con = this.DatabaseConnection())
-                {
-                con.Open();
-                using (var cmd = con.CreateCommand())
-                    {
-                    cmd.CommandText = "PKG_FAD.P_DeleteReference";
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("p_com_id", OracleDbType.Int32).Value = comId;
-                    cmd.Parameters.Add("p_ref_id", OracleDbType.Int32).Value = refId;
-                    cmd.ExecuteNonQuery();
-                    }
-                }
+            ManageReference(
+                "ADD",
+                link,
+                link?.ParaId,
+                link?.ReferenceId,
+                null,
+                ppno);
             }
 
-        private void MarkParaAsReviewed(int comId, String ppno)
+        /// <summary>
+        /// Removes a para reference using <c>P_ManageReference</c> with the
+        /// <c>DELETE</c> action.
+        /// </summary>
+        private void DeleteReference(int comId, int refId, string ppno)
             {
-            using (var con = this.DatabaseConnection())
-                {
-                con.Open();
-                using (var cmd = con.CreateCommand())
-                    {
-                    cmd.CommandText = "PKG_FAD.P_MarkParaAsReviewed";
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("p_com_id", OracleDbType.Int32).Value = comId;
-                    cmd.Parameters.Add("p_user", OracleDbType.Int32).Value = ppno;
-                    cmd.ExecuteNonQuery();
-                    }
-                }
+            ManageReference(
+                "DELETE",
+                null,
+                comId,
+                refId,
+                null,
+                ppno);
             }
+
+        // reference_reviewed flag is now updated inside P_ManageReference so
+        // the standalone MarkParaAsReviewed method is no longer required.
 
         public void SaveParaReferences(int comId, List<ParaReferenceLinkModel> references)
             {
@@ -755,7 +760,7 @@ namespace AIS.Controllers
                 {
                 if (!references.Any(r => r.ReferenceId == oldRef))
                     {
-                    DeleteReference(comId, oldRef);
+                    DeleteReference(comId, oldRef, user.PPNumber);
                     }
                 }
 
@@ -767,8 +772,6 @@ namespace AIS.Controllers
                     AddReference(r, user.PPNumber);
                     }
                 }
-
-            MarkParaAsReviewed(comId, user.PPNumber);
             }
         }
     }
