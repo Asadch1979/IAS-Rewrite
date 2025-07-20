@@ -236,24 +236,7 @@ namespace AIS.Controllers
             return "{\"Status\":true,\"Message\":\"" + responses + "\"}";
             }
 
-        [HttpGet]
-        public IActionResult GetReferenceTypes()
-            {
-            var referenceTypes = new[]
-                {
-                new { id = 1, name = "Manual" },
-                new { id = 2, name = "Policy" },
-                new { id = 3, name = "Circular" }
-                };
-            return Json(referenceTypes);
-            }
 
-        [HttpPost]
-        public IActionResult GetCirculars(string text)
-            {
-            var result = dBConnection.Get_Circulars(text);
-            return Json(result);
-            }
 
         [HttpPost]
         public string save_observations_cau(List<ListObservationModel> LIST_OBS, int ENG_ID = 0, int BRANCH_ID = 0, int SUB_CHECKLISTID = 0, int CHECKLIST_ID = 0, string ANNEXURE_ID = "", int ANNEXURE_REF_ID = 0)
