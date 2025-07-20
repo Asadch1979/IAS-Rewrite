@@ -211,8 +211,7 @@
                 'BRANCH_ID': $('#brSearchField').val(),
                 'SUB_CHECKLISTID': $('#riskSubGroupSelectBox').val(),
                 'CHECKLIST_ID': $('#riskActivitiesSelectBox').val(),
-                'ANNEXURE_ID': $('#updatedAnnexlist').val(),
-                'ANNEXURE_REF_ID': g_annexureRefId
+                'ANNEXURE_ID': $('#updatedAnnexlist').val()
 
             },
             cache: false,
@@ -462,14 +461,6 @@
     }
 
 
-
-    function saveObservation(annRefId) {
-        g_annexureRefId = annRefId;
-        submitObservationToAuditee();
-    }
-
-
-
 </script>
 <div class="row col-md-12">
     <div class="col-md-12 mt-3">
@@ -497,7 +488,7 @@
         <label for="viewMemo_risk_display">Risk will be assigned on the basis of Selected Annexure</label>
         <input id="viewMemo_risk_display" class="form-control" readonly />
     </div>
-    @await Html.PartialAsync("_ReferenceAdd", 0)
+    <div class="col-md-12 mt-3">
         <div class="page-wrapper box-content">
             <textarea id="template_box" class="content" name="example"></textarea>
         </div>
@@ -575,6 +566,43 @@
         </div>
         <div class="col-md-4 mt-3">
             <select class="form-control form-select">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+            </select>
+        </div>
+        <div class="col-md-2 mt-3">
+            <label class="font-bold text-bold heading">Attachments</label>
+        </div>
+        <div class="col-md-4 mt-3">
+            <input class="form-control" type="file" multiple="multiple" style="padding-top:3px;" />
+        </div>
+    </div>
+
+    <div class="row col-md-12 mt-5">
+        <button id="submitCAUobBtn" onclick="submitObservationToAuditee();" style="margin-left:20px;" class="btn btn-primary">Save Observation</button>
+    </div>
+</div>
+
+
+<div id="ResponsiblePPModel" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="min-width:95% !important" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">Responsible Person</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+
+                        <label class="form-control text-bold fw-bold text-center">Search Responsible By LC Number</label>
 
                         <div class="row col-sm-12">
                             <div class="col-sm-5">
