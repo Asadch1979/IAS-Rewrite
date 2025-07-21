@@ -450,6 +450,7 @@
         </table>
     </div>
 </div>
+@await Html.PartialAsync("~/Views/Shared/_ReferenceUpdatePartial.cshtml", new AIS.Models.ReferenceUpdateViewModel{ ComId = 0, Editable = false })
 
 
 <div id="viewMemoModel" class="modal" tabindex="-1" role="dialog">
