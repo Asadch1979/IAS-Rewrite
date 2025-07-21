@@ -529,6 +529,10 @@
         <button onclick="submitPreConcluding();" class="col-md-3 btn btn-success" style="margin-left:10px;">Submit Pre Concluding</button>
     </div>
 </div>
+@{
+    bool editable = (ViewData["UserRoleName"]?.ToString() == "Team Lead" || ViewData["UserRoleName"]?.ToString() == "QA");
+}
+@await Html.PartialAsync("~/Views/Shared/_ReferenceUpdatePartial.cshtml", new AIS.Models.ReferenceUpdateViewModel{ ComId = 0, Editable = editable })
 
 
 
