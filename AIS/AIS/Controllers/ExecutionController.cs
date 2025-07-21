@@ -25,7 +25,6 @@ namespace AIS.Controllers
             {
             ViewData["TopMenu"] = tm.GetTopMenus();
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();
-            ViewData["UserRoleName"] = sessionHandler.GetSessionUser().UserRoleName;
             if (!sessionHandler.IsUserLoggedIn())
                 {
                 return RedirectToAction("Index", "Login");
@@ -453,7 +452,6 @@ namespace AIS.Controllers
             {
             ViewData["TopMenu"] = tm.GetTopMenus();
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();
-            ViewData["UserRoleName"] = sessionHandler.GetSessionUser().UserRoleName;
             ViewData["EntitiesList"] = dBConnection.GetObservationEntitiesForManageObservations();
             ViewData["ProcessList"] = dBConnection.GetAuditChecklistCAD();
             ViewData["AnnexList"] = dBConnection.GetAnnexuresForChecklistDetail();
@@ -476,7 +474,6 @@ namespace AIS.Controllers
             {
             ViewData["TopMenu"] = tm.GetTopMenus();
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();
-            ViewData["UserRoleName"] = sessionHandler.GetSessionUser().UserRoleName;
             ViewData["EntitiesList"] = dBConnection.GetObservationEntitiesForManageObservations();
             if (!sessionHandler.IsUserLoggedIn())
                 {
@@ -631,7 +628,6 @@ namespace AIS.Controllers
             {
             ViewData["TopMenu"] = tm.GetTopMenus();
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();
-            ViewData["UserRoleName"] = sessionHandler.GetSessionUser().UserRoleName;
             ViewData["AnnexList"] = dBConnection.GetAnnexuresForChecklistDetail();
             ViewData["RiskList"] = dBConnection.GetRisks();
             if (!sessionHandler.IsUserLoggedIn())
@@ -957,7 +953,6 @@ namespace AIS.Controllers
             {
             ViewData["TopMenu"] = tm.GetTopMenus();
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();
-            ViewData["UserRoleName"] = sessionHandler.GetSessionUser().UserRoleName;
             ViewData["EntitiesList"] = dBConnection.GetObservationEntitiesForPreConcluding();
             ViewData["AnnexList"] = dBConnection.GetAnnexuresForChecklistDetail();
             ViewData["ProcessList"] = dBConnection.GetAuditChecklist();
@@ -980,7 +975,6 @@ namespace AIS.Controllers
             {
             ViewData["TopMenu"] = tm.GetTopMenus();
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();
-            ViewData["UserRoleName"] = sessionHandler.GetSessionUser().UserRoleName;
             ViewData["EntitiesList"] = dBConnection.GetObservationEntitiesForPreConcluding();
             ViewData["RiskList"] = dBConnection.GetRisks();
             ViewData["ProcessList"] = dBConnection.GetRiskProcessDefinition();
@@ -1068,7 +1062,6 @@ namespace AIS.Controllers
             {
             ViewData["TopMenu"] = tm.GetTopMenus();
             ViewData["TopMenuPages"] = tm.GetTopMenusPages();
-            ViewData["UserRoleName"] = sessionHandler.GetSessionUser().UserRoleName;
             ViewData["AnnexList"] = dBConnection.GetAnnexuresForChecklistDetail();
             ViewData["ProcessList"] = dBConnection.GetAuditChecklist();
             ViewData["EntitiesList"] = dBConnection.GetObservationEntities();
