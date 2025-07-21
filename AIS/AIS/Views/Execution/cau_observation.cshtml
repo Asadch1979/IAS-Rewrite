@@ -233,6 +233,7 @@
         var annexId = $('#updatedAnnexlist').val();
         var riskName = '';
         g_selectedRiskId = 0;
+        g_annexureRefId = parseInt(annexId);
         $.each(g_annexList, function (i, v) {
             var id = v.ID || v.id;
             if (id == annexId) {
