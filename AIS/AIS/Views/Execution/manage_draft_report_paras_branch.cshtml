@@ -43,6 +43,7 @@
             cache: false,
             success: function (data) {
                 $('#viewMemo_panel').html(data[0].obS_TEXT);
+                initReferenceSection(id, true);
             },
             dataType: "json",
         });
@@ -386,6 +387,24 @@
                     <div class="form-group">
                         <label for="viewMemo_memo">Memo</label>
                         <div class="col-md-12" style="max-height:500px; overflow-y:auto;" id="viewMemo_panel"></div>
+                    </div>
+                    <div id="referenceSection" class="mt-3">
+                        <h6>References</h6>
+                        <ul id="refList" class="list-group mb-3"></ul>
+                        <div id="searchSection" style="display:none;"></div>
+                        <table class="table" id="resultTbl" style="display:none;">
+                            <thead>
+                                <tr>
+                                    <th>TITLE</th>
+                                    <th>REFERENCE ID</th>
+                                    <th>INSTRUCTIONS DETAILS</th>
+                                    <th>KEYWORDS</th>
+                                    <th>View Circular</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </form>
             </div>
