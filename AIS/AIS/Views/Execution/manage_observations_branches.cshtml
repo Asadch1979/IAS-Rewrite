@@ -236,7 +236,7 @@
                 }else {
                     $('#complianceCycleEvidences').append("<i>No evidence is attached </i>");
                 }
-                initReferenceSection(obs_id, true);
+                initReferenceSection(obs_id, true, '#viewMemoModel #referenceSection');
             },
             dataType: "json",
         });
@@ -263,7 +263,7 @@
                 $('#updateMemo_subprocess').append('<option value="0">' + data[0].suB_PROCESS + '</option>');
                 $('#updateMemo_violation').empty();
                 $('#updateMemo_violation').append('<option value="0">' + data[0].checklist_Details + '</option>');
-                initReferenceSection(obs_id, false);
+                initReferenceSection(obs_id, false, '#updateMemoModel #referenceSection');
             },
             dataType: "json",
         });
