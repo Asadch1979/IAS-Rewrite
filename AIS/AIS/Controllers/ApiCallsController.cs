@@ -3261,7 +3261,7 @@ namespace AIS.Controllers
         [HttpPost]
         public IActionResult GetComplaintsWithoutAssessment()
             {
-            var list = dBConnection.GetComplaintsWithoutAssessment();
+            var list = dBConnection.Get_Complaints_Without_Assessment();
             return Ok(list);
             }
 

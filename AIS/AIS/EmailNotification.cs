@@ -53,13 +53,13 @@ Internal Audit System (IAS)
             {
             string subject = $"IAS~Notification: Issue in Audit Sample for Engagement ID: {engagementId}";
             string body = $@"
-                    Dear Sir,
+Dear Sir,
 
-                    This is to notify you that the issue has been identified in Audit Sample Creation Please check and fix.
+This is to notify you that the issue has been identified in Audit Sample Creation Please check and fix.
 
-                    Best Regards,
-                    Internal Audit System (IAS)
-                    ";
+Best Regards,
+Internal Audit System (IAS)
+";
             EmailConfiguration econ = new EmailConfiguration();
             econ.ConfigEmail(toEmail, ccEmail, subject, body);
             }

@@ -65,7 +65,7 @@ namespace AIS.Controllers
                 }
             }
 
-        public List<InitialAssessmentModel> GetComplaintsWithoutAssessment()
+        public List<InitialAssessmentModel> Get_Complaints_Without_Assessment()
             {
             var con = this.DatabaseConnection();
             con.Open();

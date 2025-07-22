@@ -62,9 +62,9 @@
                 body.empty();
                 $.each(d,function(i,v){
                     var row = '<tr>'+
-                        '<td>'+ (v.ComplaintId || '') +'</td>'+
-                        '<td>'+ (v.Nature || '') +'</td>'+
-                        '<td>'+ (v.SubmittedOn || '') +'</td>'+
+                        '<td>'+ (v.complaintId || '') +'</td>'+
+                        '<td>'+ (v.nature || '') +'</td>'+
+                        '<td>'+ (v.submittedOn || '') +'</td>'+
                         '<td><button type="button" class="btn btn-sm btn-primary assess-btn" data-id="'+v.ComplaintId+'">Assess</button></td>'+
                         '</tr>';
                     body.append(row);
