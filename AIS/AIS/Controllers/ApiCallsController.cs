@@ -1,5 +1,6 @@
 ﻿using AIS.Models;
 using AIS.Models.AIS.Models;
+using AIS.Models.IID;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -3263,6 +3264,13 @@ namespace AIS.Controllers
             {
             var list = dBConnection.Get_Complaints_Without_Assessment();
             return Ok(list);
+            }
+
+        [HttpPost]
+        public IActionResult GetComplaint(int complaintId)
+            {
+            var complaint = dBConnection.GetComplaint(complaintId);
+            return Ok(complaint);
             }
 
         [HttpPost]
