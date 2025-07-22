@@ -81,13 +81,13 @@
                 var body = $('#complaintsTable tbody');
                 body.empty();
                 $.each(d,function(i,v){
-                    var row = '<tr>'+
+                    var row = '<tr data-complaintid="'+v.complaintId+'">'+
                             '<td>'+ (v.complaintId || '') +'</td>'+
                         '<td>'+ (v.nature || '') +'</td>'+
                         '<td>'+ (v.submittedOn || '') +'</td>'+
                         '<td>'+
-                                    '<button type="button" class="btn btn-sm btn-info me-1 view-btn" data-id="'+v.complaintId+'">View</button>'+
-                                    '<button type="button" class="btn btn-sm btn-primary assess-btn" data-id="'+v.complaintId+'">Assess</button>'+
+                                    '<button type="button" class="btn btn-sm btn-info me-1 view-btn">View</button>'+
+                                    '<button type="button" class="btn btn-sm btn-primary assess-btn">Assess</button>'+
                         '</td>'+
                         '</tr>';
                     body.append(row);
@@ -97,12 +97,13 @@
         }
 
         $(document).on('click','.assess-btn',function(){
-            $('#modalcomplaintId').val($(this).data('id'));
+            var id = $(this).closest('tr').data('complaintid');
+            $('#modalComplaintId').val(id);
             $('#assessmentModal').modal('show');
         });
 
         $(document).on('click','.view-btn',function(){
-            var id = $(this).data('id');
+            var id = $(this).closest('tr').data('complaintid');
                     $.post(g_asiBaseURL + '/ApiCalls/GetComplaint',{ complaintId: id },function(d){
                 $('#complaintContents').text(d.contents || '');
                 var html = '';
@@ -125,7 +126,7 @@
 
         $('#saveAssessment').click(function(){
             var formData = {
-                    complaintId: $('#modalcomplaintid').val(),
+                    complaintId: $('#modalComplaintId').val(),
                 Assessment: $('#assessmentForm [name="Assessment"]').val(),
                 Recommendation: $('#assessmentForm [name="Recommendation"]').val(),
                 ReceivedBy: loggedInUserId

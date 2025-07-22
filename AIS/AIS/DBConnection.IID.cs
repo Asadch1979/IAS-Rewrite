@@ -139,7 +139,8 @@ namespace AIS.Controllers
                 cmd.CommandText = "PKG_INQ.ADD_ASSESSMENT";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("p_complaint_id", OracleDbType.Int32).Value = model.ComplaintId;
-                cmd.Parameters.Add("p_received_by", OracleDbType.Int32).Value = model.ReceivedBy;
+                var receivedBy = model.ReceivedBy != 0 ? model.ReceivedBy : loggedInUser.PPNumber;
+                cmd.Parameters.Add("p_received_by", OracleDbType.Int32).Value = receivedBy;
                 cmd.Parameters.Add("p_assessment", OracleDbType.Clob).Value = model.Assessment ?? string.Empty;
                 cmd.Parameters.Add("p_recommendation", OracleDbType.Varchar2).Value = model.Recommendation ?? string.Empty;
                 cmd.Parameters.Add("o_assessment_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
