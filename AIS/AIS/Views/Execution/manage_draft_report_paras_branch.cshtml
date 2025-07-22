@@ -43,7 +43,7 @@
             cache: false,
             success: function (data) {
                 $('#viewMemo_panel').html(data[0].obS_TEXT);
-                initReferenceSection(id, true);
+                initReferenceSection(id, true, '#viewMemoModel #referenceSection');
             },
             dataType: "json",
         });

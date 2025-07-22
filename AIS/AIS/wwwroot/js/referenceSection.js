@@ -1,17 +1,33 @@
-function initReferenceSection(comId, readOnly) {
+function initReferenceSection(comId, readOnly, containerSelector) {
+    var container = containerSelector ? $(containerSelector) : $("#referenceSection");
+    var searchSection = container.find('#searchSection');
+    var saveBtn = container.find('#saveBtn');
+    var resultTbl = container.find('#resultTbl');
+    var refList = container.find('#refList');
+    var refType = container.find('#refType');
+    var keywordInput = container.find('#keyword');
+    var searchBtn = container.find('#searchBtn');
+    var manualInputs = container.find('#manualInputs');
+    var manualName = container.find('#manualName');
+    var chapterSection = container.find('#chapterSection');
+    var addManualBtn = container.find('#addManualBtn');
+    var searchInputs = container.find('#searchInputs');
+
     var refs = [];
     var refDetails = [];
     var refLinks = [];
     var manualCounter = -1;
 
     if (readOnly) {
-        $('#searchSection, #saveBtn').hide();
+        searchSection.hide();
+        saveBtn.hide();
     } else {
-        $('#searchSection, #saveBtn').show();
+        searchSection.show();
+        saveBtn.show();
     }
 
-    $('#resultTbl tbody').empty();
-    $('#refList').empty();
+    resultTbl.find('tbody').empty();
+    refList.empty();
 
     $.get(g_asiBaseURL + '/ApiCalls/GetParaReferenceData', { comId: comId }, function (d) {
         refs = d.references || [];
@@ -20,45 +36,46 @@ function initReferenceSection(comId, readOnly) {
         renderRefs();
     });
 
-    $('#searchBtn').off('click').on('click', function () {
-        $.post(g_asiBaseURL + '/ApiCalls/SearchReferences', { referenceType: $('#refType').val(), keyword: $('#keyword').val() }, function (d) {
-            var body = $('#resultTbl tbody'); body.empty();
+    searchBtn.off('click').on('click', function () {
+        $.post(g_asiBaseURL + '/ApiCalls/SearchReferences', { referenceType: refType.val(), keyword: keywordInput.val() }, function (d) {
+            var body = resultTbl.find('tbody'); body.empty();
             $.each(d, function (i, it) {
                 body.append('<tr>' +
                     '<td>' + it.title + '</td>' +
                     '<td>' + it.referenceId + '</td>' +
                     '<td>' + it.instructionsdetails + '</td>' +
                     '<td>' + it.keywords + '</td>' +
-                    '<td><button class="view btn btn-sm btn-secondary" data-url="' + it.referenceurl + '">View</button></td>' +
-                    (readOnly ? '' : '<td><button class="attach btn btn-sm btn-primary" data-id="' + it.referenceId + '">Attach</button></td>') +
+                    '<td><button type="button" class="view btn btn-sm btn-secondary" data-url="' + it.referenceurl + '">View</button></td>' +
+                    (readOnly ? '' : '<td><button type="button" class="attach btn btn-sm btn-primary" data-id="' + it.referenceId + '">Attach</button></td>') +
                     '</tr>');
             });
         });
     });
 
-    $('#addManualBtn').off('click').on('click', function () {
+    addManualBtn.off('click').on('click', function () {
         if (readOnly) return;
-        var name = $('#manualName').val();
-        var chap = $('#chapterSection').val();
+        var name = manualName.val();
+        var chap = chapterSection.val();
         if (!name) return;
         refDetails.push({
             id: manualCounter--,
             instructionsTitle: name,
             instructionsDate: null,
-            referenceType: $('#refType').val(),
+            referenceType: refType.val(),
             division: chap,
             divisionEntId: 0,
             linkId: null
         });
-        $('#manualName').val('');
-        $('#chapterSection').val('');
+        manualName.val('');
+        chapterSection.val('');
         renderRefs();
     });
 
-    $('#refType').off('change').on('change', toggleInputMode);
+    refType.off('change').on('change', toggleInputMode);
     toggleInputMode();
 
-    $(document).off('click', '.attach').on('click', '.attach', function () {
+    container.off('click', '.attach').on('click', '.attach', function (e) {
+        e.preventDefault();
         if (readOnly) return;
         var ref = $(this).data('id');
         if ($.inArray(ref, refs) === -1) {
@@ -73,7 +90,7 @@ function initReferenceSection(comId, readOnly) {
         }
     });
 
-    $(document).off('click', '.remove-ref').on('click', '.remove-ref', function () {
+    container.off('click', '.remove-ref').on('click', '.remove-ref', function () {
         if (readOnly) return;
         var id = $(this).data('id');
         refs = $.grep(refs, function (v) { return v != id; });
@@ -81,12 +98,12 @@ function initReferenceSection(comId, readOnly) {
         renderRefs();
     });
 
-    $(document).off('click', '.view').on('click', '.view', function () {
+    container.off('click', '.view').on('click', '.view', function () {
         var url = $(this).data('url');
         window.open(url, '_blank');
     });
 
-    $('#saveBtn').off('click').on('click', function () {
+    saveBtn.off('click').on('click', function () {
         if (readOnly) return;
         var payload = { comId: comId, references: [] };
         $.each(refDetails, function (i, r) {
@@ -120,30 +137,30 @@ function initReferenceSection(comId, readOnly) {
             success: function (msg) {
                 alert(msg);
                 // refresh current model instead of entire view
-                initReferenceSection(comId, readOnly);
+                initReferenceSection(comId, readOnly, containerSelector);
             }
         });
     });
 
     function toggleInputMode() {
-        var t = $('#refType').val();
+        var t = refType.val();
         if (t === 'Circular') {
-            $('#searchInputs').show();
-            $('#resultTbl').show();
-            $('#manualInputs').hide();
+            searchInputs.show();
+            resultTbl.show();
+            manualInputs.hide();
         } else if (t === 'Manual' || t === 'Policy') {
-            $('#searchInputs').hide();
-            $('#resultTbl').hide();
-            $('#manualInputs').show();
+            searchInputs.hide();
+            resultTbl.hide();
+            manualInputs.show();
         } else {
-            $('#searchInputs').hide();
-            $('#resultTbl').hide();
-            $('#manualInputs').hide();
+            searchInputs.hide();
+            resultTbl.hide();
+            manualInputs.hide();
         }
     }
 
     function renderRefs() {
-        var ul = $('#refList'); ul.empty();
+        var ul = refList; ul.empty();
         $.each(refDetails, function (i, r) {
             var dateTxt = r.instructionsDate ? r.instructionsDate.split('T')[0] : '';
             ul.append('<li class="list-group-item">'
