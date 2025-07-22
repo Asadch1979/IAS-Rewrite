@@ -23,7 +23,6 @@
             contentType: 'application/json',
             data: JSON.stringify({ year: year }),
             success: function (data) {
-                g_public_days = [];
                 data.forEach(function (item) {
                     var dateObj = new Date(item.holidaY_DATE);
                     // Convert to MM-DD for comparison
@@ -60,9 +59,7 @@
          g_zoneId = url.searchParams.get("zoneId");
          g_entityId = url.searchParams.get("entityId");
 
-         // Load public days for current year and continue with rest of UI
-         var currentYear = new Date().getFullYear();
-         loadPublicDays(currentYear, function(){ loadPublicDays(currentYear + 1); });
+        // Public holidays will be fetched on demand when calculating end date
 
          if (g_entityType == 25 || g_entityType == 6) {
              $('#travellingDayWrapper').removeClass('d-none');
@@ -80,12 +77,26 @@
          $('#size_label').text(size);
          $('#frequency_label').text(freq);
          $('#days_label').text(days);
+         $('#btnCalcEndDate').on('click', calculateEndDate);
      });
 
     function isWeekend(dateObj) {
         if (g_entityType == 25 || g_entityType == 6)
             return dateObj.getDay() === 0;
         return dateObj.getDay() === 6 || dateObj.getDay() === 0;
+    }
+
+    function calculateEndDate() {
+        var startVal = $('#startplan_date').val();
+        if (!startVal) {
+            alert('Select Audit Start Date');
+            return;
+        }
+        var year = new Date(startVal).getFullYear();
+        g_public_days = [];
+        loadPublicDays(year, function () {
+            loadPublicDays(year + 1, getAutoEndDate);
+        });
     }
 
     function getAutoEndDate() {
@@ -98,10 +109,7 @@
         var curDate = new Date($('#startplan_date').val());
         if (isNaN(curDate)) return;
 
-        if (g_public_days.length === 0) {
-            loadPublicDays(curDate.getFullYear(), function () { getAutoEndDate(); });
-            return;
-        }
+
 
         var added = 0;
         while (added < numAdd - 1) {
@@ -374,7 +382,7 @@
         <h5>Start Date</h5>
     </div>
     <div class="col-md-9">
-        <input id="startplan_date"  onchange="getAutoEndDate();" type="date" class="form-control form-select">
+        <input id="startplan_date" type="date" class="form-control form-select">
     </div>
 </div>
 <div id="travellingDayWrapper" class="row col-md-12 mt-3 d-none">
@@ -382,7 +390,7 @@
         <h5>Travelling Day</h5>
     </div>
     <div class="col-md-9">
-        <select id="travellingDaysSelectField" onchange="getAutoEndDate(); " type="date" class="form-control form-select">
+        <select id="travellingDaysSelectField" type="date" class="form-control form-select">
             <option selected="selected" value="0">-- Not Required --</option>
             <option value="1">1 Day</option>
         </select>
@@ -393,7 +401,7 @@
         <h5>Revenue Record/ Utilization / Contact With Defaulter</h5>
     </div>
     <div class="col-md-9">
-        <select id="revenueDaysSelectField" onchange="getAutoEndDate(); " type="date" class=" form-control form-select">
+        <select id="revenueDaysSelectField" type="date" class=" form-control form-select">
             <option selected="selected" value="0">-- Not Required --</option>
             <option value="1">1 Day</option>
             <option value="2">2 Days</option>
@@ -409,11 +417,15 @@
         <h5>Discussion Day</h5>
     </div>
     <div class="col-md-9">
-        <select id="discussionDaysSelectField" onchange="getAutoEndDate(); " type="date" class="form-control form-select">
+        <select id="discussionDaysSelectField" type="date" class="form-control form-select">
             <option selected="selected" value="0">-- Not Required --</option>
             <option value="1">1 Day</option>
         </select>
     </div>
+</div>
+
+<div class="row col-md-12 mt-3">
+    <button id="btnCalcEndDate" type="button" class="btn btn-primary">Calculate Audit End Date</button>
 </div>
 
 <div class="row col-md-12 mt-3">
