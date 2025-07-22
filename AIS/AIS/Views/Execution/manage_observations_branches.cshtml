@@ -236,7 +236,7 @@
                 }else {
                     $('#complianceCycleEvidences').append("<i>No evidence is attached </i>");
                 }
-                initReferenceSection(obs_id, false);
+                initReferenceSection(obs_id, true);
             },
             dataType: "json",
         });
@@ -602,7 +602,7 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="form-group" style="border:1px solid red;padding:5px;margin-bottom:10px;">
+                    <div class="form-group mb-3">
                         <label for="viewMemo_annex" class="font-weight-bold">Annexure</label>
                         <select id="viewMemo_annex" disabled="disabled" class="form-select form-control">
                             <option selected="selected" value="0" id="0">--Select Annexure--</option>
@@ -620,7 +620,7 @@
 
                         </select>
                     </div>
-                    <div class="form-group" style="border:1px solid black;padding:5px;margin-bottom:10px;">
+                    <div class="form-group mb-3">
                         <label for="viewMemo_risk">Risk</label>
                         <select id="viewMemo_risk" disabled="disabled" class="form-select form-control" aria-label="Default select example">
                             <option value="0" id="0" selected>--Select Risk Category--</option>
@@ -636,26 +636,26 @@
                             }
                         </select>
                     </div>
-                    <div class="form-group" style="border:1px solid pink;padding:5px;margin-bottom:10px;">
+                    <div class="form-group mb-3">
                         <label for="viewMemo_process" class="font-weight-bold">Process</label>
                         <div id="viewMemo_process" disabled="disabled" style="max-height: 100px; height: auto; overflow-y: auto;" class="form-control"></div>
                     </div>
-                    <div class="form-group" style="border:1px solid yellow;padding:5px;margin-bottom:10px;">
+                    <div class="form-group mb-3">
                         <label for="viewMemo_subprocess" class="font-weight-bold">Sub Process</label>
                         <div id="viewMemo_subprocess" disabled="disabled" style="max-height: 100px; height: auto; overflow-y: auto;" class="form-control"></div>
                     </div>
-                    <div class="form-group" style="border:1px solid green;padding:5px;margin-bottom:10px;">
+                    <div class="form-group mb-3">
                         <label for="viewMemo_violation" class="font-weight-bold">Checklist Details</label>
                         <div id="viewMemo_violation" disabled="disabled" style="max-height: 100px; height: auto; overflow-y: auto;" class="form-control"></div>
                     </div>
-                    <div class="form-group" style="border:1px solid red;padding:5px;margin-bottom:10px;">
+                    <div class="form-group mb-3">
                         <label for="viewMemo_memo" class="font-weight-bold">Memo</label>
                         <div id="viewMemo_memo" disabled="disabled" style="height: auto; overflow-y: auto;" class="form-control"></div>
                     </div>
-                    <div id="referenceSection" class="mt-3 border p-3" style="border:1px solid red;margin-bottom:10px;">
+                    <div id="referenceSection" class="mt-3 p-3 border border-danger mb-3">
                         <h6>References</h6>
                         <ul id="refList" class="list-group mb-3"></ul>
-                        <button class="btn btn-success mb-3" id="saveBtn">Save</button>
+                        <button type="button" class="btn btn-success mb-3" id="saveBtn">Save</button>
                         <div id="searchSection">
                             <select id="refType" class="form-select mb-2">
                                 <option value="0" selected>Please select reference</option>
@@ -665,12 +665,12 @@
                             </select>
                             <div id="searchInputs" style="display:none;">
                                 <input id="keyword" class="form-control mb-2" placeholder="keyword" />
-                                <button class="btn btn-primary" id="searchBtn">Search</button>
+                                <button type="button" class="btn btn-primary" id="searchBtn">Search</button>
                             </div>
                             <div id="manualInputs" style="display:none;">
                                 <input id="manualName" class="form-control mb-2" placeholder="Manual/Policy Name" />
                                 <input id="chapterSection" class="form-control mb-2" placeholder="Chapter No + Section" />
-                                <button class="btn btn-primary" id="addManualBtn">Add</button>
+                                <button type="button" class="btn btn-primary" id="addManualBtn">Add</button>
                             </div>
                         </div>
                         <table class="table" id="resultTbl" style="display:none;">
@@ -802,10 +802,10 @@
 
                         </textarea>
                     </div>
-                    <div id="referenceSection" class="mt-3 p-3 border border-danger" style="margin-bottom:10px;">
+                    <div id="referenceSection" class="mt-3 p-3 border border-danger mb-3">
                         <h6>References</h6>
                         <ul id="refList" class="list-group mb-3"></ul>
-                        <button class="btn btn-success mb-3" id="saveBtn">Save</button>
+                        <button type="button" class="btn btn-success mb-3" id="saveBtn">Save</button>
                         <div id="searchSection">
                             <select id="refType" class="form-select mb-2">
                                 <option value="0" selected>Please select reference</option>
@@ -815,12 +815,12 @@
                             </select>
                             <div id="searchInputs" style="display:none;">
                                 <input id="keyword" class="form-control mb-2" placeholder="keyword" />
-                                <button class="btn btn-primary" id="searchBtn">Search</button>
+                                <button type="button" class="btn btn-primary" id="searchBtn">Search</button>
                             </div>
                             <div id="manualInputs" style="display:none;">
                                 <input id="manualName" class="form-control mb-2" placeholder="Manual/Policy Name" />
                                 <input id="chapterSection" class="form-control mb-2" placeholder="Chapter No + Section" />
-                                <button class="btn btn-primary" id="addManualBtn">Add</button>
+                                <button type="button" class="btn btn-primary" id="addManualBtn">Add</button>
                             </div>
                         </div>
                         <table class="table" id="resultTbl" style="display:none;">
