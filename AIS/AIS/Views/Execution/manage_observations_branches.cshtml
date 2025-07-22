@@ -739,7 +739,7 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="form-group" style="border:1px solid red;padding:5px;margin-bottom:10px;">
+                    <div class="form-group mb-3">
                         <label>Annexure</label>
                         <div class="row col-md-12 w-100 m-0 p-0">
                             <select id="updateMemo_annex" class="form-select form-control">
@@ -761,12 +761,12 @@
 
                     </div>
 
-                    <div class="form-group" style="border:1px solid black;padding:5px;margin-bottom:10px;">
+                    <div class="form-group mb-3">
                         <label for="updateMemo_risk_display">Risk will be assigned on the basis of Selected Annexure</label>
                         <input id="updateMemo_risk_display" class="form-control" readonly />
                     </div>
 
-                    <div class="form-group" style="border:1px solid pink;padding:5px;margin-bottom:10px;">
+                    <div class="form-group mb-3">
                         <label for="updateMemo_process" class="font-weight-bold">Process</label>
                         <select id="updateMemo_process" onchange="getSubProcessList();" class="form-select form-control" aria-label="Default select example">
                             <option value="0" id="0" selected="selected">--Select Voilation Category--</option>
@@ -781,28 +781,28 @@
                             }
                         </select>
                     </div>
-                    <div class="form-group" style="border:1px solid yellow;padding:5px;margin-bottom:10px;">
+                    <div class="form-group mb-3">
                         <label for="updateMemo_subprocess" class="font-weight-bold">Sub Process</label>
                         <select id="updateMemo_subprocess" onchange="getSubProcessViolationList();" class="form-select form-control" aria-label="Default select example">
                         </select>
 
                     </div>
-                    <div class="form-group" style="border:1px solid green;padding:5px;margin-bottom:10px;">
+                    <div class="form-group mb-3">
                         <label for="updateMemo_violation" class="font-weight-bold">Checklist Details</label>
                         <select id="updateMemo_violation" class="form-select form-control" aria-label="Default select example">
                         </select>
                     </div>
-                    <div class="form-group" style="border:1px solid red;padding:5px;margin-bottom:10px;">
+                    <div class="form-group mb-3">
                         <label for="updateMemo_heading" class="font-weight-bold">Title / Heading</label>
                         <input id="updateMemo_heading" class="form-control" />
                     </div>
-                    <div class="form-group" style="border:1px solid green;padding:5px;margin-bottom:10px;">
+                    <div class="form-group mb-3">
                         <label for="updateMemoContent" class="font-weight-bold">Memo</label>
                         <textarea id="updateMemoContent" rows="5" class="form-control">
 
                         </textarea>
                     </div>
-                    <div id="referenceSection" class="mt-3 border p-3" style="border:1px solid red;margin-bottom:10px;">
+                    <div id="referenceSection" class="mt-3 p-3 border border-danger" style="margin-bottom:10px;">
                         <h6>References</h6>
                         <ul id="refList" class="list-group mb-3"></ul>
                         <button class="btn btn-success mb-3" id="saveBtn">Save</button>
