@@ -119,6 +119,8 @@ function initReferenceSection(comId, readOnly) {
             data: JSON.stringify(payload),
             success: function (msg) {
                 alert(msg);
+                // refresh current model instead of entire view
+                initReferenceSection(comId, readOnly);
             }
         });
     });
