@@ -325,9 +325,8 @@ namespace AIS.Controllers
             return dBConnection.GetProposedChangesInManageParasAuth(COM_ID);
             }
         [HttpPost]
-        public string update_para_for_manage_audit_paras(ManageAuditParasModel pm, int ANNEXURE_REF_ID = 0)
+        public string update_para_for_manage_audit_paras(ManageAuditParasModel pm)
             {
-            pm.ANNEXURE_REF_ID = ANNEXURE_REF_ID.ToString();
             string response = "";
             response = dBConnection.UpdateAuditObservationStatus(pm);
             return "{\"Status\":true,\"Message\":\"" + response + "\"}";
