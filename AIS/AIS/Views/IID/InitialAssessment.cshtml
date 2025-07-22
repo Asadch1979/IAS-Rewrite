@@ -17,6 +17,26 @@
     <tbody></tbody>
 </table>
 
+<!-- View Complaint Modal -->
+<div class="modal fade" id="viewComplaintModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Complaint</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <h6>Complain</h6>
+                <p id="complaintContents" class="mb-3"></p>
+                <div>
+                    <strong>Evidence</strong>
+                    <div id="evidenceList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Assessment Modal -->
 <div class="modal fade" id="assessmentModal" tabindex="-1">
     <div class="modal-dialog">
@@ -65,7 +85,10 @@
                         '<td>'+ (v.complaintId || '') +'</td>'+
                         '<td>'+ (v.nature || '') +'</td>'+
                         '<td>'+ (v.submittedOn || '') +'</td>'+
-                        '<td><button type="button" class="btn btn-sm btn-primary assess-btn" data-id="'+v.ComplaintId+'">Assess</button></td>'+
+                        '<td>'+
+                            '<button type="button" class="btn btn-sm btn-info me-1 view-btn" data-id="'+v.ComplaintId+'">View</button>'+
+                            '<button type="button" class="btn btn-sm btn-primary assess-btn" data-id="'+v.ComplaintId+'">Assess</button>'+
+                        '</td>'+
                         '</tr>';
                     body.append(row);
                 });
@@ -76,6 +99,28 @@
         $(document).on('click','.assess-btn',function(){
             $('#modalComplaintId').val($(this).data('id'));
             $('#assessmentModal').modal('show');
+        });
+
+        $(document).on('click','.view-btn',function(){
+            var id = $(this).data('id');
+            $.post(g_asiBaseURL + '/ApiCalls/GetComplaint',{ complaintId: id },function(d){
+                $('#complaintContents').text(d.contents || '');
+                var html = '';
+                if(d.uploadedComplaint){
+                    html += '<a href="'+g_asiBaseURL+'/Uploads/'+d.uploadedComplaint+'" target="_blank">Complaint</a><br/>';
+                }
+                if(d.uploadedFFR){
+                    html += '<a href="'+g_asiBaseURL+'/Uploads/'+d.uploadedFFR+'" target="_blank">FFR</a><br/>';
+                }
+                if(d.uploadedEvidence){
+                    var arr = d.uploadedEvidence.split(';');
+                    $.each(arr,function(i,f){
+                        if(f) html += '<a href="'+g_asiBaseURL+'/Uploads/'+f+'" target="_blank">Evidence '+(i+1)+'</a><br/>';
+                    });
+                }
+                $('#evidenceList').html(html);
+                $('#viewComplaintModal').modal('show');
+            });
         });
 
         $('#saveAssessment').click(function(){

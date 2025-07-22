@@ -92,6 +92,39 @@ namespace AIS.Controllers
                 }
             }
 
+        public InitialAssessmentModel GetComplaint(int complaintId)
+            {
+            var con = this.DatabaseConnection();
+            con.Open();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "PKG_INQ.GET_COMPLAINT";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("p_complaint_id", OracleDbType.Int32).Value = complaintId;
+                cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                InitialAssessmentModel model = null;
+                using (var rdr = cmd.ExecuteReader())
+                    {
+                    if (rdr.Read())
+                        {
+                        model = new InitialAssessmentModel
+                            {
+                            ComplaintId = complaintId,
+                            Nature = rdr["NATURE"].ToString(),
+                            Contents = rdr["CONTENTS"].ToString(),
+                            UploadedComplaint = rdr["UPLOADED_COMPLAINT"].ToString(),
+                            UploadedFFR = rdr["UPLOADED_FFR"].ToString(),
+                            UploadedEvidence = rdr["UPLOADED_EVIDENCE"].ToString(),
+                            ActionRequired = rdr["ACTION_REQUIRED"].ToString(),
+                            SubmittedOn = rdr["SUBMITTED_ON"].ToString()
+                            };
+                        }
+                    }
+                con.Dispose();
+                return model;
+                }
+            }
+
         public int AddAssessment(InitialAssessmentModel model)
             {
             sessionHandler = new SessionHandler();
