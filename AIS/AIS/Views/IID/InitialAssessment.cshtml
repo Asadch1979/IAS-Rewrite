@@ -52,6 +52,7 @@
 @section Scripts{
 <script>
     $(function(){
+        var loggedInUserId = '@ViewData["UserId"]';
         loadComplaints();
 
         function loadComplaints(){
@@ -61,10 +62,10 @@
                 body.empty();
                 $.each(d,function(i,v){
                     var row = '<tr>'+
-                        '<td>'+ (v.COMPLAINT_ID || '') +'</td>'+
-                        '<td>'+ (v.NATURE || '') +'</td>'+
-                        '<td>'+ (v.SUBMITTED_ON || '') +'</td>'+
-                        '<td><button type="button" class="btn btn-sm btn-primary assess-btn" data-id="'+v.COMPLAINT_ID+'">Assess</button></td>'+
+                        '<td>'+ (v.ComplaintId || '') +'</td>'+
+                        '<td>'+ (v.Nature || '') +'</td>'+
+                        '<td>'+ (v.SubmittedOn || '') +'</td>'+
+                        '<td><button type="button" class="btn btn-sm btn-primary assess-btn" data-id="'+v.ComplaintId+'">Assess</button></td>'+
                         '</tr>';
                     body.append(row);
                 });
@@ -78,7 +79,7 @@
         });
 
         $('#saveAssessment').click(function(){
-            var data = $('#assessmentForm').serialize();
+            var data = $('#assessmentForm').serialize() + '&ReceivedBy=' + loggedInUserId;
             $.post(g_asiBaseURL + '/ApiCalls/AddAssessment', data, function(){
                 $('#assessmentModal').modal('hide');
                 loadComplaints();

@@ -3188,7 +3188,7 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
-        public IActionResult AddAssessment([FromBody] AIS.Models.IID.AssessmentModel model)
+        public IActionResult AddAssessment([FromBody] AIS.Models.IID.InitialAssessmentModel model)
             {
             dBConnection.AddAssessment(model);
             return Ok();
