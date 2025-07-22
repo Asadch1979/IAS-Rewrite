@@ -23,11 +23,6 @@ namespace AIS.Models
         public string NO_INSTANCES { get; set; }
         public string UPDATED_BY { get; set; }
         public string UPDATED_ON { get; set; }
-        public string ANNEXURE_REF_ID { get; set; }
-        public string REFERENCE_TYPE { get; set; }
-        public string INSTRUCTIONS_TITLE { get; set; }
-        public string DIVISION { get; set; }
-        public string INSTRUCTIONS_DATE { get; set; }
 
         }
     }

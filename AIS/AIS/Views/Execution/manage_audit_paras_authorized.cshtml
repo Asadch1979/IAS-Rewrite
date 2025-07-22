@@ -14,7 +14,6 @@
     var g_index = 0;
     var g_ele = null;
     var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
-    var g_annexureRefId = 0;
     var g_selectedRiskId = 0;
     $(document).ready(function () {
         $('#paraTextViewer').richText({
@@ -82,11 +81,8 @@
         $('#auditPara_Risk').val(v.obS_RISK);
         $('#auditPara_AmountInv').val(v.amounT_INV);
         $('#auditPara_InstNO').val(v.nO_INSTANCES);
-        $('#auditPara_RefTy').val(v.referencE_TYPE || v.REFERENCE_TYPE).prop('readonly', true);
-        $('#auditPara_Div').val(v.division || v.DIVISION).prop('readonly', true);
-        $('#auditPara_Chap').val(v.instructionS_TITLE || v.INSTRUCTIONS_TITLE).prop('readonly', true);
-        $('#auditPara_InsDate').val(v.instructionS_DATE || v.INSTRUCTIONS_DATE).prop('readonly', true);
         $('#paraTextViewer').val(v.parA_TEXT).trigger('change');
+        initReferenceSection(g_com_id, false, '#viewMemoModel #referenceSection');
         ObservationResponsibles(g_index);
 
         //get Proposed Changes
@@ -120,10 +116,7 @@
                     $('#p_auditPara_AmountInv').val(v.amounT_INV);
                     $('#p_auditPara_InstNO').val(v.nO_INSTANCES);
                     $('#p_paraTextViewer').val(v.parA_TEXT).trigger('change');
-                    $('#p_auditPara_RefTy').val(v.referencE_TYPE || v.REFERENCE_TYPE).prop('readonly', true);
-                    $('#p_auditPara_Div').val(v.division || v.DIVISION).prop('readonly', true);
-                    $('#p_auditPara_Chap').val(v.instructionS_TITLE || v.INSTRUCTIONS_TITLE).prop('readonly', true);
-                    $('#p_auditPara_InsDate').val(v.instructionS_DATE || v.INSTRUCTIONS_DATE).prop('readonly', true);
+
 
                 }
             },
@@ -191,7 +184,6 @@ function updateObservationStatus(type) {
                 'ANNEX_ID': $('#p_auditPara_Annex').val(),
                 'AMOUNT_INV': $('#p_auditPara_AmountInv').val(),
                 'NO_INSTANCES': $('#p_auditPara_InstNO').val(),
-                'ANNEXURE_REF_ID': g_annexureRefId,
             },
             cache: false,
             success: function (data) {
@@ -221,7 +213,6 @@ function updateObservationStatus(type) {
                 'ANNEX_ID': $('#p_auditPara_Annex').val(),
                 'AMOUNT_INV': $('#p_auditPara_AmountInv').val(),
                 'NO_INSTANCES': $('#p_auditPara_InstNO').val(),
-                'ANNEXURE_REF_ID': g_annexureRefId,
             },
             cache: false,
             success: function (data) {
@@ -503,6 +494,41 @@ function updateObservationStatus(type) {
                                 <label for="paraTextViewer" class="font-weight-bold">Para Text</label>
                                 <textarea class="form-control" id="paraTextViewer"></textarea>
                             </div>
+                            <div id="referenceSection" class="mt-3 p-3 border border-danger" style="margin-bottom:10px;">
+                                <h6>References</h6>
+                                <ul id="refList" class="list-group mb-3"></ul>
+                                <button type="button" class="btn btn-success mb-3" id="saveBtn">Save</button>
+                                <div id="searchSection">
+                                    <select id="refType" class="form-select mb-2">
+                                        <option value="0" selected>Please select reference</option>
+                                        <option value="Manual">Manual</option>
+                                        <option value="Policy">Policy</option>
+                                        <option value="Circular">Circular</option>
+                                    </select>
+                                    <div id="searchInputs" style="display:none;">
+                                        <input id="keyword" class="form-control mb-2" placeholder="keyword" />
+                                        <button type="button" class="btn btn-primary" id="searchBtn">Search</button>
+                                    </div>
+                                    <div id="manualInputs" style="display:none;">
+                                        <input id="manualName" class="form-control mb-2" placeholder="Manual/Policy Name" />
+                                        <input id="chapterSection" class="form-control mb-2" placeholder="Chapter No + Section" />
+                                        <button type="button" class="btn btn-primary" id="addManualBtn">Add</button>
+                                    </div>
+                                </div>
+                                <table class="table" id="resultTbl" style="display:none;">
+                                    <thead>
+                                        <tr>
+                                            <th>TITLE</th>
+                                            <th>REFERENCE ID</th>
+                                            <th>INSTRUCTIONS DETAILS</th>
+                                            <th>KEYWORDS</th>
+                                            <th>View Circular</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                             <div class="form-group">
                                 <label for="auditPara_AmountInv" class="font-weight-bold">Amount Involved</label>
                                 <input id="auditPara_AmountInv" class="form-control" type="number" />
@@ -512,26 +538,7 @@ function updateObservationStatus(type) {
                                 <input id="auditPara_InstNO" class="form-control" type="number" />
                             </div>
 
-                            <!-- Reference Type and Instructions -->
-                            <div class="form-group">
-                                <label for="auditPara_RefTy" class="font-weight-bold">Reference Type </label>
-                                <input id="auditPara_RefTy" class="form-control" type="text" readonly />
-                            </div>
-                                <div class="form-group">
-                                    <label for="auditPara_Div" class="font-weight-bold">Division </label>
-                                    <input id="auditPara_Div" class="form-control" type="text" readonly />
-                                </div>
-                            
-                                    <div class="form-group">
-                                        <label for="auditPara_Chap" class="font-weight-bold">Title/Chapter </label>
-                                        <input id="auditPara_Chap" class="form-control" type="text" readonly />
-                                    </div>
-                           
-                              
-                                    <div class="form-group">
-                                        <label for="auditPara_InsDate" class="font-weight-bold">Instructions Date </label>
-                                <input id="auditPara_InsDate" class="form-control" type="text" readonly />
-                                    </div>
+
                                 
                             <hr />
                             <center><h3>Responsible Personals</h3></center>
@@ -615,23 +622,7 @@ function updateObservationStatus(type) {
                                 <input id="p_auditPara_InstNO" class="form-control" type="number" />
                             </div>
 
-                            <!-- Reference Type and Instructions -->
-                            <div class="form-group">
-                                <label for="p_auditPara_RefTy" class="font-weight-bold">Reference Type </label>
-                                <input id="p_auditPara_RefTy" class="form-control" type="text" readonly />
-                            </div>
-                            <div class="form-group">
-                                <label for="p_auditPara_Div" class="font-weight-bold">Division </label>
-                                <input id="p_auditPara_Div" class="form-control" type="text" readonly />
-                            </div>                            
-                                <div class="form-group">
-                                    <label for="p_auditPara_Chap" class="font-weight-bold">Title/Chapter </label>
-                                    <input id="p_auditPara_Chap" class="form-control" type="text" readonly />
-                                </div>
-                                <div class="form-group">
-                                    <label for="p_auditPara_InsDate" class="font-weight-bold">Instructions Date </label>
-                                <input id="p_auditPara_InsDate" class="form-control" type="text" readonly />
-                                </div>
+
                                 
                             <hr />
                             <center><h3>Responsible Personals</h3></center>
