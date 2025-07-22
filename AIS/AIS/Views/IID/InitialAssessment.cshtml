@@ -82,7 +82,7 @@
                 body.empty();
                 $.each(d,function(i,v){
                     var row = '<tr>'+
-                        '<td>'+ (v.complaintId || '') +'</td>'+
+                        '<td>'+ (v.ComplaintId || '') +'</td>'+
                         '<td>'+ (v.nature || '') +'</td>'+
                         '<td>'+ (v.submittedOn || '') +'</td>'+
                         '<td>'+
@@ -124,10 +124,21 @@
         });
 
         $('#saveAssessment').click(function(){
-            var data = $('#assessmentForm').serialize() + '&ReceivedBy=' + loggedInUserId;
-            $.post(g_asiBaseURL + '/ApiCalls/AddAssessment', data, function(){
-                $('#assessmentModal').modal('hide');
-                loadComplaints();
+            var formData = {
+                ComplaintId: $('#modalComplaintId').val(),
+                Assessment: $('#assessmentForm [name="Assessment"]').val(),
+                Recommendation: $('#assessmentForm [name="Recommendation"]').val(),
+                ReceivedBy: loggedInUserId
+            };
+            $.ajax({
+                url: g_asiBaseURL + '/ApiCalls/AddAssessment',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(){
+                    $('#assessmentModal').modal('hide');
+                    loadComplaints();
+                }
             });
         });
     });
