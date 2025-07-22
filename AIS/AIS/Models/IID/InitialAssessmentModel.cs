@@ -1,7 +1,8 @@
 namespace AIS.Models.IID
 {
-    public class ComplaintWithoutAssessmentModel
+    public class InitialAssessmentModel
     {
+        // Complaint details
         public int ComplaintId { get; set; }
         public string Nature { get; set; }
         public string Contents { get; set; }
@@ -16,5 +17,10 @@ namespace AIS.Models.IID
         public int? GMOfficeId { get; set; }
         public int? RegionId { get; set; }
         public int? BranchId { get; set; }
+
+        // Assessment details
+        public int ReceivedBy { get; set; }
+        public string Assessment { get; set; }
+        public string Recommendation { get; set; }
     }
 }

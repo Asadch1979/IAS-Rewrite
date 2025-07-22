@@ -2,6 +2,7 @@ using AIS.Models.IID;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Data;
+using System.Collections.Generic;
 
 namespace AIS.Controllers
     {
@@ -64,7 +65,7 @@ namespace AIS.Controllers
                 }
             }
 
-        public DataTable GetComplaintsWithoutAssessment()
+        public List<InitialAssessmentModel> GetComplaintsWithoutAssessment()
             {
             var con = this.DatabaseConnection();
             con.Open();
@@ -73,17 +74,25 @@ namespace AIS.Controllers
                 cmd.CommandText = "PKG_INQ.GET_COMPLAINTS_WITHOUT_ASSESSMENT";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-                var dt = new DataTable();
+                var list = new List<InitialAssessmentModel>();
                 using (var rdr = cmd.ExecuteReader())
                     {
-                    dt.Load(rdr);
+                    while (rdr.Read())
+                        {
+                        list.Add(new InitialAssessmentModel
+                            {
+                            ComplaintId = rdr["COMPLAINT_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["COMPLAINT_ID"]),
+                            Nature = rdr["NATURE"].ToString(),
+                            SubmittedOn = rdr["SUBMITTED_ON"].ToString()
+                            });
+                        }
                     }
                 con.Dispose();
-                return dt;
+                return list;
                 }
             }
 
-        public int AddAssessment(AssessmentModel model)
+        public int AddAssessment(InitialAssessmentModel model)
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
