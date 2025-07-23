@@ -3285,8 +3285,9 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
-        public List<PublicHolidayModel> get_all_public_holidays(int year = 0)
+        public List<PublicHolidayModel> get_all_public_holidays([FromBody] HolidayYearModel input)
             {
+            int year = input?.year ?? 0;
             return dBConnection.GetAllPublicHolidays(year);
             }
         [HttpPost]
