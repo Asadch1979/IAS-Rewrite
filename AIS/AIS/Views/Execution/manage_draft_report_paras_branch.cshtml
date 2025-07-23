@@ -19,12 +19,18 @@
     var g_newStatusId = 0;
     var g_riskId = 0;
     var g_obsList = [];
+    var respSection = null;
     $(document).ready(function () {
         $('#entitySelectField').select2();
         var entName = $('#manageObsPanel tbody .entity_name_field:first').text();
         $('#entityNameField').val(entName);
         var periodName = $('#manageObsPanel tbody .period_name_field:first').text();
         $('#auditPeriodNameField').val(periodName);
+
+        respSection = initResponsibilitySection({
+            tableSelector: '#viewMemo_respPP_ObSent',
+            readOnly: true
+        });
 
 
     });
@@ -43,6 +49,7 @@
             cache: false,
             success: function (data) {
                 $('#viewMemo_panel').html(data[0].obS_TEXT);
+                respSection.updateContext({ newParaId: id });
                 initReferenceSection(id, true, '#viewMemoModel #referenceSection');
             },
             dataType: "json",
@@ -387,6 +394,25 @@
                     <div class="form-group">
                         <label for="viewMemo_memo">Memo</label>
                         <div class="col-md-12" style="max-height:500px; overflow-y:auto;" id="viewMemo_panel"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="viewMemo_respPP_ObSent" class="font-weight-bold">Responsible Personals</label>
+                        <div class="col-md-12 pl-0 pr-0">
+                            <table id="viewMemo_respPP_ObSent" class="table table-hover table-bordered table-hover mt-3 table-striped">
+                                <thead style="background-color: #19875478 !important; ">
+                                    <tr>
+                                        <th class="col-md- auto font-weight-bold">Sr.No</th>
+                                        <th class="col-md- auto font-weight-bold">P.P. No</th>
+                                        <th class="col-md- auto font-weight-bold">Name</th>
+                                        <th class="col-md- auto font-weight-bold">Loan Case</th>
+                                        <th class="col-md- auto font-weight-bold">LC Amount</th>
+                                        <th class="col-md- auto font-weight-bold">Account No.</th>
+                                        <th class="col-md- auto font-weight-bold">ACC Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
                     </div>
                     <div id="referenceSection" class="mt-3 p-3 border border-danger">
                         <h6>References</h6>
