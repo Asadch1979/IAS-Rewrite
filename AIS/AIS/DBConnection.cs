@@ -6275,13 +6275,7 @@ namespace AIS.Controllers
                                     ANNEX_ID = rdr["ANNEX_ID"]?.ToString(),
                                     PARA_TEXT = rdr["PARA_TEXT"]?.ToString(),
                                     AMOUNT_INV = rdr["AMOUNT"]?.ToString(),
-                                    NO_INSTANCES = rdr["NO_INSTANCES"]?.ToString(),
-                                    ANNEXURE_REF_ID = rdr["ANNEX_REF_ID"]?.ToString(),                                   
-                                    REFERENCE_TYPE = rdr["REFERENCE_TYPE"].ToString(),
-                                    INSTRUCTIONS_TITLE = rdr["INSTRUCTIONS_TITLE"].ToString(),
-                                    DIVISION = rdr["DIVISION"].ToString(),
-                                    INSTRUCTIONS_DATE = rdr["INSTRUCTIONS_DATE"].ToString(),
-
+                                    NO_INSTANCES = rdr["NO_INSTANCES"]?.ToString()
                                     };
                                 list.Add(para);
 
@@ -6339,8 +6333,7 @@ namespace AIS.Controllers
                     chk.UPDATED_ON = rdr["UPDATED_ON"].ToString();
                     chk.UPDATED_BY = rdr["UPDATED_BY"].ToString();
                     chk.P_TYPE_IND = rdr["P_TYPE_IND"].ToString();
-                    chk.PARA_TEXT = rdr["PARA_TEXT"].ToString();
-                    chk.ANNEXURE_REF_ID = rdr["annex_ref_id"].ToString();
+                    chk.PARA_TEXT = rdr["PARA_TEXT"].ToString();                    
                     list.Add(chk);
                     }
                 }
@@ -6387,11 +6380,6 @@ namespace AIS.Controllers
                     //chk.UPDATED_BY = rdr["UPDATED_BY"].ToString();
                     chk.P_TYPE_IND = rdr["P_TYPE_IND"].ToString();
                     chk.PARA_TEXT = rdr["PARA_TEXT"].ToString();
-                    chk.ANNEXURE_REF_ID = rdr["annex_ref_id"].ToString();
-                    chk.REFERENCE_TYPE = rdr["REFERENCE_TYPE"].ToString();
-                    chk.INSTRUCTIONS_TITLE = rdr["INSTRUCTIONS_TITLE"].ToString();
-                    chk.DIVISION = rdr["DIVISION"].ToString();
-                    chk.INSTRUCTIONS_DATE = rdr["INSTRUCTIONS_DATE"].ToString();
                     list.Add(chk);
                     }
                 }
@@ -6424,8 +6412,7 @@ namespace AIS.Controllers
                 cmd.Parameters.Add("D_IND", OracleDbType.Varchar2).Value = pm.INDICATOR;
                 cmd.Parameters.Add("D_PARA_TEXT", OracleDbType.Clob).Value = pm.PARA_TEXT;
                 cmd.Parameters.Add("D_AMOUNT", OracleDbType.Decimal).Value = pm.AMOUNT_INV;
-                cmd.Parameters.Add("D_INSTANCES", OracleDbType.Int32).Value = pm.NO_INSTANCES;
-                cmd.Parameters.Add("ANNEXURE_REF_ID", OracleDbType.Int32).Value = string.IsNullOrEmpty(pm.ANNEXURE_REF_ID) ? 0 : Convert.ToInt32(pm.ANNEXURE_REF_ID);
+                cmd.Parameters.Add("D_INSTANCES", OracleDbType.Int32).Value = pm.NO_INSTANCES;                
                 cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
                 cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
@@ -6511,7 +6498,6 @@ namespace AIS.Controllers
                 cmd.Parameters.Add("D_PARA_TEXT", OracleDbType.Clob).Value = pm.PARA_TEXT;
                 cmd.Parameters.Add("D_AMOUNT", OracleDbType.Decimal).Value = pm.AMOUNT_INV;
                 cmd.Parameters.Add("D_INSTANCES", OracleDbType.Int32).Value = pm.NO_INSTANCES;
-                cmd.Parameters.Add("ANNEXURE_REF_ID", OracleDbType.Int32).Value = pm.ANNEXURE_REF_ID;
                 cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
                 cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
