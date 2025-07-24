@@ -13,6 +13,10 @@ namespace AIS.Models.IID
         public string RootCause { get; set; }
         public string ActionsRec { get; set; }
         public string Status { get; set; }
+        public string PolicyGapsIdentified { get; set; }
+        public string ControlViolations { get; set; }
+        public string RiskIdentified { get; set; }
+        public string RegulatoryComplianceFailure { get; set; }
         }
 
     }
