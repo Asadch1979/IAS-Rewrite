@@ -168,6 +168,10 @@ namespace AIS.Controllers
                 cmd.Parameters.Add("p_reviewed_by", OracleDbType.Int32).Value = model.ReviewedBy;
                 cmd.Parameters.Add("p_directions", OracleDbType.Clob).Value = model.Directions ?? string.Empty;
                 cmd.Parameters.Add("p_assigned_to_unit", OracleDbType.Int32).Value = model.AssignedToUnit;
+                cmd.Parameters.Add("p_team_lead", OracleDbType.Int32).Value = model.TeamLeadId;
+                cmd.Parameters.Add("p_team_members", OracleDbType.Clob).Value = model.TeamMembers ?? string.Empty;
+                cmd.Parameters.Add("p_assigned_on", OracleDbType.Varchar2).Value = model.AssignedOn ?? string.Empty;
+                cmd.Parameters.Add("p_due_date", OracleDbType.Varchar2).Value = model.DueDate ?? string.Empty;
                 cmd.Parameters.Add("p_referred_back_comments", OracleDbType.Clob).Value = model.ReferredBackComments ?? string.Empty;
                 cmd.Parameters.Add("p_action", OracleDbType.Varchar2).Value = model.Action ?? string.Empty;
                 cmd.Parameters.Add("o_review_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
@@ -338,6 +342,10 @@ namespace AIS.Controllers
                 cmd.Parameters.Add("p_root_cause", OracleDbType.Clob).Value = model.RootCause ?? string.Empty;
                 cmd.Parameters.Add("p_actions_rec", OracleDbType.Clob).Value = model.ActionsRec ?? string.Empty;
                 cmd.Parameters.Add("p_status", OracleDbType.Varchar2).Value = model.Status ?? string.Empty;
+                cmd.Parameters.Add("p_policy_gaps_identified", OracleDbType.Clob).Value = model.PolicyGapsIdentified ?? string.Empty;
+                cmd.Parameters.Add("p_control_violations", OracleDbType.Clob).Value = model.ControlViolations ?? string.Empty;
+                cmd.Parameters.Add("p_risk_identified", OracleDbType.Clob).Value = model.RiskIdentified ?? string.Empty;
+                cmd.Parameters.Add("p_reg_compliance_failure", OracleDbType.Clob).Value = model.RegulatoryComplianceFailure ?? string.Empty;
                 cmd.Parameters.Add("o_case_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
                 cmd.ExecuteNonQuery();
                 var id = Convert.ToInt32(cmd.Parameters["o_case_id"].Value.ToString());

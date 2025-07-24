@@ -1,6 +1,7 @@
 ﻿using AIS.Models;
 using AIS.Models.AIS.Models;
 using AIS.Models.IID;
+using AIS;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -3197,6 +3198,20 @@ namespace AIS.Controllers
         public IActionResult AddHeadReview([FromBody] AIS.Models.IID.HeadReviewModel model)
             {
             dBConnection.AddHeadReview(model);
+
+            var emailMap = new Dictionary<int, string>
+            {
+                {1, "sukkur@iid.com"},
+                {2, "multan@iid.com"},
+                {3, "lahore@iid.com"},
+                {4, "ho@iid.com"}
+            };
+            if(emailMap.ContainsKey(model.AssignedToUnit))
+                {
+                EmailConfiguration email = new EmailConfiguration();
+                string body = $"Complaint {model.ComplaintId} assigned to your unit.";
+                email.ConfigEmail(emailMap[model.AssignedToUnit], "", "IAS Assignment", body);
+                }
             return Ok();
             }
 
