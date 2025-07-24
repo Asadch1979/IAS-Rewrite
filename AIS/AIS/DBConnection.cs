@@ -5374,11 +5374,10 @@ namespace AIS.Controllers
             con.Dispose();
             return list;
             }
-        public string SaveAuditObservation(ObservationModel ob, int ANNEXURE_REF_ID)
+        public string SaveAuditObservation(ObservationModel ob)
             {
 
-            ob.ANNEXURE_REF_ID = ANNEXURE_REF_ID;
-
+            
             int addedObsId = 0;
             string returnResp = "";
             bool proceed = false;
@@ -5412,7 +5411,6 @@ namespace AIS.Controllers
                 cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
                 cmd.Parameters.Add("ANNEX_ID", OracleDbType.Int32).Value = ob.ANNEXURE_ID;
-                cmd.Parameters.Add("ANNEXURE_REF_ID", OracleDbType.Int32).Value = ob.ANNEXURE_REF_ID;
                 cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
@@ -5457,7 +5455,7 @@ namespace AIS.Controllers
             con.Dispose();
             return returnResp;
             }
-        public string SaveAuditObservationCAU(ObservationModel ob, int annexureRefId)
+        public string SaveAuditObservationCAU(ObservationModel ob)
             {
 
             int addedObsId = 0;
@@ -5490,8 +5488,7 @@ namespace AIS.Controllers
                 cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
                 cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
-                cmd.Parameters.Add("ANNEX_ID", OracleDbType.Int32).Value = ob.ANNEXURE_ID == "" ? 0 : Convert.ToInt32(ob.ANNEXURE_ID);
-                cmd.Parameters.Add("ANNEXURE_REF_ID", OracleDbType.Int32).Value = ob.ANNEXURE_REF_ID;
+                cmd.Parameters.Add("ANNEX_ID", OracleDbType.Int32).Value = ob.ANNEXURE_ID == "" ? 0 : Convert.ToInt32(ob.ANNEXURE_ID);                
                 cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
@@ -5529,7 +5526,6 @@ namespace AIS.Controllers
                                 cmd.ExecuteReader();
                                 }
                             }
-
                         }
                     }
 
