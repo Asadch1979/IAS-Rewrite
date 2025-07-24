@@ -34,7 +34,6 @@
             <option value="">--Select--</option>
             <option>Complaint</option>
             <option>Reference</option>
-            <option>Whistle Blow</option>
         </select>
     </div>
     <div class="mb-2">
@@ -48,6 +47,7 @@
             <option value="21">GM Office</option>
             <option value="5">Region</option>
             <option value="6">Branch</option>
+            <option value="7">Department</option>
         </select>
     </div>
     <div class="mb-2 d-none" id="gmOfficeDiv">
@@ -86,17 +86,23 @@
             <option value="">--Select Branch--</option>
         </select>
     </div>
+    <div class="mb-2 d-none" id="departmentDiv">
+        <label class="form-label">Department</label>
+        <select class="form-select" id="DepartmentId" name="DepartmentId">
+            <option value="">--Select Department--</option>
+        </select>
+    </div>
     <div class="mb-2">
         <label class="form-label">Name of Complainant</label>
         <input type="text" class="form-control" name="ComplainantName" required />
     </div>
     <div class="mb-2">
         <label class="form-label">CNIC</label>
-        <input type="text" class="form-control" name="CNIC" required />
+        <input type="text" class="form-control" name="CNIC" pattern="\d{5}-\d{7}-\d{1}" placeholder="12345-1234567-1" required />
     </div>
     <div class="mb-2">
         <label class="form-label">Cellular Number</label>
-        <input type="text" class="form-control" name="CellularNumber" required />
+        <input type="text" class="form-control" name="CellularNumber" pattern="03\d{9}" placeholder="03XXXXXXXXX" required />
     </div>
     <div class="mb-2">
         <label class="form-label">Mailing Address</label>
@@ -137,8 +143,8 @@
     $(function(){
         function toggleLocation(){
             var val = $('#LocationTypeId').val();
-            $('#gmOfficeDiv,#regionDiv,#branchDiv').addClass('d-none');
-            $('#GMOfficeId,#RegionId,#BranchId').prop('disabled', true);
+            $('#gmOfficeDiv,#regionDiv,#branchDiv,#departmentDiv').addClass('d-none');
+            $('#GMOfficeId,#RegionId,#BranchId,#DepartmentId').prop('disabled', true);
             if(val === '21'){
                 $('#gmOfficeDiv').removeClass('d-none');
                 $('#GMOfficeId').prop('disabled', false);
@@ -148,6 +154,15 @@
             } else if(val === '6'){
                 $('#regionDiv,#branchDiv').removeClass('d-none');
                 $('#RegionId,#BranchId').prop('disabled', false);
+            } else if(val === '7'){
+                $('#departmentDiv').removeClass('d-none');
+                $('#DepartmentId').prop('disabled', false);
+                $('#DepartmentId').empty().append('<option value="">--Select Department--</option>');
+                $.post(g_asiBaseURL + '/ApiCalls/get_departments', { div_id: 0 }, function(d){
+                    $.each(d, function(i,v){
+                        $('#DepartmentId').append('<option value="'+v.id+'">'+v.name+'</option>');
+                    });
+                });
             }
         }
 
@@ -163,6 +178,7 @@
                 });
             }
         });
+
 
         toggleLocation();
 

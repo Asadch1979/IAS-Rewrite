@@ -82,7 +82,7 @@
                 body.empty();
                 $.each(d,function(i,v){
                     var row = '<tr data-complaintid="'+v.complaintId+'">'+
-                            '<td>'+ (v.complaintId || '') +'</td>'+
+                            '<td><a href="#" class="view-complaint-link" data-id="'+v.complaintId+'">'+ (v.complaintId || '') +'</a></td>'+
                         '<td>'+ (v.nature || '') +'</td>'+
                         '<td>'+ (v.submittedOn || '') +'</td>'+
                         '<td>'+
@@ -105,6 +105,29 @@
         $(document).on('click','.view-btn',function(){
             var id = $(this).closest('tr').data('complaintid');
                     $.post(g_asiBaseURL + '/ApiCalls/GetComplaint',{ complaintId: id },function(d){
+                $('#complaintContents').text(d.contents || '');
+                var html = '';
+                if(d.uploadedComplaint){
+                    html += '<a href="'+g_asiBaseURL+'/Uploads/'+d.uploadedComplaint+'" target="_blank">Complaint</a><br/>';
+                }
+                if(d.uploadedFFR){
+                    html += '<a href="'+g_asiBaseURL+'/Uploads/'+d.uploadedFFR+'" target="_blank">FFR</a><br/>';
+                }
+                if(d.uploadedEvidence){
+                    var arr = d.uploadedEvidence.split(';');
+                    $.each(arr,function(i,f){
+                        if(f) html += '<a href="'+g_asiBaseURL+'/Uploads/'+f+'" target="_blank">Evidence '+(i+1)+'</a><br/>';
+                    });
+                }
+                $('#evidenceList').html(html);
+                $('#viewComplaintModal').modal('show');
+            });
+        });
+
+        $(document).on('click','.view-complaint-link',function(e){
+            e.preventDefault();
+            var id = $(this).data('id');
+            $.post(g_asiBaseURL + '/ApiCalls/GetComplaint',{ complaintId: id },function(d){
                 $('#complaintContents').text(d.contents || '');
                 var html = '';
                 if(d.uploadedComplaint){
