@@ -18,7 +18,7 @@
 
      function loadPublicDays(year, cb) {
         $.ajax({
-            url: '/ApiCalls/get_all_public_holidays',
+            url: g_asiBaseURL + '/ApiCalls/get_all_public_holidays',
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({ year: year }),
