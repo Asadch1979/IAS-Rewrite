@@ -2,6 +2,7 @@ using AIS.Models;
 using AIS.Models.AIS.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
@@ -23478,6 +23479,54 @@ namespace AIS.Controllers
             con.Dispose();
             return results;
             }
+
+        public async Task<List<ParaTextModel>> Get_All_Para_Text(int comId)
+            {
+           
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+
+            var con = this.DatabaseConnection();
+            con.Open();
+            List<ParaTextModel> paraTexts = new List<ParaTextModel>();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "PKG_FAD.P_GetParaText";         
+             
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("p_com_id", OracleDbType.Int32).Value = comId;
+                cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                using (OracleDataReader reader = cmd.ExecuteReader())
+                    {
+                    while (reader.Read())
+                        {
+                        ParaTextModel rpt = new ParaTextModel
+                            {
+                            ComId = reader["com_id"] as int? ?? default,
+                            EntityId = reader["entity_id"] as int? ?? default,
+                            OldParaId = reader["old_para_id"] as int? ?? default,
+                            NewParaId = reader["new_para_id"] as int? ?? default,
+                            AuditPeriod = reader["audit_period"]?.ToString(),
+                            ParaStatus = reader["para_status"]?.ToString(),
+                            AuditedBy = reader["audited_by"]?.ToString(),
+                            Risk = reader["risk"]?.ToString(),
+                            IND = reader["IND"]?.ToString(),
+                            ParaNo = reader["para_no"]?.ToString(),
+                            ParaAddedOn = reader["para_added_on"] as DateTime? ?? default,
+                            GistOfParas = reader["gist_of_paras"]?.ToString(),
+                            Text = reader["text"]?.ToString(),
+                            ParaText = reader["para_text"]?.ToString()
+                            };
+                        }
+                    }
+                }
+
+            con.Dispose();
+            return results;
+            }
+
 
         public PublicHolidayModel AddPublicHoliday(PublicHolidayModel model)
             {

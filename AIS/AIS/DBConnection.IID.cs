@@ -73,7 +73,7 @@ namespace AIS.Controllers
                 {
                 cmd.CommandText = "PKG_INQ.GET_COMPLAINTS_WITHOUT_ASSESSMENT";
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                 var list = new List<InitialAssessmentModel>();
                 using (var rdr = cmd.ExecuteReader())
                     {

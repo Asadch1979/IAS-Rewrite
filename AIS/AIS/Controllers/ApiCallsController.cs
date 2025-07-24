@@ -3319,6 +3319,13 @@ namespace AIS.Controllers
             return dBConnection.GetFadDeskOfficerRptByDateRange(sDate, eDate);
             }
 
+        [HttpGet]
+        public List<ParaTextModel> GetAllParaText(int comId)
+            {
+            return dBConnection.Get_All_Para_Text(comId);
+        
+            }
+
         [HttpPost]
         public List<AuditEmployeeModel> GetAuditEmployees(int entityId)
             {
