@@ -13,10 +13,7 @@
 <script type="text/javascript">
     var g_engId=0;
     var g_respUser=[];
-    var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
-    var g_selectedRiskId = 0;
-    var g_annexureRefId = 0;
-    $(document).ready(function () {
+    $('#document').ready(function () {
         var url_string = window.location;
         var url = new URL(url_string);
         g_engId = url.searchParams.get("engId");
@@ -28,7 +25,6 @@
         });
 
         $('#updatedAnnexlist').select2();
-        $('#updatedAnnexlist').on('change', updateRiskDisplay);
 
          document.getElementById('amount_inv_field').addEventListener('input', function (e) {
         this.value = this.value.replace(/\D|^0(?=\d)/g, ''); // Removes decimals and leading zeros
@@ -156,9 +152,8 @@
         }
 
 
-        updateRiskDisplay();
-        if (g_selectedRiskId == 0) {
-           alert('Risk not available for selected Annexure');
+        if ($('#viewMemo_risk').val() == 0) {
+           alert('Select Risk');
            return;
         }
         if ($('#viewMemo_heading').val() == 0) {
@@ -192,7 +187,7 @@
             'MEMO': $('.richText-editor').html(),
             'ID': 'obs_0',
             'HEADING': $('#viewMemo_heading').val(),
-            'RISK': g_selectedRiskId,
+            'RISK': $('#viewMemo_risk').val(),
             'AMOUNT_INVOLVED': $('#amount_inv_field').val(),
             'NO_OF_INSTANCES': $('#no_instances_field').val(),
             'DAYS': $('#viewMemo_replydays option:selected').val(),
@@ -227,30 +222,6 @@
 
     function reloadLocation() {
         window.location.reload();
-    }
-
-    function updateRiskDisplay() {
-        var annexId = $('#updatedAnnexlist').val();
-        var riskName = '';
-        g_selectedRiskId = 0;
-        g_annexureRefId = parseInt(annexId);
-        $.each(g_annexList, function (i, v) {
-            var id = v.ID || v.id;
-            if (id == annexId) {
-                riskName = v.RISK || v.risk;
-                g_selectedRiskId = v.RISK_ID || v.risK_ID;
-            }
-        });
-        $('#viewMemo_risk_display').val(riskName);
-        var color = '';
-        if (riskName.toLowerCase() === 'high') {
-            color = 'red';
-        } else if (riskName.toLowerCase() === 'medium') {
-            color = 'gold';
-        } else if (riskName.toLowerCase() === 'low') {
-            color = 'green';
-        }
-        $('#viewMemo_risk_display').css('color', color);
     }
 
     function openResponsiblePPs() {
@@ -433,7 +404,7 @@
 
         });
 
-        $('.respCheckBOXBYPP:checked').each(function() {
+         $('.respCheckBOXBYPP:checked').each(function() {
             const row = $(this).closest('.row');
             const ppNumber = row.find('span').eq(0).text();
             const name = row.find('span').eq(1).text();
@@ -485,14 +456,60 @@
 
         </select>
     </div>
-    <div class="col-md-12 mt-2">
-        <label for="viewMemo_risk_display">Risk will be assigned on the basis of Selected Annexure</label>
-        <input id="viewMemo_risk_display" class="form-control" readonly />
+    <div class="col-md-12 mt-3">
+        <div>
+            <h5>Checklist</h5>
+        </div>
+        <select id="riskGroupSelectBox" onchange="div_risksubcategoryShowHide();" class="form-select form-control" aria-label="Default select example">
+            <option value="0" id="0" selected="selected">--Select Voilation Category--</option>
+            @{
+                if (ViewData["ProcessList"] != null)
+                {
+                    foreach (var item in (dynamic)(ViewData["ProcessList"]))
+                    {
+                        <option id="@item.T_ID" value="@item.T_ID">@item.HEADING</option>
+                    }
+                }
+            }
+        </select>
+    </div>
+    <div id="div_risksubcategory" style="display:none;" class="col-md-12 mt-3">
+        <h5>Subchecklist</h5>
+        <select id="riskSubGroupSelectBox" onchange="div_activityContainerShowHide();" class="form-select form-control" aria-label="Default select example">
+        </select>
+    </div>
+    <div id="div_activityContainer" style="display:none;" class="col-md-12 mt-3">
+        <h5>Checklist Details</h5>
+        <select id="riskActivitiesSelectBox" onchange="getAuditObservationTemplate();" class="form-select form-control" aria-label="Default select example">
+        </select>
+    </div>
+    <div id="div_headingPanel" class="col-md-12 mt-3">
+        <h5>Heading/Title</h5>
+        <input type="text" class="form-control" id="viewMemo_heading" />
     </div>
     <div class="col-md-12 mt-3">
         <div class="page-wrapper box-content">
             <textarea id="template_box" class="content" name="example"></textarea>
         </div>
+    </div>
+    <div class="col-md-12 mt-3">
+        <h5>Risk</h5>
+        <select id="viewMemo_risk" class="form-select form-control" aria-label="Default select example">
+            <option value="0" id="0" selected>--Select Risk Category--</option>
+            @{
+                if (ViewData["RiskList"] != null)
+                {
+
+                    foreach (var risk in (dynamic)(ViewData["RiskList"]))
+                    {
+                        <option id="@risk.R_ID" value="@risk.R_ID">@risk.DESCRIPTION</option>
+                    }
+
+                }
+            }
+        </select>
+
+
     </div>
     <div class="row col-sm-12">
         <div class="col-md-2 mt-3">
@@ -500,7 +517,7 @@
         </div>
 
         <table id="listofRespPersons" class="table table-hover table-bordered table-hover mt-3 table-striped">
-            <thead style="background-color: #19875478 !important; ">
+            <thead style="background-color: rgb(181 229 117 / 93%) !important; ">
                 <tr>
                     <th class="col-md- auto font-weight-bold">Sr.No</th>
                     <th class="col-md- auto font-weight-bold">P.P. No</th>
@@ -655,8 +672,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button onclick="addResponsibilityToMainTable();" type="button" data-bs-dismiss="modal" class="btn btn-danger">Add Responsibility</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button onclick="addResponsibilityToMainTable();" type="button" data-dismiss="modal" class="btn btn-danger">Add Responsibility</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
