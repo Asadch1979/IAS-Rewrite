@@ -25,6 +25,8 @@
     var g_obsList = [];
     var g_selectedRiskId = 0;
     var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
+    var respSectionView = null;
+    var respSectionUpdate = null;
     $(document).ready(function () {
         $('#entitySelectField').select2();
         var entName = $('#manageObsPanel tbody .entity_name_field:first').text();
@@ -39,6 +41,15 @@
             urls: false
         });
         $('#updateMemo_annex').on('change', updateRiskDisplay);
+        respSectionView = initResponsibilitySection({
+            tableSelector: '#listofRespPersons',
+            readOnly: true
+        });
+        respSectionUpdate = initResponsibilitySection({
+            tableSelector: '#update_listofRespPersons',
+            changesTableSelector: '#c_update_listofRespPersons',
+            modalSelector: '#ResponsiblePPModel'
+        });
     });
     function reloadLocation() {
         getEntityObservation();
@@ -237,6 +248,7 @@
                     $('#complianceCycleEvidences').append("<i>No evidence is attached </i>");
                 }
                 initReferenceSection(obs_id, true, '#viewMemoModel #referenceSection');
+                respSectionView.updateContext({ newParaId: obs_id });
             },
             dataType: "json",
         });
@@ -264,6 +276,7 @@
                 $('#updateMemo_violation').empty();
                 $('#updateMemo_violation').append('<option value="0">' + data[0].checklist_Details + '</option>');
                 initReferenceSection(obs_id, false, '#updateMemoModel #referenceSection');
+                respSectionUpdate.updateContext({ newParaId: obs_id });
             },
             dataType: "json",
         });
@@ -442,6 +455,9 @@
             dataType: "json",
         });
 
+    }
+    function openResponsiblePPs() {
+        $('#ResponsiblePPModel').modal('show');
     }
     function downloadFile(id) {
         $.ajax({
@@ -688,6 +704,47 @@
                         </table>
                     </div>
                     <div class="form-group">
+                        <label for="update_listofRespPersons" class="font-weight-bold">Responsible Personals</label>
+                        <div class="row col-sm-12">
+                            <table id="update_listofRespPersons" class="table table-hover table-bordered table-hover mt-3 table-striped">
+                                <thead style="background-color: #19875478 !important; ">
+                                    <tr>
+                                        <th class="col-md- auto font-weight-bold">Sr.No</th>
+                                        <th class="col-md- auto font-weight-bold">P.P. No</th>
+                                        <th class="col-md- auto font-weight-bold">Name</th>
+                                        <th class="col-md- auto font-weight-bold">Loan Case</th>
+                                        <th class="col-md- auto font-weight-bold">LC Amount</th>
+                                        <th class="col-md- auto font-weight-bold">Account No.</th>
+                                        <th class="col-md- auto font-weight-bold">ACC Amount</th>
+                                        <th class="col-md- auto font-weight-bold">Remarks</th>
+                                        <th class="col-md- auto text-center font-weight-bold"><center><button type="button" onclick="openResponsiblePPs();" class="rounded-circle btn btn-danger btn-sm"><i class="fa fa-plus text-white"></i></button></center></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <center><h6>Changes in Responsibilities</h6></center>
+                        <div class="row col-sm-12">
+                            <table id="c_update_listofRespPersons" class="table table-hover table-bordered table-hover mt-3 table-striped">
+                                <thead style="background-color: #19875478 !important; ">
+                                    <tr>
+                                        <th class="col-md- auto font-weight-bold">Sr.No</th>
+                                        <th class="col-md- auto font-weight-bold">P.P. No</th>
+                                        <th class="col-md- auto font-weight-bold">Name</th>
+                                        <th class="col-md- auto font-weight-bold">Loan Case</th>
+                                        <th class="col-md- auto font-weight-bold">LC Amount</th>
+                                        <th class="col-md- auto font-weight-bold">Account No.</th>
+                                        <th class="col-md- auto font-weight-bold">ACC Amount</th>
+                                        <th class="col-md- auto font-weight-bold">Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="viewMemo_respPP" class="font-weight-bold">Responsible Personals</label>
                         <div class="col-md-12 pl-0 pr-0">
                             <table id="listofRespPersons" class="table table-hover table-bordered table-hover mt-3 table-striped">
@@ -844,6 +901,41 @@
 
                 <button id="updateMemoContent_submit" onclick="finalUpdateMemoContent(g_obsId);" type="button" data-bs-dismiss="modal" class="btn btn-danger">Update Memo Text</button>
 
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ResponsiblePPModel" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">Responsible Person</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="responsiblePPNoEntryField">P.P No.</label>
+                        <div class="row col-sm-12">
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="responsiblePPNoEntryField" />
+                            </div>
+                            <div class="col-sm-2 w-100">
+                                <button type="button" onclick="respSectionUpdate.getMatchedPP();" class="btn btn-danger">Find</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div id="matchedPPNoPanels" style="padding:20px;"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="addResponsibleButton" type="button" class="btn btn-danger">Add Responsibility</button>
+                <button id="updateResponsibleButton" type="button" class="btn btn-success d-none">Update Responsibility</button>
+                <button id="deleteResponsibleButton" type="button" class="btn btn-danger d-none">Delete Responsibility</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
