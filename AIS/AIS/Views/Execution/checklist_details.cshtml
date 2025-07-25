@@ -11,7 +11,6 @@
     var g_respUsersArr = [];
 
     var g_selectedRiskId = 0;
-    var g_annexureRefId = 0;
     var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
     $(document).ready(function () {
         var url_string = window.location;
@@ -59,7 +58,6 @@
             $('.richText-editor').html('');
             $('#viewMemo_heading').val('');
             $('#updatedAnnexlist').val('0');
-            g_annexureRefId = 0;
             g_selectedRiskId = 0;
             $('#viewMemo_risk_display').val('');
             $('#viewMemo_replydays').val(1);
@@ -78,7 +76,6 @@
         var annexId = $('#updatedAnnexlist').val();
         var riskName = '';
         g_selectedRiskId = 0;
-        g_annexureRefId = parseInt(annexId);
         $.each(g_annexList, function (i, v) {
             var id = v.ID || v.id;
             if (id == annexId) {
@@ -175,8 +172,7 @@
             data: {
                 'LIST_OBS': [memo],
                 'ENG_ID': g_engId,
-                'S_ID': S_ID,
-                'ANNEXURE_REF_ID': g_annexureRefId
+                'S_ID': S_ID
             },
             cache: false,
             success: function (data) {
@@ -217,7 +213,6 @@
             $('.richText-editor').html(tempobj.MEMO);
             $('#viewMemo_heading').val(tempobj.HEADING);
             $('#updatedAnnexlist').val(tempobj.ANNEXURE_ID).trigger('change');
-            g_annexureRefId = parseInt(tempobj.ANNEXURE_ID || tempobj.ANNEXURE_REF_ID || 0);
             $('#viewMemo_replydays').val(tempobj.DAYS);
             $('#viewMemo_loancase').val(tempobj.LOANCASE);
             $('#viewMemo_noinstances').val(tempobj.NO_OF_INSTANCES);

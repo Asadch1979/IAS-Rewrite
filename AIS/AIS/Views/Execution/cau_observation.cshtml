@@ -14,7 +14,6 @@
     var g_engId = 0;
     var g_respUser = [];
     var g_selectedRiskId = 0;
-    var g_annexureRefId = 0;
     var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
     $('#document').ready(function () {
         var url_string = window.location;
@@ -214,7 +213,7 @@
                 'BRANCH_ID': $('#brSearchField').val(),
                 'SUB_CHECKLISTID': $('#riskSubGroupSelectBox').val(),
                 'CHECKLIST_ID': $('#riskActivitiesSelectBox').val(),
-                'ANNEXURE_REF_ID': g_annexureRefId
+                'ANNEXURE_ID': $('#updatedAnnexlist').val()
 
             },
             cache: false,
@@ -236,7 +235,6 @@ function reloadLocation() {
         var annexId = $('#updatedAnnexlist').val();
         var riskName = '';
         g_selectedRiskId = 0;
-        g_annexureRefId = parseInt(annexId);
         $.each(g_annexList, function (i, v) {
             var id = v.ID || v.id;
             if (id == annexId) {
