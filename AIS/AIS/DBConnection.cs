@@ -23480,7 +23480,7 @@ namespace AIS.Controllers
             return results;
             }
 
-        public async Task<List<ParaTextModel>> Get_All_Para_Text(int comId)
+        public List <ParaTextModel> Get_All_Para_Text(int comId)
             {
            
             sessionHandler = new SessionHandler();
@@ -23519,12 +23519,13 @@ namespace AIS.Controllers
                             Text = reader["text"]?.ToString(),
                             ParaText = reader["para_text"]?.ToString()
                             };
+                        paraTexts.Add(rpt); // ? Add to list
                         }
                     }
                 }
 
             con.Dispose();
-            return results;
+            return paraTexts; // ? Return correct variable
             }
 
 
