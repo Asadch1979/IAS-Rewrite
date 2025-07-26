@@ -237,7 +237,8 @@ function initResponsibilitySection(config) {
             },
             dataType: 'json',
             success: function (data) {
-                alert(data.Message);
+                var msg = data.Message || data.message || 'Operation completed';
+                alert(msg);
                 modal.modal('hide');
                 load();
             }
