@@ -230,7 +230,8 @@ function initResponsibilitySection(config) {
                 'REMARKS': $('#resp_remarks').val(),
                 'NEW_PARA_ID': opts.newParaId,
                 'OLD_PARA_ID': opts.oldParaId,
-                'INDICATOR': opts.indicator,
+                // use action indicator for add/update/delete operations
+                'INDICATOR': action,
                 'COM_ID': opts.comId,
                 'ACTION': action,
                 'PARA_STATUS': opts.status
