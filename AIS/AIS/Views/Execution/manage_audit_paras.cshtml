@@ -13,6 +13,7 @@
     var g_index = 0;
     var g_ele = null;
     var respSection = null;
+    var auditParaSection = null;
     var g_instructionMap = [];
     var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
     var g_selectedRiskId = 0;
@@ -25,7 +26,6 @@
             videoEmbed: false,
             urls: false
         });
-        $('#auditPara_Annex').on('change', updateRiskDisplay);
         const currentYear = new Date().getFullYear();
         for (var i = 1970; i <= currentYear; i++) {
             $('#auditPara_Period').append('<option value="' + i + '">' + i + '</option>');
@@ -35,6 +35,11 @@
             changesTableSelector: "#c_listofRespPersons",
             modalSelector: "#ResponsiblePPModel",
             comId: g_com_id
+        });
+        auditParaSection = initFieldAuditParaSection({
+            containerSelector: '#viewMemoModel',
+            annexList: g_annexList,
+            readOnly: false
         });
 
     });
