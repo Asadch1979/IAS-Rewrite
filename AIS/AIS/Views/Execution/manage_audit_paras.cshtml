@@ -34,7 +34,8 @@
             tableSelector: "#listofRespPersons",
             changesTableSelector: "#c_listofRespPersons",
             modalSelector: "#ResponsiblePPModel",
-            comId: g_com_id
+            comId: g_com_id,
+            status: 8
         });
         auditParaSection = initFieldAuditParaSection({
             containerSelector: '#viewMemoModel',
@@ -265,7 +266,7 @@ function updateObservationStatus() {
         g_np_id = v.neW_PARA_ID;
         g_op_id = v.olD_PARA_ID;
         g_ind = v.indicator;
-        respSection.updateContext({ newParaId: g_np_id, oldParaId: g_op_id, indicator: g_ind, comId: g_com_id });
+        respSection.updateContext({ newParaId: g_np_id, oldParaId: g_op_id, indicator: g_ind, comId: g_com_id, status: 8 });
     }
 
     function openResponsiblePPs() {
