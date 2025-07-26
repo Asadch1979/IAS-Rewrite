@@ -2660,9 +2660,15 @@ namespace AIS.Controllers
             return dBConnection.GetSeriousFraudulentObsGMDetails(INDICATOR, PARENT_ENT_ID, ANNEX_IND);
             }
         [HttpPost]
-        public string add_responsible_to_observation(int NEW_PARA_ID, int OLD_PARA_ID, string INDICATOR, ObservationResponsiblePPNOModel RESPONSIBLE)
+        public IActionResult add_responsible_to_observation(ObservationResponsiblePPNOModel model)
             {
-            return "{\"Status\":true,\"Message\":\"" + dBConnection.AddResponsiblePersonsToObservation(NEW_PARA_ID, OLD_PARA_ID, INDICATOR, RESPONSIBLE) + "\"}";
+            var result = dBConnection.AddResponsiblePersonsToObservation(
+                model.NEW_PARA_ID,
+                model.OLD_PARA_ID,
+                model.INDICATOR,
+                model,
+                model.PARA_STATUS);
+            return Json(new { Message = result });
 
             }
         [HttpPost]

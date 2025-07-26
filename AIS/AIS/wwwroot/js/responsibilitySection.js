@@ -7,7 +7,9 @@ function initResponsibilitySection(config) {
         newParaId: 0,
         oldParaId: 0,
         indicator: '',
-        readOnly: false
+        readOnly: false,
+        status: 0,
+        directSaveMode: true
     }, config || {});
 
     var table = $(opts.tableSelector);
@@ -94,7 +96,8 @@ function initResponsibilitySection(config) {
                 'OLD_PARA_ID': opts.oldParaId,
                 'INDICATOR': opts.indicator,
                 'COM_ID': opts.comId,
-                'ACTION': action
+                'ACTION': action,
+                'PARA_STATUS': opts.status
             },
             dataType: 'json',
             success: function (data) {

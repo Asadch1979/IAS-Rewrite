@@ -14,5 +14,10 @@ namespace AIS.Models
         public string REMARKS { get; set; }
         public string ACTION { get; set; }
         public string INDICATOR { get; set; }
+
+        // additional fields for responsibility operations
+        public int NEW_PARA_ID { get; set; }
+        public int OLD_PARA_ID { get; set; }
+        public int PARA_STATUS { get; set; }
         }
     }

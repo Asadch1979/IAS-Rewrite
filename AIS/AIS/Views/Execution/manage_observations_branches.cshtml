@@ -43,12 +43,16 @@
         $('#updateMemo_annex').on('change', updateRiskDisplay);
         respSectionView = initResponsibilitySection({
             tableSelector: '#listofRespPersons',
-            readOnly: true
+            readOnly: true,
+            status: 1,
+            directSaveMode: false
         });
         respSectionUpdate = initResponsibilitySection({
             tableSelector: '#update_listofRespPersons',
             changesTableSelector: '#c_update_listofRespPersons',
-            modalSelector: '#ResponsiblePPModel'
+            modalSelector: '#ResponsiblePPModel',
+            status: 1,
+            directSaveMode: false
         });
     });
     function reloadLocation() {

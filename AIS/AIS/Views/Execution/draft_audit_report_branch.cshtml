@@ -41,7 +41,9 @@
         $('#viewMemo_annex_ObSent').on('change', updateRiskDisplay);
         respSection = initResponsibilitySection({
             tableSelector: '#viewMemo_respPP_ObSent',
-            modalSelector: '#ResponsiblePPModel'
+            modalSelector: '#ResponsiblePPModel',
+            status: 4,
+            directSaveMode: false
         });
 
          document.getElementById('viewMemo_amount_ObSent').addEventListener('input', function (e) {
