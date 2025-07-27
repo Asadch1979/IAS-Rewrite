@@ -27,6 +27,7 @@
         });
 
         $('#updatedAnnexlist').select2();
+        $('#riskActivitiesSelectBox').select2();
         $('#updatedAnnexlist').on('change', updateRiskDisplay);
         // initialize reference section using shared script
         initReferenceSection(0, false, '#referenceSection');
@@ -85,6 +86,12 @@
                     $('#riskActivitiesSelectBox').append("<option value=\"" + item.id + "\"> " + item.heading + "</option>");
                 });
 
+                if ($.fn.select2) {
+                    if ($('#riskActivitiesSelectBox').data('select2')) {
+                        $('#riskActivitiesSelectBox').select2('destroy');
+                    }
+                    $('#riskActivitiesSelectBox').select2();
+                }
             },
             dataType: "json",
         });
