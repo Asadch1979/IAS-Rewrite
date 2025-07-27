@@ -20550,7 +20550,7 @@ namespace AIS.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
 
-                cmd.Parameters.Add("ID", OracleDbType.Int32).Value = paraId;
+                cmd.Parameters.Add("N_ID", OracleDbType.Int32).Value = paraId;
                 cmd.Parameters.Add("IND", OracleDbType.Varchar2).Value = INDICATOR;
                 cmd.Parameters.Add("PPNO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                 cmd.Parameters.Add("RES_PP", OracleDbType.Int32).Value = responsible.PP_NO;
