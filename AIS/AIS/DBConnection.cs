@@ -5440,6 +5440,7 @@ namespace AIS.Controllers
                                 cmd.CommandType = CommandType.StoredProcedure;
                                 cmd.Parameters.Clear();
                                 cmd.Parameters.Add("ID", OracleDbType.Int32).Value = addedObsId;
+                                cmd.Parameters.Add("IND", OracleDbType.Varchar2).Value = INDICATOR;
                                 cmd.Parameters.Add("PPNO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                                 cmd.Parameters.Add("RES_PP", OracleDbType.Int32).Value = pp.PP_NO;
                                 cmd.Parameters.Add("LOANCASE", OracleDbType.Int32).Value = pp.LOAN_CASE;
@@ -5519,6 +5520,7 @@ namespace AIS.Controllers
                                 cmd.CommandType = CommandType.StoredProcedure;
                                 cmd.Parameters.Clear();
                                 cmd.Parameters.Add("ID", OracleDbType.Int32).Value = addedObsId;
+                                cmd.Parameters.Add("IND", OracleDbType.Varchar2).Value = INDICATOR;
                                 cmd.Parameters.Add("PPNO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                                 cmd.Parameters.Add("RES_PP", OracleDbType.Int32).Value = pp.PP_NO;
                                 cmd.Parameters.Add("LOANCASE", OracleDbType.Int32).Value = pp.LOAN_CASE;
