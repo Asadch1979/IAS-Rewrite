@@ -5388,6 +5388,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
+            var INDICATOR = "A";
             if (ob.ENGPLANID == 0)
                 ob.ENGPLANID = this.GetLoggedInUserEngId();
             using (OracleCommand cmd = con.CreateCommand())
@@ -5469,6 +5470,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
+            var INDICATOR = "A";
             if (ob.ENGPLANID == 0)
                 ob.ENGPLANID = this.GetLoggedInUserEngId();
             using (OracleCommand cmd = con.CreateCommand())
