@@ -52,7 +52,8 @@
             changesTableSelector: '#c_update_listofRespPersons',
             modalSelector: '#ResponsiblePPModel',
             status: 1,
-            directSaveMode: false
+            directSaveMode: false,
+            afterSave: function () { respSectionView.reload(); }
         });
     });
     function reloadLocation() {

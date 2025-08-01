@@ -31,7 +31,8 @@
             tableSelector: '#viewMemo_respPP_ObSent',
             modalSelector: '#ResponsiblePPModel',
             status: 2,
-            directSaveMode: false
+            directSaveMode: false,
+            afterSave: function () { respSection.reload(); }
         });
 
 
