@@ -464,6 +464,9 @@
     function openResponsiblePPs() {
         $('#ResponsiblePPModel').modal('show');
     }
+    function addResponsibilityToMainTable(action) {
+        respSectionUpdate.saveResp(action);
+    }
     function downloadFile(id) {
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/get_auditee_evidence_data",
@@ -956,7 +959,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button onclick="addResponsibilityToMainTable();" type="button" data-bs-dismiss="modal" class="btn btn-danger">Add Responsibility</button>
+                <button id="addResponsibleButton" onclick="addResponsibilityToMainTable('A');" type="button" class="btn btn-danger">Add Responsibility</button>
+                <button id="updateResponsibleButton" onclick="addResponsibilityToMainTable('U');" type="button" class="btn btn-success d-none">Update Responsibility</button>
+                <button id="deleteResponsibleButton" onclick="addResponsibilityToMainTable('D');" type="button" class="btn btn-danger d-none">Delete Responsibility</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>

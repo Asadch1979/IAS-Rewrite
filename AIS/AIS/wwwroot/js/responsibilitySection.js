@@ -242,6 +242,13 @@ function initResponsibilitySection(config) {
                 alert(msg);
                 modal.modal('hide');
                 load();
+            },
+            error: function (xhr) {
+                var msg = 'Error occurred';
+                if (xhr.responseJSON) {
+                    msg = xhr.responseJSON.Message || xhr.responseJSON.message || msg;
+                }
+                alert(msg);
             }
         });
     }
@@ -261,7 +268,11 @@ function initResponsibilitySection(config) {
     if (!opts.readOnly) {
         $('#addResponsibleButton').off('click').on('click', function () { saveResp('A'); });
         $('#updateResponsibleButton').off('click').on('click', function () { saveResp('U'); });
-        $('#deleteResponsibleButton').off('click').on('click', function () { saveResp('D'); });
+        $('#deleteResponsibleButton').off('click').on('click', function () {
+            if (confirm('Are you sure you want to delete this responsibility?')) {
+                saveResp('D');
+            }
+        });
         $('#responsiblePPNoEntryField').off('keypress').on('keypress', function (e) { if (e.which === 13) { e.preventDefault(); getMatchedPP(); } });
         modal.on('show.bs.modal', function () {
             $('#matchedPPNoPanels').empty();
