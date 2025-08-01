@@ -46,12 +46,6 @@
             directSaveMode: false
         });
 
-        $('#ResponsiblePPModel').on('hidden.bs.modal', function () {
-            if (respSection) {
-                respSection.reload();
-            }
-        });
-
          document.getElementById('viewMemo_amount_ObSent').addEventListener('input', function (e) {
         this.value = this.value.replace(/\D|^0(?=\d)/g, ''); // Removes decimals and leading zeros
     });
