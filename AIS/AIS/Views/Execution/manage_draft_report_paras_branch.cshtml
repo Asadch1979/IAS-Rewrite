@@ -34,6 +34,12 @@
             directSaveMode: false
         });
 
+        $('#ResponsiblePPModel').on('hidden.bs.modal', function () {
+            if (respSection) {
+                respSection.reload();
+            }
+        });
+
 
     });
     function reloadLocation() {

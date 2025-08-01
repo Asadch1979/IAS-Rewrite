@@ -54,6 +54,14 @@
             status: 1,
             directSaveMode: false
         });
+        $('#ResponsiblePPModel').on('hidden.bs.modal', function () {
+            if (respSectionUpdate) {
+                respSectionUpdate.reload();
+            }
+            if (respSectionView) {
+                respSectionView.reload();
+            }
+        });
     });
     function reloadLocation() {
         getEntityObservation();
