@@ -257,7 +257,7 @@
             oldParaId: data.olD_PARA_ID,
             indicator: data.indicator,
             comId: data.coM_ID,
-            readOnly: true
+            readOnly: false
         });
                initReferenceSection(g_obsId, true, '#viewMemoDetailsModel #referenceSection');
                },
@@ -462,6 +462,9 @@
     }
     function openResponsiblePPs() {
         $('#ResponsiblePPModel').modal('show');
+    }
+    function addResponsibilityToMainTable(action) {
+        respSection.saveResp(action);
     }
     function updateObservationDetails(obsId){
 
@@ -870,7 +873,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button onclick="addResponsibilityToMainTable();" type="button" data-bs-dismiss="modal" class="btn btn-danger">Add Responsibility</button>
+                <button id="addResponsibleButton" onclick="addResponsibilityToMainTable('A');" type="button" class="btn btn-danger">Add Responsibility</button>
+                <button id="updateResponsibleButton" onclick="addResponsibilityToMainTable('U');" type="button" class="btn btn-success d-none">Update Responsibility</button>
+                <button id="deleteResponsibleButton" onclick="addResponsibilityToMainTable('D');" type="button" class="btn btn-danger d-none">Delete Responsibility</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
