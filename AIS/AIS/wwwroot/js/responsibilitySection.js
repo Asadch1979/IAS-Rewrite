@@ -80,8 +80,8 @@ function initResponsibilitySection(config) {
                                 <div class="col-sm-3"><span>${data.name}</span></div>
                                 <div class="col-sm-2"><span>${$('#responsibleAccountNumberEntryField').val()}</span></div>
                                 <div class="col-sm-2"><span>${$('#responsibleAccountAmountEntryField').val()}</span></div>
-                                <div class="col-sm-1"><span>${$('#responsibleLoanNumberEntryField').val()}</span></div>
-                                <div class="col-sm-2"><span>${$('#responsibleLoanAmountEntryField').val()}</span></div>
+                                <div class="col-sm-1"><span>${$('#loanCaseNumber').val() || $('#responsibleLoanNumberEntryField').val()}</span></div>
+                                <div class="col-sm-2"><span>${$('#loanCaseAmount').val() || $('#responsibleLoanAmountEntryField').val()}</span></div>
                                 <div class="col-sm-1">
                                     <input style="margin-left:10px;" class="respCheckBOXBYPP" type="checkbox" />
                                 </div>
@@ -146,7 +146,7 @@ function initResponsibilitySection(config) {
                         return parts[2] + '/' + parts[1] + '/' + parts[0];
                     };
 
-                    $('#matchedPPNoPanels').append(`
+                      $('#matchedPPNoPanels').append(`
                         <hr class="row col-md-12 mt-1"/>
                         <div class="row loan-case-panel">
                             <div class="row col-md-12 mt-2">
@@ -158,8 +158,8 @@ function initResponsibilitySection(config) {
                                 <div class="col-md-8"><input class="form-control" type="text" value="${d.cnic}" readonly /></div>
                             </div>
                             <div class="row col-md-12 mt-2">
-                                <div class="col-md-4"><label>Loan Case No</label></div>
-                                <div class="col-md-8"><input id="resp_loan_case" class="form-control" type="text" value="${d.loanCaseNo}" readonly /></div>
+                                  <div class="col-md-4"><label>Loan Case No</label></div>
+                                  <div class="col-md-8"><input id="resp_loan_case" class="form-control" type="text" value="${d.loanCaseNo}" readonly /></div>
                             </div>
                             <div class="row col-md-12 mt-2">
                                 <div class="col-md-4"><label>Application Date</label></div>
@@ -178,8 +178,8 @@ function initResponsibilitySection(config) {
                                 <div class="col-md-8"><input class="form-control" type="text" value="${d.disbursedAmount}" readonly /></div>
                             </div>
                             <div class="row col-md-12 mt-2">
-                                <div class="col-md-4"><label>Outstanding Amount</label></div>
-                                <div class="col-md-8"><input id="resp_loan_amount" class="form-control" type="text" value="${d.outstandingAmount}" readonly /></div>
+                                  <div class="col-md-4"><label>Outstanding Amount</label></div>
+                                  <div class="col-md-8"><input id="resp_loan_amount" class="form-control" type="text" value="${d.outstandingAmount}" readonly /></div>
                             </div>
                             <hr class="row col-md-12 mt-3" />
                             <div class="row col-md-12 mt-2">
@@ -202,7 +202,9 @@ function initResponsibilitySection(config) {
                                 `;
                             }).join('')}
                         </div>
-                    `);
+                      `);
+                      $('#loanCaseNumber').val(d.loanCaseNo);
+                      $('#loanCaseAmount').val(d.outstandingAmount);
                 });
             },
             dataType: 'json'
@@ -211,7 +213,7 @@ function initResponsibilitySection(config) {
 
     function saveResp(action) {
         if (!respUser.length || respUser[0].ppNumber <= 0) return;
-        var lc = $('#resp_loan_case').val();
+        var lc = $('#resp_loan_case').val() || $('#loanCaseNumber').val() || $('#responsibleLoanNumberEntryField').val();
         var acc = $('#resp_account_number').val();
         if (lc === '' && acc === '') {
             alert('Please enter Either Loan Case Or Account Number to Proceed');
@@ -222,8 +224,8 @@ function initResponsibilitySection(config) {
             type: 'POST',
             data: {
                 'PP_NO': respUser[0].ppNumber,
-                'LOAN_CASE': $('#resp_loan_case').val(),
-                'LC_AMOUNT': $('#resp_loan_amount').val(),
+                'LOAN_CASE': $('#resp_loan_case').val() || $('#loanCaseNumber').val() || $('#responsibleLoanNumberEntryField').val(),
+                'LC_AMOUNT': $('#resp_loan_amount').val() || $('#loanCaseAmount').val() || $('#responsibleLoanAmountEntryField').val(),
                 'ACCOUNT_NUMBER': $('#resp_account_number').val(),
                 'ACC_AMOUNT': $('#resp_account_amount').val(),
                 'EMP_NAME': respUser[0].name,
@@ -242,6 +244,15 @@ function initResponsibilitySection(config) {
                 alert(msg);
                 modal.modal('hide');
                 load();
+                $('#matchedPPNoPanels').empty();
+                $('#matchedPPNoPanelsBYPP').empty();
+                $('#responsiblePPNoEntryField').val('');
+                $('#loanCaseNumber').val('');
+                $('#loanCaseAmount').val('');
+                $('#responsibleLoanNumberEntryField').val('');
+                $('#responsibleLoanAmountEntryField').val('');
+                $('#responsibleAccountNumberEntryField').val('');
+                $('#responsibleAccountAmountEntryField').val('');
             },
             error: function (xhr) {
                 var msg = 'Error occurred';
@@ -276,9 +287,16 @@ function initResponsibilitySection(config) {
         $('#responsiblePPNoEntryField').off('keypress').on('keypress', function (e) { if (e.which === 13) { e.preventDefault(); getMatchedPP(); } });
         modal.on('show.bs.modal', function () {
             $('#matchedPPNoPanels').empty();
+            $('#matchedPPNoPanelsBYPP').empty();
             selectedRow = null;
             respUser = [];
             $('#responsiblePPNoEntryField').val('');
+            $('#loanCaseNumber').val('');
+            $('#loanCaseAmount').val('');
+            $('#responsibleLoanNumberEntryField').val('');
+            $('#responsibleLoanAmountEntryField').val('');
+            $('#responsibleAccountNumberEntryField').val('');
+            $('#responsibleAccountAmountEntryField').val('');
             $('#addResponsibleButton').removeClass('d-none');
             $('#updateResponsibleButton').addClass('d-none');
             $('#deleteResponsibleButton').addClass('d-none');
