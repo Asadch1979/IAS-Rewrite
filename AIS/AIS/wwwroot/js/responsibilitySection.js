@@ -241,9 +241,17 @@ function initResponsibilitySection(config) {
             dataType: 'json',
             success: function (data) {
                 var msg = data.Message || data.message || 'Operation completed';
+                if (typeof msg === 'string' && msg.toLowerCase().includes('already exists')) {
+                    msg = 'Responsibility Fixed';
+                }
                 alert(msg);
-                modal.modal('hide');
+                // ensure grids are refreshed with fresh data
+                table.find('tbody').empty();
+                if (changesTable.length) {
+                    changesTable.find('tbody').empty();
+                }
                 load();
+                // clear modal fields after save
                 $('#matchedPPNoPanels').empty();
                 $('#matchedPPNoPanelsBYPP').empty();
                 $('#responsiblePPNoEntryField').val('');
@@ -253,11 +261,15 @@ function initResponsibilitySection(config) {
                 $('#responsibleLoanAmountEntryField').val('');
                 $('#responsibleAccountNumberEntryField').val('');
                 $('#responsibleAccountAmountEntryField').val('');
+                modal.modal('hide');
             },
             error: function (xhr) {
                 var msg = 'Error occurred';
                 if (xhr.responseJSON) {
                     msg = xhr.responseJSON.Message || xhr.responseJSON.message || msg;
+                }
+                if (typeof msg === 'string' && msg.toLowerCase().includes('already exists')) {
+                    msg = 'Responsibility Fixed';
                 }
                 alert(msg);
             }
