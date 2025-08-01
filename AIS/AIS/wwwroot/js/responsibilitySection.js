@@ -9,7 +9,8 @@ function initResponsibilitySection(config) {
         indicator: '',
         readOnly: false,
         status: 0,
-        directSaveMode: true
+        directSaveMode: true,
+        afterSave: null
     }, config || {});
 
     var table = $(opts.tableSelector);
@@ -244,6 +245,9 @@ function initResponsibilitySection(config) {
                 alert(msg);
                 modal.modal('hide');
                 load();
+                if (typeof opts.afterSave === 'function') {
+                    opts.afterSave();
+                }
                 $('#matchedPPNoPanels').empty();
                 $('#matchedPPNoPanelsBYPP').empty();
                 $('#responsiblePPNoEntryField').val('');
