@@ -5440,7 +5440,7 @@ namespace AIS.Controllers
                                 cmd.CommandText = "pkg_ar.P_responibilityassigned";
                                 cmd.CommandType = CommandType.StoredProcedure;
                                 cmd.Parameters.Clear();
-                                cmd.Parameters.Add("ID", OracleDbType.Int32).Value = addedObsId;
+                                cmd.Parameters.Add("N_ID", OracleDbType.Int32).Value = addedObsId;
                                 cmd.Parameters.Add("IND", OracleDbType.Varchar2).Value = INDICATOR;
                                 cmd.Parameters.Add("PPNO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                                 cmd.Parameters.Add("RES_PP", OracleDbType.Int32).Value = pp.PP_NO;
@@ -5448,6 +5448,7 @@ namespace AIS.Controllers
                                 cmd.Parameters.Add("ACCNUMBER", OracleDbType.Int32).Value = pp.ACCOUNT_NUMBER;
                                 cmd.Parameters.Add("LCAMOUNT", OracleDbType.Int32).Value = pp.LC_AMOUNT;
                                 cmd.Parameters.Add("ACAMOUNT", OracleDbType.Int32).Value = pp.ACC_AMOUNT;
+                                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                                 cmd.ExecuteReader();
                                 }
                             }
@@ -5521,7 +5522,7 @@ namespace AIS.Controllers
                                 cmd.CommandText = "pkg_ar.P_responibilityassigned";
                                 cmd.CommandType = CommandType.StoredProcedure;
                                 cmd.Parameters.Clear();
-                                cmd.Parameters.Add("ID", OracleDbType.Int32).Value = addedObsId;
+                                cmd.Parameters.Add("N_ID", OracleDbType.Int32).Value = addedObsId;
                                 cmd.Parameters.Add("IND", OracleDbType.Varchar2).Value = INDICATOR;
                                 cmd.Parameters.Add("PPNO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
                                 cmd.Parameters.Add("RES_PP", OracleDbType.Int32).Value = pp.PP_NO;
@@ -5529,6 +5530,7 @@ namespace AIS.Controllers
                                 cmd.Parameters.Add("ACCNUMBER", OracleDbType.Int32).Value = pp.ACCOUNT_NUMBER;
                                 cmd.Parameters.Add("LCAMOUNT", OracleDbType.Int32).Value = pp.LC_AMOUNT;
                                 cmd.Parameters.Add("ACAMOUNT", OracleDbType.Int32).Value = pp.ACC_AMOUNT;
+                                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                                 cmd.ExecuteReader();
                                 }
                             }
@@ -20562,7 +20564,7 @@ namespace AIS.Controllers
                 cmd.Parameters.Add("ACCNUMBER", OracleDbType.Int32).Value = responsible.ACCOUNT_NUMBER;
                 cmd.Parameters.Add("LCAMOUNT", OracleDbType.Int32).Value = responsible.LC_AMOUNT;
                 cmd.Parameters.Add("ACAMOUNT", OracleDbType.Int32).Value = responsible.ACC_AMOUNT;
-                cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                     {
