@@ -35,6 +35,7 @@ namespace AIS.Models
         public string PPNO_TEST { get; set; }
         public string INDICATOR { get; set; }
         public string TYPE_INDICATOR { get; set; }
+        public string DSA { get; set; }
         public List<ObservationResponsiblePPNOModel> RESPONSIBLE_PPs { get; set; }
         public List<AuditeeResponseEvidenceModel> ATTACHED_EVIDENCES { get; set; }
         }

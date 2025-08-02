@@ -26,6 +26,7 @@
     var g_selectedRiskId = 0;
     var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
     var respSectionUpdate = null;
+    var g_dsa = "";
     $(document).ready(function () {
         $('#entitySelectField').select2();
         var entName = $('#manageObsPanel tbody .entity_name_field:first').text();
@@ -167,6 +168,7 @@
                 g_currentStatus = v.obS_STATUS_ID;
                 g_riskId = v.obS_RISK_ID;
                 g_annexId = v.annexurE_ID;
+                g_dSA = v.dsa;
             }
         });
         $.ajax({
@@ -281,12 +283,12 @@
             dataType: "json",
         });
     }
-    function submitObservationToAuditee(obs_id, new_status_id, risk_id) {
+    function submitObservationToAuditee(obs_id, new_status_id, risk_id, dsa) {
         g_obsId = obs_id;
         g_newStatusId = new_status_id;
         g_riskId = risk_id;
-
-        if (g_annexId === 1) {
+        g_dSA = v.dsa;
+        if (v.dsa = "Y" {
             // Close the viewer modal and, once completely hidden,
             // open the DSA modal to avoid multiple backdrops and
             // ensure the DSA modal has focus.
@@ -573,6 +575,7 @@
             <div class="modal-header bg-danger text-white">
                 <h5 class="modal-title">Update Observation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
             </div>
             <div class="modal-body">
                 <form>

@@ -6721,6 +6721,7 @@ namespace AIS.Controllers
                     chk.ANNEXURE_ID = rdr["ANNEX_ID"].ToString();
                     chk.ANNEXURE_CODE = rdr["ANNEX_CODE"].ToString();
                     chk.PPNO_TEST = loggedInUser.PPNumber;
+                    chk.DSA = rdr["DSA"].ToString();
                     list.Add(chk);
                     }
                 }
