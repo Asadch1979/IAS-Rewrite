@@ -224,11 +224,14 @@
          $('#viewMemo_aud_reply_ObSent').html('');
          $('#viewMemo_head_reply_ObSent').html('');
          $('#viewMemo_annex_ObSent').val(0);
-         $('#viewMemo_risk_display').val('');
-         g_selectedRiskId = 0;
-         $('#viewMemo_process_ObSent').val(0);
-          $('#viewMemo_amount_ObSent').val(0);
-         $('#viewMemo_inst_ObSent').val(0);
+        $('#viewMemo_risk_display').val('');
+        g_selectedRiskId = 0;
+        $('#viewMemo_process_ObSent').val(0);
+        $('#viewMemo_amount_ObSent').val(0);
+        $('#viewMemo_inst_ObSent').val(0);
+        g_procId = 0;
+        g_subProcId = 0;
+        g_procDetailId = 0;
 
           $.ajax({
             url: g_asiBaseURL + "/ApiCalls/get_obs_details_by_id",
@@ -255,15 +258,15 @@
          $('#viewMemo_process_ObSent').val(data.procesS_ID);
          $('#viewMemo_amount_ObSent').val(data.amounT_INVOLVED);
          $('#viewMemo_inst_ObSent').val(data.nO_OF_INSTANCES);
-         g_procId=data.procesS_ID;
-         g_subProcId=data.subchecklisT_ID;
-         g_procDetailId=data.checklistdetaiL_ID;
+         g_procId = data.procesS_ID;
+         g_subProcId = data.subchecklisT_ID;
+         g_procDetailId = data.checklistdetaiL_ID;
          getSubCheckListOfProcess();
         respSection.updateContext({
-            newParaId: data.neW_PARA_ID,
-            oldParaId: data.olD_PARA_ID,
-            indicator: data.indicator,
-            comId: data.coM_ID,
+            newParaId: data.neW_PARA_ID || g_obsId,
+            oldParaId: data.olD_PARA_ID || 0,
+            indicator: data.indicator || '',
+            comId: data.coM_ID || 0,
             readOnly: false
         });
                initReferenceSection(g_obsId, true, '#viewMemoDetailsModel #referenceSection');
@@ -314,8 +317,8 @@
                 $.each(data, function (i, v) {
                     $('#viewMemo_checklist_ObSent').append('<option value="' + v.s_ID + '">' + v.heading + '</option>');
                 });
-                if(g_procDetailId !=0)
-                    $('#viewMemo_checklist_ObSent').val(g_procDetailId);
+                if (g_procDetailId != 0)
+                    $('#viewMemo_checklist_ObSent').val(g_procDetailId).trigger('change');
 
                 },
                 dataType: "json",
