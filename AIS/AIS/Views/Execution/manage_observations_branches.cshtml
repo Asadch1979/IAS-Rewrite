@@ -27,7 +27,7 @@
     var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
     var respSectionView = null;
     var respSectionUpdate = null;
-    document.addEventListener('DOMContentLoaded', function () {
+    $(document).ready(function () {
         $('#entitySelectField').select2();
         var entName = $('#manageObsPanel tbody .entity_name_field:first').text();
         $('#entityNameField').val(entName);
@@ -351,14 +351,12 @@
         g_riskId = risk_id;
         if(g_annexId==1)
         {
-            const modalEl = document.getElementById('DSAModel');
-            if (modalEl) {
-                const dsaModal = bootstrap.Modal.getOrCreateInstance(modalEl);
-                dsaModal.show();
-                $.each(g_obsList, function(i,v){
-                    if(v.obS_ID==obs_id){
-                        $('#dsaHeading').val(v.heading);
-                           $.ajax({
+            const dsaModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('DSAModel'));
+            dsaModal.show();
+            $.each(g_obsList, function(i,v){
+                if(v.obS_ID==obs_id){
+                    $('#dsaHeading').val(v.heading);
+                       $.ajax({
                 url: g_asiBaseURL + "/ApiCalls/get_observation_text_branches",
                 type: "POST",
                 data: {
@@ -372,19 +370,15 @@
                         $.each(data[0].responsiblE_PPs, function (j, pp) {
                             var srNo = $('#dsaResponsibles tbody tr').length;
                             srNo++;
-                            $('#dsaResponsibles tbody').append('<tr id="tr_' + pp.pP_NO + '"><td>' + srNo + '</td><td>' + pp.pP_NO + '</td><td>' + pp.emP_NAME + '</td><td>' + pp.loaN_CASE + '</td><td>' + pp.lC_AMOUNT + '</td><td>' + pp.accounT_NUMBER + '</td><td>' + pp.acC_AMOUNT + '</td><td><input class="chk_dsaissued" resp_row_id="'+pp.resP_ROW_ID+'" id="'+pp.pP_NO+'" name="dsaIssued_'+pp.pP_NO+'" type="checkbox" /><label for="'+pp.pP_NO+'" class="visually-hidden">Issue DSA</label></td></tr>');
+                            $('#dsaResponsibles tbody').append('<tr id="tr_' + pp.pP_NO + '"><td>' + srNo + '</td><td>' + pp.pP_NO + '</td><td>' + pp.emP_NAME + '</td><td>' + pp.loaN_CASE + '</td><td>' + pp.lC_AMOUNT + '</td><td>' + pp.accounT_NUMBER + '</td><td>' + pp.acC_AMOUNT + '</td><td><input class="chk_dsaissued" resp_row_id="'+pp.resP_ROW_ID+'" id="'+pp.pP_NO+'" type="checkbox"  /></td></tr>');
                         });
                     }
 
                 },
                 dataType: "json",
             });
-                    }
-                })
-            } else {
-                alert('DSA modal is unavailable.');
-                finalSubmissionParasToAuditee();
-            }
+                }
+            })
         }else{
            finalSubmissionParasToAuditee();
         }
@@ -557,12 +551,11 @@
     </div>
     <div class="row col-md-12 mt-3">
         <div class="col-md-2">
-            <label for="entitySelectField" class="fw-bold">Entity:</label>
+            <label><b>Entity:</b></label>
         </div>
         <div class="col-md-10">
-            <label for="entityNameField" class="d-none">Entity Name</label>
-            <input id="entityNameField" name="entityNameField" disabled="disabled" class="form-control ml-1 d-none" type="text" />
-            <select id="entitySelectField" name="entitySelectField" onchange="getEntityObservation()" class="form-control form-select">
+            <input id="entityNameField" disabled="disabled" class="form-control ml-1 d-none" type="text" />
+            <select id="entitySelectField" onchange="getEntityObservation()" class="form-control form-select">
                 <option value="0" id="0">--Select Audit Entity--</option>
                 @{
                     if (ViewData["EntitiesList"] != null)
@@ -579,10 +572,10 @@
     </div>
     <div class="row col-md-12 mt-3">
         <div class="col-md-2">
-            <label for="auditPeriodNameField" class="fw-bold">Audit Period:</label>
+            <label><b>Audit Period:</b></label>
         </div>
         <div class="col-md-10 ">
-            <input id="auditPeriodNameField" name="auditPeriodNameField" disabled="disabled" class="form-control ml-1" type="text" />
+            <input id="auditPeriodNameField" disabled="disabled" class="form-control ml-1" type="text" />
         </div>
     </div>
     <div class="row col-md-12 mt-3">
@@ -617,7 +610,7 @@
                 <form>
                     <div class="form-group">
                         <label for="commentAreaInCommentsBox">Comments</label>
-                        <textarea class="form-control" rows="4" id="commentAreaInCommentsBox" name="commentAreaInCommentsBox" placeholder="Enter Comments here.."></textarea>
+                        <textarea class="form-control" rows="4" id="commentAreaInCommentsBox" placeholder="Enter Comments here.."></textarea>
                     </div>
                 </form>
             </div>
@@ -640,7 +633,7 @@
                 <form>
                     <div class="form-group mb-3">
                         <label for="viewMemo_annex" class="font-weight-bold">Annexure</label>
-                        <select id="viewMemo_annex" name="viewMemo_annex" disabled="disabled" class="form-select form-control">
+                        <select id="viewMemo_annex" disabled="disabled" class="form-select form-control">
                             <option selected="selected" value="0" id="0">--Select Annexure--</option>
                             @{
                                 if (ViewData["AnnexList"] != null)
@@ -658,7 +651,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="viewMemo_risk">Risk</label>
-                        <select id="viewMemo_risk" name="viewMemo_risk" disabled="disabled" class="form-select form-control" aria-label="Default select example">
+                        <select id="viewMemo_risk" disabled="disabled" class="form-select form-control" aria-label="Default select example">
                             <option value="0" id="0" selected>--Select Risk Category--</option>
                             @{
                                 if (ViewData["RiskList"] != null)
@@ -693,23 +686,19 @@
                         <ul id="refList" class="list-group mb-3"></ul>
                         <button type="button" class="btn btn-success mb-3" id="saveBtn">Save</button>
                         <div id="searchSection">
-                            <label for="refType" class="form-label">Reference Type</label>
-                            <select id="refType" name="refType" class="form-select mb-2">
+                            <select id="refType" class="form-select mb-2">
                                 <option value="0" selected>Please select reference</option>
                                 <option value="Manual">Manual</option>
                                 <option value="Policy">Policy</option>
                                 <option value="Circular">Circular</option>
                             </select>
                             <div id="searchInputs" style="display:none;">
-                                <label for="keyword" class="form-label">Keyword</label>
-                                <input id="keyword" name="keyword" class="form-control mb-2" placeholder="keyword" />
+                                <input id="keyword" class="form-control mb-2" placeholder="keyword" />
                                 <button type="button" class="btn btn-primary" id="searchBtn">Search</button>
                             </div>
                             <div id="manualInputs" style="display:none;">
-                                <label for="manualName" class="form-label">Manual/Policy Name</label>
-                                <input id="manualName" name="manualName" class="form-control mb-2" placeholder="Manual/Policy Name" />
-                                <label for="chapterSection" class="form-label">Chapter No + Section</label>
-                                <input id="chapterSection" name="chapterSection" class="form-control mb-2" placeholder="Chapter No + Section" />
+                                <input id="manualName" class="form-control mb-2" placeholder="Manual/Policy Name" />
+                                <input id="chapterSection" class="form-control mb-2" placeholder="Chapter No + Section" />
                                 <button type="button" class="btn btn-primary" id="addManualBtn">Add</button>
                             </div>
                         </div>
@@ -781,9 +770,9 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group mb-3">
-                        <label for="updateMemo_annex">Annexure</label>
+                        <label>Annexure</label>
                         <div class="row col-md-12 w-100 m-0 p-0">
-                            <select id="updateMemo_annex" name="updateMemo_annex" class="form-select form-control">
+                            <select id="updateMemo_annex" class="form-select form-control">
                                 <option selected="selected" value="0" id="0">--Select Annexure--</option>
                                 @{
                                     if (ViewData["AnnexList"] != null)
@@ -804,12 +793,12 @@
 
                     <div class="form-group mb-3">
                         <label for="updateMemo_risk_display">Risk will be assigned on the basis of Selected Annexure</label>
-                        <input id="updateMemo_risk_display" name="updateMemo_risk_display" class="form-control" readonly />
+                        <input id="updateMemo_risk_display" class="form-control" readonly />
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="updateMemo_process" class="font-weight-bold">Process</label>
-                        <select id="updateMemo_process" name="updateMemo_process" onchange="getSubProcessList();" class="form-select form-control" aria-label="Default select example">
+                        <select id="updateMemo_process" onchange="getSubProcessList();" class="form-select form-control" aria-label="Default select example">
                             <option value="0" id="0" selected="selected">--Select Voilation Category--</option>
                             @{
                                 if (ViewData["ProcessList"] != null)
@@ -824,23 +813,23 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="updateMemo_subprocess" class="font-weight-bold">Sub Process</label>
-                        <select id="updateMemo_subprocess" name="updateMemo_subprocess" onchange="getSubProcessViolationList();" class="form-select form-control" aria-label="Default select example">
+                        <select id="updateMemo_subprocess" onchange="getSubProcessViolationList();" class="form-select form-control" aria-label="Default select example">
                         </select>
 
                     </div>
                     <div class="form-group mb-3">
                         <label for="updateMemo_violation" class="font-weight-bold">Checklist Details</label>
-                        <select id="updateMemo_violation" name="updateMemo_violation" class="form-select form-control" aria-label="Default select example">
+                        <select id="updateMemo_violation" class="form-select form-control" aria-label="Default select example">
                         </select>
                     </div>
                     <div class="form-group mb-3">
                         <label for="updateMemo_heading" class="font-weight-bold">Title / Heading</label>
-                        <input id="updateMemo_heading" name="updateMemo_heading" class="form-control" />
+                        <input id="updateMemo_heading" class="form-control" />
                     </div>
                     <div class="form-group mb-3">
                         <label for="updateMemoContent" class="font-weight-bold">Memo</label>
-                        <textarea id="updateMemoContent" name="updateMemoContent" rows="5" class="form-control">
-                        
+                        <textarea id="updateMemoContent" rows="5" class="form-control">
+
                         </textarea>
                     </div>
                     <div class="form-group">
@@ -857,7 +846,7 @@
                                         <th class="col-md- auto font-weight-bold">Account No.</th>
                                         <th class="col-md- auto font-weight-bold">ACC Amount</th>
                                         <th class="col-md- auto font-weight-bold">Remarks</th>
-                                        <th class="col-md- auto text-center font-weight-bold"><button type="button" onclick="openResponsiblePPs();" class="rounded-circle btn btn-danger btn-sm"><i class="fa fa-plus text-white"></i></button></th>
+                                        <th class="col-md- auto text-center font-weight-bold"><center><button type="button" onclick="openResponsiblePPs();" class="rounded-circle btn btn-danger btn-sm"><i class="fa fa-plus text-white"></i></button></center></th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -870,23 +859,19 @@
                         <ul id="refList" class="list-group mb-3"></ul>
                         <button type="button" class="btn btn-success mb-3" id="saveBtn">Save</button>
                         <div id="searchSection">
-                            <label for="refType" class="form-label">Reference Type</label>
-                            <select id="refType" name="refType" class="form-select mb-2">
+                            <select id="refType" class="form-select mb-2">
                                 <option value="0" selected>Please select reference</option>
                                 <option value="Manual">Manual</option>
                                 <option value="Policy">Policy</option>
                                 <option value="Circular">Circular</option>
                             </select>
                             <div id="searchInputs" style="display:none;">
-                                <label for="keyword" class="form-label">Keyword</label>
-                                <input id="keyword" name="keyword" class="form-control mb-2" placeholder="keyword" />
+                                <input id="keyword" class="form-control mb-2" placeholder="keyword" />
                                 <button type="button" class="btn btn-primary" id="searchBtn">Search</button>
                             </div>
                             <div id="manualInputs" style="display:none;">
-                                <label for="manualName" class="form-label">Manual/Policy Name</label>
-                                <input id="manualName" name="manualName" class="form-control mb-2" placeholder="Manual/Policy Name" />
-                                <label for="chapterSection" class="form-label">Chapter No + Section</label>
-                                <input id="chapterSection" name="chapterSection" class="form-control mb-2" placeholder="Chapter No + Section" />
+                                <input id="manualName" class="form-control mb-2" placeholder="Manual/Policy Name" />
+                                <input id="chapterSection" class="form-control mb-2" placeholder="Chapter No + Section" />
                                 <button type="button" class="btn btn-primary" id="addManualBtn">Add</button>
                             </div>
                         </div>
@@ -931,12 +916,12 @@
 
                         <div class="row col-sm-12">
                             <div class="col-sm-5">
-                                <label for="responsibleLCNoEntryField">Loan Case No.</label>
-                                <input type="text" class="form-control" id="responsibleLCNoEntryField" name="responsibleLCNoEntryField" />
+                                <label for="viewMemo_memo">Loan Case No.</label>
+                                <input type="text" class="form-control" id="responsibleLCNoEntryField" />
                             </div>
                             <div class="col-sm-5">
-                                <label for="responsibleBrCodeEntryField">Branch Code</label>
-                                <input type="text" class="form-control" id="responsibleBrCodeEntryField" name="responsibleBrCodeEntryField" />
+                                <label for="viewMemo_memo">Branch Code</label>
+                                <input type="text" class="form-control" id="responsibleBrCodeEntryField" />
                             </div>
                             <div class="col-sm-2 d-flex align-items-end">
                                 <button onclick="respSectionUpdate.getLCDetails();" type="button" class="btn btn-danger w-100">Find</button>
@@ -953,24 +938,19 @@
 
                         <div id="findBYPPNOPanel" class="mt-2 row col-md-12">
                             <div class="col-md-2">
-                                <label for="responsiblePPNoEntryField">PP No.</label>
-                                <input id="responsiblePPNoEntryField" name="responsiblePPNoEntryField" class="form-control" type="text" placeholder="Enter PP. No." />
+                                <input id="responsiblePPNoEntryField" class="form-control" type="text" placeholder="Enter PP. No." />
                             </div>
                             <div class="col-md-2">
-                                <label for="responsibleAccountNumberEntryField">Account Number</label>
-                                <input id="responsibleAccountNumberEntryField" name="responsibleAccountNumberEntryField" class="form-control" type="number" placeholder="Enter Account Number" />
+                                <input id="responsibleAccountNumberEntryField" class="form-control" type="number" placeholder="Enter Account Number" />
                             </div>
                             <div class="col-md-2">
-                                <label for="responsibleAccountAmountEntryField">Account Amount</label>
-                                <input id="responsibleAccountAmountEntryField" name="responsibleAccountAmountEntryField" class="form-control" type="number" placeholder="Enter Account Amount" />
+                                <input id="responsibleAccountAmountEntryField" class="form-control" type="number" placeholder="Enter Account Amount" />
                             </div>
                             <div class="col-md-2">
-                                <label for="loanCaseNumber">LC No.</label>
-                                <input id="loanCaseNumber" name="loanCaseNumber" class="form-control" type="text" placeholder="Enter LC No." />
+                                <input id="loanCaseNumber" class="form-control" type="text" placeholder="Enter LC No." />
                             </div>
                             <div class="col-md-2">
-                                <label for="loanCaseAmount">LC Amount</label>
-                                <input id="loanCaseAmount" name="loanCaseAmount" class="form-control" type="text" placeholder="Enter LC Amount" />
+                                <input id="loanCaseAmount" class="form-control" type="text" placeholder="Enter LC Amount" />
                             </div>
 
                             <button type="button" onclick="respSectionUpdate.getMatchedPP();" class="col-md-2 btn btn-success">Search</button>
@@ -1003,20 +983,20 @@
                 <form>
 
                     <div class="form-group">
-                        <label for="dsaHeading">DSA Heading</label>
+                        <label for="viewMemo_memo">DSA Heading</label>
 
-                        <textarea id="dsaHeading" name="dsaHeading" readonly="readonly" class="form-control">
+                        <textarea id="dsaHeading" readonly="readonly" class="form-control">
 
                           </textarea>
 
                     </div>
                     <div class="form-group">
-                        <label for="dsaContent">DSA Content</label>
-                        <div id="dsaContent" style="height: auto; overflow-y: auto;" class="form-control">No DSA content available.</div>
+                        <label for="viewMemo_memo">DSA Content</label>
+                        <div id="dsaContent" disabled="disabled" style="height: auto; overflow-y: auto;" class="form-control"></div>
                     </div>
 
                     <div class="form-group">
-                        <div class="bg-danger text-light text-center" style="padding-top:10px; height:40px;"><h6>Assigment of DSA to responsibles </h6></div>
+                        <center style="padding-top:10px; height:40px;" class="bg-danger text-light"><h6>Assigment of DSA to responsibles </h6></center>
                         <div class="w-100">
                             <table id="dsaResponsibles" class="table table-hover table-bordered table-hover mt-3 table-striped">
                                 <thead style="background-color: #19875478 !important; ">

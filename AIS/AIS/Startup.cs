@@ -27,8 +27,6 @@ namespace AIS
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(180); // You can set Time
-                options.Cookie.HttpOnly = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
             services.AddScoped<SessionHandler>();
             services.AddScoped<DBConnection>();
