@@ -255,7 +255,7 @@
                 g_currentStatus = data[0].obS_STATUS_ID;
                 g_annexId = data[0].annexurE_ID;
                 g_referenceUpdated = false;
-                $('#confirmUpdateBtn').removeClass('d-none');
+                $('#confirmUpdateBtn').addClass('d-none');
                 $('#actionButtons').addClass('d-none');
                 updateRiskDisplay();
                 $('#updateMemo_subprocess').empty();
@@ -273,8 +273,19 @@
                 }
                 }
                 initReferenceSection(obs_id, false, '#updateMemoModel #referenceSection');
+                $('#noReferenceChk').prop('checked', false).off('change').on('change', function () {
+                    if ($(this).is(':checked')) {
+                        g_referenceUpdated = true;
+                        $('#confirmUpdateBtn').removeClass('d-none');
+                    } else {
+                        g_referenceUpdated = false;
+                        $('#confirmUpdateBtn').addClass('d-none');
+                    }
+                });
                 $('#updateMemoModel #referenceSection').off('referenceSectionSaved').on('referenceSectionSaved', function () {
                     g_referenceUpdated = true;
+                    $('#noReferenceChk').prop('checked', false);
+                    $('#confirmUpdateBtn').removeClass('d-none');
                 });
                 if (g_currentStatus > 2) {
                     $('#auditeeReplyGroup').removeClass('d-none');
@@ -294,7 +305,7 @@
         g_newStatusId = new_status_id;
         g_riskId = risk_id;
 
-        if (g_annexId === 1) {
+        if (parseInt(g_annexId) === 1) {
             // Close the viewer modal before opening the DSA modal to
             // avoid overlapping backdrops which disabled the page.
             $('#viewMemoModel').modal('hide');
@@ -801,6 +812,10 @@
                     <div id="referenceSection" class="mt-3 p-3 border border-danger mb-3">
                         <h6>References</h6>
                         <ul id="refList" class="list-group mb-3"></ul>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="noReferenceChk">
+                            <label class="form-check-label" for="noReferenceChk">No reference in this observation</label>
+                        </div>
                         <button type="button" class="btn btn-success mb-3" id="saveBtn">Save</button>
                         <div id="searchSection">
                             <select id="refType" class="form-select mb-2">
