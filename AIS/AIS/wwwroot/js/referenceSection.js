@@ -136,6 +136,7 @@ function initReferenceSection(comId, readOnly, containerSelector) {
             data: JSON.stringify(payload),
             success: function (msg) {
                 alert(msg);
+                container.trigger('referenceSectionSaved');
                 // refresh current model instead of entire view
                 initReferenceSection(comId, readOnly, containerSelector);
             }
