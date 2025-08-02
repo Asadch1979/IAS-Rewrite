@@ -351,8 +351,7 @@
         g_riskId = risk_id;
         if(g_annexId==1)
         {
-            const dsaModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('DSAModel'));
-            dsaModal.show();
+            $('#DSAModel').modal('show');
             $.each(g_obsList, function(i,v){
                 if(v.obS_ID==obs_id){
                     $('#dsaHeading').val(v.heading);
@@ -411,7 +410,7 @@
                 success: function (data) {
                     alert(data.Message);
                    onAlertCallback(finalSubmissionParasToAuditee);
-                    bootstrap.Modal.getOrCreateInstance(document.getElementById('DSAModel')).hide();
+                    $('#DSAModel').modal('hide');
                     $('#viewMemoModel').modal('hide');
                     $('#submitAuditeeButton_memoReply').removeAttr('disabled');
                 },
@@ -434,7 +433,7 @@
                 success: function (data) {
                     alert(data.Message);
                     onAlertCallback(reloadLocation);
-                    bootstrap.Modal.getOrCreateInstance(document.getElementById('DSAModel')).hide();
+                    $('#DSAModel').modal('hide');
                     $('#viewMemoModel').modal('hide');
                     $('#submitAuditeeButton_memoReply').removeAttr('disabled');
                 },
