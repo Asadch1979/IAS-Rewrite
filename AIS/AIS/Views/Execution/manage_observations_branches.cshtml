@@ -27,6 +27,14 @@
     var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
     var respSectionUpdate = null;
     var g_dsa = "";
+    var g_tablePage = 0;
+    var g_scrollPos = 0;
+    function preserveTablePosition() {
+        g_scrollPos = $('html').scrollTop();
+        if ($.fn.DataTable.isDataTable('#manageObsPanel')) {
+            g_tablePage = $('#manageObsPanel').DataTable().page();
+        }
+    }
     $(document).ready(function () {
         $('#entitySelectField').select2();
         var entName = $('#manageObsPanel tbody .entity_name_field:first').text();
@@ -74,11 +82,14 @@
                     });
 
                     initializeDataTable('manageObsPanel');
-
+                    var tbl = $('#manageObsPanel').DataTable();
+                    tbl.page(g_tablePage).draw('page');
                     setTimeout(function () {
-                        if (g_obsId != 0) {
+                        if ($('#manageObsPanel tbody tr#' + g_obsId).length > 0) {
                             var rowpos = $('#manageObsPanel tbody tr#' + g_obsId).position();
                             $('html').scrollTop(rowpos.top);
+                        } else {
+                            $('html').scrollTop(g_scrollPos);
                         }
                     }, 200)
                 },
@@ -216,6 +227,7 @@
         }
     }
     function finalCommentsButtonSave() {
+        preserveTablePosition();
         if (g_newStatusId == 5 && $('#draftNoInCommentsBox').val() == "") {
             alert("Please enter Draft Para No to proceed");
             return;
@@ -250,6 +262,7 @@
         });
     }
     function updateObservationStatus(obs_id, new_status_id, risk_id) {
+        preserveTablePosition();
         g_obsId = obs_id;
         g_newStatusId = new_status_id;
         g_riskId = risk_id;
@@ -266,6 +279,7 @@
         }).modal('hide');
     }
     function dropObservation(obs_id, new_status_id, risk_id) {
+        preserveTablePosition();
         g_obsId = obs_id;
         g_newStatusId = new_status_id;
         g_riskId = risk_id;
@@ -286,6 +300,7 @@
         });
     }
     function submitObservationToAuditee(obs_id, new_status_id, risk_id) {
+        preserveTablePosition();
         g_obsId = obs_id;
         g_newStatusId = new_status_id;
         g_riskId = risk_id;
@@ -365,7 +380,7 @@
 
     }
     function finalSubmissionParasToAuditee(){
-
+         preserveTablePosition();
          $('#submitAuditeeButton_update').attr('disabled', 'disabled');
             $.ajax({
                 url: g_asiBaseURL + "/ApiCalls/submit_observation_to_auditee",
@@ -387,6 +402,7 @@
             });
     }
     function finalUpdateMemoContent(obs_id) {
+        preserveTablePosition();
         g_obsId = obs_id;
         updateRiskDisplay();
         $.ajax({
