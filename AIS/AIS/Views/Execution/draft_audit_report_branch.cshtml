@@ -44,9 +44,10 @@
             tableSelector: '#viewMemo_respPP_ObSent',
             changesTableSelector: '#c_viewMemo_respPP_ObSent',
             modalSelector: '#ResponsiblePPModel',
-            status: 1,
+            status: 4,
             directSaveMode: false,
             afterSave: function () {
+                respSection.reload();
                 viewObservationDetails(g_obsId, g_statusId);
             }
         });
@@ -201,9 +202,6 @@
     function viewObservationDetails(obsId,status_id){
         g_obsId=obsId;
         g_statusId = status_id;
-        g_procId = 0;
-        g_subProcId = 0;
-        g_procDetailId = 0;
         $('#viewMemoDetailsModel').modal('show');
 
 
@@ -257,9 +255,9 @@
          $('#viewMemo_process_ObSent').val(data.procesS_ID);
          $('#viewMemo_amount_ObSent').val(data.amounT_INVOLVED);
          $('#viewMemo_inst_ObSent').val(data.nO_OF_INSTANCES);
-         g_procId = data.procesS_ID;
-         g_subProcId = data.subchecklisT_ID;
-         g_procDetailId = data.checklistdetaiL_ID || 0;
+         g_procId=data.procesS_ID;
+         g_subProcId=data.subchecklisT_ID;
+         g_procDetailId=data.checklistdetaiL_ID;
          getSubCheckListOfProcess();
         respSection.updateContext({
             newParaId: data.neW_PARA_ID,
@@ -317,7 +315,7 @@
                     $('#viewMemo_checklist_ObSent').append('<option value="' + v.s_ID + '">' + v.heading + '</option>');
                 });
                 if(g_procDetailId !=0)
-                    $('#viewMemo_checklist_ObSent').val(g_procDetailId).trigger('change');
+                    $('#viewMemo_checklist_ObSent').val(g_procDetailId);
 
                 },
                 dataType: "json",

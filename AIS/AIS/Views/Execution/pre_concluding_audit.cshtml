@@ -27,9 +27,10 @@
             tableSelector: '#viewMemo_respPP_ObSent',
             changesTableSelector: '#c_viewMemo_respPP_ObSent',
             modalSelector: '#ResponsiblePPModel',
-            status: 1,
+            status: 7,
             directSaveMode: false,
             afterSave: function () {
+                respSection.reload();
                 viewObservationDetails(g_obsId, $('#checklistDetailsPanel tbody tr#obs_' + g_obsId + ' .preconcludingStatusField').text());
             }
         });
@@ -91,9 +92,6 @@
 
       function viewObservationDetails(obsId, status){
           g_obsId=obsId;
-          g_procId = 0;
-          g_subProcId = 0;
-          g_procDetailId = 0;
           $('#viewMemoDetailsModel').modal('show');
 
           if(status=="Pending"){
@@ -139,16 +137,16 @@
            g_selectedRiskId = data.riskmodeL_ID;
            updateRiskDisplay();
            $('#viewMemo_process_ObSent').val(data.procesS_ID);
-           $('#viewMemo_paraNo_ObSent').val(data.finaL_PARA_NO || data.drafT_PARA_NO || data.parA_NO);
+           $('#viewMemo_paraNo_ObSent').val(data.finaL_PARA_NO);
            $('#viewMemo_amount_ObSent').val(data.amounT_INVOLVED);
            $('#viewMemo_inst_ObSent').val(data.nO_OF_INSTANCES);
 
            $('#gistPara_response_ObSent').val(data.qA_GIST);
            $('#audRecommend_response_ObSent').val(data.qA_RECOM);
 
-           g_procId = data.procesS_ID;
-           g_subProcId = data.subchecklisT_ID;
-           g_procDetailId = data.checklistdetaiL_ID || 0;
+           g_procId=data.procesS_ID;
+           g_subProcId=data.subchecklisT_ID;
+           g_procDetailId=data.checklistdetaiL_ID;
            getSubCheckListOfProcess();
         respSection.updateContext({
             newParaId: data.neW_PARA_ID,
@@ -206,7 +204,7 @@
                       $('#viewMemo_checklist_ObSent').append('<option value="' + v.s_ID + '">' + v.heading + '</option>');
                   });
                   if(g_procDetailId !=0)
-                      $('#viewMemo_checklist_ObSent').val(g_procDetailId).trigger('change');
+                      $('#viewMemo_checklist_ObSent').val(g_procDetailId);
 
                   },
                   dataType: "json",
