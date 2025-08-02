@@ -4,6 +4,7 @@
 }
 <script type="text/javascript">
     var g_observationId = 0;
+    var g_obsId = 0;
     var g_engId = 0;
     var g_respUsersArr = [];
     var g_procId = 0;
@@ -24,9 +25,14 @@
         $('#viewMemo_annex_ObSent').on('change', updateRiskDisplay);
         respSection = initResponsibilitySection({
             tableSelector: '#viewMemo_respPP_ObSent',
+            changesTableSelector: '#c_viewMemo_respPP_ObSent',
             modalSelector: '#ResponsiblePPModel',
             status: 7,
-            directSaveMode: false
+            directSaveMode: false,
+            afterSave: function () {
+                respSection.reload();
+                viewObservationDetails(g_obsId, $('#checklistDetailsPanel tbody tr#obs_' + g_obsId + ' .preconcludingStatusField').text());
+            }
         });
 
 
@@ -147,7 +153,7 @@
             oldParaId: data.olD_PARA_ID,
             indicator: data.indicator,
             comId: data.coM_ID,
-            readOnly: true
+            readOnly: false
         });
                  initReferenceSection(g_obsId, false, '#viewMemoDetailsModel #referenceSection');
                  },
@@ -353,6 +359,9 @@
     }
     function openResponsiblePPs() {
         $('#ResponsiblePPModel').modal('show');
+    }
+    function addResponsibilityToMainTable(action) {
+        respSection.saveResp(action);
     }
       function updateObservationDetails(obsId){
 
@@ -711,9 +720,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="addResponsibleButton" type="button" class="btn btn-danger">Add Responsibility</button>
-                <button id="updateResponsibleButton" type="button" class="btn btn-success d-none">Update Responsibility</button>
-                <button id="deleteResponsibleButton" type="button" class="btn btn-danger d-none">Delete Responsibility</button>
+                <button id="addResponsibleButton" onclick="addResponsibilityToMainTable('A');" type="button" class="btn btn-danger">Add Responsibility</button>
+                <button id="updateResponsibleButton" onclick="addResponsibilityToMainTable('U');" type="button" class="btn btn-success d-none">Update Responsibility</button>
+                <button id="deleteResponsibleButton" onclick="addResponsibilityToMainTable('D');" type="button" class="btn btn-danger d-none">Delete Responsibility</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
