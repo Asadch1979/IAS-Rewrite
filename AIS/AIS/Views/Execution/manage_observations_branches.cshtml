@@ -253,15 +253,17 @@
         g_obsId = obs_id;
         g_newStatusId = new_status_id;
         g_riskId = risk_id;
-        $('#commentsBox').modal('show');
-        $('#commentAreaInCommentsBox').val('');
-        if (g_newStatusId == 4) {
-            $('#draftNoInCommentsBox').val(0);
-            $('#draftNoInCommentsBox').attr("disabled", true);
-        } else {
-            $('#draftNoInCommentsBox').val('');
-            $('#draftNoInCommentsBox').attr("disabled", false);
-        }
+        $('#updateMemoModel').one('hidden.bs.modal', function () {
+            $('#commentsBox').modal('show');
+            $('#commentAreaInCommentsBox').val('');
+            if (g_newStatusId == 4) {
+                $('#draftNoInCommentsBox').val(0);
+                $('#draftNoInCommentsBox').attr("disabled", true);
+            } else {
+                $('#draftNoInCommentsBox').val('');
+                $('#draftNoInCommentsBox').attr("disabled", false);
+            }
+        }).modal('hide');
     }
     function dropObservation(obs_id, new_status_id, risk_id) {
         g_obsId = obs_id;
@@ -283,12 +285,12 @@
             dataType: "json",
         });
     }
-    function submitObservationToAuditee(obs_id, new_status_id, risk_id, dsa) {
+    function submitObservationToAuditee(obs_id, new_status_id, risk_id) {
         g_obsId = obs_id;
         g_newStatusId = new_status_id;
         g_riskId = risk_id;
-        g_dSA = v.dsa;
-        if (v.dsa = "Y" {
+
+        if (g_dSA === "Y" || g_annexId == 1) {
             // Close the viewer modal and, once completely hidden,
             // open the DSA modal to avoid multiple backdrops and
             // ensure the DSA modal has focus.
