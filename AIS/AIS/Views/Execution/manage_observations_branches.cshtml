@@ -351,10 +351,12 @@
         g_riskId = risk_id;
 
         if (g_annexId === 1) {
-            // Close the viewer modal before opening the DSA modal to
-            // avoid overlapping backdrops which disabled the page.
-            $('#viewMemoModel').modal('hide');
-            $('#DSAModel').modal('show');
+            // Close the viewer modal and, once completely hidden,
+            // open the DSA modal to avoid multiple backdrops and
+            // ensure the DSA modal has focus.
+            $('#viewMemoModel').one('hidden.bs.modal', function () {
+                $('#DSAModel').modal('show');
+            }).modal('hide');
 
             $.each(g_obsList, function (i, v) {
                 if (v.obS_ID == obs_id) {
@@ -902,7 +904,8 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
-    
+    </div>
+</div>
 
 <div id="ResponsiblePPModel" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" style="min-width:95% !important" role="document">
