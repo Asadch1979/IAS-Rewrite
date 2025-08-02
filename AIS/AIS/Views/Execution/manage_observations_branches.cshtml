@@ -349,37 +349,41 @@
         g_obsId = obs_id;
         g_newStatusId = new_status_id;
         g_riskId = risk_id;
-        if(g_annexId==1)
-        {
-            $('#DSAModel').modal('show');
-            $.each(g_obsList, function(i,v){
-                if(v.obS_ID==obs_id){
-                    $('#dsaHeading').val(v.heading);
-                       $.ajax({
-                url: g_asiBaseURL + "/ApiCalls/get_observation_text_branches",
-                type: "POST",
-                data: {
-                    'OBS_ID': obs_id
-                },
-                cache: false,
-                success: function (data) {
-                    $('#dsaContent').html(data[0].obS_TEXT);
-                    $('#dsaResponsibles tbody').empty();
-                    if (data[0].responsiblE_PPs.length > 0) {
-                        $.each(data[0].responsiblE_PPs, function (j, pp) {
-                            var srNo = $('#dsaResponsibles tbody tr').length;
-                            srNo++;
-                            $('#dsaResponsibles tbody').append('<tr id="tr_' + pp.pP_NO + '"><td>' + srNo + '</td><td>' + pp.pP_NO + '</td><td>' + pp.emP_NAME + '</td><td>' + pp.loaN_CASE + '</td><td>' + pp.lC_AMOUNT + '</td><td>' + pp.accounT_NUMBER + '</td><td>' + pp.acC_AMOUNT + '</td><td><input class="chk_dsaissued" resp_row_id="'+pp.resP_ROW_ID+'" id="'+pp.pP_NO+'" type="checkbox"  /></td></tr>');
-                        });
-                    }
 
-                },
-                dataType: "json",
-            });
+        if (g_annexId === 1) {
+            // Close the viewer modal before opening the DSA modal to
+            // avoid overlapping backdrops which disabled the page.
+            $('#viewMemoModel').modal('hide');
+            $('#DSAModel').modal('show');
+
+            $.each(g_obsList, function (i, v) {
+                if (v.obS_ID == obs_id) {
+                    $('#dsaHeading').val(v.heading);
+
+                    $.ajax({
+                        url: g_asiBaseURL + "/ApiCalls/get_observation_text_branches",
+                        type: "POST",
+                        data: {
+                            'OBS_ID': obs_id
+                        },
+                        cache: false,
+                        success: function (data) {
+                            $('#dsaContent').html(data[0].obS_TEXT);
+                            $('#dsaResponsibles tbody').empty();
+
+                            if (data[0].responsiblE_PPs && data[0].responsiblE_PPs.length > 0) {
+                                $.each(data[0].responsiblE_PPs, function (j, pp) {
+                                    var srNo = $('#dsaResponsibles tbody tr').length + 1;
+                                    $('#dsaResponsibles tbody').append('<tr id="tr_' + pp.pP_NO + '"><td>' + srNo + '</td><td>' + pp.pP_NO + '</td><td>' + pp.emP_NAME + '</td><td>' + pp.loaN_CASE + '</td><td>' + pp.lC_AMOUNT + '</td><td>' + pp.accounT_NUMBER + '</td><td>' + pp.acC_AMOUNT + '</td><td><input class="chk_dsaissued" resp_row_id="' + pp.resP_ROW_ID + '" id="' + pp.pP_NO + '" type="checkbox" /></td></tr>');
+                                });
+                            }
+                        },
+                        dataType: "json",
+                    });
                 }
-            })
-        }else{
-           finalSubmissionParasToAuditee();
+            });
+        } else {
+            finalSubmissionParasToAuditee();
         }
     }
     function submitObservationToAuditeeAfterDSAIssuance(){
