@@ -194,24 +194,6 @@
                 $('#viewMemo_subprocess').html(data[0].suB_PROCESS);
                 $('#viewMemo_violation').html(data[0].checklist_Details);
                 
-                if (g_currentStatus == 1) {
-                    $('#dropButton_memoReply').removeClass('d-none');
-                    $('#submitAuditeeButton_memoReply').removeClass('d-none');
-                }
-                else if (g_currentStatus == 3) {
-                    if (g_riskId == 3) {
-                        $('#dropButton_memoReply').addClass('d-none');
-                        $('#submitAuditeeButton_memoReply').addClass('d-none');
-                    }
-                    else {
-                        $('#dropButton_memoReply').addClass('d-none');
-                        $('#submitAuditeeButton_memoReply').addClass('d-none');
-                    }
-                }
-                else {
-                    $('#dropButton_memoReply').addClass('d-none');
-                    $('#submitAuditeeButton_memoReply').addClass('d-none');
-                }
                 $('#complianceCycleEvidences').empty();
                 if(data[0].attacheD_EVIDENCES != null){
                 if (data[0].attacheD_EVIDENCES.length > 0) {
@@ -307,60 +289,6 @@
         });
 
     }
-    function finalCommentsButtonSave() {
-        if ($('#commentAreaInCommentsBox').val() == "") {
-            alert("Auditor Comments are Mandatory");
-            return;
-        }
-        $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/update_observation_status",
-            type: "POST",
-            data: {
-                'OBS_ID': g_obsId,
-                'NEW_STATUS_ID': g_newStatusId,
-                'RISK_ID': g_riskId,
-                'AUDITOR_COMMENT': $('#commentAreaInCommentsBox').val()
-            },
-            cache: false,
-            success: function (data) {
-                if (data.Status == true) {
-                    alert(data.Message);
-                    onAlertCallback(reloadLocation);
-                } else {
-                    alert("Failed!! please try again");
-                    onAlertCallback(reloadLocation);
-                }
-            },
-            dataType: "json",
-        });
-    }
-    function updateObservationStatus(obs_id, new_status_id, risk_id) {
-        g_obsId = obs_id;
-        g_newStatusId = new_status_id;
-        g_riskId = risk_id;
-        $('#commentsBox').modal('show');
-        $('#commentAreaInCommentsBox').val('');
-    }
-    function dropObservation(obs_id, new_status_id, risk_id) {
-        g_obsId = obs_id;
-        g_newStatusId = new_status_id;
-        g_riskId = risk_id;
-        $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/drop_observation",
-            type: "POST",
-            data: {
-                'OBS_ID': g_obsId,
-                'NEW_STATUS_ID': g_newStatusId,
-                'RISK_ID': g_riskId
-            },
-            cache: false,
-            success: function (data) {
-                alert(data.Message);
-                onAlertCallback(reloadLocation);
-            },
-            dataType: "json",
-        });
-    }
     function submitObservationToAuditee(obs_id, new_status_id, risk_id) {
         g_obsId = obs_id;
         g_newStatusId = new_status_id;
@@ -432,7 +360,6 @@
                    onAlertCallback(finalSubmissionParasToAuditee);
                     $('#DSAModel').modal('hide');
                     $('#viewMemoModel').modal('hide');
-                    $('#submitAuditeeButton_memoReply').removeAttr('disabled');
                 },
                 dataType: "json",
             });
@@ -440,25 +367,23 @@
     }
     function finalSubmissionParasToAuditee(){
 
-         $('#submitAuditeeButton_memoReply').attr('disabled', 'disabled');
-            $.ajax({
-                url: g_asiBaseURL + "/ApiCalls/submit_observation_to_auditee",
-                type: "POST",
-                data: {
-                    'OBS_ID': g_obsId,
-                    'NEW_STATUS_ID': g_newStatusId,
-                    'RISK_ID': g_riskId
-                },
-                cache: false,
-                success: function (data) {
-                    alert(data.Message);
-                    onAlertCallback(reloadLocation);
-                    $('#DSAModel').modal('hide');
-                    $('#viewMemoModel').modal('hide');
-                    $('#submitAuditeeButton_memoReply').removeAttr('disabled');
-                },
-                dataType: "json",
-            });
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/submit_observation_to_auditee",
+            type: "POST",
+            data: {
+                'OBS_ID': g_obsId,
+                'NEW_STATUS_ID': g_newStatusId,
+                'RISK_ID': g_riskId
+            },
+            cache: false,
+            success: function (data) {
+                alert(data.Message);
+                onAlertCallback(reloadLocation);
+                $('#DSAModel').modal('hide');
+                $('#viewMemoModel').modal('hide');
+            },
+            dataType: "json",
+        });
     }
     function confirmDetailUpdates() {
         if (!g_referenceUpdated) {
@@ -469,47 +394,7 @@
             return;
         }
         $('#confirmUpdateBtn').addClass('d-none');
-        showActionButtons();
-    }
-    function showActionButtons() {
         $('#actionButtons').removeClass('d-none');
-        $('#btnUpdatePara, #btnDropPara, #btnSubmitAuditee, #btnAddDraft, #btnSettled').addClass('d-none');
-        if (g_currentStatus < 8) $('#btnUpdatePara').removeClass('d-none');
-        if (g_currentStatus == 1) {
-            $('#btnDropPara').removeClass('d-none');
-            $('#btnSubmitAuditee').removeClass('d-none');
-        }
-        if (g_currentStatus == 4) {
-            $('#btnAddDraft').removeClass('d-none');
-            $('#btnSettled').removeClass('d-none');
-        }
-    }
-    function updateParaStatus(statusId) {
-        if (!g_referenceUpdated) {
-            alert("Please update and save the Reference section first.");
-            return;
-        }
-        $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/update_observation_status",
-            type: "POST",
-            data: {
-                'OBS_ID': g_obsId,
-                'NEW_STATUS_ID': statusId,
-                'RISK_ID': g_selectedRiskId
-            },
-            cache: false,
-            success: function (data) {
-                alert(data.Message);
-                onAlertCallback(reloadLocation);
-            },
-            dataType: "json",
-        });
-    }
-    function addToDraft() {
-        updateParaStatus(5);
-    }
-    function settleObservation() {
-        updateParaStatus(8);
     }
     function finalUpdateMemoContent(obs_id) {
         if (!g_referenceUpdated) {
@@ -533,8 +418,14 @@
             },
             cache: false,
             success: function (data) {
-                alert(data.Message);
-                onAlertCallback(reloadLocation);
+                var selectedAnnex = $('#updateMemo_annex').val();
+                g_annexId = selectedAnnex;
+                if (g_currentStatus == 1) {
+                    submitObservationToAuditee(g_obsId, 2, g_selectedRiskId);
+                } else {
+                    alert(data.Message);
+                    onAlertCallback(reloadLocation);
+                }
             },
             dataType: "json",
         });
@@ -673,29 +564,6 @@
     </div>
 
 </div>
-<div id="commentsBox" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title">Auditor Comments</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="commentAreaInCommentsBox">Comments</label>
-                        <textarea class="form-control" rows="4" id="commentAreaInCommentsBox" placeholder="Enter Comments here.."></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button onclick="finalCommentsButtonSave();" id="finalCommentsButtonSave" type="button" class="btn btn-danger">Submit</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div id="viewMemoModel" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -826,8 +694,6 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="dropButton_memoReply" onclick="dropObservation(g_obsId,7,g_riskId);" type="button" data-bs-dismiss="modal" class="btn btn-danger d-none">Drop Observation</button>
-                <button id="submitAuditeeButton_memoReply" onclick="submitObservationToAuditee(g_obsId, 2, g_riskId);" type="button" data-bs-dismiss="modal" class="btn btn-danger d-none">Submit to Auditee</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
@@ -974,10 +840,6 @@
                 <button type="button" class="btn btn-warning" id="confirmUpdateBtn" onclick="confirmDetailUpdates();">Confirm Updates</button>
                 <div id="actionButtons" class="d-none">
                     <button id="btnUpdatePara" type="button" class="btn btn-danger" onclick="finalUpdateMemoContent(g_obsId);">Update Audit Para</button>
-                    <button id="btnDropPara" type="button" class="btn btn-danger" onclick="dropObservation(g_obsId,7,g_selectedRiskId);">Drop Audit Para</button>
-                    <button id="btnSubmitAuditee" type="button" class="btn btn-danger" onclick="submitObservationToAuditee(g_obsId,2,g_selectedRiskId);">Submit to Auditee</button>
-                    <button id="btnAddDraft" type="button" class="btn btn-danger" onclick="addToDraft();">Add to Draft</button>
-                    <button id="btnSettled" type="button" class="btn btn-danger" onclick="settleObservation();">Settled</button>
                 </div>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
