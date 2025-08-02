@@ -243,11 +243,13 @@ function initResponsibilitySection(config) {
             success: function (data) {
                 var msg = data.Message || data.message || 'Operation completed';
                 alert(msg);
-                modal.modal('hide');
-                load();
-                if (typeof opts.afterSave === 'function') {
-                    opts.afterSave();
-                }
+                onAlertCallback(function () {
+                    modal.modal('hide');
+                    load();
+                    if (typeof opts.afterSave === 'function') {
+                        opts.afterSave();
+                    }
+                });
                 $('#matchedPPNoPanels').empty();
                 $('#matchedPPNoPanelsBYPP').empty();
                 $('#responsiblePPNoEntryField').val('');

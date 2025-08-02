@@ -32,7 +32,10 @@
             modalSelector: '#ResponsiblePPModel',
             status: 2,
             directSaveMode: false,
-            afterSave: function () { respSection.reload(); }
+            afterSave: function () {
+                respSection.reload();
+                ViewObservation(g_obsId);
+            }
         });
 
 
