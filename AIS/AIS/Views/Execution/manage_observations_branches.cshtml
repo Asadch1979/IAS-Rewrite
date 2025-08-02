@@ -53,7 +53,10 @@
             modalSelector: '#ResponsiblePPModel',
             status: 1,
             directSaveMode: false,
-            afterSave: function () { respSectionView.reload(); }
+            afterSave: function () {
+                respSectionView.reload();
+                ObservationUpdatePanel(g_obsId);
+            }
         });
     });
     function reloadLocation() {
