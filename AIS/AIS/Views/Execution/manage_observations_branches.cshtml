@@ -27,17 +27,6 @@
     var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
     var respSectionView = null;
     var respSectionUpdate = null;
-    function showDSAModel() {
-        const modalEl = document.getElementById('DSAModel');
-        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-        modal.show();
-    }
-    function hideDSAModel() {
-        const modal = bootstrap.Modal.getInstance(document.getElementById('DSAModel'));
-        if (modal) {
-            modal.hide();
-        }
-    }
     $(document).ready(function () {
         $('#entitySelectField').select2();
         var entName = $('#manageObsPanel tbody .entity_name_field:first').text();
@@ -362,7 +351,7 @@
         g_riskId = risk_id;
         if(g_annexId==1)
         {
-            showDSAModel();
+            $('#DSAModel').modal('show');
             $.each(g_obsList, function(i,v){
                 if(v.obS_ID==obs_id){
                     $('#dsaHeading').val(v.heading);
@@ -421,7 +410,7 @@
                 success: function (data) {
                     alert(data.Message);
                    onAlertCallback(finalSubmissionParasToAuditee);
-                    hideDSAModel();
+                    $('#DSAModel').modal('hide');
                     $('#viewMemoModel').modal('hide');
                     $('#submitAuditeeButton_memoReply').removeAttr('disabled');
                 },
@@ -444,7 +433,7 @@
                 success: function (data) {
                     alert(data.Message);
                     onAlertCallback(reloadLocation);
-                    hideDSAModel();
+                    $('#DSAModel').modal('hide');
                     $('#viewMemoModel').modal('hide');
                     $('#submitAuditeeButton_memoReply').removeAttr('disabled');
                 },
