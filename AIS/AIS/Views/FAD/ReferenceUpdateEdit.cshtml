@@ -29,7 +29,7 @@
     <thead>
         <tr>
             <th>TITLE</th>
-            <th>REFERENCE ID</th>
+            <th>Circular Date</th>
             <th>INSTRUCTIONS DETAILS</th>
             <th>KEYWORDS</th>
             <th>View Circular</th>
@@ -61,11 +61,11 @@
                 $.each(d,function(i,it){
                     body.append('<tr>'+
                         '<td>'+it.title+'</td>'+
-                        '<td>'+it.referenceId+'</td>'+
+                        '<td>'+it.instructionsDate+'</td>'+
                         '<td>'+it.instructionsdetails+'</td>'+
                         '<td>'+it.keywords+'</td>'+
                         '<td><button class="view btn btn-sm btn-secondary" data-url="'+it.referenceurl+'">View</button></td>'+
-                        '<td><button type="button" class="attach btn btn-sm btn-primary" data-id="'+it.referenceId+'">Attach</button></td>'+
+                        '<td><button type="button" class="attach btn btn-sm btn-primary" data-id="'+it.instructionsDate+'">Attach</button></td>'+
                         '</tr>');
                 });
             });
@@ -140,7 +140,7 @@
             $.each(refDetails, function(i,r){
                 var lnk = r.linkId !== undefined && r.linkId !== null ? r.linkId : null;
                 if(lnk === null){
-                    var found = refLinks.find(function(fl){ return fl.referenceId === r.id; });
+                    var found = refLinks.find(function(fl){ return fl.instructionsDate === r.instructionsDate; });
                     if(found) lnk = found.linkId;
                 }
                 payload.references.push({
@@ -149,7 +149,7 @@
                     oldParaId: 0,
                     newParaId: 0,
                     paraId: comId,
-                    referenceId: r.id,
+                    instructionsDate: r.instructionsDate,
                     referenceTitle: r.instructionsTitle,
                     creditManualId: null,
                     opManualId: null,

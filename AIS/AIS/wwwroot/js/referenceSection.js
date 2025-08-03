@@ -46,7 +46,7 @@ function initReferenceSection(comId, readOnly, containerSelector) {
                     '<td>' + it.instructionsdetails + '</td>' +
                     '<td>' + it.keywords + '</td>' +
                     '<td><button type="button" class="view btn btn-sm btn-secondary" data-url="' + it.referenceurl + '">View</button></td>' +
-                    (readOnly ? '' : '<td><button type="button" class="attach btn btn-sm btn-primary" data-id="' + it.referenceId + '">Attach</button></td>') +
+                    (readOnly ? '' : '<td><button type="button" class="attach btn btn-sm btn-primary" data-id="' + it.instructionsDate + '">Attach</button></td>') +
                     '</tr>');
             });
         });
@@ -109,7 +109,7 @@ function initReferenceSection(comId, readOnly, containerSelector) {
         $.each(refDetails, function (i, r) {
             var lnk = r.linkId !== undefined && r.linkId !== null ? r.linkId : null;
             if (lnk === null) {
-                var found = refLinks.find(function (fl) { return fl.referenceId === r.id; });
+                var found = refLinks.find(function (fl) { return fl.instructionsDate === r.instructionsDate; });
                 if (found) lnk = found.linkId;
             }
             payload.references.push({
@@ -118,7 +118,7 @@ function initReferenceSection(comId, readOnly, containerSelector) {
                 oldParaId: 0,
                 newParaId: 0,
                 paraId: comId,
-                referenceId: r.id,
+                instructionsDate: r.instructionsDate,
                 referenceTitle: r.instructionsTitle,
                 creditManualId: null,
                 opManualId: null,
