@@ -29,6 +29,13 @@ function initReferenceSection(comId, readOnly, containerSelector) {
     resultTbl.find('tbody').empty();
     refList.empty();
 
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        var parts = dateStr.split('T')[0].split('-');
+        if (parts.length !== 3) return '';
+        return parts[2] + '/' + parts[1] + '/' + parts[0];
+    }
+
     $.get(g_asiBaseURL + '/ApiCalls/GetParaReferenceData', { comId: comId }, function (d) {
         refs = d.references || [];
         refDetails = d.referenceDetails || [];
@@ -40,7 +47,7 @@ function initReferenceSection(comId, readOnly, containerSelector) {
         $.post(g_asiBaseURL + '/ApiCalls/SearchReferences', { referenceType: refType.val(), keyword: keywordInput.val() }, function (d) {
             var body = resultTbl.find('tbody'); body.empty();
             $.each(d, function (i, it) {
-                var dateTxt = it.instructionsdate ? it.instructionsdate.split('T')[0] : '';
+                var dateTxt = formatDate(it.instructionsdate);
                 body.append('<tr>' +
                     '<td>' + it.title + '</td>' +
                     '<td>' + dateTxt + '</td>' +
@@ -164,7 +171,7 @@ function initReferenceSection(comId, readOnly, containerSelector) {
     function renderRefs() {
         var ul = refList; ul.empty();
         $.each(refDetails, function (i, r) {
-            var dateTxt = r.instructionsDate ? r.instructionsDate.split('T')[0] : '';
+            var dateTxt = formatDate(r.instructionsDate);
             ul.append('<li class="list-group-item">'
                 + '<div><strong>Reference No ' + (i + 1) + '</strong></div>'
                 + '<div>' + r.instructionsTitle + '</div>'
