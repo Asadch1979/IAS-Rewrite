@@ -13195,7 +13195,7 @@ namespace AIS.Controllers
             con.Dispose();
             return resp;
             }
-        public string UpdateAuditParaForFinalization(int OBS_ID, string ANNEX_ID, string PROCESS_ID, int SUB_PROCESS_ID, int PROCESS_DETAIL_ID, int RISK_ID, string GIST_OF_PARA, string TEXT_PARA, string AMOUNT_INV, string NO_INST)
+        public string UpdateAuditParaForFinalization(int OBS_ID, string ANNEX_ID, string PROCESS_ID, int SUB_PROCESS_ID, int PROCESS_DETAIL_ID, int RISK_ID, int FINAL_PARA_NO, string GIST_OF_PARA, string TEXT_PARA, string AMOUNT_INV, string NO_INST)
             {
             string resp = "";
             sessionHandler = new SessionHandler();
@@ -13215,6 +13215,7 @@ namespace AIS.Controllers
                 cmd.Parameters.Add("SUB_PROCID", OracleDbType.Int32).Value = SUB_PROCESS_ID;
                 cmd.Parameters.Add("PROC_DETID", OracleDbType.Int32).Value = PROCESS_DETAIL_ID;
                 cmd.Parameters.Add("RISKID", OracleDbType.Int32).Value = RISK_ID;
+                cmd.Parameters.Add("FINAL_PARA_NO", OracleDbType.Int32).Value = FINAL_PARA_NO;
                 cmd.Parameters.Add("PARA_GIST", OracleDbType.Varchar2).Value = GIST_OF_PARA;
                 cmd.Parameters.Add("TEXT_OF_PARA", OracleDbType.Clob).Value = TEXT_PARA;
                 cmd.Parameters.Add("AMOUNT_INV", OracleDbType.Int32).Value = AMOUNT_INV;
@@ -21048,6 +21049,7 @@ namespace AIS.Controllers
                     resp.CHECKLISTDETAIL_ID = Convert.ToInt32(rdr["d_id"].ToString());
                     resp.RISKMODEL_ID = Convert.ToInt32(rdr["severity"].ToString());
                     resp.HEADING = rdr["headings"].ToString();
+                    resp.FINAL_PARA_NO = Convert.ToInt32(rdr["Final_PARA_NO"].ToString());
                     resp.OBSERVATION_TEXT = rdr["text"].ToString();
                     resp.AUDITEE_REPLY = rdr["reply"].ToString();
                     resp.AUDITOR_RECOM = rdr["recommendation"].ToString();
