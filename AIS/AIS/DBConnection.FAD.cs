@@ -356,9 +356,7 @@ namespace AIS.Controllers
                             {
                             ComId = rdr["COM_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["COM_ID"]),
                             EntId = rdr["ENT_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["ENT_ID"]),
-                            ParaTitle = rdr["PARA_TITLE"].ToString(),
-                            ReferenceId = rdr["REFERENCE_ID"] == DBNull.Value ? null : (int?)Convert.ToInt32(rdr["REFERENCE_ID"]),
-                            ReferenceType = rdr["REFERENCE_TYPE"].ToString(),
+                            ParaTitle = rdr["PARA_TITLE"].ToString(),                            ReferenceType = rdr["REFERENCE_TYPE"].ToString(),
                             AssignedAuditorId = rdr["ASSIGNED_AUDITOR"] == DBNull.Value ? null : (int?)Convert.ToInt32(rdr["ASSIGNED_AUDITOR"]),
                             Status = rdr["STATUS"].ToString()
                             });
@@ -449,9 +447,8 @@ namespace AIS.Controllers
                         {
                         list.Add(new ReferenceSearchResultModel
                             {
-                            ReferenceId = rdr["REFERENCE_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["REFERENCE_ID"]),
                             Title = rdr["TITLE"] == DBNull.Value ? "" : rdr["TITLE"].ToString(),
-                            INSTRUCTIONSDATE = rdr["INSTRUCTIONSDATE"].ToString(),
+                            INSTRUCTIONSDATE = rdr["INSTRUCTIONSDATE"] == DBNull.Value ? "" : rdr["INSTRUCTIONSDATE"].ToString(),
                             ReferenceType = rdr["REFERENCE_TYPE"] == DBNull.Value ? "" : rdr["REFERENCE_TYPE"].ToString(),
                             INSTRUCTIONSDETAILS = rdr["INSTRUCTIONSDETAILS"] == DBNull.Value ? "" : rdr["INSTRUCTIONSDETAILS"].ToString(),
                             KEYWORDS = rdr["KEYWORDS"] == DBNull.Value ? "" : rdr["KEYWORDS"].ToString(),
