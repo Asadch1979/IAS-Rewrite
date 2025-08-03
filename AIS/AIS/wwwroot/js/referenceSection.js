@@ -40,9 +40,10 @@ function initReferenceSection(comId, readOnly, containerSelector) {
         $.post(g_asiBaseURL + '/ApiCalls/SearchReferences', { referenceType: refType.val(), keyword: keywordInput.val() }, function (d) {
             var body = resultTbl.find('tbody'); body.empty();
             $.each(d, function (i, it) {
+                var dateTxt = it.instructionsDate ? it.instructionsDate.split('T')[0] : '';
                 body.append('<tr>' +
                     '<td>' + it.title + '</td>' +
-                    '<td>' + it.instructionsDate + '</td>' +
+                    '<td>' + dateTxt + '</td>' +
                     '<td>' + it.instructionsdetails + '</td>' +
                     '<td>' + it.keywords + '</td>' +
                     '<td><button type="button" class="view btn btn-sm btn-secondary" data-url="' + it.referenceurl + '">View</button></td>' +
