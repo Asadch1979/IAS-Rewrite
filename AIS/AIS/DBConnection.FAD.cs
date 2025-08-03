@@ -448,7 +448,7 @@ namespace AIS.Controllers
                         list.Add(new ReferenceSearchResultModel
                             {
                             Title = rdr["TITLE"] == DBNull.Value ? "" : rdr["TITLE"].ToString(),
-                            INSTRUCTIONSDATE = rdr["INSTRUCTIONSDATE"] == DBNull.Value ? "" : rdr["INSTRUCTIONSDATE"].ToString(),
+                            InstructionsDate = rdr["INSTRUCTIONSDATE"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(rdr["INSTRUCTIONSDATE"]),
                             ReferenceType = rdr["REFERENCE_TYPE"] == DBNull.Value ? "" : rdr["REFERENCE_TYPE"].ToString(),
                             INSTRUCTIONSDETAILS = rdr["INSTRUCTIONSDETAILS"] == DBNull.Value ? "" : rdr["INSTRUCTIONSDETAILS"].ToString(),
                             KEYWORDS = rdr["KEYWORDS"] == DBNull.Value ? "" : rdr["KEYWORDS"].ToString(),
