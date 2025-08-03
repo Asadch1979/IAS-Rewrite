@@ -318,7 +318,7 @@
                     $('#viewMemo_checklist_ObSent').append('<option value="' + v.s_ID + '">' + v.heading + '</option>');
                 });
                 if (g_procDetailId != 0)
-                    $('#viewMemo_checklist_ObSent').val(g_procDetailId).trigger('change');
+                    $('#viewMemo_checklist_ObSent').val(g_procDetailId);
 
                 },
                 dataType: "json",
