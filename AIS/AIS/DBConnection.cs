@@ -13215,7 +13215,7 @@ namespace AIS.Controllers
                 cmd.Parameters.Add("SUB_PROCID", OracleDbType.Int32).Value = SUB_PROCESS_ID;
                 cmd.Parameters.Add("PROC_DETID", OracleDbType.Int32).Value = PROCESS_DETAIL_ID;
                 cmd.Parameters.Add("RISKID", OracleDbType.Int32).Value = RISK_ID;
-                cmd.Parameters.Add("FINAL_PARA_NO", OracleDbType.Int32).Value = FINAL_PARA_NO;
+                cmd.Parameters.Add("FINAL_PARA", OracleDbType.Int32).Value = FINAL_PARA_NO;
                 cmd.Parameters.Add("PARA_GIST", OracleDbType.Varchar2).Value = GIST_OF_PARA;
                 cmd.Parameters.Add("TEXT_OF_PARA", OracleDbType.Clob).Value = TEXT_PARA;
                 cmd.Parameters.Add("AMOUNT_INV", OracleDbType.Int32).Value = AMOUNT_INV;

@@ -451,6 +451,7 @@ namespace AIS.Controllers
                             {
                             ReferenceId = rdr["REFERENCE_ID"] == DBNull.Value ? 0 : Convert.ToInt32(rdr["REFERENCE_ID"]),
                             Title = rdr["TITLE"] == DBNull.Value ? "" : rdr["TITLE"].ToString(),
+                            INSTRUCTIONSDATE = rdr["INSTRUCTIONSDATE"].ToString(),
                             ReferenceType = rdr["REFERENCE_TYPE"] == DBNull.Value ? "" : rdr["REFERENCE_TYPE"].ToString(),
                             INSTRUCTIONSDETAILS = rdr["INSTRUCTIONSDETAILS"] == DBNull.Value ? "" : rdr["INSTRUCTIONSDETAILS"].ToString(),
                             KEYWORDS = rdr["KEYWORDS"] == DBNull.Value ? "" : rdr["KEYWORDS"].ToString(),

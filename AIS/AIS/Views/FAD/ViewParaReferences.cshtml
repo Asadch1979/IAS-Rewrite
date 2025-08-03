@@ -1,18 +1,14 @@
 @model int
 @{
-    ViewData["Title"] = "Para References";
+    ViewData["Title"] = "Circular References";
     Layout = "_Layout";
 }
-<h4>Para References</h4>
+<h4>Circular View References</h4>
 <div id="referenceSection" class="mt-3 p-3 border border-danger" style="margin-bottom:10px;">
-    <h6>References</h6>
-    <ul id="refList" class="list-group mb-3"></ul>
-    <button type="button" class="btn btn-success mb-3" id="saveBtn">Save</button>
+ 
     <div id="searchSection">
         <select id="refType" class="form-select mb-2">
-            <option value="0" selected>Please select reference</option>
-            <option value="Manual">Manual</option>
-            <option value="Policy">Policy</option>
+            <option value="0" selected>Please select Circular</option>
             <option value="Circular">Circular</option>
         </select>
         <div id="searchInputs" style="display:none;">

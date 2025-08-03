@@ -42,7 +42,7 @@ function initReferenceSection(comId, readOnly, containerSelector) {
             $.each(d, function (i, it) {
                 body.append('<tr>' +
                     '<td>' + it.title + '</td>' +
-                    '<td>' + it.referenceId + '</td>' +
+                    '<td>' + it.instructionsDate + '</td>' +
                     '<td>' + it.instructionsdetails + '</td>' +
                     '<td>' + it.keywords + '</td>' +
                     '<td><button type="button" class="view btn btn-sm btn-secondary" data-url="' + it.referenceurl + '">View</button></td>' +
