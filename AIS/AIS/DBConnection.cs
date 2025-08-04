@@ -23685,6 +23685,104 @@ namespace AIS.Controllers
             return list;
             }
 
+        public List<VersionHistoryModel> GetAllVersionHistory()
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+
+            var con = this.DatabaseConnection();
+            con.Open();
+            var loggedInUser = sessionHandler.GetSessionUser();
+
+            List<VersionHistoryModel> list = new List<VersionHistoryModel>();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "PKG_AD.P_GET_VERSION_HISTORY";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("io_cursor", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    VersionHistoryModel ad = new VersionHistoryModel();
+                    ad.VersionId = Convert.ToInt32(rdr["VERSION_ID"]);
+                    ad.VersionNo = rdr["VERSION_NO"]?.ToString();
+                    ad.ReleaseDate = Convert.ToDateTime(rdr["RELEASE_DATE"]);
+                    ad.Description = rdr["DESCRIPTION"]?.ToString();
+                    ad.ReleasedBy = rdr["RELEASED_BY"]?.ToString();
+                    ad.CreatedOn = Convert.ToDateTime(rdr["CREATED_ON"]);
+                    ad.UpdatedOn = rdr["UPDATED_ON"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(rdr["UPDATED_ON"]);
+                    ad.IsActive = rdr["IS_ACTIVE"]?.ToString();
+                    list.Add(ad);
+                    }
+                }
+            con.Dispose();
+            return list;
+            }
+        public string AddVersionHistory(VersionHistoryModel model)
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+
+            var con = this.DatabaseConnection();
+            con.Open();
+            var loggedInUser = sessionHandler.GetSessionUser();
+            string result = "";
+
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "PKG_AD.P_ADD_VERSION_HISTORY";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("i_version_no", OracleDbType.Varchar2).Value = model.VersionNo;
+                cmd.Parameters.Add("i_release_date", OracleDbType.Date).Value = model.ReleaseDate;
+                cmd.Parameters.Add("i_description", OracleDbType.Varchar2).Value = model.Description ?? "";
+                cmd.Parameters.Add("i_released_by", OracleDbType.Varchar2).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("o_result", OracleDbType.Varchar2, 4000).Direction = ParameterDirection.Output;
+
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["o_result"].Value?.ToString();
+                }
+            con.Dispose();
+            return result;
+            }
+        public string UpdateVersionHistory(VersionHistoryModel model)
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session;
+            sessionHandler._configuration = this._configuration;
+
+            var con = this.DatabaseConnection();
+            con.Open();
+            var loggedInUser = sessionHandler.GetSessionUser();
+            string result = "";
+
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "PKG_AD.P_UPDATE_VERSION_HISTORY";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("i_version_id", OracleDbType.Int32).Value = model.VersionId;
+                cmd.Parameters.Add("i_version_no", OracleDbType.Varchar2).Value = model.VersionNo;
+                cmd.Parameters.Add("i_release_date", OracleDbType.Date).Value = model.ReleaseDate;
+                cmd.Parameters.Add("i_description", OracleDbType.Varchar2).Value = model.Description ?? "";
+                cmd.Parameters.Add("i_released_by", OracleDbType.Varchar2).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("i_is_active", OracleDbType.Char).Value = model.IsActive;
+                cmd.Parameters.Add("o_result", OracleDbType.Varchar2, 4000).Direction = ParameterDirection.Output;
+
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["o_result"].Value?.ToString();
+                }
+            con.Dispose();
+            return result;
+            }
+
         public int GetPageIdByPath(string pagePath)
             {
             int pageId = 0;

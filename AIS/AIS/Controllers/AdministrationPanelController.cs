@@ -916,6 +916,32 @@ namespace AIS.Controllers
                 }
             }
 
+        public IActionResult ManageVersionHistory()
+            {
+            ViewData["TopMenu"] = tm.GetTopMenus();
+            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
+
+            if (!sessionHandler.IsUserLoggedIn())
+                {
+                return RedirectToAction("Index", "Login");
+                }
+            else
+                {
+                if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
+                    {
+                    return RedirectToAction("Index", "PageNotFound");
+                    }
+                else
+                    {
+                    // Use DBConnection directly
+                    List<VersionHistoryModel> versionList = dBConnection.GetAllVersionHistory();
+                    return View(versionList);
+                    }
+                }
+            }
+
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
             {

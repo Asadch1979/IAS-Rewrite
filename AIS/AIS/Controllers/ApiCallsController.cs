@@ -3503,6 +3503,25 @@ namespace AIS.Controllers
             return Json(list);
             }
 
+        [HttpGet]
+        public List<VersionHistoryModel> GetAllVersionHistory()
+            {
+            return dBConnection.GetAllVersionHistory();
+            }
+
+        [HttpPost]
+        public string AddVersionHistory([FromBody] VersionHistoryModel model)
+            {
+            return dBConnection.AddVersionHistory(model);
+            }
+
+        [HttpPost]
+        public string UpdateVersionHistory([FromBody] VersionHistoryModel model)
+            {
+            return dBConnection.UpdateVersionHistory(model);
+            }
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
             {
