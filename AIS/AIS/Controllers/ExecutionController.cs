@@ -470,28 +470,7 @@ namespace AIS.Controllers
                     return View();
                 }
             }
-        public IActionResult Manage_obervation_field(int engId = 0)
-            {
-            ViewData["TopMenu"] = tm.GetTopMenus();
-            ViewData["TopMenuPages"] = tm.GetTopMenusPages();
-            ViewData["EntitiesList"] = dBConnection.GetObservationEntitiesForManageObservations();
-            ViewData["ProcessList"] = dBConnection.GetAuditChecklistCAD();
-            ViewData["AnnexList"] = dBConnection.GetAnnexuresForChecklistDetail();
-            ViewData["RiskList"] = dBConnection.GetRisks();
-            if (!sessionHandler.IsUserLoggedIn())
-                {
-                return RedirectToAction("Index", "Login");
-                }
-            else
-                {
-                if (!sessionHandler.HasPermissionToViewPage(MethodBase.GetCurrentMethod().Name))
-                    {
-                    return RedirectToAction("Index", "PageNotFound");
-                    }
-                else
-                    return View();
-                }
-            }
+ 
         public IActionResult manage_draft_report_paras(int engId = 0)
             {
             ViewData["TopMenu"] = tm.GetTopMenus();
