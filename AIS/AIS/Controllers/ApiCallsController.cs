@@ -3299,7 +3299,7 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
-        public PublicHolidayModel add_public_holiday(PublicHolidayModel model)
+        public PublicHolidayModel add_public_holiday([FromBody] PublicHolidayModel model)
             {
             return dBConnection.AddPublicHoliday(model);
             }
