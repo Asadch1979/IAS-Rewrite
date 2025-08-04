@@ -52,9 +52,9 @@
                 var rows = '';
                 data.forEach(function (item) {
                     rows += `<tr>
-                        <td>${item.holidaY_DATE.substring(0,10)}</td>
+                        <td>${item.hOLIDAY_DATE.substring(0,10)}</td>
                         <td>${item.iS_HOLIDAY === "Y" ? "Holiday" : item.iS_WEEKEND === "Y" ? "Weekend" : ""}</td>
-                        <td>${item.holidaY_NAME || ''}</td>
+                        <td>${item.hOLIDAY_NAME || ''}</td>
                     </tr>`;
                 });
                 $('#holidaysTable tbody').html(rows);
@@ -72,7 +72,7 @@
             var name = $('#holidayName').val();
 
             var model = {
-                HOLIDAY_DATE: date,
+                HOLIDAY_DATE: new Date(date),
                 HOLIDAY_YEAR: new Date(date).getFullYear(),
                 IS_WEEKEND: type === 'Weekend' ? 'Y' : 'N',
                 IS_HOLIDAY: type === 'Holiday' ? 'Y' : 'N',
