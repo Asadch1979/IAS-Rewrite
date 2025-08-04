@@ -224,9 +224,11 @@
             addForm.addEventListener('submit', async function (e) {
                 e.preventDefault();
                 var formData = new FormData(addForm);
-                var response = await fetch('/AddVersionHistory', {
+                var url = '@Url.Action("AddVersionHistory", "ApiCalls")';
+                var response = await fetch(url, {
                     method: 'POST',
-                    body: formData
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(Object.fromEntries(formData.entries()))
                 });
                 if (response.ok) {
                     location.reload();
