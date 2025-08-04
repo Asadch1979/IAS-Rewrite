@@ -32,6 +32,10 @@ namespace AIS.Controllers
             string baseURL = _configuration["BaseURL"];
             ViewBag.SecretValue = secretValue;
             ViewBag.BaseURL = baseURL;
+            if (baseURL == "/ZTBLAIS")
+            {
+                return View("index_dev");
+            }
             return View();
             }
 
