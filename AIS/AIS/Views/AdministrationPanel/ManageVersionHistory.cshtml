@@ -14,7 +14,7 @@
                     <i class="fa-solid fa-code-branch me-2 text-primary"></i>
                     IAS Version History
                 </h2>
-                <button class="btn btn-gradient-primary rounded-pill shadow" data-bs-toggle="modal" data-bs-target="#addVersionModal">
+                <button type="button" class="btn btn-gradient-primary rounded-pill shadow" data-bs-toggle="modal" data-bs-target="#addVersionModal">
                     <i class="fa-solid fa-plus"></i> Add Version
                 </button>
             </div>
@@ -77,7 +77,7 @@
 <div class="modal fade" id="addVersionModal" tabindex="-1" aria-labelledby="addVersionModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content rounded-4 shadow-lg">
-            <form asp-action="AddVersionHistory" method="post" autocomplete="off">
+            <form id="addVersionForm" method="post" autocomplete="off">
                 <div class="modal-header">
                     <h5 class="modal-title fw-bold" id="addVersionModalLabel">
                         <i class="fa-solid fa-plus"></i> Add New Version
@@ -218,5 +218,20 @@
             document.getElementById('editDescription').value = button.getAttribute('data-description');
             document.getElementById('editIsActive').value = button.getAttribute('data-isactive');
         });
+
+        var addForm = document.getElementById('addVersionForm');
+        if (addForm) {
+            addForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                var formData = new FormData(addForm);
+                var response = await fetch('/AddVersionHistory', {
+                    method: 'POST',
+                    body: formData
+                });
+                if (response.ok) {
+                    location.reload();
+                }
+            });
+        }
     });
 </script>
