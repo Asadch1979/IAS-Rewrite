@@ -223,11 +223,20 @@
         if (addForm) {
             addForm.addEventListener('submit', async function (e) {
                 e.preventDefault();
+
                 var formData = new FormData(addForm);
-                var response = await fetch('/AddVersionHistory', {
+                var payload = {
+                    VersionNo: formData.get('VersionNo'),
+                    ReleaseDate: formData.get('ReleaseDate'),
+                    Description: formData.get('Description')
+                };
+
+                var response = await fetch('/ApiCalls/AddVersionHistory', {
                     method: 'POST',
-                    body: formData
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
                 });
+
                 if (response.ok) {
                     location.reload();
                 }
