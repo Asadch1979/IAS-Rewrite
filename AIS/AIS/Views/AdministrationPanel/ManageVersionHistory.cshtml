@@ -112,7 +112,7 @@
 <div class="modal fade" id="editVersionModal" tabindex="-1" aria-labelledby="editVersionModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content rounded-4 shadow-lg">
-            <form asp-action="EditVersionHistory" method="post" autocomplete="off">
+            <form id="editVersionForm" method="post" autocomplete="off">
                 <div class="modal-header">
                     <h5 class="modal-title fw-bold" id="editVersionModalLabel">
                         <i class="fa-solid fa-pen"></i> Edit Version
@@ -232,6 +232,32 @@
                 };
 
                 var response = await fetch('/ApiCalls/AddVersionHistory', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    location.reload();
+                }
+            });
+        }
+
+        var editForm = document.getElementById('editVersionForm');
+        if (editForm) {
+            editForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                var formData = new FormData(editForm);
+                var payload = {
+                    VersionId: formData.get('VersionId'),
+                    VersionNo: formData.get('VersionNo'),
+                    ReleaseDate: formData.get('ReleaseDate'),
+                    Description: formData.get('Description'),
+                    IsActive: formData.get('IsActive')
+                };
+
+                var response = await fetch('/ApiCalls/UpdateVersionHistory', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
