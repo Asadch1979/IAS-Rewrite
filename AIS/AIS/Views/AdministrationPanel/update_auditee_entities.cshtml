@@ -14,7 +14,7 @@
             url: g_asiBaseURL + "/ApiCalls/GetAuditeeEntityById",
             type: "POST",
             data: {
-                'ENTITY_TYPE_ID': $('#entTypeField').val()
+                'ENTITY_TYPE_ID': $('#entTypeField option:selected').val()
             },
             cache: false,
             success: function (data) {
@@ -76,13 +76,13 @@
         <div class="col-md-4">
             <label>Entity Type</label>
             <select id="entTypeField" class="form-select" onchange="loadEntities()">
-                <option value="0" selected>--Select Entity--</option>
+                <option id="0" value="0" selected>--Select Entity--</option>
                 @{
                     if (ViewData["AuditEntitiesType"] != null)
                     {
                         foreach (var item in (dynamic)(ViewData["AuditEntitiesType"]))
                         {
-                            <option value="@item.AUTID">@item.ENTITYTYPEDESC</option>
+                            <option value="@item.AUTID" id="@item.AUTID">@item.ENTITYTYPEDESC</option>
                         }
                     }
                 }
