@@ -11,7 +11,7 @@
     function loadEntities() {
         $('#entitiesGrid tbody').empty();
         $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/GetAuditeeEntityById",
+            url: g_asiBaseURL + "/ApiCalls/GetAuditeeEntitiesByTypeId",
             type: "POST",
             data: {
                 'ENTITY_TYPE_ID': $('#entTypeField option:selected').val()
