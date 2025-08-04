@@ -8,24 +8,25 @@
 
     function getEntityObservation() {
         destroyDatatable('manageObsPanel');
-        if ($('#branchSelectField option:selected').val() != 0) {
-            $.ajax({
-                url: g_asiBaseURL + "/ApiCalls/get_old_paras_for_monitoring_ppno",
-                type: "POST",
-                data: {
-                    'ppno': $('#ppnoSearchField').val(),
-                },
-                cache: false,
-                success: function (data) {
-                    $.each(data, function (i, v) {
-                        $('#manageObsPanel tbody').append('<tr id="assignedObRow_' + v.id + '"><td>' + ++i + '</td><td>' + v.entityname + '</td><td>' + v.audiT_PERIOD + '</td><td>' + v.annex + '</td><td>' + v.parA_NO + '</td><td>' + v.gisT_OF_PARAS + '</td><td>' + v.amount + '</td><td><a hre="#" class="text-danger text-center" style="cursor:pointer;" onclick="event.preventDefault();viewParaText(\'' + v.com_id + '\',\'' + v.ind + '\')"> View Para</a></td></tr>');
-
-                    });
-                    initializeDataTable('manageObsPanel');
-                },
-                dataType: "json",
-            });
-        }
+        $('#manageObsPanel tbody').empty();
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/get_old_paras_for_monitoring_ppno",
+            type: "POST",
+            data: {
+                'ppno': $('#ppnoSearchField').val(),
+            },
+            cache: false,
+            success: function (data) {
+                $.each(data, function (i, v) {
+                    $('#manageObsPanel tbody').append(
+                        '<tr id="assignedObRow_' + (v.oldParaId ?? i) + '"><td>' +
+                        (i + 1) + '</td><td>' + v.entityName + '</td><td>' + v.auditPeriod + '</td><td>' + v.annex + '</td><td>' + v.paraNo + '</td><td>' + v.gistOfParas + '</td><td>' + v.amount + '</td><td><a href="#" class="text-danger text-center" style="cursor:pointer;" onclick="event.preventDefault();viewParaText(\'' + v.comId + '\',\'' + v.ind + '\')"> View Para</a></td></tr>'
+                    );
+                });
+                initializeDataTable('manageObsPanel');
+            },
+            dataType: "json",
+        });
     }
 
     function getemployeename() {
