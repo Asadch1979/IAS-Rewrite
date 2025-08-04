@@ -60,16 +60,20 @@
         $('#viewMemoModel').modal('show');
         $('#viewMemo_memo').html("");
         $.ajax({
-            url: g_asiBaseURL + "/ApiCalls/GetAllParaText",
-            type: "POST",
-            data: {                
-                'COM_ID': comid,
-                'IND': ind
-            },
+            url: g_asiBaseURL + "/ApiCalls/getallparatext",
+            type: "GET",
+            data: { comId: comid },
             cache: false,
+            dataType: "json",
             success: function (data) {
-                console.log(data);
-                $('#viewMemo_memo').html(data);
+                var para = null;
+                if (Array.isArray(data)) {
+                    para = data.find(function (p) {
+                        return (p.IND ?? p.ind) === ind;
+                    });
+                }
+                var text = para ? (para.ParaText || para.paraText || "") : "";
+                $('#viewMemo_memo').html(text);
             }
         });
     }
