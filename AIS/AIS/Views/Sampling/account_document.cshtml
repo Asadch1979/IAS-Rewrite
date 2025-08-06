@@ -62,6 +62,13 @@
         initializeDataTable('account_document_list');
     }
     function viewDocument(docImage) {
+        if (!docImage) {
+            alert("No document data received.");
+            return;
+        }
+
+        docImage = docImage.trim();
+
         let win = window.open("", "_blank");
         if (!win) {
             console.error("Popup blocked");
@@ -69,9 +76,26 @@
             return;
         }
 
+        let mime = '';
+        if (docImage.startsWith('JVBERi0xL')) {
+            mime = 'application/pdf';
+        } else if (docImage.startsWith('iVBOR')) {
+            mime = 'image/png';
+        } else if (docImage.startsWith('/9j/')) {
+            mime = 'image/jpeg';
+        } else if (docImage.startsWith('R0lGOD')) {
+            mime = 'image/gif';
+        } else if (docImage.startsWith('Qk')) {
+            mime = 'image/bmp';
+        } else if (docImage.startsWith('SUkq')) {
+            mime = 'image/tiff';
+        }
 
-        if (docImage.startsWith("/9j/")) {
-            let imageSrc = "data:image/jpeg;base64," + docImage;
+        if (mime === 'application/pdf') {
+            let pdfSrc = `data:${mime};base64,` + docImage;
+            win.location.href = pdfSrc;
+        } else if (mime.startsWith('image/')) {
+            let imageSrc = `data:${mime};base64,` + docImage;
             win.document.write(`
                 <html>
                 <head><title>Document Viewer</title></head>
@@ -80,16 +104,7 @@
                 <\/body>
                 </html>
             `);
-        }
-
-        else if (docImage.startsWith("JVBERi0xL")) {
-            let pdfSrc = "data:application/pdf;base64," + docImage;
-
-
-            win.location.href = pdfSrc;
-        }
-
-        else {
+        } else {
             console.error("Unsupported document type");
             alert("The document type is not supported.");
             win.close();
