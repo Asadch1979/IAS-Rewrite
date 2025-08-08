@@ -25,10 +25,26 @@
             cache: false,
             success: function (data) {
                 $.each(data, function (i, v) {
-                $('#fadDeskOfficerTable tbody').append('<tr><td>' + v.auditPeriod + '</td><td>' + v.childCode + '</td><td>' + v.cName + '</td><td>' + v.az + '</td><td>' + v.pName + '</td><td>' + v.annex + '</td><td>' + v.gistOfParas + '</td><td>' + v.paraNo + '</td><td>' + v.noOfInstances + '</td><td>' + v.risk + '</td><td>' + v.amount + '</td></tr>');                });
+                $('#fadDeskOfficerTable tbody').append('<tr><td>' + v.auditPeriod + '</td><td>' + v.childCode + '</td><td>' + v.cName + '</td><td>' + v.az + '</td><td>' + v.pName + '</td><td>' + v.annex + '</td><td>' + v.gistOfParas + '</td><td>' + v.paraNo + '</td><td>' + v.noOfInstances + '</td><td>' + v.risk + '</td><td>' + v.amount + '</td><td><button class="btn btn-primary btn-sm" onclick="viewParaText(' + v.comId + ')">View Text</button></td></tr>');                });
                 initializeDataTable('fadDeskOfficerTable');
             },
             dataType: "json"
+        });
+    }
+
+    function viewParaText(comId) {
+        $('#viewMemoModel').modal('show');
+        $('#viewMemo_memo').html("");
+        $.ajax({
+            url: g_asiBaseURL + "/ApiCalls/getallparatext",
+            type: "GET",
+            data: { comId: comId },
+            cache: false,
+            dataType: "json",
+            success: function (data) {
+                var text = (data && data.length > 0) ? (data[0].paraText || data[0].ParaText || "") : "";
+                $('#viewMemo_memo').html(text);
+            }
         });
     }
 </script>
@@ -62,9 +78,33 @@
                 <th>Instances</th>
                 <th>Risk</th>
                 <th>Amount</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         </tbody>
     </table>
+</div>
+
+<div id="viewMemoModel" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" role="document" style="min-width:90%;">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Para Text</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <div id="viewMemo_memo" style="height: auto; overflow-y: auto;" class="form-control"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>

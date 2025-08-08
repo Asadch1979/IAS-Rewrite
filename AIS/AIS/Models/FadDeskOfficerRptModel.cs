@@ -2,6 +2,7 @@
     {
     public class FadDeskOfficerRptModel
         {
+        public int ComId { get; set; }
         public string AuditPeriod { get; set; }
         public string ChildCode { get; set; }
         public string CName { get; set; }
