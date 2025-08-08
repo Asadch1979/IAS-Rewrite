@@ -9,7 +9,7 @@
     }
 </style>
 
-
+<script src="~/lib/tinymce/tinymce.min.js"></script>
 <script type="text/javascript">
     var g_engId = 0;
     var g_respUser = [];
@@ -19,36 +19,21 @@
         var url_string = window.location;
         var url = new URL(url_string);
         g_engId = url.searchParams.get("engId");
-        $('#template_box').richText({
-            bold: true,
-            italic: true,
-            underline: true,
-            leftAlign: true,
-            centerAlign: true,
-            rightAlign: true,
-            justify: true,
-            ol: true,
-            ul: true,
-            heading: true,
-            fonts: true,
-            fontColor: true,
-            fontSize: true,
-            table: true,
-            removeStyles: true,
-            code: true,
-            imageUpload: false,
-            fileUpload: false,
-            videoEmbed: false,
-            urls: false
+        tinymce.init({
+            selector: '#template_box',
+            plugins: 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste help wordcount',
+            toolbar: 'undo redo | formatselect | bold italic underline forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | removeformat | code | fullscreen',
+            menubar: 'file edit view insert format tools table help',
+            height: 400
         });
 
         $('#updatedAnnexlist').select2();
         $('#riskActivitiesSelectBox').select2();
         $('#updatedAnnexlist').on('change', updateRiskDisplay);
 
-         document.getElementById('amount_inv_field').addEventListener('input', function (e) {
-        this.value = this.value.replace(/\D|^0(?=\d)/g, ''); // Removes decimals and leading zeros
-    });
+        document.getElementById('amount_inv_field').addEventListener('input', function (e) {
+            this.value = this.value.replace(/\D|^0(?=\d)/g, ''); // Removes decimals and leading zeros
+        });
 
 
     });
@@ -112,9 +97,9 @@
     }
     function getAuditObservationTemplate() {
         if ($('#riskActivitiesSelectBox option:selected').val() == 0)
-            $('#template_box').val('').trigger('change');
+            tinymce.get('template_box').setContent('');
         else {
-            $('#template_box').val('').trigger('change');
+            tinymce.get('template_box').setContent('');
             $.ajax({
                 url: g_asiBaseURL + "/Execution/audit_observation_template",
                 type: "POST",
@@ -124,7 +109,7 @@
                 cache: false,
                 success: function (data) {
                     $.each(data, function (index, item) {
-                        $('#template_box').val(item.obS_TEMPLATE).trigger('change');
+                        tinymce.get('template_box').setContent(item.obS_TEMPLATE);
                     });
 
                 },
@@ -211,7 +196,7 @@
         });
         var g_memoObj = [];
         var memo = {
-            'MEMO': $('.richText-editor').html(),
+            'MEMO': tinymce.get('template_box').getContent(),
             'ID': 'obs_0',
             'HEADING': $('#viewMemo_heading').val(),
             'RISK': g_selectedRiskId,
