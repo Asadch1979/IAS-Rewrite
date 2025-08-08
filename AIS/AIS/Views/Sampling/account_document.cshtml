@@ -77,25 +77,35 @@
         }
 
         let mime = '';
-        if (docImage.startsWith('JVBERi0xL')) {
-            mime = 'application/pdf';
-        } else if (docImage.startsWith('iVBOR')) {
-            mime = 'image/png';
-        } else if (docImage.startsWith('/9j/')) {
-            mime = 'image/jpeg';
-        } else if (docImage.startsWith('R0lGOD')) {
-            mime = 'image/gif';
-        } else if (docImage.startsWith('Qk')) {
-            mime = 'image/bmp';
-        } else if (docImage.startsWith('SUkq')) {
-            mime = 'image/tiff';
+        let base64Data = docImage;
+
+        if (docImage.startsWith('data:')) {
+            var matches = docImage.match(/^data:(.*?);base64,(.*)$/);
+            if (matches) {
+                mime = matches[1];
+                base64Data = matches[2];
+            }
+        } else {
+            if (docImage.startsWith('JVBERi0')) {
+                mime = 'application/pdf';
+            } else if (docImage.startsWith('iVBOR')) {
+                mime = 'image/png';
+            } else if (docImage.startsWith('/9j/')) {
+                mime = 'image/jpeg';
+            } else if (docImage.startsWith('R0lGOD')) {
+                mime = 'image/gif';
+            } else if (docImage.startsWith('Qk')) {
+                mime = 'image/bmp';
+            } else if (docImage.startsWith('SUkq')) {
+                mime = 'image/tiff';
+            }
         }
 
         if (mime === 'application/pdf') {
-            let pdfSrc = `data:${mime};base64,` + docImage;
+            let pdfSrc = `data:${mime};base64,` + base64Data;
             win.location.href = pdfSrc;
         } else if (mime.startsWith('image/')) {
-            let imageSrc = `data:${mime};base64,` + docImage;
+            let imageSrc = `data:${mime};base64,` + base64Data;
             win.document.write(`
                 <html>
                 <head><title>Document Viewer</title></head>
