@@ -14,6 +14,7 @@ function initFieldAuditParaSection(config) {
     var checklistSel = container.find('#auditPara_Checklist');
     var gistField = container.find('#auditPara_Gist');
     var paraTextField = container.find('#paraTextViewer');
+    var paraTextEditor = null;
 
     var selectedRiskId = 0;
 
@@ -76,12 +77,34 @@ function initFieldAuditParaSection(config) {
         }
     }
 
+    function initEditor() {
+        if (paraTextField.length && typeof CKEDITOR !== 'undefined') {
+            paraTextEditor = CKEDITOR.replace(paraTextField.attr('id'), {
+                extraPlugins: 'print',
+                toolbar: [
+                    { name: 'document', items: ['Source', '-', 'Print'] },
+                    { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'Undo', 'Redo'] },
+                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+                    { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
+                    { name: 'styles', items: ['Format', 'Font', 'FontSize'] },
+                    { name: 'colors', items: ['TextColor', 'BGColor'] },
+                    { name: 'insert', items: ['Table'] }
+                ]
+            });
+        }
+    }
+
     function setReadOnly(val) {
         opts.readOnly = val;
-        var fields = [annexureSel, processSel, subProcessSel, checklistSel, gistField, paraTextField];
+        var fields = [annexureSel, processSel, subProcessSel, checklistSel, gistField];
         $.each(fields, function (i, f) {
             if (f.length) f.prop('disabled', val);
         });
+        if (paraTextEditor) {
+            paraTextEditor.setReadOnly(val);
+        } else if (paraTextField.length) {
+            paraTextField.prop('disabled', val);
+        }
     }
 
     function getData() {
@@ -92,7 +115,7 @@ function initFieldAuditParaSection(config) {
             subProcessId: subProcessSel.val(),
             checklistId: checklistSel.val(),
             gist: gistField.val(),
-            paraText: paraTextField.val()
+            paraText: paraTextEditor ? paraTextEditor.getData() : paraTextField.val()
         };
     }
 
@@ -106,7 +129,11 @@ function initFieldAuditParaSection(config) {
         loadChecklist();
         if (checklistSel.length) checklistSel.val(d.checklistId);
         gistField.val(d.gist);
-        paraTextField.val(d.paraText).trigger('change');
+        if (paraTextEditor) {
+            paraTextEditor.setData(d.paraText || '');
+        } else {
+            paraTextField.val(d.paraText).trigger('change');
+        }
     }
 
     annexureSel.off('change.fap').on('change.fap', updateRiskDisplay);
@@ -114,6 +141,7 @@ function initFieldAuditParaSection(config) {
     subProcessSel.off('change.fap').on('change.fap', loadChecklist);
 
     updateRiskDisplay();
+    initEditor();
     setReadOnly(opts.readOnly);
 
     return {
