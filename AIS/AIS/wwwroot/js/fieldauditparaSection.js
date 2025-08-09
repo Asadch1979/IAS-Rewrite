@@ -81,15 +81,19 @@ function initFieldAuditParaSection(config) {
         if (paraTextField.length && typeof CKEDITOR !== 'undefined') {
             paraTextEditor = CKEDITOR.replace(paraTextField.attr('id'), {
                 extraPlugins: 'print',
+                height: 500,
                 toolbar: [
-                    { name: 'document', items: ['Source', '-', 'Print'] },
-                    { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'Undo', 'Redo'] },
-                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
-                    { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
+                    { name: 'document', items: ['Source', 'Preview', 'Print', 'PageBreak'] },
+                    { name: 'clipboard', items: ['Undo', 'Redo', 'Find', 'Replace', 'SelectAll', 'RemoveFormat'] },
                     { name: 'styles', items: ['Format', 'Font', 'FontSize'] },
+                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'CopyFormatting'] },
                     { name: 'colors', items: ['TextColor', 'BGColor'] },
-                    { name: 'insert', items: ['Table'] }
-                ]
+                    { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
+                    { name: 'insert', items: ['Table', 'SpecialChar', 'HorizontalRule', 'Link', 'Unlink'] },
+                    { name: 'tools', items: ['Maximize'] }
+                ],
+                removePlugins: 'cloudservices,easyimage',
+                extraAllowedContent: true
             });
         }
     }

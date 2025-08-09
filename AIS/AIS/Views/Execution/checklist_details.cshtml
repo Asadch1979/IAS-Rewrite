@@ -63,6 +63,13 @@
             videoEmbed: false,
             urls: false
         });
+
+        // add print option to rich text toolbar
+        var memoEditor = $('#viewMemo_memo').closest('.richText');
+        var memoToolbar = memoEditor.find('.richText-toolbar').first().find('ul');
+        var printBtn = $('<li><a href="#" id="memoPrintBtn" class="richText-btn" title="Print"><span class="fa fa-print"></span></a></li>');
+        memoToolbar.append(printBtn);
+        $('#memoPrintBtn').printPreview({ obj2print: '#' + memoEditor.find('.richText-editor').attr('id') });
             document.getElementById('viewMemo_amountInv').addEventListener('input', function (e) {
         this.value = this.value.replace(/\D|^0(?=\d)/g, ''); // Removes decimals and leading zeros
     });
