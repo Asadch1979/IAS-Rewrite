@@ -31,6 +31,21 @@
         $('#auditPara_Annex').select2();
         $('#riskActivitiesSelectBox').select2();
 
+        if (typeof CKEDITOR !== 'undefined') {
+            CKEDITOR.replace('auditPara_Gist', {
+                extraPlugins: 'print',
+                toolbar: [
+                    { name: 'document', items: ['Source', '-', 'Print'] },
+                    { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'Undo', 'Redo'] },
+                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+                    { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
+                    { name: 'styles', items: ['Format', 'Font', 'FontSize'] },
+                    { name: 'colors', items: ['TextColor', 'BGColor'] },
+                    { name: 'insert', items: ['Table'] }
+                ]
+            });
+        }
+
         document.getElementById('amount_inv_field').addEventListener('input', function (e) {
             this.value = this.value.replace(/\D|^0(?=\d)/g, '');
         });
@@ -149,6 +164,9 @@
     function submitObservationToAuditee() {
         auditParaSection.updateRiskDisplay();
         var paraData = auditParaSection.getData();
+        if (CKEDITOR.instances['auditPara_Gist']) {
+            paraData.gist = CKEDITOR.instances['auditPara_Gist'].getData();
+        }
         if (paraData.annexureId == 0) {
             alert('Select Annexure');
             return;
