@@ -9,9 +9,6 @@
     }
 </style>
 
-<script src="~/lib/ckeditor/ckeditor.js"></script>
-<script src="~/js/fieldauditparaSection.js"></script>
-
 <script type="text/javascript">
     var g_engId = 0;
     var g_respUser = [];
@@ -30,21 +27,6 @@
 
         $('#auditPara_Annex').select2();
         $('#riskActivitiesSelectBox').select2();
-
-        if (typeof CKEDITOR !== 'undefined') {
-            CKEDITOR.replace('auditPara_Gist', {
-                extraPlugins: 'print',
-                toolbar: [
-                    { name: 'document', items: ['Source', '-', 'Print'] },
-                    { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'Undo', 'Redo'] },
-                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
-                    { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
-                    { name: 'styles', items: ['Format', 'Font', 'FontSize'] },
-                    { name: 'colors', items: ['TextColor', 'BGColor'] },
-                    { name: 'insert', items: ['Table'] }
-                ]
-            });
-        }
 
         document.getElementById('amount_inv_field').addEventListener('input', function (e) {
             this.value = this.value.replace(/\D|^0(?=\d)/g, '');
@@ -699,4 +681,7 @@ function reloadLocation() {
         </div>
     </div>
 </div>
+
+<script src="~/lib/ckeditor/ckeditor.js"></script>
+<script src="~/js/fieldauditparaSection.js"></script>
 

@@ -154,41 +154,97 @@ function initFieldAuditParaSection(config) {
     };
 }
 
-// ===== CKEditor Integration =====
-(function () {
+// ===== CKEditor central initializer (auto-generated) =====
+(function(){
+  function log(msg){ if (window.console) console.log('[CKInit]', msg); }
+  function warn(msg){ if (window.console) console.warn('[CKInit]', msg); }
+  function err(msg){ if (window.console) console.error('[CKInit]', msg); }
+
+  function ensureCkAvailable(){
     if (typeof CKEDITOR === 'undefined') {
-        console.error('CKEditor not found. Ensure ckeditor.js is loaded in the page.');
+      err('CKEditor not found. Include ~/lib/ckeditor/ckeditor.js in the page BEFORE this script.');
+      return false;
+    }
+    return true;
+  }
+
+  function initOne(id, config){
+    var el = document.getElementById(id);
+    if (!el) { warn('Textarea not found: #' + id); return; }
+    var inst = CKEDITOR.instances[id];
+    if (inst) {
+      var instEl = inst.element && inst.element.$;
+      var active = instEl === el && inst.status !== 'destroyed' && inst.status !== 'destroying';
+      if (active) {
+        log('Already initialized #' + id);
         return;
+      }
+      try { inst.destroy(true); } catch(e){ warn('Destroy failed for #' + id + ': ' + e); }
     }
+    CKEDITOR.replace(id, config);
+    log('Initialized #' + id);
+  }
 
-    function initCk(id) {
-        var el = document.getElementById(id);
-        if (!el) return;
-        if (CKEDITOR.instances[id]) {
-            CKEDITOR.instances[id].destroy(true);
-        }
-        CKEDITOR.replace(id, {
-            height: 500,
-            toolbar: [
-                { name: 'document',   items: ['Source', 'Preview', 'Print', 'PageBreak'] },
-                { name: 'clipboard',  items: ['Undo', 'Redo', 'Find', 'Replace', 'SelectAll', 'RemoveFormat'] },
-                { name: 'styles',     items: ['Format', 'Font', 'FontSize'] },
-                { name: 'basicstyles',items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'CopyFormatting'] },
-                { name: 'colors',     items: ['TextColor', 'BGColor'] },
-                { name: 'paragraph',  items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
-                { name: 'insert',     items: ['Table', 'SpecialChar', 'HorizontalRule', 'Link', 'Unlink'] },
-                { name: 'tools',      items: ['Maximize'] }
-            ],
-            pasteFromWordPromptCleanup: true,
-            pasteFromWordRemoveFontStyles: false,
-            pasteFromWordRemoveStyles: false,
-            removePlugins: 'cloudservices,easyimage',
-            extraAllowedContent: true
-        });
-    }
+  function buildConfig(){
+    return {
+      height: 500,
+      toolbar: [
+        { name: 'document',   items: ['Source','Preview','Print','PageBreak'] },
+        { name: 'clipboard',  items: ['Undo','Redo','Find','Replace','SelectAll','RemoveFormat'] },
+        { name: 'styles',     items: ['Format','Font','FontSize'] },
+        { name: 'basicstyles',items: ['Bold','Italic','Underline','Strike','Subscript','Superscript','CopyFormatting'] },
+        { name: 'colors',     items: ['TextColor','BGColor'] },
+        { name: 'paragraph',  items: ['NumberedList','BulletedList','Outdent','Indent','Blockquote','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'] },
+        { name: 'insert',     items: ['Table','SpecialChar','HorizontalRule','Link','Unlink'] },
+        { name: 'tools',      items: ['Maximize'] }
+      ],
+      pasteFromWordPromptCleanup: true,
+      pasteFromWordRemoveFontStyles: false,
+      pasteFromWordRemoveStyles: false,
+      contentsCss: ['/css/print.css'],
+      removePlugins: 'cloudservices,easyimage',
+      extraAllowedContent: true
+    };
+  }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        initCk('viewMemo_memo');
-        initCk('AuditParaHtml');
+  function initAll(){
+    if (!ensureCkAvailable()) return;
+    var cfg = buildConfig();
+
+    ['AuditParaHtml','auditPara_Gist','template_box','viewMemo_memo'].forEach(function(id){
+      initOne(id, cfg);
     });
+
+    var custom = document.querySelectorAll('textarea[data-editor="ck"]');
+    custom.forEach(function(t){
+      var id = t.id || '';
+      if (!id) { warn('textarea[data-editor="ck"] has no id'); return; }
+      initOne(id, cfg);
+    });
+  }
+
+  window.FieldAuditEditors = window.FieldAuditEditors || {};
+  window.FieldAuditEditors.init = initAll;
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
+  } else {
+    initAll();
+  }
+  if (window.jQuery) {
+    jQuery(function(){ initAll(); });
+    jQuery(document).on('shown.bs.modal', function(){ initAll(); });
+  }
+
+  try{
+    var mo = new MutationObserver(function(muts){
+      for (var i=0;i<muts.length;i++){
+        if (muts[i].addedNodes && muts[i].addedNodes.length){
+          initAll();
+          break;
+        }
+      }
+    });
+    mo.observe(document.documentElement, {childList:true, subtree:true});
+  }catch(_){/* ignore */}
 })();
