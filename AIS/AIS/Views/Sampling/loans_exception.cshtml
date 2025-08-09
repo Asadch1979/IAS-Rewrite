@@ -1,4 +1,7 @@
 ﻿@{
+    var page_id = 319;
+}
+@{
     var passedTitle = Context.Request.Query["title"].ToString();
     var passedDesc = Context.Request.Query["desc"].ToString();
     ViewData["Title"] = string.IsNullOrEmpty(passedTitle) ? "Loans Exception Report" : passedTitle;
