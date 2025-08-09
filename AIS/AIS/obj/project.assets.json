@@ -8824,23 +8824,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dahua\\.nuget\\packages\\": {},
+    "C:\\Users\\Asad\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dahua\\Documents\\GitHub\\IAS-Rewrite\\AIS\\AIS\\AIS.csproj",
+      "projectUniqueName": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\AIS.csproj",
       "projectName": "AIS",
-      "projectPath": "C:\\Users\\dahua\\Documents\\GitHub\\IAS-Rewrite\\AIS\\AIS\\AIS.csproj",
-      "packagesPath": "C:\\Users\\dahua\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dahua\\Documents\\GitHub\\IAS-Rewrite\\AIS\\AIS\\obj\\",
+      "projectPath": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\AIS.csproj",
+      "packagesPath": "C:\\Users\\Asad\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Asad\\Documents\\GitHub\\Asad\\IAS-Rewrite\\AIS\\AIS\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\dahua\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Asad\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -8849,6 +8849,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files (x86)\\Text Control GmbH\\NuGetPackages": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -8931,7 +8932,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -31,11 +31,7 @@ namespace AIS.Controllers
             string secretValue = _configuration["SecretKey"];
             string baseURL = _configuration["BaseURL"];
             ViewBag.SecretValue = secretValue;
-            ViewBag.BaseURL = baseURL;
-            if (baseURL == "/ZTBLAIS")
-            {
-                return View("index_dev");
-            }
+            ViewBag.BaseURL = baseURL;         
             return View();
             }
 
