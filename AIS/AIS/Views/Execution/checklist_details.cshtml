@@ -63,16 +63,6 @@
             videoEmbed: false,
             urls: false
         });
-
-        // Expose a print option within the rich text memo editor: the richText
-        // plugin does not include printing, so we append a button to its toolbar
-        // and wire it to printPreview targeting the memo's editor element. This
-        // allows users to trigger the browser's print dialog for memo content.
-        var memoEditor = $('#viewMemo_memo').closest('.richText');
-        var memoToolbar = memoEditor.find('.richText-toolbar').first().find('ul');
-        var printBtn = $('<li><a href="#" id="memoPrintBtn" class="richText-btn" title="Print"><span class="fa fa-print"></span></a></li>');
-        memoToolbar.append(printBtn);
-        $('#memoPrintBtn').printPreview({ obj2print: '#' + memoEditor.find('.richText-editor').attr('id') });
             document.getElementById('viewMemo_amountInv').addEventListener('input', function (e) {
         this.value = this.value.replace(/\D|^0(?=\d)/g, ''); // Removes decimals and leading zeros
     });
