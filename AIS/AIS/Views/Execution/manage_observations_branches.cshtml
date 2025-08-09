@@ -42,12 +42,7 @@
         var periodName = $('#manageObsPanel tbody .period_name_field:first').text();
         $('#auditPeriodNameField').val(periodName);
 
-        $('#updateMemoContent').richText({
-            imageUpload: false,
-            fileUpload: false,
-            videoEmbed: false,
-            urls: false
-        });
+        
         $('#updateMemo_annex').on('change', updateRiskDisplay);
         respSectionUpdate = initResponsibilitySection({
             tableSelector: '#update_listofRespPersons',

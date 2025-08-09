@@ -20,12 +20,7 @@
 
     $(document).ready(function () {
         $('#entitySelectField').select2();
-        $('#paraTextViewer').richText({
-            imageUpload: false,
-            fileUpload: false,
-            videoEmbed: false,
-            urls: false
-        });
+        
         const currentYear = new Date().getFullYear();
         for (var i = 1970; i <= currentYear; i++) {
             $('#auditPara_Period').append('<option value="' + i + '">' + i + '</option>');

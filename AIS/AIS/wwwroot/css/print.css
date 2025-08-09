@@ -1,23 +1,12 @@
-/* print.css: site-wide print defaults for TinyMCE content */
 @media print {
   header, nav, footer, .no-print { display: none !important; }
 }
-/* Default page style inside the editor and print window */
-.mce-content-body {
-  font-size: 12pt;
-  line-height: 1.4;
-}
-/* Optional: tighten tables for reports */
-.mce-content-body table {
-  border-collapse: collapse;
-}
-.mce-content-body table, 
-.mce-content-body th, 
-.mce-content-body td {
+/* Default content styles */
+body, .cke_editable { font-size: 12pt; line-height: 1.4; }
+.cke_editable table { border-collapse: collapse; }
+.cke_editable table, .cke_editable th, .cke_editable td {
   border: 1px solid #333;
   padding: 3px 6px;
 }
 /* Page breaks */
-.mce-content-body .mce-pagebreak {
-  page-break-after: always;
-}
+.page-break { page-break-after: always; }

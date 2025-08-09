@@ -16,12 +16,7 @@
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
-        $('#responseAuditee').richText({
-            imageUpload: false,
-            fileUpload: false,
-            videoEmbed: false,
-            urls: false
-        });
+        
         $('#PublishParaText').on('click', function () {
             publishResponseChanges();
         });

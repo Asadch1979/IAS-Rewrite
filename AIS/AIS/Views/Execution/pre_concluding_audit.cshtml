@@ -16,12 +16,7 @@
 
     $(document).ready(function () {
         $('#preConcludingActionHandler').addClass("d-none");
-            $('#viewMemo_memo_ObSent').richText({
-             imageUpload: false,
-             fileUpload: false,
-             videoEmbed: false,
-             urls: false
-         });
+            
         $('#viewMemo_annex_ObSent').on('change', updateRiskDisplay);
         respSection = initResponsibilitySection({
             tableSelector: '#viewMemo_respPP_ObSent',

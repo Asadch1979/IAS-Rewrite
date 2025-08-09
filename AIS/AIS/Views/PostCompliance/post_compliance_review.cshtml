@@ -32,12 +32,7 @@
 
     $(document).ready(function () {
         getReivewParasForCompliance();
-        $('#viewMemo_compliance').richText({
-            imageUpload: false,
-            fileUpload: false,
-            videoEmbed: false,
-            urls: false
-        });
+        
 
         $("aks-file-upload").aksFileUpload({
             fileUpload: "#aksfileupload", // With target [input]file or [type]json you can save the data of loaded items

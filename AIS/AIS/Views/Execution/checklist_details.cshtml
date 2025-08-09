@@ -41,28 +41,7 @@
             },
             dataType: "json",
         });
-        $('#viewMemo_memo').richText({
-            bold: true,
-            italic: true,
-            underline: true,
-            leftAlign: true,
-            centerAlign: true,
-            rightAlign: true,
-            justify: true,
-            ol: true,
-            ul: true,
-            heading: true,
-            fonts: true,
-            fontColor: true,
-            fontSize: true,
-            table: true,
-            removeStyles: true,
-            code: true,
-            imageUpload: false,
-            fileUpload: false,
-            videoEmbed: false,
-            urls: false
-        });
+        
             document.getElementById('viewMemo_amountInv').addEventListener('input', function (e) {
         this.value = this.value.replace(/\D|^0(?=\d)/g, ''); // Removes decimals and leading zeros
     });

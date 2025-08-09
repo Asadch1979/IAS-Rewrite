@@ -8,12 +8,7 @@
 
     $(document).ready(function () {
         getLegacyPara();
-        $('#viewMemo_compliance').richText({
-            imageUpload: false,
-            fileUpload: false,
-            videoEmbed: false,
-            urls: false
-        });
+        
         g_imgLoader = $('[data-type=imagesloader]').imagesloader({
             maxFiles: 10,
             minSelect: 1,

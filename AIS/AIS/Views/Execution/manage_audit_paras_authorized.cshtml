@@ -16,18 +16,8 @@
     var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
     var g_selectedRiskId = 0;
     $(document).ready(function () {
-        $('#paraTextViewer').richText({
-            imageUpload: false,
-            fileUpload: false,
-            videoEmbed: false,
-            urls: false
-        });
-        $('#p_paraTextViewer').richText({
-            imageUpload: false,
-            fileUpload: false,
-            videoEmbed: false,
-            urls: false
-        });
+        
+        
         const currentYear = new Date().getFullYear();
         for (var i = 1970; i <= currentYear; i++) {
             $('#auditPara_Period').append('<option value="' + i + '">' + i + '</option>');

@@ -33,12 +33,7 @@
         $('#entityNameField').val(entName);
         var periodName = $('#manageObsPanel tbody .period_name_field:first').text();
         $('#auditPeriodNameField').val(periodName);
-        $('#viewMemo_memo_ObSent').richText({
-            imageUpload: false,
-            fileUpload: false,
-            videoEmbed: false,
-            urls: false
-        });
+        
         $('#viewMemo_annex_ObSent').on('change', updateRiskDisplay);
         respSection = initResponsibilitySection({
             tableSelector: '#viewMemo_respPP_ObSent',

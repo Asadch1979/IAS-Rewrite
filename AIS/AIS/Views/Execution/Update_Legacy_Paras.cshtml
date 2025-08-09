@@ -14,12 +14,7 @@
     var g_instructionMap = [];
 
     $(document).ready(function () {
-        $('#responseAuditee').richText({
-            imageUpload: false,
-            fileUpload: false,
-            videoEmbed: false,
-            urls: false
-        });
+        
 
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/GetReferenceTypes",

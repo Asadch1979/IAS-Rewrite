@@ -12,12 +12,7 @@
         var url = new URL(url_string);
         var obs_id = url.searchParams.get("obsId");
         var eng_id = url.searchParams.get("engId");
-        $('#dsacontent_textarea').richText({
-            imageUpload: false,
-            fileUpload: false,
-            videoEmbed: false,
-            urls: false
-        });
+        
         if (typeof obs_id != 'undefined')
             g_obsId = obs_id;
         if (typeof eng_id != 'undefined')

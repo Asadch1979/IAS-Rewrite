@@ -6,12 +6,7 @@
 <script type="text/javascript">
     var g_oms = '';
     $('#document').ready(function () {
-        $('#template_box').richText({
-            imageUpload: false,
-            fileUpload: false,
-            videoEmbed: false,
-            urls: false
-        });
+        
         $.ajax({
             url: g_asiBaseURL + "/ApiCalls/CAU_Get_OMs",
             type: "POST",
