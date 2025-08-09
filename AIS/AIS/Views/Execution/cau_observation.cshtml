@@ -9,48 +9,31 @@
     }
 </style>
 
+<script src="~/lib/ckeditor/ckeditor.js"></script>
+<script src="~/js/fieldauditparaSection.js"></script>
 
 <script type="text/javascript">
     var g_engId = 0;
     var g_respUser = [];
-    var g_selectedRiskId = 0;
     var g_annexList = @Html.Raw(Json.Serialize(ViewData["AnnexList"]));
-    $('#document').ready(function () {
+    var auditParaSection;
+    $(document).ready(function () {
         var url_string = window.location;
         var url = new URL(url_string);
         g_engId = url.searchParams.get("engId");
-        $('#template_box').richText({
-            bold: true,
-            italic: true,
-            underline: true,
-            leftAlign: true,
-            centerAlign: true,
-            rightAlign: true,
-            justify: true,
-            ol: true,
-            ul: true,
-            heading: true,
-            fonts: true,
-            fontColor: true,
-            fontSize: true,
-            table: true,
-            removeStyles: true,
-            code: true,
-            imageUpload: false,
-            fileUpload: false,
-            videoEmbed: false,
-            urls: false
+
+        auditParaSection = initFieldAuditParaSection({
+            containerSelector: '#fieldAuditParaSection',
+            annexList: g_annexList,
+            readOnly: false
         });
 
-        $('#updatedAnnexlist').select2();
+        $('#auditPara_Annex').select2();
         $('#riskActivitiesSelectBox').select2();
-        $('#updatedAnnexlist').on('change', updateRiskDisplay);
 
-         document.getElementById('amount_inv_field').addEventListener('input', function (e) {
-        this.value = this.value.replace(/\D|^0(?=\d)/g, ''); // Removes decimals and leading zeros
-    });
-
-
+        document.getElementById('amount_inv_field').addEventListener('input', function (e) {
+            this.value = this.value.replace(/\D|^0(?=\d)/g, '');
+        });
     });
 
 
@@ -111,10 +94,13 @@
         });
     }
     function getAuditObservationTemplate() {
-        if ($('#riskActivitiesSelectBox option:selected').val() == 0)
-            $('#template_box').val('').trigger('change');
+        if ($('#riskActivitiesSelectBox option:selected').val() == 0) {
+            if (auditParaSection)
+                auditParaSection.loadData({ paraText: '' });
+        }
         else {
-            $('#template_box').val('').trigger('change');
+            if (auditParaSection)
+                auditParaSection.loadData({ paraText: '' });
             $.ajax({
                 url: g_asiBaseURL + "/Execution/audit_observation_template",
                 type: "POST",
@@ -124,7 +110,8 @@
                 cache: false,
                 success: function (data) {
                     $.each(data, function (index, item) {
-                        $('#template_box').val(item.obS_TEMPLATE).trigger('change');
+                        if (auditParaSection)
+                            auditParaSection.loadData({ paraText: item.obS_TEMPLATE });
                     });
 
                 },
@@ -160,7 +147,9 @@
     }
 
     function submitObservationToAuditee() {
-        if ($('#updatedAnnexlist').val() == 0) {
+        auditParaSection.updateRiskDisplay();
+        var paraData = auditParaSection.getData();
+        if (paraData.annexureId == 0) {
             alert('Select Annexure');
             return;
         }
@@ -177,9 +166,7 @@
             return;
         }
 
-
-        updateRiskDisplay();
-        if (g_selectedRiskId == 0) {
+        if (paraData.riskId == 0) {
             alert('Risk not available for selected Annexure');
             return;
         }
@@ -211,11 +198,11 @@
         });
         var g_memoObj = [];
         var memo = {
-            'MEMO': $('.richText-editor').html(),
+            'MEMO': paraData.paraText,
             'ID': 'obs_0',
             'HEADING': $('#viewMemo_heading').val(),
-            'RISK': g_selectedRiskId,
-            'ANNEXURE_ID': $('#updatedAnnexlist').val(),
+            'RISK': paraData.riskId,
+            'ANNEXURE_ID': paraData.annexureId,
             'AMOUNT_INVOLVED': $('#amount_inv_field').val(),
             'NO_OF_INSTANCES': $('#no_instances_field').val(),
             'DAYS': $('#viewMemo_replydays option:selected').val(),
@@ -234,7 +221,7 @@
                 'BRANCH_ID': $('#brSearchField').val(),
                 'SUB_CHECKLISTID': $('#riskSubGroupSelectBox').val(),
                 'CHECKLIST_ID': $('#riskActivitiesSelectBox').val(),
-                'ANNEXURE_ID': $('#updatedAnnexlist').val()
+                'ANNEXURE_ID': paraData.annexureId
 
             },
             cache: false,
@@ -250,29 +237,6 @@
 
 function reloadLocation() {
         window.location.reload();
-    }
-
-    function updateRiskDisplay() {
-        var annexId = $('#updatedAnnexlist').val();
-        var riskName = '';
-        g_selectedRiskId = 0;
-        $.each(g_annexList, function (i, v) {
-            var id = v.ID || v.id;
-            if (id == annexId) {
-                riskName = v.RISK || v.risk;
-                g_selectedRiskId = v.RISK_ID || v.risK_ID;
-            }
-        });
-        $('#viewMemo_risk_display').val(riskName);
-        var color = '';
-        if (riskName.toLowerCase() === 'high') {
-            color = 'red';
-        } else if (riskName.toLowerCase() === 'medium') {
-            color = 'gold';
-        } else if (riskName.toLowerCase() === 'low') {
-            color = 'green';
-        }
-        $('#viewMemo_risk_display').css('color', color);
     }
 
     function openResponsiblePPs() {
@@ -485,13 +449,13 @@ function reloadLocation() {
 
 
 </script>
-<div class="row col-md-12">
+<div id="fieldAuditParaSection" class="row col-md-12">
     <div class="col-md-12 mt-3">
         <center class="w-100"><h3>Observation</h3></center>
         <div>
             <h5>Annexure</h5>
         </div>
-        <select id="updatedAnnexlist" class="form-select form-control">
+        <select id="auditPara_Annex" class="form-select form-control">
             <option selected="selected" value="0" id="0">--Select Annexure--</option>
             @{
                 if (ViewData["AnnexList"] != null)
@@ -510,6 +474,10 @@ function reloadLocation() {
     <div class="col-md-12 mt-3">
         <label for="viewMemo_risk_display">Risk will be assigned on the basis of Selected Annexure</label>
         <input id="viewMemo_risk_display" class="form-control" readonly />
+    </div>
+    <div class="col-md-12 mt-3">
+        <label for="auditPara_Gist" class="font-weight-bold">Gist of Para</label>
+        <textarea id="auditPara_Gist" class="form-control"></textarea>
     </div>
 
     <div class="col-md-12 mt-3">
@@ -545,7 +513,7 @@ function reloadLocation() {
     </div>
     <div class="col-md-12 mt-3">
         <div class="page-wrapper box-content">
-            <textarea id="template_box" class="content" name="example"></textarea>
+            <textarea id="paraTextViewer" class="content"></textarea>
         </div>
     </div>
     <div class="row col-sm-12">
