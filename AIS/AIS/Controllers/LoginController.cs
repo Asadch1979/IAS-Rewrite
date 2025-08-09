@@ -30,9 +30,10 @@ namespace AIS.Controllers
             TempData["SessionKill"] = "";
             string secretValue = _configuration["SecretKey"];
             string baseURL = _configuration["BaseURL"];
+            string dbDataSource = _configuration["ConnectionStrings:DBDataSource"];
             ViewBag.SecretValue = secretValue;
             ViewBag.BaseURL = baseURL;
-            if (baseURL == "/ZTBLAIS")
+            if (dbDataSource == "10.1.100.111:1521/l0devdb1.ztbl.com.pk")
             {
                 return View("index_dev");
             }
