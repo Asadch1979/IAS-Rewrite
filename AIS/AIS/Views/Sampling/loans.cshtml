@@ -1,4 +1,7 @@
 ﻿@{
+    var page_id = 300;
+}
+@{
     var passedTitle = Context.Request.Query["title"].ToString();
     ViewData["Title"] = string.IsNullOrEmpty(passedTitle) ? "Samples of Loans" : passedTitle;
     Layout = "_Layout";

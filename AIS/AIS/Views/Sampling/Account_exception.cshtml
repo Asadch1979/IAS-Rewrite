@@ -1,4 +1,7 @@
 ﻿@{
+    var page_id = 315;
+}
+@{
     var passedTitle = Context.Request.Query["title"].ToString();
     var passedDesc = Context.Request.Query["desc"].ToString();
     ViewData["Title"] = string.IsNullOrEmpty(passedTitle) ? "CTR Reports Related to Accounts" : passedTitle;
