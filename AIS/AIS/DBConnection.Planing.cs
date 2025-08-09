@@ -608,6 +608,442 @@ namespace AIS.Controllers
             con.Dispose();
             return resMsg;
             }
+        public List<AuditEntitiesModel> GetAuditEntities()
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+
+            var con = this.DatabaseConnection(); con.Open();
+            var loggedInUser = sessionHandler.GetSessionUser();
+
+            List<AuditEntitiesModel> entitiesList = new List<AuditEntitiesModel>();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_pg.P_GetAuditEntities";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ENTITYID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    AuditEntitiesModel entity = new AuditEntitiesModel();
+                    entity.AUTID = Convert.ToInt32(rdr["AUTID"]);
+                    entity.ENTITYCODE = rdr["ENTITYCODE"].ToString();
+                    entity.ENTITYTYPEDESC = rdr["ENTITYTYPEDESC"].ToString();
+                    entity.AUDITABLE = rdr["AUDITABLE"].ToString();
+                    entity.D_RISK = rdr["d_risk"].ToString();
+                    entitiesList.Add(entity);
+                    }
+                }
+            con.Dispose();
+            return entitiesList;
+
+            }
+
+        public List<AuditeeEntitiesModel> GetEntitiesByParentEntityTypeId(int ENTITY_TYPE_ID = 0)
+            {
+            var con = this.DatabaseConnection(); con.Open();
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            List<AuditeeEntitiesModel> entitiesList = new List<AuditeeEntitiesModel>();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_pg.P_GetAuditeeEntities";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ENTITYID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("TYPEID", OracleDbType.Int32).Value = ENTITY_TYPE_ID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                    {
+                    AuditeeEntitiesModel entity = new AuditeeEntitiesModel();
+                    if (rdr["ENTITY_ID"].ToString() != "" && rdr["ENTITY_ID"].ToString() != null)
+                        entity.ENTITY_ID = Convert.ToInt32(rdr["ENTITY_ID"]);
+
+                    if (rdr["name"].ToString() != "" && rdr["name"].ToString() != null)
+                        entity.NAME = rdr["name"].ToString();
+
+                    entitiesList.Add(entity);
+                    }
+                }
+            con.Dispose();
+            return entitiesList;
+
+            }
+
+        public List<AuditEmployeeModel> GetAuditEmployees(int dept_code = 0)
+            {
+            var con = this.DatabaseConnection(); con.Open();
+            List<AuditEmployeeModel> empList = new List<AuditEmployeeModel>();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_pg.P_GetAuditEmployees";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("dept_code", OracleDbType.Int32).Value = dept_code;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    AuditEmployeeModel emp = new AuditEmployeeModel();
+                    emp.PPNO = Convert.ToInt32(rdr["PPNO"]);
+                    emp.DEPARTMENTCODE = Convert.ToInt32(rdr["DEPARTMENTCODE"]);
+                    emp.RANKCODE = Convert.ToInt32(rdr["RANKCODE"]);
+                    emp.DESIGNATIONCODE = Convert.ToInt32(rdr["DESIGNATIONCODE"]);
+
+                    emp.DEPTARMENT = rdr["DEPTARMENT"].ToString();
+                    emp.EMPLOYEEFIRSTNAME = rdr["EMPLOYEEFIRSTNAME"].ToString();
+                    emp.EMPLOYEELASTNAME = rdr["EMPLOYEELASTNAME"].ToString();
+                    emp.CURRENT_RANK = rdr["CURRENT_RANK"].ToString();
+                    emp.FUN_DESIGNATION = rdr["FUN_DESIGNATION"].ToString();
+                    emp.TYPE = rdr["TYPE"].ToString();
+                    empList.Add(emp);
+                    }
+                }
+            con.Dispose();
+            return empList;
+            }
+        public List<TentativePlanModel> GetTentativePlansForFields(bool sessionCheck = true)
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var con = this.DatabaseConnection(); con.Open();
+            var loggedInUser = sessionHandler.GetSessionUser();
+            List<TentativePlanModel> tplansList = new List<TentativePlanModel>();
+
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                string _sql = "pkg_pg.p_get_audit_plan";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                cmd.CommandText = _sql;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    TentativePlanModel tplan = new TentativePlanModel();
+                    tplan.PLAN_ID = Convert.ToInt32(rdr["PLAN_ID"]);
+                    tplan.CRITERIA_ID = Convert.ToInt32(rdr["CRITERIA_ID"]);
+                    tplan.AUDIT_PERIOD_ID = Convert.ToInt32(rdr["AUDITPERIODID"]);
+                    tplan.AUDITEDBY = Convert.ToInt32(rdr["AUDITEDBY"]);
+                    tplan.BR_SIZE = rdr["AUDITEE_SIZE"].ToString();
+                    tplan.RISK = rdr["AUDITEE_RISK"].ToString();
+                    tplan.NATURE_OF_AUDIT = rdr["NATURE_OF_AUDIT"].ToString();
+                    tplan.NO_OF_DAYS = Convert.ToInt32(rdr["NO_OF_DAYS"]);
+                    tplan.ENTITY_ID = Convert.ToInt32(rdr["ENTITY_ID"]);
+                    tplan.CODE = rdr["ENTITY_CODE"].ToString();
+                    tplan.ENTITY_TYPE_ID = Convert.ToInt32(rdr["ENTITY_TYPE_ID"].ToString());
+                    tplan.ENTITY_NAME = rdr["AUDITEE_NAME"].ToString();
+                    tplan.FREQUENCY_DESCRIPTION = rdr["FREQUENCY_DISCRIPTION"].ToString();
+                    tplan.PERIOD_NAME = rdr["PERIOD_NAME"].ToString();
+                    tplan.REPORTING_OFFICE = rdr["REPORTING_OFFICE"].ToString();
+                    tplan.ENT_TYPE = rdr["ent_type"].ToString();
+                    tplansList.Add(tplan);
+                    }
+                }
+            con.Dispose();
+            return tplansList;
+            }
+        public string GetAuditOperationalStartDate(int auditPeriodId = 0, int entityCode = 0)
+            {
+            string result = "";
+            var con = this.DatabaseConnection(); con.Open();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_pg.P_GetAuditOperationalStartDate";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("entityCode", OracleDbType.Int32).Value = entityCode;
+                cmd.Parameters.Add("auditPeriodId", OracleDbType.Int32).Value = auditPeriodId;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    result = rdr["YEAR"].ToString() + "-";
+                    result += rdr["MONTH"].ToString() + "-";
+                    result += rdr["DAY"].ToString();
+                    }
+                }
+            con.Dispose();
+            return result;
+            }
+        public List<AuditRefEngagementPlanModel> GetAuditEngagementPlans()
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection(); con.Open();
+            List<AuditRefEngagementPlanModel> list = new List<AuditRefEngagementPlanModel>();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_pg.P_GetAuditEngagementPlans";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader ardr = cmd.ExecuteReader();
+                while (ardr.Read())
+                    {
+                    AuditRefEngagementPlanModel eng = new AuditRefEngagementPlanModel();
+                    eng.ENG_ID = Convert.ToInt32(ardr["eng_id"].ToString());
+                    eng.TEAM_NAME = ardr["team_name"].ToString();
+                    eng.ENTITY_NAME = ardr["name"].ToString();
+                    eng.AUDIT_STARTDATE = Convert.ToDateTime(ardr["audit_startdate"].ToString()).ToString("dd/MM/yyyy");
+                    eng.AUDIT_ENDDATE = Convert.ToDateTime(ardr["audit_enddate"].ToString()).ToString("dd/MM/yyyy");
+                    eng.OP_STARTDATE = Convert.ToDateTime(ardr["op_startdate"].ToString()).ToString("dd/MM/yyyy");
+                    eng.OP_ENDDATE = Convert.ToDateTime(ardr["op_enddate"].ToString()).ToString("dd/MM/yyyy");
+                    eng.ENTITY_ID = Convert.ToInt32(ardr["entity_id"].ToString());
+                    list.Add(eng);
+                    }
+                }
+            con.Dispose();
+            return list;
+            }
+
+        public List<AuditRefEngagementPlanModel> GetRefferedBackAuditEngagementPlans()
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection(); con.Open();
+            List<AuditRefEngagementPlanModel> list = new List<AuditRefEngagementPlanModel>();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_pg.P_GetRefferedBackAuditEngagementPlans";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader ardr = cmd.ExecuteReader();
+                while (ardr.Read())
+                    {
+                    AuditRefEngagementPlanModel eng = new AuditRefEngagementPlanModel();
+                    eng.PLAN_ID = Convert.ToInt32(ardr["plan_id"].ToString());
+                    eng.ENG_ID = Convert.ToInt32(ardr["eng_id"].ToString());
+                    eng.TEAM_NAME = ardr["team_name"].ToString();
+                    eng.TEAM_ID = Convert.ToInt32(ardr["team_id"].ToString());
+                    eng.ENTITY_NAME = ardr["name"].ToString();
+                    eng.COMMENTS = this.GetLatestCommentsOnEngagement(Convert.ToInt32(eng.ENG_ID)).ToString();
+                    eng.AUDIT_STARTDATE = Convert.ToDateTime(ardr["audit_startdate"].ToString()).ToString("dd/MM/yyyy");
+                    eng.AUDIT_ENDDATE = Convert.ToDateTime(ardr["audit_enddate"].ToString()).ToString("dd/MM/yyyy");
+                    eng.OP_STARTDATE = Convert.ToDateTime(ardr["op_startdate"].ToString()).ToString("dd/MM/yyyy");
+                    eng.OP_ENDDATE = Convert.ToDateTime(ardr["op_enddate"].ToString()).ToString("dd/MM/yyyy");
+
+                    eng.ENTITY_ID = Convert.ToInt32(ardr["entity_id"].ToString());
+                    list.Add(eng);
+                    }
+                }
+            con.Dispose();
+            return list;
+            }
+        public AuditEngagementPlanModel AddAuditEngagementPlan(AuditEngagementPlanModel ePlan)
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            ePlan.CREATED_ON = System.DateTime.Now;
+            int placeofposting = Convert.ToInt32(loggedInUser.UserEntityID);
+            bool isContinue = false;
+
+            ePlan.CREATEDBY = Convert.ToInt32(loggedInUser.PPNumber);
+            var con = this.DatabaseConnection(); con.Open();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_pg.P_AddAuditEngagementPlan";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("PERIODID", OracleDbType.Int32).Value = ePlan.PERIOD_ID;
+                cmd.Parameters.Add("ENTITYID", OracleDbType.Int32).Value = ePlan.ENTITY_ID;
+                cmd.Parameters.Add("AUDIT_STARTDATE", OracleDbType.Date).Value = ePlan.AUDIT_STARTDATE;
+                cmd.Parameters.Add("CREATEDBY", OracleDbType.Int32).Value = ePlan.CREATEDBY;
+                cmd.Parameters.Add("AUDIT_ENDDATE", OracleDbType.Date).Value = ePlan.AUDIT_ENDDATE;
+                cmd.Parameters.Add("STATUS", OracleDbType.Varchar2).Value = ePlan.STATUS;
+                cmd.Parameters.Add("TEAMID", OracleDbType.Int32).Value = ePlan.TEAM_ID;
+                cmd.Parameters.Add("TEAM_NAME", OracleDbType.Varchar2).Value = ePlan.TEAM_NAME;
+                cmd.Parameters.Add("PLANID", OracleDbType.Int32).Value = ePlan.PLAN_ID;
+                cmd.Parameters.Add("OP_STARTDATE", OracleDbType.Date).Value = ePlan.OP_STARTDATE;
+                cmd.Parameters.Add("OP_ENDDATE", OracleDbType.Date).Value = ePlan.OP_ENDDATE;
+                cmd.Parameters.Add("TRAVELDAY", OracleDbType.Int32).Value = ePlan.TRAVELDAY;
+                cmd.Parameters.Add("RRDAY", OracleDbType.Int32).Value = ePlan.RRDAY;
+                cmd.Parameters.Add("D_Day", OracleDbType.Int32).Value = ePlan.D_Day;
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    ePlan.REMARKS_OUT = rdr["REMARKS"].ToString();
+                    if (rdr["REF"].ToString() != "" && rdr["REF"].ToString() != null && rdr["REF"].ToString() == "1")
+                        {
+                        isContinue = true;
+                        ePlan.IS_SUCCESS = "Yes";
+                        }
+                    }
+
+                if (isContinue)
+                    {
+                    cmd.CommandText = "pkg_pg.P_AddAuditteamtasklist";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.Add("TEAMID", OracleDbType.Int32).Value = ePlan.TEAM_ID;
+                    cmd.Parameters.Add("PLANID", OracleDbType.Int32).Value = ePlan.PLAN_ID;
+                    cmd.Parameters.Add("ENTITYID", OracleDbType.Int32).Value = ePlan.ENTITY_ID;
+                    cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                    cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                    cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                    cmd.ExecuteReader();
+
+                    }
+
+                }
+            con.Dispose();
+            return ePlan;
+
+            }
+        public bool RefferedBackAuditEngagementPlan(int ENG_ID, string REMARKS)
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection(); con.Open();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_pg.P_RefferedBackAuditEngagementPlan";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ENGID", OracleDbType.Int32).Value = ENG_ID;
+                cmd.Parameters.Add("REMARKS", OracleDbType.Varchar2).Value = REMARKS;
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                cmd.ExecuteReader();
+                }
+            con.Dispose();
+            return true;
+            }
+        public string RerecommendAuditEngagementPlan(int ENG_ID, int PLAN_ID, int ENTITY_ID, DateTime OP_START_DATE, DateTime OP_END_DATE, DateTime START_DATE, DateTime END_DATE, int TEAM_ID, string COMMENTS)
+            {
+            string resp = "";
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection(); con.Open();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_pg.P_RerecommendAuditEngagementPlan";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ENGID", OracleDbType.Int32).Value = ENG_ID;
+                cmd.Parameters.Add("ENTITYID", OracleDbType.Int32).Value = ENTITY_ID;
+                cmd.Parameters.Add("STARTDATE", OracleDbType.Date).Value = START_DATE;
+                cmd.Parameters.Add("ENDDATE", OracleDbType.Date).Value = END_DATE;
+                cmd.Parameters.Add("TEAMID", OracleDbType.Int32).Value = TEAM_ID;
+                cmd.Parameters.Add("PLANID", OracleDbType.Int32).Value = PLAN_ID;
+                cmd.Parameters.Add("OP_STARTDATE", OracleDbType.Date).Value = OP_START_DATE;
+                cmd.Parameters.Add("OP_ENDDATE", OracleDbType.Date).Value = OP_END_DATE;
+                cmd.Parameters.Add("REMARKS", OracleDbType.Varchar2).Value = COMMENTS;
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    resp = rdr["REMARK"].ToString();
+                    }
+                }
+            con.Dispose();
+            return resp;
+            }
+        public bool ApproveAuditEngagementPlan(int ENG_ID)
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection(); con.Open();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_pg.P_ApproveAuditEngagementPlan";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ENGID", OracleDbType.Int32).Value = ENG_ID;
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                cmd.ExecuteReader();
+
+                }
+            con.Dispose();
+            return true;
+            }
+
+        public List<AuditFrequencyModel> GetAuditFrequencies()
+            {
+            var con = this.DatabaseConnection(); con.Open();
+            List<AuditFrequencyModel> freqList = new List<AuditFrequencyModel>();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_pg.p_GetAuditFrequencies";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    AuditFrequencyModel freq = new AuditFrequencyModel();
+                    freq.ID = Convert.ToInt32(rdr["ID"]);
+                    freq.FREQUENCY_ID = Convert.ToInt32(rdr["FREQUENCY_ID"]);
+                    freq.FREQUENCY_DISCRIPTION = rdr["FREQUENCY_DISCRIPTION"].ToString();
+                    freq.STATUS = rdr["STATUS"].ToString();
+                    freqList.Add(freq);
+                    }
+                }
+            con.Dispose();
+            return freqList;
+            }
+
+        public string GetLatestCommentsOnEngagement(int engId = 0)
+            {
+            var con = this.DatabaseConnection(); con.Open();
+            string response = "";
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_pg.P_GetLatestCommentsOnEngagement";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ENGID", OracleDbType.Int32).Value = engId;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                    {
+                    response = rdr["remarks"].ToString();
+                    }
+                }
+            con.Dispose();
+            return response;
+            }
 
 
         }
