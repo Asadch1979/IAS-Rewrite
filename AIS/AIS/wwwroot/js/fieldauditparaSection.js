@@ -154,3 +154,41 @@ function initFieldAuditParaSection(config) {
     };
 }
 
+// ===== CKEditor Integration =====
+(function () {
+    if (typeof CKEDITOR === 'undefined') {
+        console.error('CKEditor not found. Ensure ckeditor.js is loaded in the page.');
+        return;
+    }
+
+    function initCk(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        if (CKEDITOR.instances[id]) {
+            CKEDITOR.instances[id].destroy(true);
+        }
+        CKEDITOR.replace(id, {
+            height: 500,
+            toolbar: [
+                { name: 'document',   items: ['Source', 'Preview', 'Print', 'PageBreak'] },
+                { name: 'clipboard',  items: ['Undo', 'Redo', 'Find', 'Replace', 'SelectAll', 'RemoveFormat'] },
+                { name: 'styles',     items: ['Format', 'Font', 'FontSize'] },
+                { name: 'basicstyles',items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'CopyFormatting'] },
+                { name: 'colors',     items: ['TextColor', 'BGColor'] },
+                { name: 'paragraph',  items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
+                { name: 'insert',     items: ['Table', 'SpecialChar', 'HorizontalRule', 'Link', 'Unlink'] },
+                { name: 'tools',      items: ['Maximize'] }
+            ],
+            pasteFromWordPromptCleanup: true,
+            pasteFromWordRemoveFontStyles: false,
+            pasteFromWordRemoveStyles: false,
+            removePlugins: 'cloudservices,easyimage',
+            extraAllowedContent: true
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        initCk('viewMemo_memo');
+        initCk('AuditParaHtml');
+    });
+})();
