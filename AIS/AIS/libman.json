@@ -61,10 +61,6 @@
     {
       "library": "crypto-js@4.2.0",
       "destination": "wwwroot/lib/crypto"
-    },
-    {
-      "library": "ckeditor@4.22.1",
-      "destination": "wwwroot/lib/ckeditor"
     }
   ]
 }
