@@ -78,23 +78,10 @@ function initFieldAuditParaSection(config) {
     }
 
     function initEditor() {
-        if (paraTextField.length && typeof CKEDITOR !== 'undefined') {
-            paraTextEditor = CKEDITOR.replace(paraTextField.attr('id'), {
-                extraPlugins: 'print',
-                height: 500,
-                toolbar: [
-                    { name: 'document', items: ['Source', 'Preview', 'Print', 'PageBreak'] },
-                    { name: 'clipboard', items: ['Undo', 'Redo', 'Find', 'Replace', 'SelectAll', 'RemoveFormat'] },
-                    { name: 'styles', items: ['Format', 'Font', 'FontSize'] },
-                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'CopyFormatting'] },
-                    { name: 'colors', items: ['TextColor', 'BGColor'] },
-                    { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
-                    { name: 'insert', items: ['Table', 'SpecialChar', 'HorizontalRule', 'Link', 'Unlink'] },
-                    { name: 'tools', items: ['Maximize'] }
-                ],
-                removePlugins: 'cloudservices,easyimage',
-                extraAllowedContent: true
-            });
+        if (paraTextField.length && $.fn.richText) {
+            paraTextField.richText({ height: 500 });
+            paraTextField = container.find('#paraTextViewer');
+            paraTextEditor = paraTextField.siblings('.richText-editor');
         }
     }
 
@@ -104,8 +91,9 @@ function initFieldAuditParaSection(config) {
         $.each(fields, function (i, f) {
             if (f.length) f.prop('disabled', val);
         });
-        if (paraTextEditor) {
-            paraTextEditor.setReadOnly(val);
+        if (paraTextEditor && paraTextEditor.length) {
+            paraTextEditor.attr('contenteditable', !val);
+            paraTextField.prop('disabled', val);
         } else if (paraTextField.length) {
             paraTextField.prop('disabled', val);
         }
@@ -119,7 +107,7 @@ function initFieldAuditParaSection(config) {
             subProcessId: subProcessSel.val(),
             checklistId: checklistSel.val(),
             gist: gistField.val(),
-            paraText: paraTextEditor ? paraTextEditor.getData() : paraTextField.val()
+            paraText: paraTextField.val()
         };
     }
 
@@ -133,10 +121,10 @@ function initFieldAuditParaSection(config) {
         loadChecklist();
         if (checklistSel.length) checklistSel.val(d.checklistId);
         gistField.val(d.gist);
-        if (paraTextEditor) {
-            paraTextEditor.setData(d.paraText || '');
-        } else {
-            paraTextField.val(d.paraText).trigger('change');
+        paraTextField.val(d.paraText).trigger('change');
+        paraTextEditor = paraTextField.siblings('.richText-editor');
+        if (paraTextEditor && paraTextEditor.length) {
+            paraTextEditor.html(d.paraText || '');
         }
     }
 
@@ -158,72 +146,18 @@ function initFieldAuditParaSection(config) {
     };
 }
 
-// ===== CKEditor central initializer (auto-generated) =====
-(function(){
-  function log(msg){ if (window.console) console.log('[CKInit]', msg); }
-  function warn(msg){ if (window.console) console.warn('[CKInit]', msg); }
-  function err(msg){ if (window.console) console.error('[CKInit]', msg); }
-
-  function ensureCkAvailable(){
-    if (typeof CKEDITOR === 'undefined') {
-      err('CKEditor not found. Include ~/lib/ckeditor/ckeditor.js in the page BEFORE this script.');
-      return false;
-    }
-    return true;
-  }
-
-  function initOne(id, config){
+// ===== Rich Text Editor initializer =====
+(function () {
+  function initOne(id) {
     var el = document.getElementById(id);
-    if (!el) { warn('Textarea not found: #' + id); return; }
-    var inst = CKEDITOR.instances[id];
-    if (inst) {
-      var instEl = inst.element && inst.element.$;
-      var active = instEl === el && inst.status !== 'destroyed' && inst.status !== 'destroying';
-      if (active) {
-        log('Already initialized #' + id);
-        return;
-      }
-      try { inst.destroy(true); } catch(e){ warn('Destroy failed for #' + id + ': ' + e); }
-    }
-    CKEDITOR.replace(id, config);
-    log('Initialized #' + id);
+    if (!el || $(el).siblings('.richText-editor').length) return;
+    $(el).richText({ height: 500 });
   }
 
-  function buildConfig(){
-    return {
-      height: 500,
-      toolbar: [
-        { name: 'document',   items: ['Source','Preview','Print','PageBreak'] },
-        { name: 'clipboard',  items: ['Undo','Redo','Find','Replace','SelectAll','RemoveFormat'] },
-        { name: 'styles',     items: ['Format','Font','FontSize'] },
-        { name: 'basicstyles',items: ['Bold','Italic','Underline','Strike','Subscript','Superscript','CopyFormatting'] },
-        { name: 'colors',     items: ['TextColor','BGColor'] },
-        { name: 'paragraph',  items: ['NumberedList','BulletedList','Outdent','Indent','Blockquote','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'] },
-        { name: 'insert',     items: ['Table','SpecialChar','HorizontalRule','Link','Unlink'] },
-        { name: 'tools',      items: ['Maximize'] }
-      ],
-      pasteFromWordPromptCleanup: true,
-      pasteFromWordRemoveFontStyles: false,
-      pasteFromWordRemoveStyles: false,
-      contentsCss: ['/css/print.css'],
-      removePlugins: 'cloudservices,easyimage',
-      extraAllowedContent: true
-    };
-  }
-
-  function initAll(){
-    if (!ensureCkAvailable()) return;
-    var cfg = buildConfig();
-
-    ['AuditParaHtml','auditPara_Gist','template_box','viewMemo_memo'].forEach(function(id){
-      initOne(id, cfg);
-    });
-
-    var custom = document.querySelectorAll('textarea[data-editor="ck"]');
-    custom.forEach(function(t){
-      var id = t.id || '';
-      if (!id) { warn('textarea[data-editor="ck"] has no id'); return; }
-      initOne(id, cfg);
+  function initAll() {
+    ['AuditParaHtml', 'auditPara_Gist', 'template_box', 'viewMemo_memo'].forEach(initOne);
+    $('textarea[data-editor="richtext"]').each(function () {
+      if (this.id) initOne(this.id);
     });
   }
 
@@ -236,19 +170,19 @@ function initFieldAuditParaSection(config) {
     initAll();
   }
   if (window.jQuery) {
-    jQuery(function(){ initAll(); });
-    jQuery(document).on('shown.bs.modal', function(){ initAll(); });
+    jQuery(function () { initAll(); });
+    jQuery(document).on('shown.bs.modal', function () { initAll(); });
   }
 
-  try{
-    var mo = new MutationObserver(function(muts){
-      for (var i=0;i<muts.length;i++){
-        if (muts[i].addedNodes && muts[i].addedNodes.length){
+  try {
+    var mo = new MutationObserver(function (muts) {
+      for (var i = 0; i < muts.length; i++) {
+        if (muts[i].addedNodes && muts[i].addedNodes.length) {
           initAll();
           break;
         }
       }
     });
-    mo.observe(document.documentElement, {childList:true, subtree:true});
-  }catch(_){/* ignore */}
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+  } catch (_) { /* ignore */ }
 })();
