@@ -14,7 +14,6 @@ function initFieldAuditParaSection(config) {
     var checklistSel = container.find('#auditPara_Checklist');
     var gistField = container.find('#auditPara_Gist');
     var paraTextField = container.find('#paraTextViewer');
-    var paraTextEditor = null;
 
     var selectedRiskId = 0;
 
@@ -77,26 +76,12 @@ function initFieldAuditParaSection(config) {
         }
     }
 
-    function initEditor() {
-        if (paraTextField.length && $.fn.richText) {
-            paraTextField.richText({ height: 500 });
-            paraTextField = container.find('#paraTextViewer');
-            paraTextEditor = paraTextField.siblings('.richText-editor');
-        }
-    }
-
     function setReadOnly(val) {
         opts.readOnly = val;
-        var fields = [annexureSel, processSel, subProcessSel, checklistSel, gistField];
+        var fields = [annexureSel, processSel, subProcessSel, checklistSel, gistField, paraTextField];
         $.each(fields, function (i, f) {
             if (f.length) f.prop('disabled', val);
         });
-        if (paraTextEditor && paraTextEditor.length) {
-            paraTextEditor.attr('contenteditable', !val);
-            paraTextField.prop('disabled', val);
-        } else if (paraTextField.length) {
-            paraTextField.prop('disabled', val);
-        }
     }
 
     function getData() {
@@ -122,10 +107,6 @@ function initFieldAuditParaSection(config) {
         if (checklistSel.length) checklistSel.val(d.checklistId);
         gistField.val(d.gist);
         paraTextField.val(d.paraText).trigger('change');
-        paraTextEditor = paraTextField.siblings('.richText-editor');
-        if (paraTextEditor && paraTextEditor.length) {
-            paraTextEditor.html(d.paraText || '');
-        }
     }
 
     annexureSel.off('change.fap').on('change.fap', updateRiskDisplay);
@@ -133,7 +114,6 @@ function initFieldAuditParaSection(config) {
     subProcessSel.off('change.fap').on('change.fap', loadChecklist);
 
     updateRiskDisplay();
-    initEditor();
     setReadOnly(opts.readOnly);
 
     return {
@@ -146,43 +126,3 @@ function initFieldAuditParaSection(config) {
     };
 }
 
-// ===== Rich Text Editor initializer =====
-(function () {
-  function initOne(id) {
-    var el = document.getElementById(id);
-    if (!el || $(el).siblings('.richText-editor').length) return;
-    $(el).richText({ height: 500 });
-  }
-
-  function initAll() {
-    ['AuditParaHtml', 'auditPara_Gist', 'template_box', 'viewMemo_memo'].forEach(initOne);
-    $('textarea[data-editor="richtext"]').each(function () {
-      if (this.id) initOne(this.id);
-    });
-  }
-
-  window.FieldAuditEditors = window.FieldAuditEditors || {};
-  window.FieldAuditEditors.init = initAll;
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAll);
-  } else {
-    initAll();
-  }
-  if (window.jQuery) {
-    jQuery(function () { initAll(); });
-    jQuery(document).on('shown.bs.modal', function () { initAll(); });
-  }
-
-  try {
-    var mo = new MutationObserver(function (muts) {
-      for (var i = 0; i < muts.length; i++) {
-        if (muts[i].addedNodes && muts[i].addedNodes.length) {
-          initAll();
-          break;
-        }
-      }
-    });
-    mo.observe(document.documentElement, { childList: true, subtree: true });
-  } catch (_) { /* ignore */ }
-})();
