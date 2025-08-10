@@ -222,7 +222,7 @@ namespace AIS.Controllers
         }
         #endregion
 
-        // Cross-package
+        #region Cross-package
         public List<object> GetObservationText(int OBS_ID, int RESP_ID)
         {
             // NOTE: duplicate removed during partials normalization (see de-dup rules).
@@ -298,5 +298,6 @@ namespace AIS.Controllers
             con.Dispose();
             return list;
         }
+        #endregion
     }
 }
