@@ -225,5 +225,82 @@ namespace AIS.Controllers
             return new string(password);
         }
         #endregion
+
+        // Cross-package
+        public List<object> GetObservationText(int OBS_ID, int RESP_ID)
+        {
+            // NOTE: duplicate removed during partials normalization (see de-dup rules).
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection(); con.Open();
+            string ob_text = "";
+            string ob_resp = "";
+
+            List<object> list = new List<object>();
+
+            using (OracleCommand cmd = con.CreateCommand())
+            {
+                cmd.CommandText = "pkg_ae.P_GetObservationText";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("OBS_ID", OracleDbType.Int32).Value = OBS_ID;
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    ob_text = rdr["TEXT"].ToString();
+                }
+                list.Add(ob_text);
+                if (RESP_ID > 0)
+                {
+                    cmd.CommandText = "pkg_ar.P_GetOBSERVATIONSAUDITEERESPONSE";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.Add("OBS_ID", OracleDbType.Int32).Value = OBS_ID;
+                    cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                    cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                    cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                    cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                    OracleDataReader rdr2 = cmd.ExecuteReader();
+
+                    while (rdr2.Read())
+                    {
+                        ob_resp = rdr2["REPLY"].ToString();
+                    }
+                    list.Add(ob_resp);
+                    List<AuditeeResponseEvidenceModel> modellist = new List<AuditeeResponseEvidenceModel>();
+                    cmd.CommandText = "pkg_ar.P_get_AUDITEE_OBSERVATION_RESPONSE_evidences";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.Add("RESP_ID", OracleDbType.Int32).Value = RESP_ID;
+                    cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                    OracleDataReader rdr3 = cmd.ExecuteReader();
+                    while (rdr3.Read())
+                    {
+                        AuditeeResponseEvidenceModel am = new AuditeeResponseEvidenceModel();
+                        am.FILE_ID = rdr3["ID"].ToString();
+                        am.IMAGE_NAME = rdr3["FILE_NAME"].ToString();
+                        am.IMAGE_DATA = "";
+                        am.SEQUENCE = Convert.ToInt32(rdr3["SEQUENCE"].ToString());
+                        am.IMAGE_TYPE = rdr3["FILE_TYPE"].ToString();
+                        modellist.Add(am);
+                    }
+                    list.Add(modellist);
+
+                }
+                else
+                {
+                    list.Add("");
+                    list.Add(new List<object>());
+                }
+            }
+            con.Dispose();
+            return list;
         }
     }
+}

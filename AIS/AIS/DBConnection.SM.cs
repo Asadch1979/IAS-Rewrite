@@ -647,6 +647,7 @@ namespace AIS.Controllers
         public string AddExceptionAccountReport(string IND, int REPORT_ID, string REPORT_TITLE, string DESCRIPTION, string TYPE, int LOAN_STATUS_ID)
 
             {
+            // NOTE: duplicate removed during partials normalization (see de-dup rules).
             string resp = "";
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
@@ -678,40 +679,6 @@ namespace AIS.Controllers
             con.Dispose();
             return resp;
             }
-
-        public string AddExceptionAccountReport(string IND, int REPORT_ID, string REPORT_TITLE, string DESCRIPTION, string TYPE, int LOAN_STATUS_ID)
-
-            {
-            string resp = "";
-            sessionHandler = new SessionHandler();
-            sessionHandler._httpCon = this._httpCon;
-            sessionHandler._session = this._session;
-            sessionHandler._configuration = this._configuration;
-            var con = this.DatabaseConnection(); con.Open();
-            var loggedInUser = sessionHandler.GetSessionUser();
-            using (OracleCommand cmd = con.CreateCommand())
-                {
-                cmd.CommandText = "pkg_sm.P_Add_new_exp_report";
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Clear();
-                cmd.Parameters.Add("IND", OracleDbType.Varchar2).Value = IND;
-                cmd.Parameters.Add("REPORT_ID", OracleDbType.Int32).Value = REPORT_ID;
-                cmd.Parameters.Add("REPORT_TITLE", OracleDbType.Varchar2).Value = REPORT_TITLE;
-                cmd.Parameters.Add("DESCRIPTION", OracleDbType.Varchar2).Value = DESCRIPTION;
-                cmd.Parameters.Add("R_TYPE", OracleDbType.Varchar2).Value = TYPE;
-                cmd.Parameters.Add("L_Status", OracleDbType.Int32).Value = LOAN_STATUS_ID;
-                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
-                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
-                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-                OracleDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
-                    {
-                    resp = rdr["remarks"].ToString();
-                    }
-                }
-            con.Dispose();
-            return resp;
             }
 
         //                responseList.Add(record);
