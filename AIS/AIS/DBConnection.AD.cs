@@ -212,8 +212,6 @@ namespace AIS.Controllers
             con.Dispose();
             return gm;
             }
-            }
-
         public List<RoleRespModel> GetRoleResponsibilities()
             {
             sessionHandler = new SessionHandler();

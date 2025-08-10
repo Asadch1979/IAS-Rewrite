@@ -578,7 +578,6 @@ namespace AIS.Controllers
             con.Dispose();
             return returnResp;
             }
-            }
 
         public string SaveAuditObservationCAU(ObservationModel ob)
             {
@@ -663,10 +662,6 @@ namespace AIS.Controllers
             con.Dispose();
             return returnResp;
             }
-            }
-
-
-
         public bool SetEngIdOnHold()
             {
             sessionHandler = new SessionHandler();
@@ -1855,7 +1850,6 @@ namespace AIS.Controllers
             con.Dispose();
             return resp;
             }
-            }
 
 
         public string UpdateAuditObservationStatusByHead(int OBS_ID, int NEW_STATUS_ID, string FINAL_PARA_NO, string AUDITOR_COMMENT)
@@ -1923,7 +1917,6 @@ namespace AIS.Controllers
                 }
             con.Dispose();
             return resp;
-            }
             }
 
 
@@ -2420,7 +2413,6 @@ namespace AIS.Controllers
                 }
             con.Dispose();
             return resp + "<br/>" + responseRes;
-            }
             }
 
         public string UpdateLegacyParaGistParaNo(string PARA_REF, string PARA_NO, string GIST_OF_PARA)
