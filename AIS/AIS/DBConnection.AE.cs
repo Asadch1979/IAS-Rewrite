@@ -129,9 +129,6 @@ namespace AIS.Controllers
             con.Dispose();
             return list;
             }
-
-            }
-
         public List<ObservationResponsiblePPNOModel> GetObservationResponsiblePPNOs(int OBS_ID)
             {
             var con = this.DatabaseConnection(); con.Open();
@@ -352,8 +349,6 @@ namespace AIS.Controllers
             con.Dispose();
             return true;
             }
-            }
-
         public List<AuditeeOldParasModel> GetAuditeeOldParasEntities()
             {
             sessionHandler = new SessionHandler();

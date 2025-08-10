@@ -679,15 +679,7 @@ namespace AIS.Controllers
             con.Dispose();
             return resp;
             }
-            }
 
-        //                responseList.Add(record);
-        //                }
-        //            }
-        //        }
-        //    con.Dispose();
-        //    return responseList;
-        //    }
         public List<AccountExceptionsModel> GetAccountExceptions(int ENG_ID, int RPT_ID)
             {
             sessionHandler = new SessionHandler();
