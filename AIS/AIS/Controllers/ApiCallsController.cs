@@ -1112,9 +1112,9 @@ namespace AIS.Controllers
             }
 
         [HttpPost]
-        public string get_para_text(string ref_p)
+        public string get_para_text(int comId)
             {
-            return dBConnection.GetParaText(ref_p);
+            return dBConnection.GetParaText(comId);
             }
 
         [HttpPost]
