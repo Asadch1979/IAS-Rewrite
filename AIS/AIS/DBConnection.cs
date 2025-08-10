@@ -224,5 +224,6 @@ namespace AIS.Controllers
             }
             return new string(password);
         }
+        #endregion
+        }
     }
-}
