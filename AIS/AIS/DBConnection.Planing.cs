@@ -38,6 +38,66 @@ namespace AIS.Controllers
             return periodList;
             }
 
+        public List<AuditCCQModel> GetCCQ(int ENTITY_ID = 0)
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var con = this.DatabaseConnection(); con.Open();
+            var loggedInUser = sessionHandler.GetSessionUser();
+            List<AuditCCQModel> list = new List<AuditCCQModel>();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_pg.P_GetCCQ";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    AuditCCQModel chk = new AuditCCQModel();
+                    chk.ID = Convert.ToInt32(rdr["ID"]);
+                    if (rdr["ENTITY_ID"].ToString() != null && rdr["ENTITY_ID"].ToString() != "")
+                        {
+                        chk.ENTITY_ID = Convert.ToInt32(rdr["ENTITY_ID"]);
+                        chk.ENTITY_NAME = rdr["ENTITY_NAME"].ToString();
+                        }
+                    else
+                        {
+                        chk.ENTITY_NAME = "";
+                        }
+
+                    chk.QUESTIONS = rdr["QUESTIONS"].ToString();
+                    if (rdr["CONTROL_VIOLATION_ID"].ToString() != null && rdr["CONTROL_VIOLATION_ID"].ToString() != "")
+                        {
+                        chk.CONTROL_VIOLATION_ID = Convert.ToInt32(rdr["CONTROL_VIOLATION_ID"]);
+                        chk.CONTROL_VIOLATION = rdr["VIOLATION_NAME"].ToString();
+                        }
+                    else
+                        {
+                        chk.CONTROL_VIOLATION = "";
+                        }
+                    if (rdr["RISK_ID"].ToString() != null && rdr["RISK_ID"].ToString() != "")
+                        {
+                        chk.RISK_ID = Convert.ToInt32(rdr["RISK_ID"].ToString());
+                        chk.RISK = rdr["RISK_DEF"].ToString();
+                        }
+                    else
+                        {
+                        chk.RISK = "";
+                        }
+
+                    chk.STATUS = rdr["STATUS"].ToString();
+                    list.Add(chk);
+                    }
+                }
+            con.Dispose();
+            return list;
+            }
+
         public List<AuditPeriodModel> GetAuditPeriods(int dept_code = 0, int AUDIT_PERIOD_ID = 0)
             {
             sessionHandler = new SessionHandler();
