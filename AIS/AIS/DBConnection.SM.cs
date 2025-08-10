@@ -2,6 +2,7 @@ using AIS.Models;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Data;
+using System.Collections.Generic;
 
 namespace AIS.Controllers
     {

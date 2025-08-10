@@ -6,9 +6,9 @@ using System.Threading;
 namespace AIS.Controllers
     {
     public class EmailController : Controller
-        {
+    {
         private readonly IWebHostEnvironment _env;
-        private static Timer? _reminderTimer;
+        private static Timer _reminderTimer;
         private readonly EmailConfiguration _emailConfig = new EmailConfiguration();
 
         public EmailController(IWebHostEnvironment env)
