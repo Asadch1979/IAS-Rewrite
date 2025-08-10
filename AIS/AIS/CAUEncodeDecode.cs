@@ -23,10 +23,10 @@ namespace AIS
             var saltStringBytes = Generate256BitsOfRandomEntropy();
             var ivStringBytes = Generate256BitsOfRandomEntropy();
             var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
-            using (var password = new Rfc2898DeriveBytes(_PASSWORD, saltStringBytes, DerivationIterations))
+            using (var password = new Rfc2898DeriveBytes(_PASSWORD, saltStringBytes, DerivationIterations, HashAlgorithmName.SHA256))
                 {
                 var keyBytes = password.GetBytes(Keysize / 8);
-                using (var symmetricKey = new RijndaelManaged())
+                using (var symmetricKey = Aes.Create())
                     {
                     symmetricKey.BlockSize = 128;
                     symmetricKey.Mode = CipherMode.CBC;
@@ -65,10 +65,10 @@ namespace AIS
             // Get the actual cipher text bytes by removing the first 64 bytes from the cipherText string.
             var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip((Keysize / 8) * 2).Take(cipherTextBytesWithSaltAndIv.Length - ((Keysize / 8) * 2)).ToArray();
 
-            using (var password = new Rfc2898DeriveBytes(_PASSWORD, saltStringBytes, DerivationIterations))
+            using (var password = new Rfc2898DeriveBytes(_PASSWORD, saltStringBytes, DerivationIterations, HashAlgorithmName.SHA256))
                 {
                 var keyBytes = password.GetBytes(Keysize / 8);
-                using (var symmetricKey = new RijndaelManaged())
+                using (var symmetricKey = Aes.Create())
                     {
                     symmetricKey.BlockSize = 128;
                     symmetricKey.Mode = CipherMode.CBC;
@@ -93,12 +93,7 @@ namespace AIS
 
         private byte[] Generate256BitsOfRandomEntropy()
             {
-            var randomBytes = new byte[16]; // 32 Bytes will give us 256 bits.
-            using (var rngCsp = new RNGCryptoServiceProvider())
-                {
-                // Fill the array with cryptographically secure random bytes.
-                rngCsp.GetBytes(randomBytes);
-                }
+            var randomBytes = RandomNumberGenerator.GetBytes(16); // 32 Bytes will give us 256 bits.
             return randomBytes;
             }
         }

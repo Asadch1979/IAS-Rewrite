@@ -106,9 +106,7 @@ namespace AIS
             }
         public string GenerateRandomCryptographicSessionKey(int keyLength = 128)
             {
-            RNGCryptoServiceProvider rngCryptoServiceProvider = new RNGCryptoServiceProvider();
-            byte[] randomBytes = new byte[keyLength];
-            rngCryptoServiceProvider.GetBytes(randomBytes);
+            byte[] randomBytes = RandomNumberGenerator.GetBytes(keyLength);
             return Convert.ToBase64String(randomBytes);
             }
 
