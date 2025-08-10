@@ -10,7 +10,7 @@ namespace AIS.Controllers
         private readonly ILogger<BACController> _logger;
         private readonly TopMenus tm;
         private readonly SessionHandler sessionHandler;
-        private readonly DBConnection dBConnection;
+        private readonly dynamic dBConnection;
         public BACController(ILogger<BACController> logger, SessionHandler _sessionHandler, DBConnection _dbCon, TopMenus _tpMenu)
             {
             _logger = logger;

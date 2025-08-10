@@ -11,7 +11,7 @@ namespace AIS.Controllers
         private readonly ILogger<CAUController> _logger;
         private readonly TopMenus tm;
         private readonly SessionHandler sessionHandler;
-        private readonly DBConnection dBConnection;
+        private readonly dynamic dBConnection;
         public CAUController(ILogger<CAUController> logger, SessionHandler _sessionHandler, DBConnection _dbCon, TopMenus _tpMenu)
             {
             _logger = logger;

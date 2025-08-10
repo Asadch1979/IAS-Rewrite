@@ -12,7 +12,7 @@ namespace AIS
         {
 
         private static SessionModel smodel = new SessionModel();
-        private static DBConnection dBConnection;
+        private static dynamic dBConnection;
         private static LocalIPAddress ipaddr = new LocalIPAddress();
 
         public ISession _session;
