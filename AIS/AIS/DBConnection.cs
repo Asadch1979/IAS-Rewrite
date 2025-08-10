@@ -76,8 +76,8 @@ namespace AIS.Controllers
         #region Session Handling
         public static string getMd5Hash(string input)
         {
-            MD5CryptoServiceProvider md5Hasher = new MD5CryptoServiceProvider();
-            byte[] data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(input));
+            using var md5 = MD5.Create();
+            byte[] data = md5.ComputeHash(Encoding.Default.GetBytes(input));
             StringBuilder sBuilder = new StringBuilder();
             for (int i = 0; i < data.Length; i++)
             {
@@ -213,14 +213,10 @@ namespace AIS.Controllers
         {
             const string validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             char[] password = new char[length];
-            using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
+            byte[] data = RandomNumberGenerator.GetBytes(length);
+            for (int i = 0; i < length; i++)
             {
-                byte[] data = new byte[length];
-                rng.GetBytes(data);
-                for (int i = 0; i < length; i++)
-                {
-                    password[i] = validChars[data[i] % validChars.Length];
-                }
+                password[i] = validChars[data[i] % validChars.Length];
             }
             return new string(password);
         }
