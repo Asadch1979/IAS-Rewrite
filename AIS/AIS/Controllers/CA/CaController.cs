@@ -9,7 +9,7 @@ namespace AIS.Controllers.CA
         private readonly ILogger<CaController> _logger;
         private readonly TopMenus tm;
         private readonly SessionHandler sessionHandler;
-        private readonly DBConnection dBConnection;
+        private readonly dynamic dBConnection;
 
         public CaController(ILogger<CaController> logger, SessionHandler _sessionHandler, DBConnection _dbCon, TopMenus _tpMenu)
             {

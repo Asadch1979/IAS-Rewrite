@@ -12,7 +12,7 @@ namespace AIS.Controllers
         private readonly ILogger<PageNotFoundController> _logger;
         private readonly TopMenus tm;
         private readonly SessionHandler sessionHandler;
-        private readonly DBConnection dBConnection;
+        private readonly dynamic dBConnection;
         public PageNotFoundController(ILogger<PageNotFoundController> logger, SessionHandler _sessionHandler, DBConnection _dbCon, TopMenus _tpMenu)
             {
             _logger = logger;

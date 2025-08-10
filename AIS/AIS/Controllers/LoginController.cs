@@ -13,7 +13,7 @@ namespace AIS.Controllers
         {
         private readonly ILogger<LoginController> _logger;
         private readonly SessionHandler sessionHandler;
-        private readonly DBConnection dBConnection;
+        private readonly dynamic dBConnection;
         private readonly IConfiguration _configuration;
 
         public LoginController(ILogger<LoginController> logger, SessionHandler _sessionHandler, DBConnection _dbCon, IConfiguration configuration)

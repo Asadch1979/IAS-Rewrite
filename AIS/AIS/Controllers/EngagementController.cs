@@ -13,7 +13,7 @@ namespace AIS.Controllers
         private readonly ILogger<EngagementController> _logger;
         private readonly TopMenus tm;
         private readonly SessionHandler sessionHandler;
-        private readonly DBConnection dBConnection;
+        private readonly dynamic dBConnection;
         public EngagementController(ILogger<EngagementController> logger, SessionHandler _sessionHandler, DBConnection _dbCon, TopMenus _tpMenu)
             {
             _logger = logger;

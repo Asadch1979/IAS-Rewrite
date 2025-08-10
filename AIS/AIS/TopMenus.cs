@@ -10,7 +10,7 @@ namespace AIS
 
     public class TopMenus
         {
-        private DBConnection dBConnection;
+        private dynamic dBConnection;
         private SessionHandler sessionHandler;
         public IConfiguration _configuration;
         public ISession _session;

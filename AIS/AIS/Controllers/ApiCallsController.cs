@@ -22,7 +22,7 @@ namespace AIS.Controllers
         private readonly ILogger<ApiCallsController> _logger;
 
         private readonly SessionHandler sessionHandler;
-        private readonly DBConnection dBConnection;
+        private readonly dynamic dBConnection;
         private readonly IWebHostEnvironment _hostingEnvironment;
 
         public ApiCallsController(ILogger<ApiCallsController> logger, SessionHandler _sessionHandler, DBConnection _dbCon, IWebHostEnvironment hostingEnvironment)
@@ -3375,8 +3375,8 @@ namespace AIS.Controllers
                     FileBlob = ms.ToArray(),
                     UploadedBy = uploadedBy
                     };
-                var db = new DBConnection();
-                var status = db.SaveCircularDocument(model);
+                // Use injected DBConnection instead of creating a new instance
+                dBConnection.SaveCircularDocument(model);
                 }
             return Ok("File uploaded successfully!");
             }
@@ -3386,7 +3386,6 @@ namespace AIS.Controllers
             {
             if (files == null || files.Count == 0)
                 return BadRequest("No files uploaded.");
-            var db = new DBConnection();
             var uploadedBy = User.Identity?.Name ?? "anonymous";
             int successCount = 0;
             foreach (var file in files)
@@ -3395,7 +3394,8 @@ namespace AIS.Controllers
                     {
                     file.CopyTo(ms);
                     string status;
-                    db.InsertCircularDoc(
+                    // Use existing DBConnection instance for database operations
+                    dBConnection.InsertCircularDoc(
                         circularId,
                         file.FileName,
                         file.ContentType,
@@ -3414,8 +3414,8 @@ namespace AIS.Controllers
         [HttpGet]
         public IActionResult DownloadCircularFileFromDb(int docId)
             {
-            var db = new DBConnection();
-            var doc = db.GetCircularDocument(docId);
+            // Retrieve document using the injected DBConnection
+            var doc = dBConnection.GetCircularDocument(docId);
             if (doc == null || doc.FileBlob == null) return NotFound();
             return File(doc.FileBlob, doc.FileType ?? "application/octet-stream", doc.FileName);
             }
