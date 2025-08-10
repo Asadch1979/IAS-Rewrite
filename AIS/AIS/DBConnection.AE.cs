@@ -31,7 +31,7 @@ namespace AIS.Controllers
             con.Dispose();
             return riskList;
             }
-        }
+        
 
         public List<AssignedObservations> GetAssignedObservations(int ENG_ID)
             {

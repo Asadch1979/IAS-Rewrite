@@ -37,7 +37,7 @@ namespace AIS.Controllers
             con.Dispose();
             return pdetails;
             }
-        }
+        
 
         public List<RiskProcessDefinition> GetViolationListForDashboard(int ENTITY_ID = 0)
             {

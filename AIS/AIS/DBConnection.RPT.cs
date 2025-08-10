@@ -33,7 +33,7 @@ namespace AIS.Controllers
             con.Dispose();
             return periodList;
             }
-        }
+        
 
         public List<DepartmentModel> GetDepartments(int div_code = 0, bool sessionCheck = true)
             {

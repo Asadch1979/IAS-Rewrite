@@ -9,6 +9,7 @@ namespace AIS.Controllers
     {
     public partial class DBConnection
         {
+        
         public List<CAObservation> GetCAObservations(int? divisionId = null, string status = null)
             {
             sessionHandler = new SessionHandler();

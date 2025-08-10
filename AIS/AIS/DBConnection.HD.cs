@@ -38,7 +38,6 @@ namespace AIS.Controllers
             con.Dispose();
             return groupList;
         }
-
         public string GetUserName(string PPNUMBER)
         {
             string userName = "";

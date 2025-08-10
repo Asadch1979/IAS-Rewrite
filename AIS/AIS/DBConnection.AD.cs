@@ -39,7 +39,7 @@ namespace AIS.Controllers
             con.Dispose();
             return modelList;
             }
-        }
+        
 
         public List<MenuPagesModel> GetAllMenuPages(int menuId = 0)
             {

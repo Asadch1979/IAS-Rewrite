@@ -10,8 +10,7 @@ namespace AIS.Controllers
     {
     public partial class DBConnection
         {
-
-        public string SaveCircularDocument(CircularDocumentModel model)
+         public string SaveCircularDocument(CircularDocumentModel model)
             {
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;

@@ -7,6 +7,7 @@ using System.Data;
 
 namespace AIS.Controllers
 {
+
     public partial class DBConnection
     {
         public List<AuditeeEntitiesModel> GetAuditeeEntitiesForOldParas(int ENTITY_ID = 0)

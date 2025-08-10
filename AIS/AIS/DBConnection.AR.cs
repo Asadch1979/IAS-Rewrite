@@ -39,7 +39,7 @@ namespace AIS.Controllers
             return entitiesList;
 
             }
-        }
+        
 
         public List<RiskGroupModel> GetRiskGroup()
             {
