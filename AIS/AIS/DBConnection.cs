@@ -1,3 +1,703 @@
+using AIS;
+using AIS.Models;
+using AIS.Models;
+using AIS.Models.AIS.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Oracle.ManagedDataAccess.Client;
+using Oracle.ManagedDataAccess.Types;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AIS.Controllers
+    {
+    public partial class DBConnection : Controller
+        {
+        private SessionHandler sessionHandler;
+        private readonly SQLParams sqlParams = new SQLParams();
+        private readonly LocalIPAddress iPAddress = new LocalIPAddress();
+        private readonly DateTimeHandler dtime = new DateTimeHandler();
+        private readonly CAUEncodeDecode encoderDecoder = new CAUEncodeDecode();
+        public ISession _session;
+        public IHttpContextAccessor _httpCon;
+        public IConfiguration _configuration;
+        private readonly string CAU_KEY = "112233";
+
+        [Obsolete]
+        private readonly IHostingEnvironment _env;
+
+        [Obsolete]
+        public DBConnection(IHttpContextAccessor httpContextAccessor, IHostingEnvironment env, IConfiguration configuration)
+            {
+            _session = httpContextAccessor.HttpContext.Session;
+            _httpCon = httpContextAccessor;
+            _env = env;
+            _configuration = configuration;
+
+            }
+        public DBConnection()
+            {
+
+            }
+        #region Database Connection
+        private OracleConnection DatabaseConnection()
+            {
+            try
+                {
+                OracleConnection con = new OracleConnection();
+                OracleConnectionStringBuilder ocsb = new OracleConnectionStringBuilder();
+                ocsb.Password = _configuration["ConnectionStrings:DBUserPassword"];
+                ocsb.UserID = _configuration["ConnectionStrings:DBUserName"];
+                ocsb.DataSource = _configuration["ConnectionStrings:DBDataSource"];
+                ocsb.IncrPoolSize = 5;
+                ocsb.MaxPoolSize = 5000;
+                ocsb.MinPoolSize = 1;
+                ocsb.Pooling = true;
+                ocsb.ConnectionTimeout = 3540;
+                con.ConnectionString = ocsb.ConnectionString;
+                return con;
+                }
+            catch (Exception) { return null; }
+            }
+        #endregion
+        private string DecryptPassword(string encryptedPassword)
+            {
+            byte[] bytes = Convert.FromBase64String(encryptedPassword);
+            return Encoding.UTF8.GetString(bytes);
+            }
+        #region Session Handling
+        public static string getMd5Hash(string input)
+            {
+            // Create a new instance of the MD5CryptoServiceProvider object.
+            MD5CryptoServiceProvider md5Hasher = new MD5CryptoServiceProvider();
+
+            // Convert the input string to a byte array and compute the hash.
+            byte[] data = md5Hasher.ComputeHash(System.Text.Encoding.Default.GetBytes(input));
+
+            // Create a new Stringbuilder to collect the bytes
+            // and create a string.
+            StringBuilder sBuilder = new StringBuilder();
+
+            // Loop through each byte of the hashed data 
+            // and format each one as a hexadecimal string.
+            for (int i = 0; i < data.Length; i++)
+                {
+                sBuilder.Append(data[i].ToString("x2"));
+                }
+
+            // Return the hexadecimal string.
+            return sBuilder.ToString();
+            }
+        public bool DisposeLoginSession()
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var sessionUser = sessionHandler.GetSessionUser();
+            var con = this.DatabaseConnection();
+            con.Open();
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                cmd.CommandText = "pkg_lg.Session_END";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("PPNumber", OracleDbType.Int32).Value = sessionUser.PPNumber;
+                cmd.Parameters.Add("SessionId", OracleDbType.Varchar2).Value = sessionUser.SessionId;
+                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = sessionUser.UserEntityID;
+                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = sessionUser.UserRoleID;
+                cmd.ExecuteReader();
+                }
+            con.Dispose();
+            sessionHandler.DisposeUserSession();
+            return true;
+            }
+        public bool IsLoginSessionExist(string PPNumber = "")
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var sessionUser = sessionHandler.GetSessionUser();
+
+            if (PPNumber == "")
+                PPNumber = sessionUser.PPNumber;
+            bool isSession = false;
+            if (PPNumber != null && PPNumber != "")
+                {
+                var con = this.DatabaseConnection();
+                con.Open();
+
+                using (OracleCommand cmd = con.CreateCommand())
+                    {
+                    cmd.CommandText = "pkg_lg.p_get_user_session";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.Add("PPNumber", OracleDbType.Int32).Value = PPNumber;
+                    cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                        {
+                        if (rdr["ID"].ToString() != "" && rdr["ID"].ToString() != null)
+                            isSession = true;
+                        }
+                    }
+                con.Dispose();
+                }
+
+            return isSession;
+            }
+        public bool KillExistSession(LoginModel login)
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var enc_pass = getMd5Hash(DecryptPassword(login.Password));
+            var con = this.DatabaseConnection();
+            con.Open();
+            bool isSession = false;
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                string _sql = "pkg_lg.p_get_user";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("PPNumber", OracleDbType.Int32).Value = login.PPNumber;
+                cmd.Parameters.Add("enc_pass", OracleDbType.Varchar2).Value = enc_pass;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                cmd.CommandText = _sql;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    cmd.CommandText = "pkg_lg.Session_Kill";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.Add("PPNumber", OracleDbType.Int32).Value = login.PPNumber;
+                    cmd.ExecuteReader();
+                    isSession = true;
+                    }
+                }
+            con.Dispose();
+            sessionHandler.DisposeUserSession();
+            return isSession;
+            }
+        public bool TerminateIdleSession()
+            {
+            sessionHandler = new SessionHandler();
+            sessionHandler._httpCon = this._httpCon;
+            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+            var loggedInUser = sessionHandler.GetSessionUser();
+            bool isTerminate = false;
+            if (!string.IsNullOrEmpty(loggedInUser.PPNumber))
+                {
+                var con = this.DatabaseConnection();
+                con.Open();
+                using (OracleCommand cmd = con.CreateCommand())
+                    {
+                    cmd.CommandText = "pkg_lg.Session_Kill";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.Add("PPNumber", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+                    cmd.ExecuteReader();
+                    isTerminate = true;
+                    }
+                con.Dispose();
+                sessionHandler.DisposeUserSession();
+                }
+            return isTerminate;
+            }
+        public IActionResult Logout()
+            {
+            this.DisposeLoginSession();
+            return RedirectToAction("Index", "Login");
+            }
+        #endregion
+
+        #region Authentication
+        public UserModel AutheticateLogin(LoginModel login)
+            {
+            var con = this.DatabaseConnection();
+            con.Open();
+            UserModel user = new UserModel
+                {
+                isAlreadyLoggedIn = false,
+                isAuthenticate = false
+                };
+            var enc_pass = getMd5Hash(DecryptPassword(login.Password));
+            using (OracleCommand cmd = con.CreateCommand())
+                {
+                string _sql = "pkg_lg.p_get_user";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add("PPNumber", OracleDbType.Int32).Value = login.PPNumber;
+                cmd.Parameters.Add("enc_pass", OracleDbType.Varchar2).Value = enc_pass;
+                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                cmd.CommandText = _sql;
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                    {
+                    user.isAuthenticate = true;
+                    user.changePassword = rdr["password_change_req"].ToString().Trim();
+                    user.passwordChangeRequired = enc_pass == getMd5Hash("ztbl1234");
+                    user.ID = Convert.ToInt32(rdr["USERID"]);
+                    user.Name = rdr["Employeefirstname"].ToString() + " " + rdr["employeelastname"].ToString();
+                    user.Email = rdr["LOGIN_NAME"].ToString();
+                    user.UserEntityName = rdr["ENT_NAME"].ToString();
+                    user.UserRoleName = rdr["GROUP_NAME"].ToString();
+                    user.PPNumber = rdr["PPNO"].ToString();
+                    if (rdr["ENTITY_ID"].ToString() != null && rdr["ENTITY_ID"].ToString() != "")
+                        user.UserEntityID = Convert.ToInt32(rdr["ENTITY_ID"]);
+
+                    user.UserLocationType = rdr["USER_LOCATION_TYPE"].ToString();
+                    user.IsActive = rdr["ISACTIVE"].ToString();
+                    if (rdr["DIVISIONID"].ToString() != null && rdr["DIVISIONID"].ToString() != "")
+                        user.UserPostingDiv = Convert.ToInt32(rdr["DIVISIONID"]);
+                    else
+                        user.UserPostingDiv = 0;
+
+                    if (rdr["DEPARTMENTID"].ToString() != null && rdr["DEPARTMENTID"].ToString() != "")
+                        user.UserPostingDept = Convert.ToInt32(rdr["DEPARTMENTID"]);
+                    else
+                        user.UserPostingDept = 0;
+
+                    if (rdr["ZONEID"].ToString() != null && rdr["ZONEID"].ToString() != "")
+                        user.UserPostingZone = Convert.ToInt32(rdr["ZONEID"]);
+                    else
+                        user.UserPostingZone = 0;
+
+                    if (rdr["BRANCHID"].ToString() != null && rdr["BRANCHID"].ToString() != "")
+                        user.UserPostingBranch = Convert.ToInt32(rdr["BRANCHID"]);
+                    else
+                        user.UserPostingBranch = 0;
+
+                    if (rdr["AUDIT_ZONEID"].ToString() != null && rdr["AUDIT_ZONEID"].ToString() != "")
+                        user.UserPostingAuditZone = Convert.ToInt32(rdr["AUDIT_ZONEID"]);
+                    else
+                        user.UserPostingAuditZone = 0;
+
+                    if (rdr["GROUP_ID"].ToString() != null && rdr["GROUP_ID"].ToString() != "")
+                        user.UserGroupID = Convert.ToInt32(rdr["GROUP_ID"]);
+                    else
+                        user.UserGroupID = 0;
+
+                    if (rdr["ROLE_ID"].ToString() != null && rdr["ROLE_ID"].ToString() != "")
+                        user.UserRoleID = Convert.ToInt32(rdr["ROLE_ID"]);
+                    else
+                        user.UserRoleID = 0;
+
+                    bool isSessionAvailable = false;
+                    string _sql2 = "pkg_lg.p_get_user_id";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.Add("PPNumber", OracleDbType.Int32).Value = login.PPNumber;
+                    cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                    cmd.CommandText = _sql2;
+                    OracleDataReader rdr2 = cmd.ExecuteReader();
+                    while (rdr2.Read())
+                        {
+                        if (rdr2["ID"].ToString() != null && rdr2["ID"].ToString() != "")
+                            {
+                            isSessionAvailable = !isSessionAvailable;
+                            }
+                        }
+
+                    sessionHandler = new SessionHandler();
+                    sessionHandler._httpCon = this._httpCon;
+                    sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
+                    if (isSessionAvailable)
+                        {
+                        user.isAlreadyLoggedIn = true;
+                        }
+                    else
+                        {
+                        var resp = sessionHandler.SetSessionUser(user);
+                        cmd.CommandText = "pkg_lg.User_SESSION";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.Add("PPNumber", OracleDbType.Int32).Value = user.PPNumber;
+                        cmd.Parameters.Add("UserRoleID", OracleDbType.Int32).Value = user.UserRoleID;
+                        cmd.Parameters.Add("LocalIpAddress", OracleDbType.Varchar2).Value = iPAddress.GetLocalIpAddress();
+                        cmd.Parameters.Add("SessionId", OracleDbType.Varchar2).Value = resp.SessionId;
+                        cmd.Parameters.Add("UserLocationType", OracleDbType.Varchar2).Value = user.UserLocationType;
+                        cmd.Parameters.Add("MACAddress", OracleDbType.Varchar2).Value = iPAddress.GetMACAddress();
+                        cmd.Parameters.Add("FirstMACCardAddress", OracleDbType.Varchar2).Value = iPAddress.GetFirstMACCardAddress();
+                        cmd.Parameters.Add("UserPostingDiv", OracleDbType.Int32).Value = user.UserPostingDiv;
+                        cmd.Parameters.Add("UserGroupID", OracleDbType.Varchar2).Value = user.UserGroupID;
+                        cmd.Parameters.Add("UserPostingDept", OracleDbType.Int32).Value = user.UserPostingDept;
+                        cmd.Parameters.Add("UserPostingZone", OracleDbType.Int32).Value = user.UserPostingZone;
+                        cmd.Parameters.Add("UserPostingBranch", OracleDbType.Int32).Value = user.UserPostingBranch;
+                        cmd.Parameters.Add("UserPostingAuditZone", OracleDbType.Int32).Value = user.UserPostingAuditZone;
+                        cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = user.UserEntityID;
+                        cmd.ExecuteReader();
+                        //this.CreateAuditReport();
+                        }
+                    }
+                }
+            con.Dispose();
+            return user;
+            }
+        #endregion
+        public async Task<List<AuditeeResponseEvidenceModel>> GetUploadedAuditReportsFromDirectory(string subfolder)
+            {
+            var filesData = new List<AuditeeResponseEvidenceModel>();
+            try
+                {
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Audit_Report", subfolder);
+
+                if (!Directory.Exists(uploadPath))
+                    {
+                    return filesData;
+                    }
+
+                var files = Directory.GetFiles(uploadPath);
+
+                foreach (var filePath in files)
+                    {
+                    var fileName = Path.GetFileName(filePath);
+                    var fileType = Path.GetExtension(filePath).TrimStart('.'); // Get the file extension without the dot
+                    var fileLength = new FileInfo(filePath).Length;
+
+                    string mimeType = GetMimeType(filePath); // Get MIME type
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, FileOptions.Asynchronous))
+                        {
+                        using (var memoryStream = new MemoryStream())
+                            {
+                            await fileStream.CopyToAsync(memoryStream);
+                            var base64String = Convert.ToBase64String(memoryStream.ToArray());
+
+                            // Sanitize the Base64 string
+                            base64String = base64String.Replace("\n", "").Replace("\r", "").Replace(" ", "");
+
+                            // Ensure proper padding
+                            while (base64String.Length % 4 != 0)
+                                {
+                                base64String += "=";
+                                }
+
+                            // Fix URL-safe Base64 (if applicable)
+                            base64String = base64String.Replace('-', '+').Replace('_', '/');
+
+                            filesData.Add(new AuditeeResponseEvidenceModel
+                                {
+                                FILE_NAME = fileName,
+                                IMAGE_NAME = fileName,
+                                IMAGE_LENGTH = Convert.ToInt64(fileLength),
+                                IMAGE_TYPE = mimeType, // Store MIME type instead of just file extension
+                                IMAGE_DATA = base64String
+                                });
+                            }
+                        }
+                    }
+                }
+            catch (Exception)
+                {
+                // Handle exception (e.g., log error)
+                return new List<AuditeeResponseEvidenceModel>();
+                }
+
+            return filesData;
+            }
+        public async Task<List<AuditeeResponseEvidenceModel>> GetAttachedFilesFromDirectory(string subfolder)
+            {
+            var filesData = new List<AuditeeResponseEvidenceModel>();
+            try
+                {
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "PostCompliance_Evidences", subfolder);
+
+                if (!Directory.Exists(uploadPath))
+                    {
+                    return filesData;
+                    }
+
+                var files = Directory.GetFiles(uploadPath);
+
+                foreach (var filePath in files)
+                    {
+                    var fileName = Path.GetFileName(filePath);
+                    var fileType = Path.GetExtension(filePath).TrimStart('.'); // Get the file extension without the dot
+                    var fileLength = new FileInfo(filePath).Length;
+
+                    string mimeType = GetMimeType(filePath); // Get MIME type
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, FileOptions.Asynchronous))
+                        {
+                        using (var memoryStream = new MemoryStream())
+                            {
+                            await fileStream.CopyToAsync(memoryStream);
+                            var base64String = Convert.ToBase64String(memoryStream.ToArray());
+
+                            // Sanitize the Base64 string
+                            base64String = base64String.Replace("\n", "").Replace("\r", "").Replace(" ", "");
+
+                            // Ensure proper padding
+                            while (base64String.Length % 4 != 0)
+                                {
+                                base64String += "=";
+                                }
+
+                            // Fix URL-safe Base64 (if applicable)
+                            base64String = base64String.Replace('-', '+').Replace('_', '/');
+
+                            filesData.Add(new AuditeeResponseEvidenceModel
+                                {
+                                FILE_NAME = fileName,
+                                IMAGE_LENGTH = Convert.ToInt64(fileLength),
+                                IMAGE_TYPE = mimeType, // Store MIME type instead of just file extension
+                                IMAGE_DATA = base64String
+                                });
+                            }
+                        }
+                    }
+                }
+            catch (Exception)
+                {
+                // Handle exception (e.g., log error)
+                return new List<AuditeeResponseEvidenceModel>();
+                }
+
+            return filesData;
+            }
+        public async Task<List<AuditeeResponseEvidenceModel>> GetAttachedAuditeeEvidencesFromDirectory(string subfolder)
+            {
+            var filesData = new List<AuditeeResponseEvidenceModel>();
+            try
+                {
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Auditee_Evidences", subfolder);
+
+                if (!Directory.Exists(uploadPath))
+                    {
+                    return filesData;
+                    }
+
+                var files = Directory.GetFiles(uploadPath);
+
+                foreach (var filePath in files)
+                    {
+                    var fileName = Path.GetFileName(filePath);
+                    var fileType = Path.GetExtension(filePath).TrimStart('.'); // Get the file extension without the dot
+                    var fileLength = new FileInfo(filePath).Length;
+
+                    string mimeType = GetMimeType(filePath); // Get MIME type
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, FileOptions.Asynchronous))
+                        {
+                        using (var memoryStream = new MemoryStream())
+                            {
+                            await fileStream.CopyToAsync(memoryStream);
+                            var base64String = Convert.ToBase64String(memoryStream.ToArray());
+
+                            // Sanitize the Base64 string
+                            base64String = base64String.Replace("\n", "").Replace("\r", "").Replace(" ", "");
+
+                            // Ensure proper padding
+                            while (base64String.Length % 4 != 0)
+                                {
+                                base64String += "=";
+                                }
+
+                            // Fix URL-safe Base64 (if applicable)
+                            base64String = base64String.Replace('-', '+').Replace('_', '/');
+
+                            filesData.Add(new AuditeeResponseEvidenceModel
+                                {
+                                FILE_NAME = fileName,
+                                IMAGE_LENGTH = Convert.ToInt64(fileLength),
+                                IMAGE_TYPE = mimeType, // Store MIME type instead of just file extension
+                                IMAGE_DATA = base64String
+                                });
+                            }
+                        }
+                    }
+                }
+            catch (Exception)
+                {
+                // Handle exception (e.g., log error)
+                return new List<AuditeeResponseEvidenceModel>();
+                }
+
+            return filesData;
+            }
+        public async Task<List<AuditeeResponseEvidenceModel>> GetAttachedCAUEvidencesFromDirectory(string subfolder)
+            {
+            var filesData = new List<AuditeeResponseEvidenceModel>();
+            try
+                {
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "CAU_Evidences", subfolder);
+
+                if (!Directory.Exists(uploadPath))
+                    {
+                    return filesData;
+                    }
+
+                var files = Directory.GetFiles(uploadPath);
+
+                foreach (var filePath in files)
+                    {
+                    var fileName = Path.GetFileName(filePath);
+                    var fileType = Path.GetExtension(filePath).TrimStart('.'); // Get the file extension without the dot
+                    var fileLength = new FileInfo(filePath).Length;
+
+                    string mimeType = GetMimeType(filePath); // Get MIME type
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, FileOptions.Asynchronous))
+                        {
+                        using (var memoryStream = new MemoryStream())
+                            {
+                            await fileStream.CopyToAsync(memoryStream);
+                            var base64String = Convert.ToBase64String(memoryStream.ToArray());
+
+                            // Sanitize the Base64 string
+                            base64String = base64String.Replace("\n", "").Replace("\r", "").Replace(" ", "");
+
+                            // Ensure proper padding
+                            while (base64String.Length % 4 != 0)
+                                {
+                                base64String += "=";
+                                }
+
+                            // Fix URL-safe Base64 (if applicable)
+                            base64String = base64String.Replace('-', '+').Replace('_', '/');
+
+                            filesData.Add(new AuditeeResponseEvidenceModel
+                                {
+                                FILE_NAME = fileName,
+                                IMAGE_LENGTH = Convert.ToInt64(fileLength),
+                                IMAGE_TYPE = mimeType, // Store MIME type instead of just file extension
+                                IMAGE_DATA = base64String
+                                });
+                            }
+                        }
+                    }
+                }
+            catch (Exception)
+                {
+                // Handle exception (e.g., log error)
+                return new List<AuditeeResponseEvidenceModel>();
+                }
+
+            return filesData;
+            }
+        public bool DeleteAuditReportSubFolderDirectoryFromServer(string subfolder)
+            {
+            try
+                {
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Audit_Report", subfolder);
+
+                if (Directory.Exists(uploadPath))
+                    {
+                    // Delete the directory and all its contents
+                    Directory.Delete(uploadPath, true);
+
+                    return true;
+                    }
+                else
+                    {
+
+                    return false;
+                    }
+                }
+            catch (Exception)
+                {
+
+                return false;
+                }
+            }
+        public bool DeleteSubFolderDirectoryFromServer(string subfolder)
+            {
+            try
+                {
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "PostCompliance_Evidences", subfolder);
+
+                if (Directory.Exists(uploadPath))
+                    {
+                    // Delete the directory and all its contents
+                    Directory.Delete(uploadPath, true);
+
+                    return true;
+                    }
+                else
+                    {
+
+                    return false;
+                    }
+                }
+            catch (Exception)
+                {
+
+                return false;
+                }
+            }
+
+        public bool DeleteSubFolderDirectoryInAuditeeEvidenceFromServer(string subfolder)
+            {
+            try
+                {
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Auditee_Evidences", subfolder);
+
+                if (Directory.Exists(uploadPath))
+                    {
+                    // Delete the directory and all its contents
+                    Directory.Delete(uploadPath, true);
+
+                    return true;
+                    }
+                else
+                    {
+
+                    return false;
+                    }
+                }
+            catch (Exception)
+                {
+
+                return false;
+                }
+            }
+        public bool DeleteSubFolderDirectoryInCAUEvidenceFromServer(string subfolder)
+            {
+            try
+                {
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "CAU_Evidences", subfolder);
+
+                if (Directory.Exists(uploadPath))
+                    {
+                    // Delete the directory and all its contents
+                    Directory.Delete(uploadPath, true);
+
+                    return true;
+                    }
+                else
+                    {
+
+                    return false;
+                    }
+                }
+            catch (Exception)
+                {
+
+                return false;
+                }
+            }
+        // Function to get the MIME type based on file extension
+        private string GetMimeType(string filePath)
+            {
+            string extension = Path.GetExtension(filePath).ToLowerInvariant();
+            Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
+            string mimeType;
+            if (!provider.TryGetContentType(filePath, out mimeType))
+                {
+                mimeType = "application/octet-stream"; // Default MIME type
+                }
+            return mimeType;
+            }
+
         public List<RoleRespModel> GetRoleResponsibleForChecklistDetail()
                 cmd.CommandText = "pkg_fad.p_get_role_responsible";
                 cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
@@ -58,41 +758,56 @@
                     {
                     password[i] = validChars[data[i] % validChars.Length];
             return new string(password);
-        public bool ChangePassword(string Password, string NewPassowrd)
-            sessionHandler = new SessionHandler();
-            sessionHandler._httpCon = this._httpCon;
-            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
 
-            var loggedInUser = sessionHandler.GetSessionUser();
-            var enc_pass = getMd5Hash(DecryptPassword(Password));
-            bool correctPass = false;
-            bool res = false;
-            var enc_new_pass = getMd5Hash(DecryptPassword(NewPassowrd));
-                cmd.CommandText = "pkg_lg.p_get_user";
-                cmd.Parameters.Add("PPNumber", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                cmd.Parameters.Add("enc_pass", OracleDbType.Varchar2).Value = enc_pass;
-                    if (rdr["USERID"].ToString() != null && rdr["USERID"].ToString() != "")
-                        {
-                        correctPass = true;
-                        res = true;
-                        }
+       public bool ChangePassword(string Password, string NewPassowrd)
+    {
+    sessionHandler = new SessionHandler();
+    sessionHandler._httpCon = this._httpCon;
+    sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
 
-                    }
-                if (correctPass)
-                    {
-                    cmd.CommandText = "pkg_lg.P_ChangePassword";
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Clear();
-                    cmd.Parameters.Add("PP_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                    cmd.Parameters.Add("enc_pass", OracleDbType.Varchar2).Value = enc_new_pass;
-                    cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
-                    cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
-                    cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
-                    cmd.ExecuteReader();
-                    res = true;
-            return res;
+    var con = this.DatabaseConnection(); con.Open();
+    var loggedInUser = sessionHandler.GetSessionUser();
+    var enc_pass = getMd5Hash(DecryptPassword(Password));
+    bool correctPass = false;
+    bool res = false;
+    var enc_new_pass = getMd5Hash(DecryptPassword(NewPassowrd));
+    using (OracleCommand cmd = con.CreateCommand())
+        {
+        cmd.CommandText = "pkg_lg.p_get_user";
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.Clear();
+        cmd.Parameters.Add("PPNumber", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+        cmd.Parameters.Add("enc_pass", OracleDbType.Varchar2).Value = enc_pass;
+        cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+        OracleDataReader rdr = cmd.ExecuteReader();
+        while (rdr.Read())
+            {
+            if (rdr["USERID"].ToString() != null && rdr["USERID"].ToString() != "")
+                {
+                correctPass = true;
+                res = true;
+                }
 
-        public List<BranchModel> GetZoneBranches(int zone_code = 0, bool sessionCheck = true)
+            }
+        if (correctPass)
+            {
+            cmd.CommandText = "pkg_lg.P_ChangePassword";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.Parameters.Add("PP_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
+            cmd.Parameters.Add("enc_pass", OracleDbType.Varchar2).Value = enc_new_pass;
+            cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+            cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
+            cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
+            cmd.ExecuteReader();
+            res = true;
+            }
+        }
+    con.Dispose();
+    return res;
+    }
+
+public List<BranchModel> GetZoneBranches(int zone_code = 0, bool sessionCheck = true)
 
             List<BranchModel> branchList = new List<BranchModel>();
                 cmd.CommandText = "pkg_hd.P_GetOldParasEntityid";
