@@ -130,80 +130,6 @@ namespace AIS.Controllers
             return list;
             }
 
-        public List<object> GetObservationText(int OBS_ID, int RESP_ID)
-            {
-            sessionHandler = new SessionHandler();
-            sessionHandler._httpCon = this._httpCon;
-            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
-            var loggedInUser = sessionHandler.GetSessionUser();
-            var con = this.DatabaseConnection(); con.Open();
-            string ob_text = "";
-            string ob_resp = "";
-
-            List<object> list = new List<object>();
-
-            using (OracleCommand cmd = con.CreateCommand())
-                {
-                cmd.CommandText = "pkg_ae.P_GetObservationText";
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Clear();
-                cmd.Parameters.Add("OBS_ID", OracleDbType.Int32).Value = OBS_ID;
-                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
-                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
-                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-                OracleDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
-                    {
-                    ob_text = rdr["TEXT"].ToString();
-
-                    }
-                list.Add(ob_text);
-                if (RESP_ID > 0)
-                    {
-                    cmd.CommandText = "pkg_ar.P_GetOBSERVATIONSAUDITEERESPONSE";
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Clear();
-                    cmd.Parameters.Add("OBS_ID", OracleDbType.Int32).Value = OBS_ID;
-                    cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
-                    cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                    cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
-                    cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-                    OracleDataReader rdr2 = cmd.ExecuteReader();
-
-                    while (rdr2.Read())
-                        {
-                        ob_resp = rdr2["REPLY"].ToString();
-                        }
-                    list.Add(ob_resp);
-                    List<AuditeeResponseEvidenceModel> modellist = new List<AuditeeResponseEvidenceModel>();
-                    cmd.CommandText = "pkg_ar.P_get_AUDITEE_OBSERVATION_RESPONSE_evidences";
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Clear();
-                    cmd.Parameters.Add("RESP_ID", OracleDbType.Int32).Value = RESP_ID;
-                    cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-                    OracleDataReader rdr3 = cmd.ExecuteReader();
-                    while (rdr3.Read())
-                        {
-                        AuditeeResponseEvidenceModel am = new AuditeeResponseEvidenceModel();
-                        am.FILE_ID = rdr3["ID"].ToString();
-                        am.IMAGE_NAME = rdr3["FILE_NAME"].ToString();
-                        am.IMAGE_DATA = "";
-                        am.SEQUENCE = Convert.ToInt32(rdr3["SEQUENCE"].ToString());
-                        am.IMAGE_TYPE = rdr3["FILE_TYPE"].ToString();
-                        modellist.Add(am);
-                        }
-                    list.Add(modellist);
-
-                    }
-                else
-                    {
-                    list.Add("");
-                    list.Add(new List<object>());
-                    }
-                }
-            con.Dispose();
-            return list;
             }
 
         public List<ObservationResponsiblePPNOModel> GetObservationResponsiblePPNOs(int OBS_ID)
@@ -357,6 +283,7 @@ namespace AIS.Controllers
 
         public async Task<bool> ResponseAuditObservation(ObservationResponseModel ob, string SUBFOLDER)
             {
+            // NOTE: duplicate removed during partials normalization (see de-dup rules).
             int AUD_RESP_ID = 0;
             List<AuditeeResponseEvidenceModel> EVIDENCE_LIST = new List<AuditeeResponseEvidenceModel>();
             sessionHandler = new SessionHandler();
@@ -425,76 +352,6 @@ namespace AIS.Controllers
             con.Dispose();
             return true;
             }
-
-        public async Task<bool> ResponseAuditObservation(ObservationResponseModel ob, string SUBFOLDER)
-            {
-            int AUD_RESP_ID = 0;
-            List<AuditeeResponseEvidenceModel> EVIDENCE_LIST = new List<AuditeeResponseEvidenceModel>();
-            sessionHandler = new SessionHandler();
-            sessionHandler._httpCon = this._httpCon;
-            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
-            var con = this.DatabaseConnection(); con.Open();
-            var loggedInUser = sessionHandler.GetSessionUser();
-            ob.REPLIEDBY = Convert.ToInt32(loggedInUser.PPNumber);
-            ob.REPLIEDDATE = System.DateTime.Now;
-            ob.REMARKS = "";
-            ob.SUBMITTED = "Y";
-            ob.REPLY_ROLE = 0;
-            using (OracleCommand cmd = con.CreateCommand())
-                {
-                cmd.CommandText = "pkg_ae.P_AUDITEE_OBSERVATION_RESPONSE";
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Clear();
-                cmd.Parameters.Add("AUOBSID", OracleDbType.Int32).Value = ob.AU_OBS_ID;
-                cmd.Parameters.Add("REPLYDATA", OracleDbType.Clob).Value = ob.REPLY;
-                cmd.Parameters.Add("REPLIEDBY", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                cmd.Parameters.Add("OBSTEXTID", OracleDbType.Int32).Value = ob.OBS_TEXT_ID;
-                cmd.Parameters.Add("REPLYROLE", OracleDbType.Int32).Value = ob.REPLY_ROLE;
-                cmd.Parameters.Add("REMARKS", OracleDbType.Varchar2).Value = ob.REMARKS;
-                cmd.Parameters.Add("SUBMITTED", OracleDbType.Varchar2).Value = ob.SUBMITTED;
-                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
-                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
-                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-                OracleDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
-                    {
-                    AUD_RESP_ID = Convert.ToInt32(rdr["RESP_ID"]);
-                    }
-
-                EVIDENCE_LIST = await this.GetAttachedAuditeeEvidencesFromDirectory(SUBFOLDER);
-                int index = 1;
-                if (EVIDENCE_LIST != null)
-                    {
-                    if (EVIDENCE_LIST.Count > 0)
-                        {
-                        foreach (var item in EVIDENCE_LIST)
-                            {
-                            string fileName = item.FILE_NAME;
-                            cmd.CommandText = "pkg_ae.P_AUDITEE_OBSERVATION_RESPONSE_EVIDENCES";
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.Clear();
-                            cmd.Parameters.Add("RESPID", OracleDbType.Int32).Value = AUD_RESP_ID;
-                            cmd.Parameters.Add("AUOBSID", OracleDbType.Int32).Value = ob.AU_OBS_ID;
-                            cmd.Parameters.Add("FILENAME", OracleDbType.Varchar2).Value = fileName;
-                            cmd.Parameters.Add("FILETYPE", OracleDbType.Varchar2).Value = item.IMAGE_TYPE;
-                            cmd.Parameters.Add("LENGTH", OracleDbType.Int32).Value = item.LENGTH;
-                            cmd.Parameters.Add("ENTEREDBY", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                            cmd.Parameters.Add("FILEDATA", OracleDbType.Clob).Value = item.IMAGE_DATA;
-                            cmd.Parameters.Add("SEQUENCE", OracleDbType.Int32).Value = (index);
-                            cmd.Parameters.Add("TEXT_ID", OracleDbType.Int32).Value = ob.OBS_TEXT_ID;
-                            cmd.ExecuteReader();
-                            index++;
-
-
-                            }
-                        }
-                    }
-
-                this.DeleteSubFolderDirectoryInAuditeeEvidenceFromServer(SUBFOLDER);
-                }
-            con.Dispose();
-            return true;
             }
 
         public List<AuditeeOldParasModel> GetAuditeeOldParasEntities()
@@ -1082,6 +939,7 @@ namespace AIS.Controllers
 
         public async Task<string> SubmitPostAuditCompliance(string OLD_PARA_ID, int NEW_PARA_ID, string INDICATOR, string COMPLIANCE, string COMMENTS, List<AuditeeResponseEvidenceModel> EVIDENCE_LIST, string SUBFOLDER)
             {
+            // NOTE: duplicate removed during partials normalization (see de-dup rules).
 
             string resp = "";
             int TEXT_ID = 0;
@@ -1145,70 +1003,6 @@ namespace AIS.Controllers
             return resp;
             }
 
-        public async Task<string> SubmitPostAuditCompliance(string OLD_PARA_ID, int NEW_PARA_ID, string INDICATOR, string COMPLIANCE, string COMMENTS, List<AuditeeResponseEvidenceModel> EVIDENCE_LIST, string SUBFOLDER)
-            {
-
-            string resp = "";
-            int TEXT_ID = 0;
-            sessionHandler = new SessionHandler();
-            sessionHandler._httpCon = this._httpCon;
-            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
-            var con = this.DatabaseConnection(); con.Open();
-            var loggedInUser = sessionHandler.GetSessionUser();
-            using (OracleCommand cmd = con.CreateCommand())
-                {
-                cmd.CommandText = "pkg_ae.P_SubmitPostAuditCompliance";
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Clear();
-                cmd.Parameters.Add("Old_id", OracleDbType.Int32).Value = OLD_PARA_ID;
-                cmd.Parameters.Add("new_id", OracleDbType.Int32).Value = NEW_PARA_ID;
-                cmd.Parameters.Add("Entity_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
-                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
-                cmd.Parameters.Add("Auditee_COM", OracleDbType.Clob).Value = COMPLIANCE;
-                cmd.Parameters.Add("A_COMMENTS", OracleDbType.Varchar2).Value = COMMENTS;
-                cmd.Parameters.Add("P_IND", OracleDbType.Varchar2).Value = INDICATOR;
-                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-                OracleDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
-                    {
-                    resp = rdr["remarks"].ToString();
-                    TEXT_ID = Convert.ToInt32(rdr["text_id"].ToString());
-
-                    }
-
-                EVIDENCE_LIST = await this.GetAttachedFilesFromDirectory(SUBFOLDER);
-                int index = 1;
-                if (EVIDENCE_LIST != null)
-                    {
-                    if (EVIDENCE_LIST.Count > 0)
-                        {
-                        foreach (var item in EVIDENCE_LIST)
-                            {
-                            string fileName = item.FILE_NAME;
-                            cmd.CommandText = "pkg_ae.P_SubmitPostAuditCompliance_Evidence";
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.Clear();
-                            cmd.Parameters.Add("TEXT_ID", OracleDbType.Varchar2).Value = TEXT_ID;
-                            cmd.Parameters.Add("FILENAME", OracleDbType.Varchar2).Value = fileName;
-                            cmd.Parameters.Add("LEN_ID", OracleDbType.Int32).Value = item.IMAGE_LENGTH;
-                            cmd.Parameters.Add("ENTER_BY", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                            cmd.Parameters.Add("FILETYPE", OracleDbType.Varchar2).Value = item.IMAGE_TYPE;
-                            cmd.Parameters.Add("FILEDATA", OracleDbType.Clob).Value = item.IMAGE_DATA;
-                            cmd.Parameters.Add("SEQ_ID", OracleDbType.Int32).Value = (index);
-                            cmd.ExecuteReader();
-                            index++;
-                            //this.SaveImage(item.IMAGE_DATA, fileName);
-                            }
-                        }
-                    }
-
-                this.DeleteSubFolderDirectoryFromServer(SUBFOLDER);
-                }
-
-            con.Dispose();
-            return resp;
-            }
 
         public string SubmitPostAuditComplianceReview(string OLD_PARA_ID, int NEW_PARA_ID, string INDICATOR, string COMPLIANCE, string COMMENTS, List<AuditeeResponseEvidenceModel> EVIDENCE_LIST)
             {
@@ -1769,6 +1563,7 @@ namespace AIS.Controllers
 
         public async Task<string> SubmitCAUParaByBranch(string COM_ID, string TEXT_ID, string BR_COMMENTS)
             {
+            // NOTE: duplicate removed during partials normalization (see de-dup rules).
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
@@ -1826,65 +1621,6 @@ namespace AIS.Controllers
             con.Dispose();
             return resp;
             }
-
-        public async Task<string> SubmitCAUParaByBranch(string COM_ID, string TEXT_ID, string BR_COMMENTS)
-            {
-            sessionHandler = new SessionHandler();
-            sessionHandler._httpCon = this._httpCon;
-            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
-            var loggedInUser = sessionHandler.GetSessionUser();
-            string resp = "";
-            var con = this.DatabaseConnection(); con.Open();
-
-            using (OracleCommand cmd = con.CreateCommand())
-                {
-                cmd.CommandText = "pkg_ae.P_SubmitPostAuditCompliance_BY_BRANCH";
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Clear();
-                cmd.Parameters.Add("C_ID", OracleDbType.Varchar2).Value = COM_ID;
-                cmd.Parameters.Add("T_ID", OracleDbType.Varchar2).Value = TEXT_ID;
-                cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
-                cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
-                cmd.Parameters.Add("Auditee_COM", OracleDbType.Clob).Value = BR_COMMENTS;
-                cmd.Parameters.Add("T_CURSOR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-                OracleDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
-                    {
-                    resp = rdr["remarks"].ToString();
-                    }
-                List<AuditeeResponseEvidenceModel> EVIDENCE_LIST = new List<AuditeeResponseEvidenceModel>();
-                EVIDENCE_LIST = await this.GetAttachedCAUEvidencesFromDirectory(COM_ID);
-                int index = 1;
-                if (EVIDENCE_LIST != null)
-                    {
-                    if (EVIDENCE_LIST.Count > 0)
-                        {
-                        foreach (var item in EVIDENCE_LIST)
-                            {
-                            string fileName = item.FILE_NAME;
-                            cmd.CommandText = "pkg_ae.P_SubmitPostAuditCompliance_Evidence_By_BRANCH";
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.Clear();
-                            cmd.Parameters.Add("TEXT_ID", OracleDbType.Int32).Value = TEXT_ID;
-                            cmd.Parameters.Add("filename", OracleDbType.Varchar2).Value = fileName;
-                            cmd.Parameters.Add("len_id", OracleDbType.Int32).Value = item.LENGTH;
-                            cmd.Parameters.Add("enter_by", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                            cmd.Parameters.Add("filetype", OracleDbType.Varchar2).Value = item.IMAGE_TYPE;
-                            cmd.Parameters.Add("filedata", OracleDbType.Clob).Value = item.IMAGE_DATA;
-                            cmd.Parameters.Add("seq_id", OracleDbType.Int32).Value = (index);
-                            cmd.ExecuteReader();
-                            index++;
-
-
-                            }
-                        }
-                    }
-
-                this.DeleteSubFolderDirectoryInCAUEvidenceFromServer(COM_ID);
-                }
-            con.Dispose();
-            return resp;
             }
 
         // -------------- CAU PARAS REVIEW OF BRANCH REPLY -----------

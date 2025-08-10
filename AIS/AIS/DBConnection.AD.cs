@@ -173,6 +173,7 @@ namespace AIS.Controllers
 
         public GroupModel AddGroup(GroupModel gm)
             {
+            // NOTE: duplicate removed during partials normalization (see de-dup rules).
             sessionHandler = new SessionHandler();
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
@@ -211,46 +212,6 @@ namespace AIS.Controllers
             con.Dispose();
             return gm;
             }
-
-        public GroupModel AddGroup(GroupModel gm)
-            {
-            sessionHandler = new SessionHandler();
-            sessionHandler._httpCon = this._httpCon;
-            sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
-            var loggedInUser = sessionHandler.GetSessionUser();
-            var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
-                {
-                if (gm.GROUP_ID == 0)
-                    {
-                    cmd.CommandText = "pkg_ad.p_AddGroup";
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Clear();
-                    cmd.Parameters.Add("GROUP_DESCRIPTION", OracleDbType.Varchar2).Value = gm.GROUP_DESCRIPTION;
-                    cmd.Parameters.Add("GROUP_NAME", OracleDbType.Varchar2).Value = gm.GROUP_NAME;
-                    cmd.Parameters.Add("ISACTIVE", OracleDbType.Varchar2).Value = gm.ISACTIVE;
-                    cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                    cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
-                    cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
-                    cmd.ExecuteReader();
-                    }
-                else if (gm.GROUP_ID != 0)
-                    {
-                    cmd.CommandText = "pkg_ad.P_Group_Update";
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Clear();
-                    cmd.Parameters.Add("GROUPID", OracleDbType.Varchar2).Value = gm.GROUP_ID;
-                    cmd.Parameters.Add("GROUP_DESCRIPTION", OracleDbType.Varchar2).Value = gm.GROUP_DESCRIPTION;
-                    cmd.Parameters.Add("GROUP_NAME", OracleDbType.Varchar2).Value = gm.GROUP_NAME;
-                    cmd.Parameters.Add("ISACTIVE", OracleDbType.Varchar2).Value = gm.ISACTIVE;
-                    cmd.Parameters.Add("P_NO", OracleDbType.Int32).Value = loggedInUser.PPNumber;
-                    cmd.Parameters.Add("ENT_ID", OracleDbType.Int32).Value = loggedInUser.UserEntityID;
-                    cmd.Parameters.Add("R_ID", OracleDbType.Int32).Value = loggedInUser.UserRoleID;
-                    cmd.ExecuteReader();
-                    }
-                }
-            con.Dispose();
-            return gm;
             }
 
         public List<RoleRespModel> GetRoleResponsibilities()
