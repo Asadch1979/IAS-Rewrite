@@ -7843,3 +7843,6 @@ OM,om_assignment,,,,/ApiCalls/CAU_OM_assignmentPDP,
 OM,om_assignment,,,,/ApiCalls/CAU_OM_assignmentARPSE,
 OM,om_assignment,,,,/ApiCalls/CAU_get_Pre_Added_OM,
 OM,om_assignment,,,,/home,
+
+/ApiCalls/AddVersionHistory,
+/ApiCalls/UpdateVersionHistory,
