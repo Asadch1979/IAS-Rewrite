@@ -1,386 +1,590 @@
-﻿@{
+@{
     var page_id = 23;
 }
-@{ ViewData["Title"] = "Department Performance";
-                Layout = "_Layout"; }
+@{
+    ViewData["Title"] = "Department Performance";
+    Layout = "_Layout";
+}
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#sidebar_policy').hide();
-    })
-</script>
 <div class="mt-3 mb-4">
-    <h3 style=" display:block;color: #45c545;">Performance Report</h3>
+    <h3 class="text-success">Performance Report</h3>
 </div>
 
-
-<script type="text/javascript">
-    var g_teams = [];
-    var g_branches = [];
-    $(document).ready(function () {
-        $('#deptSelectionBox').addClass('d-none');
-        $('.hiddenContainers').addClass('d-none');
-        $('.fieldAuditFields').addClass('d-none');
-        $('.nonFieldAuditFields').addClass('d-none');
-        $('#branchInfoArea').addClass('d-none');
-        ShowDepartmentAuditPeriods();
-
-    });
-    function getBusinessDateCount(startDate, endDate) {
-        var elapsed, daysBeforeFirstSaturday, daysAfterLastSunday;
-        var ifThen = function (a, b, c) {
-            return a == b ? c : a;
-        };
-
-        elapsed = endDate - startDate;
-        elapsed /= 86400000;
-
-        daysBeforeFirstSunday = (7 - startDate.getDay()) % 7;
-        daysAfterLastSunday = endDate.getDay();
-
-        elapsed -= (daysBeforeFirstSunday + daysAfterLastSunday);
-        elapsed = (elapsed / 7) * 5;
-        elapsed += ifThen(daysBeforeFirstSunday - 1, -1, 0) + ifThen(daysAfterLastSunday, 6, 5);
-
-        return Math.ceil(elapsed);
-    }
-    function ShowDepartmentAuditPeriods() {
-        if ($('#deptSelectionBox option:selected').val() == 0)
-            $('.hiddenContainers').addClass('d-none');
-        else {
-            $('.hiddenContainers').removeClass('d-none');
-            if ($('#deptSelectionBox option:selected').val() == '473') {
-                $('.fieldAuditFields').removeClass('d-none');
-                $('.nonFieldAuditFields').addClass('d-none');
-            } else {
-                $('.nonFieldAuditFields').removeClass('d-none');
-                $('.fieldAuditFields').addClass('d-none');
-            }
-            $.ajax({
-                url: g_asiBaseURL + "/Planning/audit_periods",
-                type: "POST",
-                data: {
-                    'dept_code': $('#deptSelectionBox option:selected').val()
-                },
-                cache: false,
-                success: function (data) {
-                    $('#periodSelectionBox').empty();
-                    $('#periodSelectionBox').append('<option value="0" id="0">--Select Audit Period--</option>')
-                    //console.log(data);
-                    $.each(data, function (index, period) {
-                        $('#periodSelectionBox').append('<option value="' + period.id + '" id="' + period.id + '">' + period.description + '</option>')
-                    });
-
-                },
-                dataType: "json",
-            });
-            $.ajax({
-                url: g_asiBaseURL + "/Planning/audit_teams",
-                type: "POST",
-                data: {
-                    'dept_code': $('#deptSelectionBox option:selected').val()
-                },
-                cache: false,
-                success: function (data) {
-                    $('#teamSelectionBox').empty();
-                    $('#teamSelectionBox').append('<option value="0" id="0">--Select Audit Team--</option>')
-                    g_teams = data;
-                    $.each(data, function (index, team) {
-                        if (team.iS_TEAMLEAD == 'Y')
-                            $('#teamSelectionBox').append('<option value="' + team.code + '" id="' + team.code + '">' + team.name + '</option>')
-                    });
-
-                },
-                dataType: "json",
-            });
-        }
-    }
-    function ShowSelectedZonesBranches() {
-        if ($('#auditZoneSelectionBox option:selected').val() == 0) {
-            $('#branchSelectionBox').empty();
-            $('#branchInfoArea').addClass('d-none');
-            $('#branchSelectionBox').append('<option value="0" id="0">--Select Audit Branch--</option>');
-        }
-        else {
-            $('#branchSelectionBox').empty();
-            $('#branchInfoArea').removeClass('d-none');
-            $('#branchSelectionBox').append('<option value="0" id="0">--Select Audit Branch--</option>')
-            $.ajax({
-                url: g_asiBaseURL + "/Planning/zone_branches",
-                type: "POST",
-                data: {
-                    'zone_code': $('#auditZoneSelectionBox option:selected').val()
-                },
-                cache: false,
-                success: function (data) {
-                    g_branches = data;
-                    $('#branchSelectionBox').empty();
-                    $('#branchInfoArea').hide();
-                    $('#branchSelectionBox').append('<option value="0" id="0">--Select Audit Branch--</option>')
-                    //console.log(data);
-                    $.each(data, function (index, branch) {
-                        $('#branchSelectionBox').append('<option value="' + branch.id + '" id="' + branch.id + '">' + branch.description + '</option>')
-                    });
-
-                },
-                dataType: "json",
-            });
-        }
-    }
-    function ShowSelectedDivisionDepartments() {
-        if ($('#divSelectionBox option:selected').val() == 0) {
-            $('#divDeptSelectionBox').empty();
-            $('#divDeptSelectionBox').append('<option value="0" id="0">--Select Audit Department--</option>')
-        }
-        else {
-            $('#divDeptSelectionBox').empty();
-            $.ajax({
-                url: g_asiBaseURL + "/Planning/div_departments",
-                type: "POST",
-                data: {
-                    'div_code': $('#divSelectionBox option:selected').val()
-                },
-                cache: false,
-                success: function (data) {
-                    $('#divDeptSelectionBox').empty();
-                    $('#divDeptSelectionBox').append('<option value="0" id="0">--Select Audit Department--</option>')
-                    //console.log(data);
-                    $.each(data, function (index, dept) {
-                        $('#divDeptSelectionBox').append('<option value="' + dept.id + '" id="' + dept.id + '">' + dept.name + '</option>')
-                    });
-
-                },
-                dataType: "json",
-            });
-            getSubEntities();
-        }
-    }
-    function ShowBranchInfoBox() {
-        if ($('#branchSelectionBox option:selected').val() == 0) {
-            $('#branchInfoArea').addClass('d-none');
-        } else {
-            $('#branchInfoArea').removeClass('d-none');
-        }
-    }
-    function previewAuditPlan() {
-
-        $('#previewAuditPlan').modal('show');
-        $('#auditorDept').text($('#deptSelectionBox option:selected').text());
-        $('#auditorPlan').text($('#periodSelectionBox option:selected').text());
-        $('#descModal_field').html($('#entitySelectionBox option:selected').text());
-        if ($('#deptSelectionBox option:selected').val() == '473') {
-            $('#divzone_field').text($('#auditZoneSelectionBox option:selected').text());
-            $('#deptBranch_field').text($('#branchSelectionBox option:selected').text());
-
-        } else {
-            $('#divzone_field').text($('#divSelectionBox option:selected').text());
-            $('#deptBranch_field').text($('#divDeptSelectionBox option:selected').text());
-
-        }
-        $('#exeFrom_field').html($('#executionPeriodFromField').val());
-        $('#exeTo_field').html($('#executionPeriodToField').val());
-        $('#operationalFrom_field').html($('#auditPeriodFromField').val());
-        $('#operationalTo_field').html($('#auditPeriodToField').val());
-        //
-        if ($('#isTravelingRequiredField').is(":checked"))
-            $('#travelingReq_field').html('Yes');
-        else
-            $('#travelingReq_field').html('No');
-        $('#remarksAddtn_field').html($('#remarksAdditionalInfoField').val());
-        $('#teamName_field').text($('#teamSelectionBox option:selected').text());
-        //
-        var teamMembersFields = "";
-        $.each(g_teams, function (index, team) {
-            if (team.name == $('#teamSelectionBox option:selected').text()) {
-                if (team.iS_TEAMLEAD == "Y")
-                    teamMembersFields += team.employeename + " " + team.teammembeR_ID + " (L)<br>";
-                else
-                    teamMembersFields += team.employeename + " " + team.teammembeR_ID + " (M)<br>";
-            }
-        });
-        $('#teamMembers_field').html(teamMembersFields);
-
-    }
-    function publishNewAuditPlanChanges() {
-
-        alert("Under Construction");
-        return false;
-        var periodId = $('#periodSelectionBox option:selected').val();
-        var stDate = $('#executionPeriodFromField').val();
-        var edDate = $('#executionPeriodToField').val();
-        var period_stDate = $('#auditPeriodFromField').val();
-        var period_edDate = $('#auditPeriodToField').val();
-        var conducted_by = $('#deptSelectionBox option:selected').val();
-        var no_days = getBusinessDateCount(new Date(stDate), new Date(edDate));
-        var zoneId = $('#auditZoneSelectionBox option:selected').val();
-        var branchId = 0;
-        if (zoneId != 0)
-            branchId = $('#branchSelectionBox option:selected').val();
-
-        var divId = $('#divSelectionBox option:selected').val();
-        var deptId = 0;
-        if (divId != 0)
-            deptId = $('#divDeptSelectionBox option:selected').val();
-
-        var teamId = $('#teamSelectionBox option:selected').val();
-        var status = 1;
-        var desc = $('#descriptionAuditPlanField').val();
-
-        $.ajax({
-            url: g_asiBaseURL + "/Planning/add_audit_plan",
-            type: "POST",
-            data: {
-                'AUDITPERIOD_ID': periodId,
-                'AUDIT_STARTDATE': stDate,
-                'AUDIT_ENDDATE': edDate,
-                'AUDITPERIOD_FROM': period_stDate,
-                'AUDITPERIOD_TO': period_edDate,
-                'AUDIT_CONDUCTBY_DEPT': conducted_by,
-                'NO_OF_DAYS_AUDIT': no_days,
-                'AUDIT_ZONEID': zoneId,
-                'BRANCHID': branchId,
-                'DIVISION_ID': divId,
-                'DEPARTMENT_ID': deptId,
-                'TEAM_CONST_ID': teamId,
-                'STATUS': status,
-                'DESCRIPTION': desc
-            },
-            cache: false,
-            success: function (data) {
-                window.location.href = g_asiBaseURL + "/Planning/audit_plan?dept=" + $('#deptSelectionBox option:selected').val() + "&periodId=" + $('#periodSelectionBox option:selected').val();
-            },
-            dataType: "json",
-        });
-    }
-    function getSubEntities() {
-        if ($('#divSelectionBox option:selected').val() != 0) {
-            $('#entitySelectionBox').empty();
-            $('#entitySelectionBox').append('<option value="0" id="0" selected="selected">--Select Sub Entity--</option>');
-            $.ajax({
-                url: g_asiBaseURL + "/Setup/get_sub_entities",
-                type: "POST",
-                data: {
-                    'div_id': $('#divSelectionBox option:selected').val(),
-                    'dept_id': $('#divDeptSelectionBox option:selected').val(),
-                },
-                cache: false,
-                success: function (data) {
-                    $.each(data, function (index, ent) {
-                        $('#entitySelectionBox').append('<option value="' + ent.id + '" id="' + ent.id + '" >' + ent.name + '</option>');
-                    });
-
-                },
-                dataType: "json",
-            });
-
-        } else {
-            $('#entitySelectionBox').empty();
-            $('#entitySelectionBox').append('<option value="0" id="0" selected="selected">--Select Sub Entity--</option>');
-        }
-
-
-    }
-</script>
-
-
-<!--<div class="panel panel-default">
-    Default panel contents
-<div class="panel-heading"> </div>
-<div class="panel-body">
-    <p>...</p>
-</div>
-
-List group
-<ul class="list-group">
-    <li class="list-group-item">Branch Special Audit</li>
-    <li class="list-group-item">SAM Protfolio </li>
-    <li class="list-group-item">Budget Assesment</li>
-    <li class="list-group-item">Profitabilty Assesment of the branches</li>
-    <li class="list-group-item">Inspection</li>
-</ul>
--->
-
-<div class="row col-md-12 mt-3">
-    <div class="row col-md-12">
-        <label>Select Department</label>
-        <select id="entity" onchange="ShowDepartmentAuditPeriods();" class="form-select form-control">
-            <option value="0" id="0" selected>--Select Department--</option>
-            <option value="1" id="1">Information Systems Audit Department</option>
-            <option value="2" id="2">Corporate Audit Department</option>
-            <option value="3" id="3">Field Audit Department</option>
-            <option value="4" id="4">Inspection & Complaint Department</option>
-        </select>
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label for="departmentSelect" class="form-label">Department</label>
+                <select id="departmentSelect" class="form-select" aria-label="Select Department">
+                    <option value="" selected>--Select Department--</option>
+                    <option value="1">Information Systems Audit Department</option>
+                    <option value="2">Corporate Audit Department</option>
+                    <option value="3">Field Audit Department</option>
+                    <option value="4">Inspection &amp; Complaint Department</option>
+                </select>
+            </div>
+            <div id="auditZoneContainer" class="col-md-4 d-none">
+                <label for="auditZoneSelect" class="form-label">Audit Zone</label>
+                <select id="auditZoneSelect" class="form-select" aria-label="Select Audit Zone">
+                    <option value="-2" selected>All Audit Zones</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="reportTypeSelect" class="form-label">Report Type</label>
+                <select id="reportTypeSelect" class="form-select" aria-label="Select Report Type">
+                    <option value="department" selected>Department Performance</option>
+                    <option value="auditor">Auditor Performance</option>
+                </select>
+            </div>
+        </div>
+        <div class="row g-3 align-items-end mt-0">
+            <div class="col-md-4">
+                <label for="startDate" class="form-label">Start Date</label>
+                <input id="startDate" type="date" class="form-control" />
+            </div>
+            <div class="col-md-4">
+                <label for="endDate" class="form-label">End Date</label>
+                <input id="endDate" type="date" class="form-control" />
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button id="findButton" class="btn btn-primary ms-md-auto">Find</button>
+            </div>
+        </div>
+        <div id="validationMessage" class="text-danger small mt-3" role="alert"></div>
+        <div id="errorMessage" class="text-danger small" role="alert"></div>
+        <p id="selectedFilters" class="text-muted small mb-0 mt-3"></p>
     </div>
 </div>
-      
-<div class="row mt-3 col-md-12">
-            <div class="row col-md-6">
-                <label>Start Date:</label><input class="form-control" type="date" />
-            </div>
-            <div class="row col-md-6" style="margin-left:10px;">
-                <label>End Date:</label><input class="form-control" type="date" />
-            </div>
-</div>
 
-
-<div class="row col-md-12 mt-3">
-    <button class="btn btn-primary">Find</button>
-</div>
-
-<div class="mt-3">
-    <table  id="Risk wise observation" class="table table-hover table-bordered table-hover mt-3 table-striped">
-        <thead style="background-color: #19875478 !important; ">
+<div id="departmentPerformanceSection" class="mt-4">
+    <h5 class="fw-semibold">Department Performance</h5>
+    <table id="departmentPerformanceTable" class="table table-striped table-bordered align-middle">
+        <thead class="table-success">
             <tr>
-                <th>Department:</th>
-                <td colspan="4"></td>
-            </tr>
-            <tr>
-                <th>Outstanding Paras As on</th>
-                <th>Paras Added During</th>
-                <th>Total Paras</th>
-                <th>Settled During</th>
-                <th>Outstanding Audit Paras</th>
+                <th scope="col">Department</th>
+                <th scope="col" class="text-end">Outstanding Paras As on</th>
+                <th scope="col" class="text-end">Paras Added During</th>
+                <th scope="col" class="text-end">Total Paras</th>
+                <th scope="col" class="text-end">Settled During</th>
+                <th scope="col" class="text-end">Outstanding Audit Paras</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody></tbody>
+        <tfoot>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <th scope="row">Totals</th>
+                <th id="departmentTotalOutstandingAsOn" class="text-end">0</th>
+                <th id="departmentTotalParasAdded" class="text-end">0</th>
+                <th id="departmentTotalParas" class="text-end">0</th>
+                <th id="departmentTotalSettled" class="text-end">0</th>
+                <th id="departmentTotalOutstandingAuditParas" class="text-end">0</th>
             </tr>
-            <tr>
-
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
+        </tfoot>
     </table>
 </div>
 
+<div id="auditorPerformanceSection" class="mt-4 d-none">
+    <h5 class="fw-semibold">Auditor Performance</h5>
+    <table id="auditorPerformanceTable" class="table table-striped table-bordered align-middle">
+        <thead class="table-success">
+            <tr>
+                <th scope="col">PPNO</th>
+                <th scope="col">Auditor Name</th>
+                <th scope="col">Entity Audited</th>
+                <th scope="col">Audited as</th>
+                <th scope="col">Annexure/COSO</th>
+                <th scope="col" class="text-end">High</th>
+                <th scope="col" class="text-end">Medium</th>
+                <th scope="col" class="text-end">Low</th>
+                <th scope="col" class="text-end">Total</th>
+                <th scope="col" class="text-end">Settled</th>
+                <th scope="col" class="text-end">Outstanding</th>
+                <th scope="col" class="text-end">Performance</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+            <tr>
+                <th scope="row" colspan="5">Totals</th>
+                <th id="auditorTotalHigh" class="text-end">0</th>
+                <th id="auditorTotalMedium" class="text-end">0</th>
+                <th id="auditorTotalLow" class="text-end">0</th>
+                <th id="auditorTotalOverall" class="text-end">0</th>
+                <th id="auditorTotalSettled" class="text-end">0</th>
+                <th id="auditorTotalOutstanding" class="text-end">0</th>
+                <th id="auditorTotalPerformance" class="text-end">0</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
 
+@section Scripts {
+    <script type="text/javascript">
+        (function ($) {
+            const FIELD_AUDIT_DEPT_ID = "3";
+            const ALL_ZONES_VALUE = "-2";
+            const numberFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
+
+            const $departmentSelect = $("#departmentSelect");
+            const $auditZoneContainer = $("#auditZoneContainer");
+            const $auditZoneSelect = $("#auditZoneSelect");
+            const $reportTypeSelect = $("#reportTypeSelect");
+            const $startDate = $("#startDate");
+            const $endDate = $("#endDate");
+            const $findButton = $("#findButton");
+            const $validationMessage = $("#validationMessage");
+            const $errorMessage = $("#errorMessage");
+            const $selectedFilters = $("#selectedFilters");
+            let auditZonesLoaded = false;
+
+            $(document).ready(function () {
+                initializeTables();
+                setZoneVisibility();
+                toggleReportSection();
+                updateFiltersCaption();
+
+                $departmentSelect.on("change", function () {
+                    setZoneVisibility();
+                    clearMessages();
+                    updateFiltersCaption();
+                });
+
+                $auditZoneSelect.on("change", function () {
+                    clearMessages();
+                    updateFiltersCaption();
+                });
+
+                $reportTypeSelect.on("change", function () {
+                    toggleReportSection();
+                    clearMessages();
+                    updateFiltersCaption();
+                });
+
+                $startDate.on("change", function () {
+                    clearMessages();
+                    updateFiltersCaption();
+                });
+
+                $endDate.on("change", function () {
+                    clearMessages();
+                    updateFiltersCaption();
+                });
+
+                $findButton.on("click", function (event) {
+                    event.preventDefault();
+                    runReport();
+                });
+            });
+
+            function initializeTables() {
+                clearDepartmentResults("No data to display");
+                clearAuditorResults("No data to display");
+            }
+
+            function setZoneVisibility() {
+                if ($departmentSelect.val() === FIELD_AUDIT_DEPT_ID) {
+                    $auditZoneContainer.removeClass("d-none");
+                    $auditZoneSelect.prop("disabled", false);
+                    loadAuditZones();
+                } else {
+                    $auditZoneSelect.val(ALL_ZONES_VALUE);
+                    $auditZoneSelect.prop("disabled", true);
+                    $auditZoneContainer.addClass("d-none");
+                }
+            }
+
+            function toggleReportSection() {
+                if ($reportTypeSelect.val() === "auditor") {
+                    $("#auditorPerformanceSection").removeClass("d-none");
+                    $("#departmentPerformanceSection").addClass("d-none");
+                    clearDepartmentResults("No data to display");
+                } else {
+                    $("#departmentPerformanceSection").removeClass("d-none");
+                    $("#auditorPerformanceSection").addClass("d-none");
+                    clearAuditorResults("No data to display");
+                }
+            }
+
+            function loadAuditZones() {
+                if (auditZonesLoaded) {
+                    return;
+                }
+
+                if ($auditZoneSelect.find("option").length > 1) {
+                    auditZonesLoaded = true;
+                    return;
+                }
+
+                $.ajax({
+                    url: g_asiBaseURL + "/ApiCalls/get_audit_zones",
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        if (Array.isArray(data)) {
+                            data.forEach(function (zone) {
+                                const value = readField(zone, "ZONECODE", "ZONE_ID", "ZONEID", "ID", "CODE");
+                                const name = readField(zone, "ZONENAME", "NAME", "DESCRIPTION", "ZoneName");
+                                if (!value && value !== 0) {
+                                    return;
+                                }
+                                const zoneValue = String(value);
+                                if ($auditZoneSelect.find("option").filter(function () { return $(this).val() === zoneValue; }).length === 0) {
+                                    $auditZoneSelect.append($("<option></option>").val(zoneValue).text(name ? String(name) : zoneValue));
+                                }
+                            });
+                        }
+                        auditZonesLoaded = true;
+                    }
+                });
+            }
+
+            function runReport() {
+                clearMessages();
+
+                const entId = $departmentSelect.val();
+                if (!entId) {
+                    showValidation("Please select a department before running the report.");
+                    $departmentSelect.focus();
+                    return;
+                }
+
+                const startDate = $startDate.val();
+                const endDate = $endDate.val();
+
+                if (!startDate || !endDate) {
+                    showValidation("Please provide both a start date and an end date.");
+                    return;
+                }
+
+                if (startDate > endDate) {
+                    showValidation("Start Date cannot be after End Date.");
+                    return;
+                }
+
+                const isFieldAudit = entId === FIELD_AUDIT_DEPT_ID;
+                const zoneId = isFieldAudit ? ($auditZoneSelect.val() || ALL_ZONES_VALUE) : ALL_ZONES_VALUE;
+                const payload = {
+                    ENT_ID: entId,
+                    ZONE_ID: zoneId,
+                    START_DATE: startDate,
+                    END_DATE: endDate
+                };
+
+                const reportType = $reportTypeSelect.val();
+                const endpoint = reportType === "auditor" ? "/ApiCalls/get_auditor_performance" : "/ApiCalls/get_department_performance";
+
+                const originalButtonText = $findButton.text();
+                $findButton.prop("disabled", true).text("Loading...");
+
+                $.ajax({
+                    url: g_asiBaseURL + endpoint,
+                    type: "POST",
+                    data: payload,
+                    dataType: "json",
+                    success: function (data) {
+                        if (!Array.isArray(data)) {
+                            data = [];
+                        }
+
+                        if (reportType === "auditor") {
+                            renderAuditorPerformance(data);
+                        } else {
+                            renderDepartmentPerformance(data);
+                        }
+                    },
+                    error: function () {
+                        showError("Unable to load the report. Please try again.");
+                    },
+                    complete: function () {
+                        $findButton.prop("disabled", false).text(originalButtonText);
+                        updateFiltersCaption();
+                    }
+                });
+            }
+
+            function renderDepartmentPerformance(rows) {
+                if (!Array.isArray(rows) || rows.length === 0) {
+                    clearDepartmentResults("No records found");
+                    return;
+                }
+
+                const $tbody = $("#departmentPerformanceTable tbody");
+                $tbody.empty();
+                const totals = {
+                    outstandingAsOn: 0,
+                    addedDuring: 0,
+                    totalParas: 0,
+                    settledDuring: 0,
+                    outstandingAuditParas: 0
+                };
+
+                rows.forEach(function (row) {
+                    const deptName = readField(row, "DEPARTMENT_NAME", "DEPT_NAME", "ENTITY_NAME", "NAME", "departmentName") || "";
+                    const outstandingAsOn = parseNumericValue(readField(row, "OUTSTANDING_PARAS_AS_ON", "OutstandingParasAsOn"));
+                    const parasAdded = parseNumericValue(readField(row, "PARAS_ADDED_DURING", "ParasAddedDuring"));
+                    const totalParas = parseNumericValue(readField(row, "TOTAL_PARAS", "TotalParas"));
+                    const settledDuring = parseNumericValue(readField(row, "SETTLED_DURING", "SettledDuring"));
+                    const outstandingAuditParas = parseNumericValue(readField(row, "OUTSTANDING_AUDIT_PARAS", "OutstandingAuditParas"));
+
+                    totals.outstandingAsOn += outstandingAsOn;
+                    totals.addedDuring += parasAdded;
+                    totals.totalParas += totalParas;
+                    totals.settledDuring += settledDuring;
+                    totals.outstandingAuditParas += outstandingAuditParas;
+
+                    const rowHtml = [
+                        "<tr>",
+                        "<td>" + escapeHtml(String(deptName)) + "</td>",
+                        "<td class=\"text-end\">" + formatNumber(outstandingAsOn) + "</td>",
+                        "<td class=\"text-end\">" + formatNumber(parasAdded) + "</td>",
+                        "<td class=\"text-end\">" + formatNumber(totalParas) + "</td>",
+                        "<td class=\"text-end\">" + formatNumber(settledDuring) + "</td>",
+                        "<td class=\"text-end\">" + formatNumber(outstandingAuditParas) + "</td>",
+                        "</tr>"
+                    ].join("");
+
+                    $tbody.append(rowHtml);
+                });
+
+                updateDepartmentTotals(totals);
+            }
+
+            function clearDepartmentResults(message) {
+                const $tbody = $("#departmentPerformanceTable tbody");
+                $tbody.empty().append(
+                    "<tr class=\"table-warning\"><td colspan=\"6\" class=\"text-center text-muted\">" + escapeHtml(message) + "</td></tr>"
+                );
+                updateDepartmentTotals({
+                    outstandingAsOn: 0,
+                    addedDuring: 0,
+                    totalParas: 0,
+                    settledDuring: 0,
+                    outstandingAuditParas: 0
+                });
+            }
+
+            function updateDepartmentTotals(totals) {
+                $("#departmentTotalOutstandingAsOn").text(formatNumber(totals.outstandingAsOn));
+                $("#departmentTotalParasAdded").text(formatNumber(totals.addedDuring));
+                $("#departmentTotalParas").text(formatNumber(totals.totalParas));
+                $("#departmentTotalSettled").text(formatNumber(totals.settledDuring));
+                $("#departmentTotalOutstandingAuditParas").text(formatNumber(totals.outstandingAuditParas));
+            }
+
+            function renderAuditorPerformance(rows) {
+                if (!Array.isArray(rows) || rows.length === 0) {
+                    clearAuditorResults("No records found");
+                    return;
+                }
+
+                const $tbody = $("#auditorPerformanceTable tbody");
+                $tbody.empty();
+
+                const totals = {
+                    high: 0,
+                    medium: 0,
+                    low: 0,
+                    overall: 0,
+                    settled: 0,
+                    outstanding: 0,
+                    performanceSum: 0,
+                    performanceWeight: 0,
+                    performanceIsPercent: false
+                };
+
+                rows.forEach(function (row) {
+                    const ppno = readField(row, "PPNO", "PP_NO", "PPNo", "ppno") || "";
+                    const auditorName = readField(row, "AUDITOR_NAME", "AuditorName", "NAME", "name") || "";
+                    const entityAudited = readField(row, "ENTITY_AUDITED", "EntityAudited", "ENTITY", "entity") || "";
+                    const auditedAs = readField(row, "AUDITED_AS", "AuditedAs") || "";
+                    const annexure = readField(row, "ANNEXURE_COSO", "AnnexureCoso", "ANNEXURE", "Coso") || "";
+                    const high = parseNumericValue(readField(row, "HIGH"));
+                    const medium = parseNumericValue(readField(row, "MEDIUM"));
+                    const low = parseNumericValue(readField(row, "LOW"));
+                    const total = parseNumericValue(readField(row, "TOTAL"));
+                    const settled = parseNumericValue(readField(row, "SETTLED"));
+                    const outstanding = parseNumericValue(readField(row, "OUTSTANDING"));
+                    const performanceRaw = readField(row, "PERFORMANCE");
+
+                    totals.high += high;
+                    totals.medium += medium;
+                    totals.low += low;
+                    totals.overall += total;
+                    totals.settled += settled;
+                    totals.outstanding += outstanding;
+
+                    let performanceDisplay = "";
+                    if (performanceRaw !== undefined && performanceRaw !== null && performanceRaw !== "") {
+                        const performanceString = String(performanceRaw).trim();
+                        if (performanceString.indexOf("%") > -1) {
+                            const numeric = parseNumericValue(performanceString);
+                            const weight = total > 0 ? total : 1;
+                            totals.performanceSum += numeric * weight;
+                            totals.performanceWeight += weight;
+                            totals.performanceIsPercent = true;
+                            performanceDisplay = numeric.toFixed(2) + "%";
+                        } else {
+                            const numeric = parseNumericValue(performanceString);
+                            totals.performanceSum += numeric;
+                            totals.performanceWeight += 1;
+                            performanceDisplay = formatNumber(numeric);
+                        }
+                    } else {
+                        totals.performanceWeight += 1;
+                        performanceDisplay = "";
+                    }
+
+                    const rowHtml = [
+                        "<tr>",
+                        "<td>" + escapeHtml(String(ppno)) + "</td>",
+                        "<td>" + escapeHtml(String(auditorName)) + "</td>",
+                        "<td>" + escapeHtml(String(entityAudited)) + "</td>",
+                        "<td>" + escapeHtml(String(auditedAs)) + "</td>",
+                        "<td>" + escapeHtml(String(annexure)) + "</td>",
+                        "<td class=\"text-end\">" + formatNumber(high) + "</td>",
+                        "<td class=\"text-end\">" + formatNumber(medium) + "</td>",
+                        "<td class=\"text-end\">" + formatNumber(low) + "</td>",
+                        "<td class=\"text-end\">" + formatNumber(total) + "</td>",
+                        "<td class=\"text-end\">" + formatNumber(settled) + "</td>",
+                        "<td class=\"text-end\">" + formatNumber(outstanding) + "</td>",
+                        "<td class=\"text-end\">" + escapeHtml(performanceDisplay) + "</td>",
+                        "</tr>"
+                    ].join("");
+
+                    $tbody.append(rowHtml);
+                });
+
+                updateAuditorTotals(totals);
+            }
+
+            function clearAuditorResults(message) {
+                const $tbody = $("#auditorPerformanceTable tbody");
+                $tbody.empty().append(
+                    "<tr class=\"table-warning\"><td colspan=\"12\" class=\"text-center text-muted\">" + escapeHtml(message) + "</td></tr>"
+                );
+                updateAuditorTotals({
+                    high: 0,
+                    medium: 0,
+                    low: 0,
+                    overall: 0,
+                    settled: 0,
+                    outstanding: 0,
+                    performanceSum: 0,
+                    performanceWeight: 1,
+                    performanceIsPercent: false
+                });
+            }
+
+            function updateAuditorTotals(totals) {
+                $("#auditorTotalHigh").text(formatNumber(totals.high || 0));
+                $("#auditorTotalMedium").text(formatNumber(totals.medium || 0));
+                $("#auditorTotalLow").text(formatNumber(totals.low || 0));
+                $("#auditorTotalOverall").text(formatNumber(totals.overall || 0));
+                $("#auditorTotalSettled").text(formatNumber(totals.settled || 0));
+                $("#auditorTotalOutstanding").text(formatNumber(totals.outstanding || 0));
+
+                if (totals.performanceIsPercent) {
+                    const aggregate = totals.performanceWeight > 0 ? (totals.performanceSum / totals.performanceWeight) : 0;
+                    $("#auditorTotalPerformance").text(aggregate.toFixed(2) + "%");
+                } else {
+                    $("#auditorTotalPerformance").text(formatNumber(totals.performanceSum || 0));
+                }
+            }
+
+            function updateFiltersCaption() {
+                const departmentText = $departmentSelect.find("option:selected").text() || "--";
+                const reportTypeText = $reportTypeSelect.find("option:selected").text() || "--";
+                const start = $startDate.val() || "--";
+                const end = $endDate.val() || "--";
+                const zoneText = $auditZoneContainer.hasClass("d-none")
+                    ? "All Audit Zones"
+                    : ($auditZoneSelect.find("option:selected").text() || "All Audit Zones");
+
+                $selectedFilters.text(
+                    "Selected Department: " + departmentText +
+                    " | Audit Zone: " + zoneText +
+                    " | Start Date: " + start +
+                    " | End Date: " + end +
+                    " | Report Type: " + reportTypeText
+                );
+            }
+
+            function parseNumericValue(value) {
+                if (value === null || value === undefined || value === "") {
+                    return 0;
+                }
+
+                if (typeof value === "number") {
+                    return isFinite(value) ? value : 0;
+                }
+
+                const sanitized = String(value).replace(/,/g, "").replace(/%/g, "");
+                const parsed = parseFloat(sanitized);
+                return isNaN(parsed) ? 0 : parsed;
+            }
+
+            function formatNumber(value) {
+                const numeric = typeof value === "number" ? value : parseNumericValue(value);
+                return numberFormatter.format(isFinite(numeric) ? numeric : 0);
+            }
+
+            function escapeHtml(value) {
+                return value
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/\"/g, "&quot;")
+                    .replace(/'/g, "&#39;");
+            }
+
+            function readField(row) {
+                if (!row) {
+                    return undefined;
+                }
+
+                for (let i = 1; i < arguments.length; i++) {
+                    const key = arguments[i];
+                    if (!key) {
+                        continue;
+                    }
+
+                    const direct = row[key];
+                    if (direct !== undefined && direct !== null && direct !== "") {
+                        return direct;
+                    }
+
+                    const lower = row[key.toLowerCase()];
+                    if (lower !== undefined && lower !== null && lower !== "") {
+                        return lower;
+                    }
+
+                    const upper = row[key.toUpperCase()];
+                    if (upper !== undefined && upper !== null && upper !== "") {
+                        return upper;
+                    }
+
+                    const camel = key.charAt(0).toLowerCase() + key.slice(1);
+                    const camelValue = row[camel];
+                    if (camelValue !== undefined && camelValue !== null && camelValue !== "") {
+                        return camelValue;
+                    }
+                }
+
+                return undefined;
+            }
+
+            function clearMessages() {
+                $validationMessage.text("");
+                $errorMessage.text("");
+            }
+
+            function showValidation(message) {
+                $validationMessage.text(message);
+            }
+
+            function showError(message) {
+                $errorMessage.text(message);
+            }
+        })(jQuery);
+    </script>
+}
