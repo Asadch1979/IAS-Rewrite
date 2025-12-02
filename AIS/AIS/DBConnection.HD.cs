@@ -18,7 +18,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
             {
                 cmd.CommandText = "pkg_hd.p_ppno_name";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -46,7 +46,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             List<BranchModel> branchList = new List<BranchModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
             {
                 cmd.CommandText = "pkg_hd.P_GetOldParasEntityid";
                 cmd.CommandType = CommandType.StoredProcedure;

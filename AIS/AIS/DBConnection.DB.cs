@@ -16,7 +16,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             List<RiskProcessDefinition> pdetails = new List<RiskProcessDefinition>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_GET_Dash_table_functionwise_names";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -47,7 +47,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             List<RiskProcessDefinition> pdetails = new List<RiskProcessDefinition>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_GET_Dash_table_functionwise_names_checklist";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -79,7 +79,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             List<RiskProcessDefinition> pdetails = new List<RiskProcessDefinition>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_GET_Dash_table_functionwise_names_checklist_sub";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -111,7 +111,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             List<RiskProcessDefinition> pdetails = new List<RiskProcessDefinition>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_GET_Dash_table_functionwise_names_ho";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -142,7 +142,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             List<RiskProcessDefinition> pdetails = new List<RiskProcessDefinition>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_GET_Dash_table_functionwise_names_checklist_ho";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -169,7 +169,7 @@ namespace AIS.Controllers
             {
             var con = this.DatabaseConnection(); con.Open();
             List<RiskProcessDefinition> pdetails = new List<RiskProcessDefinition>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_GET_Dash_table_functionwise_names_checklist_sub_ho";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -203,7 +203,7 @@ namespace AIS.Controllers
             List<UserRelationshipModel> entitiesList = new List<UserRelationshipModel>();
             var con = this.DatabaseConnection(); con.Open();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_Getchildposting";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -230,7 +230,7 @@ namespace AIS.Controllers
             List<UserRelationshipModel> entitiesList = new List<UserRelationshipModel>();
             var con = this.DatabaseConnection(); con.Open();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_Getparentrepoffice";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -264,7 +264,7 @@ namespace AIS.Controllers
             List<UserRelationshipModel> entitiesList = new List<UserRelationshipModel>();
             var con = this.DatabaseConnection(); con.Open();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_Getrealtionshiptype";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -296,7 +296,7 @@ namespace AIS.Controllers
 
             List<FunctionalResponsibilityWiseParas> list = new List<FunctionalResponsibilityWiseParas>();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_GetFunctionalResponsibilityWisePara";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -343,7 +343,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<FunctionalResponsibilitiesWiseParasModel> list = new List<FunctionalResponsibilitiesWiseParasModel>();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_GET_Dash_table_functionwise";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -384,7 +384,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<FADNewOldParaPerformanceModel> list = new List<FADNewOldParaPerformanceModel>();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_GET_Dash_table_functionwise_ho";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -424,7 +424,7 @@ namespace AIS.Controllers
 
             List<FADNewOldParaPerformanceModel> list = new List<FADNewOldParaPerformanceModel>();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_GET_Dash_table_v_wise";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -461,7 +461,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<FADNewOldParaPerformanceModel> list = new List<FADNewOldParaPerformanceModel>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_GET_Dash_table_old";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -497,7 +497,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<FADNewOldParaPerformanceModel> list = new List<FADNewOldParaPerformanceModel>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_GET_Dash_table_new";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -533,7 +533,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<FADNewOldParaPerformanceModel> list = new List<FADNewOldParaPerformanceModel>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_GET_Dash_table";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -569,7 +569,7 @@ namespace AIS.Controllers
 
             List<NoEntitiesRiskBasePlan> list = new List<NoEntitiesRiskBasePlan>();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.p_get_risk_baseplan";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -600,7 +600,7 @@ namespace AIS.Controllers
 
             List<FADAuditPerformanceModel> list = new List<FADAuditPerformanceModel>();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_GET_AUDIT_PERFORMANCE";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -634,7 +634,7 @@ namespace AIS.Controllers
 
             List<AuditPerformanceChartDashboardModel> list = new List<AuditPerformanceChartDashboardModel>();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.p_get_dashborad_scorecard";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -667,7 +667,7 @@ namespace AIS.Controllers
 
             List<RepetativeParaModel> list = new List<RepetativeParaModel>();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.p_get_dash_repetitive";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -714,7 +714,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
 
             List<EntityWiseObservationModel> pdetails = new List<EntityWiseObservationModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_Functional_Reporting_office_WISE_ANALYSIS";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -750,7 +750,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
 
             List<EntityWiseObservationModel> pdetails = new List<EntityWiseObservationModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_Functional_ENTITY_WISE_ANALYSIS";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -787,7 +787,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
 
             List<AnnexWiseObservationModel> pdetails = new List<AnnexWiseObservationModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_Functional_ANALYSIS_DETAILS";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -825,7 +825,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
 
             List<AnnexWiseObservationModel> pdetails = new List<AnnexWiseObservationModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_Function_Annexure";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -855,7 +855,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
 
             List<FunctionalAnnexureWiseObservationModel> pdetails = new List<FunctionalAnnexureWiseObservationModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_Functional_ENTITY_WISE_Paras";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -893,7 +893,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
 
             List<FunctionalAnnexureWiseObservationModel> pdetails = new List<FunctionalAnnexureWiseObservationModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_Function_Annexure_Paras";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -929,7 +929,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             string resp = "";
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_Function_Annexure_Paras_text";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -956,7 +956,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
 
             List<FunctionalAnnexureWiseObservationModel> pdetails = new List<FunctionalAnnexureWiseObservationModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_GET_Dash_table_functionwise_PARA";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -990,7 +990,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
 
             List<FunctionalAnnexureWiseObservationModel> pdetails = new List<FunctionalAnnexureWiseObservationModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_GET_Dash_table_functionwise_PARA_summary";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1025,7 +1025,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<ComplianceSummaryModel> resp = new List<ComplianceSummaryModel>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_db.P_compliance_summary";
                 cmd.CommandType = CommandType.StoredProcedure;

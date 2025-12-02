@@ -18,7 +18,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
 
             List<AuditEntitiesModel> entitiesList = new List<AuditEntitiesModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.p_get_auditee_submission_list";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -45,7 +45,7 @@ namespace AIS.Controllers
             {
             var con = this.DatabaseConnection(); con.Open();
             List<RiskGroupModel> riskgroupList = new List<RiskGroupModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetRiskGroup";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -70,7 +70,7 @@ namespace AIS.Controllers
             {
             var con = this.DatabaseConnection(); con.Open();
             List<RiskSubGroupModel> risksubgroupList = new List<RiskSubGroupModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetRiskSubGroup";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -97,7 +97,7 @@ namespace AIS.Controllers
             {
             var con = this.DatabaseConnection(); con.Open();
             List<RiskActivityModel> riskActivityList = new List<RiskActivityModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.p_GetRiskActivities";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -124,7 +124,7 @@ namespace AIS.Controllers
             {
             var con = this.DatabaseConnection(); con.Open();
             List<AuditVoilationcatModel> voilationList = new List<AuditVoilationcatModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetAuditVoilationcats";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -149,7 +149,7 @@ namespace AIS.Controllers
             {
             var con = this.DatabaseConnection(); con.Open();
             List<AuditSubVoilationcatModel> voilationsubgroupList = new List<AuditSubVoilationcatModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetVoilationSubGroup";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -184,7 +184,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             List<TaskListModel> tasklist = new List<TaskListModel>();
             var loggedInUser = sessionHandler.GetSessionUser();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetTaskList";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -242,7 +242,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             if (engId == 0)
                 engId = this.GetLoggedInUserEngId();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetJoiningDetails";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -300,7 +300,7 @@ namespace AIS.Controllers
                 jm.ENTEREDBY = Convert.ToInt32(loggedInUser.PPNumber);
                 jm.ENTEREDDATE = DateTime.Now;
 
-                using (OracleCommand cmd = con.CreateCommand())
+                using (OracleCommand cmd = CreateSanitizedCommand(con))
                     {
                     cmd.CommandText = "pkg_ar.P_AddJoiningReport";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -341,7 +341,7 @@ namespace AIS.Controllers
             {
             var con = this.DatabaseConnection(); con.Open();
             List<AuditChecklistModel> list = new List<AuditChecklistModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
 
                 cmd.CommandText = "pkg_ar.P_GetAuditChecklist";
@@ -371,7 +371,7 @@ namespace AIS.Controllers
             {
             var con = this.DatabaseConnection(); con.Open();
             List<AuditChecklistModel> list = new List<AuditChecklistModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
 
                 cmd.CommandText = "pkg_ar.P_GetAuditChecklistCAD";
@@ -403,7 +403,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             List<AuditChecklistSubModel> list = new List<AuditChecklistSubModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.p_GetAuditChecklistSub";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -454,7 +454,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             List<AuditChecklistDetailsModel> list = new List<AuditChecklistDetailsModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetAuditChecklistDetails";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -509,7 +509,7 @@ namespace AIS.Controllers
             var INDICATOR = "A";
             if (ob.ENGPLANID == 0)
                 ob.ENGPLANID = this.GetLoggedInUserEngId();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_SaveAuditObservation";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -594,7 +594,7 @@ namespace AIS.Controllers
             var INDICATOR = "A";
             if (ob.ENGPLANID == 0)
                 ob.ENGPLANID = this.GetLoggedInUserEngId();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_SaveAuditObservationCAD";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -670,7 +670,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             int ENG_ID = this.GetLoggedInUserEngId();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_SetEngIdOnHold";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -691,7 +691,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             string response = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetLatestAuditorResponse";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -719,7 +719,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             string response = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetLatestDepartmentalHeadResponse";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -747,7 +747,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             string response = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetLatestAuditeeResponse";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -776,7 +776,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<ObservationSummaryModel> list = new List<ObservationSummaryModel>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_get_details_for_manage_observations_summary";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -820,7 +820,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<ObservationRevisedModel> list = new List<ObservationRevisedModel>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_get_details_for_manage_observations";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -872,7 +872,7 @@ namespace AIS.Controllers
 
                     var loggedInUser = sessionHandler.GetSessionUser();
 
-                    using (OracleCommand cmd = con.CreateCommand())
+                    using (OracleCommand cmd = CreateSanitizedCommand(con))
                         {
                         cmd.CommandText = "pkg_ar.P_GetObservationsForManageAuditParas";
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -928,7 +928,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<ManageAuditParasModel> list = new List<ManageAuditParasModel>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GET_Para_details_for_Authorize";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -976,7 +976,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<ManageAuditParasModel> list = new List<ManageAuditParasModel>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GET_Para_changes_for_Authorize";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1023,7 +1023,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
 
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
 
                 cmd.CommandText = "pkg_ar.P_Update_Audit_Paras";
@@ -1066,7 +1066,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
 
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
 
                 cmd.CommandText = "pkg_ar.P_Authorize_Update_Audit_Paras";
@@ -1109,7 +1109,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
 
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
 
                 cmd.CommandText = "pkg_ar.P_Authorize_Update_Audit_Paras";
@@ -1153,7 +1153,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<ManageObservations> list = new List<ManageObservations>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetManagedObservations";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1198,7 +1198,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<ManageObservations> list = new List<ManageObservations>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetManagedObservationsText";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1237,7 +1237,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<AuditeeResponseEvidenceModel> modellist = new List<AuditeeResponseEvidenceModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
 
                 cmd.CommandText = "pkg_ar.P_get_AUDITEE_OBSERVATION_RESPONSE_evidences_by_obs_id";
@@ -1270,7 +1270,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<ObservationTextModel> list = new List<ObservationTextModel>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_get_details_for_manage_observations_text";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1315,7 +1315,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
 
             List<ManageObservations> list = new List<ManageObservations>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetManagedObservationsForBranches";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1372,7 +1372,7 @@ namespace AIS.Controllers
             if (loggedInUser.UserEntityID == 112242 || loggedInUser.UserEntityID == 112248)
                 {
 
-                using (OracleCommand cmd = con.CreateCommand())
+                using (OracleCommand cmd = CreateSanitizedCommand(con))
                     {
                     cmd.CommandText = "pkg_ar.P_GetManagedObservationstext";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -1406,7 +1406,7 @@ namespace AIS.Controllers
                 }
             else
                 {
-                using (OracleCommand cmd = con.CreateCommand())
+                using (OracleCommand cmd = CreateSanitizedCommand(con))
                     {
                     cmd.CommandText = "pkg_ar.P_GetManagedObservationsForBranchesText";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -1456,7 +1456,7 @@ namespace AIS.Controllers
             if (ENG_ID == 0)
                 ENG_ID = this.GetLoggedInUserEngId();
             List<ManageObservations> list = new List<ManageObservations>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetManagedDraftObservations";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1507,7 +1507,7 @@ namespace AIS.Controllers
             if (ENG_ID == 0)
                 ENG_ID = this.GetLoggedInUserEngId();
             List<ManageObservations> list = new List<ManageObservations>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetManagedDraftObservationsForBranches";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1558,7 +1558,7 @@ namespace AIS.Controllers
             if (ENG_ID == 0)
                 ENG_ID = this.GetLoggedInUserEngId();
             List<ManageObservations> list = new List<ManageObservations>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetManagedDraftObservationsbranch";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1611,7 +1611,7 @@ namespace AIS.Controllers
             if (ENG_ID == 0)
                 ENG_ID = this.GetLoggedInUserEngId();
             List<ManageObservations> list = new List<ManageObservations>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetManagedDraftObservationsText";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1641,7 +1641,7 @@ namespace AIS.Controllers
                 ENG_ID = this.GetLoggedInUserEngId();
             List<ManageObservations> list = new List<ManageObservations>();
             List<ManageObservations> finalList = new List<ManageObservations>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetManagedDraftObservationsForBranches";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1692,7 +1692,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             if (ENG_ID == 0)
                 ENG_ID = this.GetLoggedInUserEngId();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.p_getauditeecheckklist";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1727,7 +1727,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_DropAuditObservation";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1754,7 +1754,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_SubmitAuditObservationToAuditee";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1802,7 +1802,7 @@ namespace AIS.Controllers
             else if (NEW_STATUS_ID == 9)
                 Remarks = "Para settle in discussion";
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
 
                 cmd.CommandText = "pkg_ar.P_UpdateAuditObservationStatus";
@@ -1870,7 +1870,7 @@ namespace AIS.Controllers
             else if (NEW_STATUS_ID == 9)
                 Remarks = "Para settle in discussion";
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
 
                 cmd.CommandText = "pkg_ar.P_UpdateAuditObservationStatusByHead";
@@ -1928,7 +1928,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
 
                 cmd.CommandText = "pkg_ar.P_UpdateObservation";
@@ -1964,7 +1964,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
 
             List<ClosingDraftTeamDetailsModel> list = new List<ClosingDraftTeamDetailsModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.p_GetClosingDraftObservations";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2019,7 +2019,7 @@ namespace AIS.Controllers
                 ENG_ID = this.GetLoggedInUserEngId();
             List<ClosingDraftTeamDetailsModel> list = new List<ClosingDraftTeamDetailsModel>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.p_GetClosingDraftObservations";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2066,7 +2066,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<SearchChecklistDetailsModel> list = new List<SearchChecklistDetailsModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetAuditChecklistDetails_search";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2097,7 +2097,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<AuditeeOldParasModel> list = new List<AuditeeOldParasModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetEntitiesForLegacyPara";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2128,7 +2128,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<AuditeeOldParasModel> list = new List<AuditeeOldParasModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetEntitiesForLegacyPara_HO";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2157,7 +2157,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<AuditeeOldParasModel> list = new List<AuditeeOldParasModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetEntitiesForLegacyPara_ho_report";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2186,7 +2186,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<OldParasModel> list = new List<OldParasModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
 
                 {
                 cmd.CommandText = "pkg_ar.P_GetLeagacyObservations";
@@ -2247,7 +2247,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<OldParasModel> list = new List<OldParasModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
 
                 {
                 cmd.CommandText = "pkg_ar.P_GetLeagacyObservations_ho";
@@ -2303,7 +2303,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<OldParasModel> list = new List<OldParasModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
 
                 {
                 cmd.CommandText = "pkg_ar.P_GetLeagacyObservations_for_gist_update";
@@ -2352,7 +2352,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_update_legacy_Para_text";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2423,7 +2423,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_update_legacy_Para_Gist";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2454,7 +2454,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.p_add_para_responsibility";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2489,7 +2489,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.p_delete_para_responsibility";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2517,7 +2517,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_no_update_legacy_Para_text";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2553,7 +2553,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<AuditeeEntitiesModel> list = new List<AuditeeEntitiesModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_get_entities_for_manage_observations";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2584,7 +2584,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<AuditeeEntitiesModel> list = new List<AuditeeEntitiesModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.p_GetManageAuditParasEntities";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2615,7 +2615,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<AuditeeEntitiesModel> list = new List<AuditeeEntitiesModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.p_GetObservationEntities";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2646,7 +2646,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             var resp = new AuditeeResponseEvidenceModel();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_get_AUDITEE_OBSERVATION_RESPONSE_evidences_FileData";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2687,7 +2687,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             if (ENG_ID == 0)
                 ENG_ID = this.GetLoggedInUserEngId();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_CloseAudit";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2715,7 +2715,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<ObservationResponsiblePPNOModel> list = new List<ObservationResponsiblePPNOModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.p_get_legacy_para_responsibles";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2749,7 +2749,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             UserModel um = new UserModel();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = " pkg_ar.P_get_employees_information";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2777,7 +2777,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_get_legacy_para_to_authorize";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2815,7 +2815,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_Authorize_Para_Gist";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2845,7 +2845,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_Settel_Legacy_Para_HO";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2873,7 +2873,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_Delete_Legacy_Para_HO";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2901,7 +2901,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<LoanCaseFileDetailsModel> resp = new List<LoanCaseFileDetailsModel>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetLoanCaseFile";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2939,7 +2939,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             string resp = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_AddLoanCaseFile";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2976,7 +2976,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<VoucherCheckingDetailsModel> resp = new List<VoucherCheckingDetailsModel>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetVoucherChecking";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3011,7 +3011,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             string resp = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_AddVoucherChecking";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3045,7 +3045,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<AccountOpeningDetailsModel> resp = new List<AccountOpeningDetailsModel>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetAccountOpeningDetails";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3081,7 +3081,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             string resp = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_AddAccountOpeningDetails";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3116,7 +3116,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<FixedAssetsDetailsModel> resp = new List<FixedAssetsDetailsModel>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetFixedAssetsDetails";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3153,7 +3153,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             string resp = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_AddFixedAssetsDetails";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3189,7 +3189,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<CashCountDetailsModel> resp = new List<CashCountDetailsModel>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GetCashCounterDetails";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3228,7 +3228,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             string resp = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_AddCashCounterDetails";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3266,7 +3266,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<DraftDSAGuidelines> resp = new List<DraftDSAGuidelines>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_get_dsa_guidline";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3299,7 +3299,7 @@ namespace AIS.Controllers
             int DSA_ID = 0;
             List<Object> outRec = new List<object>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_draft_dsa";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3333,7 +3333,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_add_dsa_checkilist";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3356,7 +3356,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<ObservationResponsiblePPNOModel> list = new List<ObservationResponsiblePPNOModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_Get_responsibility";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3398,7 +3398,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             string resp = "";
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_responibilityassigned";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3436,7 +3436,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             string resp = "";
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_Update_responsibility";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3477,7 +3477,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             string resp = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_draft_dsa";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3511,7 +3511,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<DraftDSAList> resp = new List<DraftDSAList>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
 
                 cmd.CommandText = "pkg_ar.P_get_dsa_list";
@@ -3566,7 +3566,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             DSAContentModel resp = new DSAContentModel();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
 
                 cmd.CommandText = "pkg_ar.P_get_dsa_content";
@@ -3600,7 +3600,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             string resp = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_submit_dsa_to_head_fad";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3625,7 +3625,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             string resp = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_update_dsa_heading";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3654,7 +3654,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             string resp = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_reffered_back_dsa_by_head_fad";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3679,7 +3679,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             string resp = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_submit_dsa_by_head_fad_to_dpd";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3704,7 +3704,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             string resp = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_reffered_back_dsa_by_dpd";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3729,7 +3729,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             string resp = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_submit_dsa_by_dpd_to_committee";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3754,7 +3754,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<LoanCaseDetailModel> list = new List<LoanCaseDetailModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_ar.P_GET_LC_DETAILS";
                 cmd.CommandType = CommandType.StoredProcedure;

@@ -22,7 +22,7 @@ namespace AIS.Controllers
 
             List<CAObservation> observations = new List<CAObservation>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_CA.GET_OBSERVATIONS";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -66,7 +66,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection();
             con.Open();
             int observationId = 0;
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_CA.ADD_OBSERVATION";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -92,7 +92,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_CA.SUBMIT_TO_HEADFAD";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -111,7 +111,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_CA.ASSIGN_DIVISION";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -131,7 +131,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_CA.ASSIGN_DEPARTMENT";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -151,7 +151,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_CA.DEPARTMENT_RESPONSE";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -173,7 +173,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_CA.REVIEW_AND_FORWARD";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -194,7 +194,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_CA.REJECT_OR_REFER_BACK";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -214,7 +214,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_CA.FINALIZE_OBSERVATION";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -234,7 +234,7 @@ namespace AIS.Controllers
             var form = request.Form;
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_CA.ENTER_LEGACY";
                 cmd.CommandType = CommandType.StoredProcedure;

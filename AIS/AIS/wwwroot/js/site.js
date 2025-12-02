@@ -238,6 +238,57 @@ function initializeDataTableWithoutExport(id) {
     return dTable;
 }
 
+function isRichTextField(element) {
+    const $el = $(element);
+    const id = ($el.attr('id') || '').toLowerCase();
+    const name = ($el.attr('name') || '').toLowerCase();
+    const classes = ($el.attr('class') || '').toLowerCase();
+    const allowHtml = $el.data('allow-html') === true;
+    const richKeywords = ['observation', 'response', 'annexure', 'body', 'comment', 'paragraph'];
+
+    if (allowHtml || classes.indexOf('richtext') >= 0 || classes.indexOf('rich-text') >= 0 || classes.indexOf('richtext-editor') >= 0) {
+        return true;
+    }
+
+    return richKeywords.some(key => id.indexOf(key) >= 0 || name.indexOf(key) >= 0);
+}
+
+function sanitizePlainTextInput(value) {
+    if (!value) {
+        return '';
+    }
+
+    let sanitized = value.replace(/<[^>]+>/g, '');
+    sanitized = sanitized.replace(/[\r\n]+/g, ' ').trim();
+    sanitized = sanitized.replace(/^[=+\-@]+/, '');
+    return sanitized;
+}
+
+function attachPlainTextValidation() {
+    $('input[type="text"], textarea').each(function () {
+        if (isRichTextField(this)) {
+            return;
+        }
+
+        const $field = $(this);
+        $field.addClass('plaintext-validated');
+        if (!$field.attr('placeholder')) {
+            $field.attr('placeholder', 'Plain text only – no HTML or formulas');
+        }
+
+        $field.on('input blur', function () {
+            const sanitized = sanitizePlainTextInput($field.val());
+            if ($field.val() !== sanitized) {
+                $field.val(sanitized);
+            }
+        });
+    });
+}
+
+$(document).ready(function () {
+    attachPlainTextValidation();
+});
+
 
 
 

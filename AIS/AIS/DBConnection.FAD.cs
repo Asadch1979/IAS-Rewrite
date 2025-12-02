@@ -19,7 +19,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             List<RoleRespModel> groupList = new List<RoleRespModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_fad.p_get_role_responsible";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -49,7 +49,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
             List<AuditeeEntitiesModel> entitiesList = new List<AuditeeEntitiesModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_fad.p_get_process_owner";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -83,7 +83,7 @@ namespace AIS.Controllers
             using (var con = this.DatabaseConnection())
                 {
                 con.Open();
-                using (var cmd = con.CreateCommand())
+                using (var cmd = CreateSanitizedCommand(con))
                     {
                     cmd.CommandText = "PKG_FAD.P_InsertCircularDoc";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -113,7 +113,7 @@ namespace AIS.Controllers
             using (var con = this.DatabaseConnection())
                 {
                 con.Open();
-                using (var cmd = con.CreateCommand())
+                using (var cmd = CreateSanitizedCommand(con))
                     {
                     cmd.CommandText = "PKG_FAD.P_InsertCircularDoc";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -135,7 +135,7 @@ namespace AIS.Controllers
             using (var con = this.DatabaseConnection())
                 {
                 con.Open();
-                using (var cmd = con.CreateCommand())
+                using (var cmd = CreateSanitizedCommand(con))
                     {
                     cmd.CommandText = "PKG_FAD.P_GetCircularDoc";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -177,7 +177,7 @@ namespace AIS.Controllers
             var list = new List<AuditChecklistAnnexureCircularModel>();
             var con = this.DatabaseConnection();
             con.Open();
-            using (var cmd = con.CreateCommand())
+            using (var cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_FAD.P_GetAuditChecklistAnnexureCirculars";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -220,7 +220,7 @@ namespace AIS.Controllers
             con.Open();
 
             var list = new List<AuditEmployeeModel>();
-            using (var cmd = con.CreateCommand())
+            using (var cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_FAD.P_GetAuditEmployees";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -263,7 +263,7 @@ namespace AIS.Controllers
             con.Open();
 
             var list = new List<IdNameModel>();
-            using (var cmd = con.CreateCommand())
+            using (var cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_FAD.P_GetRelationTypes";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -296,7 +296,7 @@ namespace AIS.Controllers
             con.Open();
 
             var list = new List<IdNameModel>();
-            using (var cmd = con.CreateCommand())
+            using (var cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_FAD.P_GetReportingOffices";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -331,7 +331,7 @@ namespace AIS.Controllers
             con.Open();
 
             var list = new List<EntityModel>();
-            using (var cmd = con.CreateCommand())
+            using (var cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_FAD.P_GetEntitiesForOffice";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -366,7 +366,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             string result = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_fad.P_allocate_entity_to_auditor";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -401,7 +401,7 @@ namespace AIS.Controllers
             con.Open();
 
             var list = new List<ObservationReferenceModel>();
-            using (var cmd = con.CreateCommand())
+            using (var cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_FAD.P_GetObservationsForReferenceUpdate";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -458,7 +458,7 @@ namespace AIS.Controllers
             con.Open();
 
             var list = new List<UpdateLogModel>();
-            using (var cmd = con.CreateCommand())
+            using (var cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_FAD.P_GetReferenceUpdateLog";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -495,7 +495,7 @@ namespace AIS.Controllers
             con.Open();
 
             var list = new List<ReferenceSearchResultModel>();
-            using (var cmd = con.CreateCommand())
+            using (var cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_FAD.P_SearchReferences";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -529,7 +529,7 @@ namespace AIS.Controllers
             using (var con = this.DatabaseConnection())
                 {
                 con.Open();
-                using (var cmd = con.CreateCommand())
+                using (var cmd = CreateSanitizedCommand(con))
                     {
                     cmd.CommandText = "PKG_FAD.P_GetPendingParas";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -566,7 +566,7 @@ namespace AIS.Controllers
             using (var con = this.DatabaseConnection())
                 {
                 con.Open();
-                using (var cmd = con.CreateCommand())
+                using (var cmd = CreateSanitizedCommand(con))
                     {
                     cmd.CommandText = "PKG_FAD.P_GetEntityTaskSummary";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -603,7 +603,7 @@ namespace AIS.Controllers
             using (var con = this.DatabaseConnection())
                 {
                 con.Open();
-                using (var cmd = con.CreateCommand())
+                using (var cmd = CreateSanitizedCommand(con))
                     {
                     cmd.CommandText = "PKG_FAD.P_GetEntityTaskSummary";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -636,7 +636,7 @@ namespace AIS.Controllers
             using (var con = this.DatabaseConnection())
                 {
                 con.Open();
-                using (var cmd = con.CreateCommand())
+                using (var cmd = CreateSanitizedCommand(con))
                     {
                     cmd.CommandText = "PKG_FAD.P_GetPendingReferenceParas";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -695,7 +695,7 @@ namespace AIS.Controllers
             using (var con = this.DatabaseConnection())
                 {
                 con.Open();
-                using (var cmd = con.CreateCommand())
+                using (var cmd = CreateSanitizedCommand(con))
                     {
                     cmd.CommandText = "PKG_FAD.P_GetParaReferences";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -734,7 +734,7 @@ namespace AIS.Controllers
             using (var con = this.DatabaseConnection())
                 {
                 con.Open();
-                using (var cmd = con.CreateCommand())
+                using (var cmd = CreateSanitizedCommand(con))
                     {
                     cmd.CommandText = "PKG_FAD.P_GetParaReferences";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -758,7 +758,7 @@ namespace AIS.Controllers
             using (var con = this.DatabaseConnection())
                 {
                 con.Open();
-                using (var cmd = con.CreateCommand())
+                using (var cmd = CreateSanitizedCommand(con))
                     {
                     cmd.CommandText = "PKG_FAD.P_GetParaText";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -801,7 +801,7 @@ namespace AIS.Controllers
             using (var con = this.DatabaseConnection())
                 {
                 con.Open();
-                using (var cmd = con.CreateCommand())
+                using (var cmd = CreateSanitizedCommand(con))
                     {
                     cmd.CommandText = "PKG_FAD.P_ManageReference";
                     cmd.CommandType = CommandType.StoredProcedure;

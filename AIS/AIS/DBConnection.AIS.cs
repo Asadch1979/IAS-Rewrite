@@ -18,7 +18,7 @@ namespace AIS.Controllers
             sessionHandler._httpCon = this._httpCon;
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
             {
                 cmd.CommandText = "pkg_ais.P_GetAuditeeEntitiesForOldParas";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -51,7 +51,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             List<AuditPlanModel> planList = new List<AuditPlanModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
             {
                 string _sql = "pkg_ais.p_get_audit_plan";
                 cmd.CommandType = CommandType.StoredProcedure;
