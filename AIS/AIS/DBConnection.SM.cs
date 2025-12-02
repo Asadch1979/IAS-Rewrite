@@ -18,7 +18,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_sm.P_add_sample_data";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -56,7 +56,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_sm.P_add_exception_data";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -96,7 +96,7 @@ namespace AIS.Controllers
             List<BiometSamplingModel> responseList = new List<BiometSamplingModel>();
             var loggedInUser = sessionHandler.GetSessionUser();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_sm.p_get_Account";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -150,7 +150,7 @@ namespace AIS.Controllers
             List<AccountTransactionSampleModel> responseList = new List<AccountTransactionSampleModel>();
             var loggedInUser = sessionHandler.GetSessionUser();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_sm.p_get_account_transcations";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -202,7 +202,7 @@ namespace AIS.Controllers
             List<AccountDocumentBiometSamplingModel> responseList = new List<AccountDocumentBiometSamplingModel>();
             var loggedInUser = sessionHandler.GetSessionUser();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_sm.P_GET_ACCOUNT_DOC ";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -241,7 +241,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<ListOfSamplesModel> list = new List<ListOfSamplesModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_sm.P_GET_SAMPLE";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -278,7 +278,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<LoanCaseSampleModel> list = new List<LoanCaseSampleModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_sm.P_GET_LOANS_SAMPLE";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -322,7 +322,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<LoanCaseSampleModel> list = new List<LoanCaseSampleModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_sm.P_GET_LOANS_Exceptions";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -365,7 +365,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<LoanCaseSampleDocumentsModel> list = new List<LoanCaseSampleDocumentsModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_sm.p_get_Loan_Documents";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -406,7 +406,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<LoanCaseSampleDocumentsModel> list = new List<LoanCaseSampleDocumentsModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_sm.p_get_Loan_Documents_image";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -447,7 +447,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<LoanCaseSampleTransactionsModel> list = new List<LoanCaseSampleTransactionsModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_sm.p_get_Loan_Transactions";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -498,7 +498,7 @@ namespace AIS.Controllers
             sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
             List<AuditeeEntitiesModel> entitiesList = new List<AuditeeEntitiesModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_sm.P_GET_SAMPLE_ENTITIES";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -532,7 +532,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             string resp = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_sm.P_add_sample_data_update";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -563,7 +563,7 @@ namespace AIS.Controllers
             sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
             List<CDMSMasterTransactionModel> list = new List<CDMSMasterTransactionModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_sm.p_get_account_transcations_master";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -619,7 +619,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<ListOfReportsModel> list = new List<ListOfReportsModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_sm.T_AU_EXCEPTION_REPORT";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -656,7 +656,7 @@ namespace AIS.Controllers
             sessionHandler._configuration = this._configuration;
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_sm.P_Add_new_exp_report";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -691,7 +691,7 @@ namespace AIS.Controllers
             con.Open();
             List<AccountExceptionsModel> responseList = new List<AccountExceptionsModel>();
             var loggedInUser = sessionHandler.GetSessionUser();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_sm.p_exception_get_Account";
                 cmd.CommandType = CommandType.StoredProcedure;

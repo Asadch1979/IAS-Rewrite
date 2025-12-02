@@ -18,7 +18,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_INQ.ADD_COMPLAINT";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -50,7 +50,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_INQ.GET_COMPLAINTS";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -70,7 +70,7 @@ namespace AIS.Controllers
             {
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_INQ.GET_COMPLAINTS_WITHOUT_ASSESSMENT";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -97,7 +97,7 @@ namespace AIS.Controllers
             {
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_INQ.GET_COMPLAINT";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -135,7 +135,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_INQ.ADD_ASSESSMENT";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -160,7 +160,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_INQ.ADD_HEAD_REVIEW";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -192,7 +192,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_INQ.ADD_INV_PLAN";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -217,7 +217,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_INQ.ADD_PLAN_APPROVAL";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -243,7 +243,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_INQ.ADD_INQUIRY_REPORT";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -275,7 +275,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_INQ.ADD_ANALYSIS";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -303,7 +303,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_INQ.ADD_FINAL_APPROVAL";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -328,7 +328,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_INQ.ADD_CASE_STUDY";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -364,7 +364,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "PKG_INQ.GET_REPORTS";
                 cmd.CommandType = CommandType.StoredProcedure;

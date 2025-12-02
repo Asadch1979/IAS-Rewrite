@@ -18,7 +18,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             List<AuditPeriodModel> periodList = new List<AuditPeriodModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_GET_Auditperiod_status";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -46,7 +46,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             var loggedInUser = sessionHandler.GetSessionUser();
             List<AuditCCQModel> list = new List<AuditCCQModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_GetCCQ";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -106,7 +106,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             List<AuditPeriodModel> periodList = new List<AuditPeriodModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_GetAuditPeriods";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -137,7 +137,7 @@ namespace AIS.Controllers
             {
             string resp = "";
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_Update_AuditPeriod";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -161,7 +161,7 @@ namespace AIS.Controllers
             string resp = "";
             sessionHandler = new SessionHandler();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_AddAuditPeriod";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -190,7 +190,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             List<AuditTeamModel> teamList = new List<AuditTeamModel>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_GetAuditTeams";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -229,7 +229,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection(); con.Open();
             string resp = "";
             var loggedInUser = sessionHandler.GetSessionUser();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_addauditteam";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -263,7 +263,7 @@ namespace AIS.Controllers
                 sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
                 var con = this.DatabaseConnection(); con.Open();
                 var loggedInUser = sessionHandler.GetSessionUser();
-                using (OracleCommand cmd = con.CreateCommand())
+                using (OracleCommand cmd = CreateSanitizedCommand(con))
                     {
                     cmd.CommandText = "pkg_pg.P_DeleteAuditTeam";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -289,7 +289,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             int maxTeamId = 1;
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_MAXTEAMID";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -320,7 +320,7 @@ namespace AIS.Controllers
             bool isAlreadyAdded = true;
 
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_ADDAUDITCRITERIA";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -359,7 +359,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_UpdateAuditCriteria";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -393,7 +393,7 @@ namespace AIS.Controllers
                 };
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_SetAuditCriteriaStatusReferredBack";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -419,7 +419,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             string REMARK = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_SetAuditCriteriaStatusApprove";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -450,7 +450,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             List<AuditCriteriaModel> criteriaList = new List<AuditCriteriaModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_GetPendingAuditCriterias";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -499,7 +499,7 @@ namespace AIS.Controllers
 
             var con = this.DatabaseConnection(); con.Open();
             List<AuditCriteriaModel> criteriaList = new List<AuditCriteriaModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_GetRefferedBackAuditCriterias";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -545,7 +545,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             List<AuditCriteriaModel> criteriaList = new List<AuditCriteriaModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_GetAuditCriteriasToAuthorize";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -592,7 +592,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             List<AuditCriteriaModel> criteriaList = new List<AuditCriteriaModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
 
                 cmd.CommandText = "pkg_pg.P_GetPostChangesAuditCriterias";
@@ -647,7 +647,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.Tentative_Audit_Plan";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -678,7 +678,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
 
             List<AuditEntitiesModel> entitiesList = new List<AuditEntitiesModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_GetAuditEntities";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -710,7 +710,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
             List<AuditeeEntitiesModel> entitiesList = new List<AuditeeEntitiesModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_GetAuditeeEntities";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -741,7 +741,7 @@ namespace AIS.Controllers
             {
             var con = this.DatabaseConnection(); con.Open();
             List<AuditEmployeeModel> empList = new List<AuditEmployeeModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_GetAuditEmployees";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -778,7 +778,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             List<TentativePlanModel> tplansList = new List<TentativePlanModel>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 string _sql = "pkg_pg.p_get_audit_plan";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -817,7 +817,7 @@ namespace AIS.Controllers
             {
             string result = "";
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_GetAuditOperationalStartDate";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -844,7 +844,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             List<AuditRefEngagementPlanModel> list = new List<AuditRefEngagementPlanModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_GetAuditEngagementPlans";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -880,7 +880,7 @@ namespace AIS.Controllers
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
             List<AuditRefEngagementPlanModel> list = new List<AuditRefEngagementPlanModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_GetRefferedBackAuditEngagementPlans";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -923,7 +923,7 @@ namespace AIS.Controllers
 
             ePlan.CREATEDBY = Convert.ToInt32(loggedInUser.PPNumber);
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_AddAuditEngagementPlan";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -985,7 +985,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_RefferedBackAuditEngagementPlan";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1009,7 +1009,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_RerecommendAuditEngagementPlan";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1043,7 +1043,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection(); con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_ApproveAuditEngagementPlan";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1063,7 +1063,7 @@ namespace AIS.Controllers
             {
             var con = this.DatabaseConnection(); con.Open();
             List<AuditFrequencyModel> freqList = new List<AuditFrequencyModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.p_GetAuditFrequencies";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1088,7 +1088,7 @@ namespace AIS.Controllers
             {
             var con = this.DatabaseConnection(); con.Open();
             string response = "";
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                 cmd.CommandText = "pkg_pg.P_GetLatestCommentsOnEngagement";
                 cmd.CommandType = CommandType.StoredProcedure;

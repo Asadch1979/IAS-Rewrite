@@ -18,7 +18,7 @@ namespace AIS.Controllers
             sessionHandler._session = this._session; sessionHandler._configuration = this._configuration;
             var loggedInUser = sessionHandler.GetSessionUser();
             List<GlHeadDetailsModel> list = new List<GlHeadDetailsModel>();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
             {
                 cmd.CommandText = "pkg_ai.p_getglheadsummary";
                 cmd.CommandType = CommandType.StoredProcedure;

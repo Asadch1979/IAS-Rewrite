@@ -9,8 +9,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace AIS.Controllers
 {
@@ -67,6 +69,55 @@ namespace AIS.Controllers
         }
         #endregion
 
+        private SanitizedOracleCommand CreateSanitizedCommand(OracleConnection connection)
+        {
+            return new SanitizedOracleCommand(connection, SanitizeVarcharParameters);
+        }
+
+        private void SanitizeVarcharParameters(OracleCommand command)
+        {
+            foreach (OracleParameter parameter in command.Parameters)
+            {
+                if (parameter.OracleDbType != OracleDbType.Varchar2 || parameter.Value == null)
+                    continue;
+
+                if (parameter.Value is not string textValue)
+                    continue;
+
+                parameter.Value = IsRichTextParameter(parameter.ParameterName)
+                    ? SanitizeRichText(textValue)
+                    : SanitizePlainText(textValue);
+            }
+        }
+
+        private static bool IsRichTextParameter(string? parameterName)
+        {
+            if (string.IsNullOrWhiteSpace(parameterName))
+                return false;
+
+            string[] richTextKeys = new[] { "OBSERVATION", "RESPONSE", "ANNEXURE", "BODY", "COMMENT", "PARAGRAPH" };
+            return richTextKeys.Any(key => parameterName.Contains(key, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private static string SanitizePlainText(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return string.Empty;
+
+            string withoutHtml = Regex.Replace(value, "<[^>]+>", string.Empty, RegexOptions.Multiline);
+            string trimmed = Regex.Replace(withoutHtml, "[\\r\\n]+", " ").Trim();
+            return trimmed.TrimStart('=', '+', '-', '@');
+        }
+
+        private static string SanitizeRichText(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return string.Empty;
+
+            string withoutScripts = Regex.Replace(value, "<script[^>]*?>.*?</script>", string.Empty, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            return withoutScripts;
+        }
+
         private string DecryptPassword(string encryptedPassword)
         {
             byte[] bytes = Convert.FromBase64String(encryptedPassword);
@@ -95,7 +146,7 @@ namespace AIS.Controllers
             var sessionUser = sessionHandler.GetSessionUser();
             var con = this.DatabaseConnection();
             con.Open();
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
             {
                 cmd.CommandText = "pkg_lg.Session_END";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -127,7 +178,7 @@ namespace AIS.Controllers
             {
                 var con = this.DatabaseConnection();
                 con.Open();
-                using (OracleCommand cmd = con.CreateCommand())
+                using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                     cmd.CommandText = "pkg_lg.p_get_user_session";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -156,7 +207,7 @@ namespace AIS.Controllers
             var con = this.DatabaseConnection();
             con.Open();
             bool isSession = false;
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
             {
                 string _sql = "pkg_lg.p_get_user";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -193,7 +244,7 @@ namespace AIS.Controllers
             {
                 var con = this.DatabaseConnection();
                 con.Open();
-                using (OracleCommand cmd = con.CreateCommand())
+                using (OracleCommand cmd = CreateSanitizedCommand(con))
                 {
                     cmd.CommandText = "pkg_lg.Session_Kill";
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -236,7 +287,7 @@ namespace AIS.Controllers
 
             List<object> list = new List<object>();
 
-            using (OracleCommand cmd = con.CreateCommand())
+            using (OracleCommand cmd = CreateSanitizedCommand(con))
             {
                 cmd.CommandText = "pkg_ae.P_GetObservationText";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -299,5 +350,40 @@ namespace AIS.Controllers
             return list;
         }
         #endregion
+
+        private class SanitizedOracleCommand : OracleCommand
+        {
+            private readonly Action<OracleCommand> _sanitize;
+
+            public SanitizedOracleCommand(OracleConnection connection, Action<OracleCommand> sanitize)
+            {
+                Connection = connection;
+                _sanitize = sanitize;
+            }
+
+            public override OracleDataReader ExecuteReader()
+            {
+                _sanitize(this);
+                return base.ExecuteReader();
+            }
+
+            public override OracleDataReader ExecuteReader(CommandBehavior behavior)
+            {
+                _sanitize(this);
+                return base.ExecuteReader(behavior);
+            }
+
+            public override int ExecuteNonQuery()
+            {
+                _sanitize(this);
+                return base.ExecuteNonQuery();
+            }
+
+            public override object ExecuteScalar()
+            {
+                _sanitize(this);
+                return base.ExecuteScalar();
+            }
+        }
     }
 }
