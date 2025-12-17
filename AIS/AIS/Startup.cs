@@ -54,7 +54,7 @@ namespace AIS
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             {
-            var baseUrl = Configuration["BaseURL"];
+            var baseUrl = Configuration["Security:BaseURL"];
             if (!string.IsNullOrEmpty(baseUrl))
                 {
                 app.UsePathBase(baseUrl);
@@ -66,9 +66,7 @@ namespace AIS
             else
                 {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
                 }
-            app.UseHttpsRedirection();
 
             // Disable client-side caching to mimic a hard refresh on every load
             app.Use(async (context, next) =>

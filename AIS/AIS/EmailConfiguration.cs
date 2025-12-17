@@ -1,5 +1,6 @@
-﻿using AIS;
+using AIS;
 using AIS.Models;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Net;
 using System.Net.Mail;
@@ -7,7 +8,12 @@ using System.Threading.Tasks;
 
 public class EmailConfiguration
     {
-    private readonly EmailCredentails emailCredentails = new EmailCredentails();
+    private readonly EmailCredentails emailCredentails;
+
+    public EmailConfiguration(IConfiguration? configuration = null)
+        {
+        emailCredentails = new EmailCredentails(configuration);
+        }
 
     public bool ConfigEmail(string to = "", string cc = "", string subj = "", string body = "")
         {

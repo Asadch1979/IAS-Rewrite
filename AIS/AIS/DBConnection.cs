@@ -26,7 +26,7 @@ namespace AIS.Controllers
         public ISession _session;
         public IHttpContextAccessor _httpCon;
         public IConfiguration _configuration;
-        private readonly string CAU_KEY = "112233";
+        private string CAU_KEY => _configuration?["Security:CAUKey"] ?? string.Empty;
 
         [Obsolete]
         private readonly IHostingEnvironment _env;
