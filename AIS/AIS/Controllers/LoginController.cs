@@ -28,8 +28,8 @@ namespace AIS.Controllers
             {
             TempData["Message"] = "";
             TempData["SessionKill"] = "";
-            string secretValue = _configuration["SecretKey"];
-            string baseURL = _configuration["BaseURL"];
+            string secretValue = _configuration["Security:SecretKey"];
+            string baseURL = _configuration["Security:BaseURL"];
             string dbDataSource = _configuration["ConnectionStrings:DBDataSource"];
             ViewBag.SecretValue = secretValue;
             ViewBag.BaseURL = baseURL;

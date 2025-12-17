@@ -2,6 +2,7 @@
 using AIS.Models.AIS.Models;
 using AIS.Models.IID;
 using AIS;
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,13 +25,15 @@ namespace AIS.Controllers
         private readonly SessionHandler sessionHandler;
         private readonly dynamic dBConnection;
         private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly IConfiguration _configuration;
 
-        public ApiCallsController(ILogger<ApiCallsController> logger, SessionHandler _sessionHandler, DBConnection _dbCon, IWebHostEnvironment hostingEnvironment)
+        public ApiCallsController(ILogger<ApiCallsController> logger, SessionHandler _sessionHandler, DBConnection _dbCon, IWebHostEnvironment hostingEnvironment, IConfiguration configuration)
             {
             _logger = logger;
             sessionHandler = _sessionHandler;
             dBConnection = _dbCon;
             _hostingEnvironment = hostingEnvironment;
+            _configuration = configuration;
             }
 
         [HttpPost]
@@ -3214,7 +3217,7 @@ namespace AIS.Controllers
             };
             if(emailMap.ContainsKey(model.AssignedToUnit))
                 {
-                EmailConfiguration email = new EmailConfiguration();
+                EmailConfiguration email = new EmailConfiguration(_configuration);
                 string body = $"Complaint {model.ComplaintId} assigned to your unit.";
                 email.ConfigEmail(emailMap[model.AssignedToUnit], "", "IAS Assignment", body);
                 }

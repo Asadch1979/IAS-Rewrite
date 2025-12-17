@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.IO;
 using System.Threading;
 
@@ -9,11 +10,12 @@ namespace AIS.Controllers
     {
         private readonly IWebHostEnvironment _env;
         private static Timer _reminderTimer;
-        private readonly EmailConfiguration _emailConfig = new EmailConfiguration();
+        private readonly EmailConfiguration _emailConfig;
 
-        public EmailController(IWebHostEnvironment env)
+        public EmailController(IWebHostEnvironment env, IConfiguration configuration)
             {
             _env = env;
+            _emailConfig = new EmailConfiguration(configuration);
             }
 
         public IActionResult Edit()
